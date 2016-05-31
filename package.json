@@ -1,0 +1,61 @@
+{
+    "name": "gc-excelviewer",
+    "displayName": "Excel Viewer",
+    "description": "View Excel spreadsheets and CSV files within Visual Studio code.",
+    "version": "0.0.1",
+    "publisher": "GrapeCity, Inc.",
+    "engines": {
+        "vscode": "^1.0.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:csv.preview",
+        "onCommand:excel.preview"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "languages": [{
+            "id": "csv",
+            "extensions": [ ".csv" ],
+            "aliases": [ "CSV" ]
+        },{
+            "id": "excel",
+            "extensions": [ ".xls", ".xlsx" ],
+            "aliases": [ "Excel" ]
+        }],
+        "commands": [{
+            "command": "csv.preview",
+            "title": "CSV: Preview File"
+        },{
+            "command": "excel.preview",
+            "title": "Excel: Preview File"
+        }],
+        "configuration": {
+            "type": "object",
+            "title": "Excel Viewer configuration",
+            "properties": {
+                "csv-preview.theme": {
+                    "type": "string",
+                    "values": [
+                        "cerulean", "cleandark", "cleanlight", "cocoa", "coral", "cyborg", "dark", "darkly",
+                        "flatly", "grayscale", "highcontrast", "light", "material", "midnight", "minimal", "modern",
+                        "office", "organic", "simplex", "slate", "superhero", "trust", "zen"
+                    ],
+                    "default": "cleandark",
+                    "description": "Specifies the Wijmo theme used to style the preview grid."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "vscode": "^0.11.0"
+    }
+}
