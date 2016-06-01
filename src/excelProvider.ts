@@ -7,7 +7,11 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
     private _path = "dev/null";
 
     public setPath(path: string) {
-        this._path = path;
+        if (path.startsWith("\\")) {
+            this._path = path.slice(1);
+        } else {
+            this._path = path;
+        }
     }
     
     createSnippet() {
