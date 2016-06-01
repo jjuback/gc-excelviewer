@@ -23,7 +23,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
-                <script src="https://www.dropbox.com/s/0xc8fe5kk8ke67l/base64.js?dl=0&raw=1" type="text/javascript"></script>
+                <script src="http://cdn.wijmo.com/external/base64.min.js" type="text/javascript"></script>
                 <body>
                     <div id="flex"></div>
                 </body>
