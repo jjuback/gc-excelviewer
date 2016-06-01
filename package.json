@@ -2,13 +2,34 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio code.",
-    "version": "0.0.1",
-    "publisher": "GrapeCity, Inc.",
+    "version": "1.0.1",
+    "icon": "img/gc-excelviewer.png",
+    "publisher": "GrapeCity",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "galleryBanner": {
+        "color": "#00AADC",
+        "theme": "light"
+    },
+    "bugs": {
+        "url": "https://github.com/jjuback/gc-excelviewer/issues"
+    },
+    "homepage": "https://github.com/jjuback/gc-excelviewer/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jjuback/gc-excelviewer.git"
+    },
     "engines": {
         "vscode": "^1.0.0"
     },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "CSV",
+        "Excel",
+        "spreadsheet",
+        "viewer",
+        "vscode"
     ],
     "activationEvents": [
         "onCommand:csv.preview",
