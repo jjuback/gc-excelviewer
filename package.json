@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio code workspaces.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -37,22 +37,37 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "languages": [{
-            "id": "csv",
-            "extensions": [ ".csv" ],
-            "aliases": [ "CSV" ]
-        },{
-            "id": "excel",
-            "extensions": [ ".xls", ".xlsx" ],
-            "aliases": [ "Excel" ]
-        }],
-        "commands": [{
-            "command": "csv.preview",
-            "title": "CSV: Preview File"
-        },{
-            "command": "excel.preview",
-            "title": "Excel: Preview File"
-        }],
+        "languages": [
+            {
+                "id": "csv",
+                "extensions": [
+                    ".csv"
+                ],
+                "aliases": [
+                    "CSV"
+                ]
+            },
+            {
+                "id": "excel",
+                "extensions": [
+                    ".xls",
+                    ".xlsx"
+                ],
+                "aliases": [
+                    "Excel"
+                ]
+            }
+        ],
+        "commands": [
+            {
+                "command": "csv.preview",
+                "title": "CSV: Preview File"
+            },
+            {
+                "command": "excel.preview",
+                "title": "Excel: Preview File"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Excel Viewer configuration",
@@ -60,9 +75,29 @@
                 "csv-preview.theme": {
                     "type": "string",
                     "values": [
-                        "cerulean", "cleandark", "cleanlight", "cocoa", "coral", "cyborg", "dark", "darkly",
-                        "flatly", "grayscale", "highcontrast", "light", "material", "midnight", "minimal", "modern",
-                        "office", "organic", "simplex", "slate", "superhero", "trust", "zen"
+                        "cerulean",
+                        "cleandark",
+                        "cleanlight",
+                        "cocoa",
+                        "coral",
+                        "cyborg",
+                        "dark",
+                        "darkly",
+                        "flatly",
+                        "grayscale",
+                        "highcontrast",
+                        "light",
+                        "material",
+                        "midnight",
+                        "minimal",
+                        "modern",
+                        "office",
+                        "organic",
+                        "simplex",
+                        "slate",
+                        "superhero",
+                        "trust",
+                        "zen"
                     ],
                     "default": "cleandark",
                     "description": "Specifies the Wijmo theme used to style the preview grid."
