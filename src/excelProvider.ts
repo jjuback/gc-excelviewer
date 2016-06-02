@@ -1,5 +1,5 @@
 'use strict';
-import {workspace} from 'vscode';
+import {workspace, Uri} from 'vscode';
 import * as base from './baseProvider';
 
 export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvider {
@@ -7,7 +7,7 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
     private _path = "dev/null";
 
     public setPath(path: string) {
-        if (path.startsWith("\\")) {
+        if (path.startsWith("/")) {
             this._path = path.slice(1);
         } else {
             this._path = path;
@@ -15,8 +15,8 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
     }
     
     createSnippet() {
-        let file = "file://" + workspace.rootPath + "/" + this._path;
-        let snip = this.snippet(file, this.theme, this.version);
+        let file = Uri.file(workspace.rootPath + "/" + this._path);
+        let snip = this.snippet(file.toString(), this.theme, this.version);
         return snip;
     }
 

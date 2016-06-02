@@ -41,6 +41,9 @@ export function activate(context: ExtensionContext) {
                 path = "/" + path;
             }
             window.showQuickPick(uris).then(sel => {
+                if (sel.startsWith("/")) {
+                    sel = sel.slice(1);
+                }
                 excelProvider.setPath(sel);
                 previewUri = Uri.parse(`excel-preview://preview${path}/${sel}`);
                 return commands.executeCommand('vscode.previewHtml', previewUri, ViewColumn.One).then((success) => {
