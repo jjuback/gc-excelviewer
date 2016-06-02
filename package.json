@@ -72,6 +72,11 @@
             "type": "object",
             "title": "Excel Viewer configuration",
             "properties": {
+                "csv-preview.separator": {
+                    "type": "string",
+                    "default": ",",
+                    "description": "Specifies the separator used in a CSV file (normally , but also ; is common)."
+                },
                 "csv-preview.theme": {
                     "type": "string",
                     "values": [
@@ -113,5 +118,8 @@
     "devDependencies": {
         "typescript": "^1.8.5",
         "vscode": "^0.11.0"
+    },
+    "dependencies": {
+        "escape-string-regexp": ">= 1.0.5"
     }
 }
