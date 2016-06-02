@@ -1,7 +1,8 @@
 'use strict';
-import {window} from 'vscode';
+import {workspace, window} from 'vscode';
 import * as base64 from './base64';
 import * as base from './baseProvider';
+var escapeStringRegexp = require('escape-string-regexp');
 
 export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider {
 
@@ -16,7 +17,12 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         return snip;
     }
 
+    get separator(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("separator");
+    }
+
     snippet(text: string, theme: string, ver: string): string {
+        let sep = escapeStringRegexp(this.separator);
         return `<link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
                 <link href="http://cdn.wijmo.com/${ver}/styles/themes/wijmo.theme.${theme}.min.css" rel="stylesheet" type="text/css" />
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.min.js" type="text/javascript"></script>
@@ -42,11 +48,11 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                     var line = lines[i];
                     if (line.length > 0) {
                         // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-                        var items = line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+                        var items = line.split(/${sep}(?=(?:[^"]*"[^"]*")*[^"]*$)/);
                         if (i === 0) {
                             for (var j = 0; j < items.length; j++) {
                                 header.push(unquote(items[j]));
-                            }                          
+                            }
                         } else {
                             var obj = {};
                             for (var j = 0; j < items.length; j++) {
