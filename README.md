@@ -13,6 +13,18 @@ Since Visual Studio Code does not support opening binary files, the steps are sl
 
 If multiple sheets are present, use the controls at the bottom of the view for navigation.
 
+## Configuration
+To change the default configuration settings for the Excel Viewer extension, edit the user or workspace settings as described [here](http://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings). The available settings are as follows:
+
+Setting | Type | Default Value | Description
+------- | ---- | ------------- | -----------
+csv-preview.separator | string | , (comma) | Specifies the separator used in a CSV file.
+csv-preview.quoteMark | string | " (double-quote) | Specifies the optional character used to surround individual values in a CSV file.
+csv-preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
+csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
+
+> Any CSV/Excel files that were already previewed during the current editing session will not use the modified settings until you execute the `Reload Window` command after saving `settings.json`.
+
 ## Change Log
 ### 1.0.6
 Relaxed the restriction that CSV files must have a .csv extension. The `CSV: Preview File` command now works with any plain text file.
