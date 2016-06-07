@@ -8,8 +8,9 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
 
     createSnippet(): string {
         let editor = window.activeTextEditor;
-        if (!(editor.document.languageId === 'csv')) {
-            return this.errorSnippet("Active editor doesn't show a CSV document.")
+        let lang = editor.document.languageId;
+        if (lang !== 'csv' && lang !== 'plaintext') {
+            return this.errorSnippet("Active editor doesn't show a CSV or plain text document.")
         }
         let t = editor.document.getText();
         let b = base64.base64_encode(t);
@@ -21,8 +22,17 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         return <string>workspace.getConfiguration('csv-preview').get("separator");
     }
 
+    get quoteMark(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("quoteMark");
+    }
+
+    get hasHeaders(): boolean {
+        return <boolean>workspace.getConfiguration('csv-preview').get("hasHeaders");
+    }
+
     snippet(text: string, theme: string, ver: string): string {
         let sep = escapeStringRegexp(this.separator);
+        let quote = escapeStringRegexp(this.quoteMark);
         return `<link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
                 <link href="http://cdn.wijmo.com/${ver}/styles/themes/wijmo.theme.${theme}.min.css" rel="stylesheet" type="text/css" />
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.min.js" type="text/javascript"></script>
@@ -35,11 +45,24 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 </body>
                 <script type="text/javascript">
                 function unquote(text) {
-                    var quote = String.fromCharCode(34);
-                    if (text.charAt(0) == quote && text.charAt(text.length - 1) == quote) {
-                        return text.substring(1, text.length - 1);
+                    if (text.length > 0) {
+                        var regex = new RegExp(/^${quote}(.*)${quote}$/);
+                        var match = regex.exec(text);
+                        return match ? match[1] : text;
                     }
                     return text;
+                }
+                function getHeader(n) {
+                    if (header.length > n) {
+                        return header[n];
+                    }
+                    var h1 = Math.floor(n / 26);
+                    var h2 = n % 26;
+                    if (h1 > 0) {
+                        return String.fromCharCode(64 + h1) + String.fromCharCode(65 + h2);
+                    } else {
+                        return String.fromCharCode(65 + h2);
+                    }
                 }
                 var data = [], header = [];
                 var content = base64_decode('${text}');
@@ -48,15 +71,15 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                     var line = lines[i];
                     if (line.length > 0) {
                         // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-                        var items = line.split(/${sep}(?=(?:[^"]*"[^"]*")*[^"]*$)/);
-                        if (i === 0) {
+                        var items = line.split(/${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)/);
+                        if (i === 0 && ${this.hasHeaders}) {
                             for (var j = 0; j < items.length; j++) {
                                 header.push(unquote(items[j]));
                             }
                         } else {
                             var obj = {};
                             for (var j = 0; j < items.length; j++) {
-                                obj[header[j]] = unquote(items[j]);
+                                obj[getHeader(j)] = unquote(items[j]);
                             }
                             data.push(obj);
                         }

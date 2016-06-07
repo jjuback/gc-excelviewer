@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -77,9 +77,19 @@
                     "default": ",",
                     "description": "Specifies the separator used in a CSV file (normally , but also ; is common)."
                 },
+                "csv-preview.quoteMark": {
+                    "type": "string",
+                    "default": "\"",
+                    "description": "Specifies the optional character used to surround individual values in a CSV file."
+                },
+                "csv-preview.hasHeaders": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies whether the first row in a CSV file represents column headers."
+                },
                 "csv-preview.theme": {
                     "type": "string",
-                    "values": [
+                    "enum": [
                         "cerulean",
                         "cleandark",
                         "cleanlight",

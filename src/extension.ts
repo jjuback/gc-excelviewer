@@ -1,5 +1,5 @@
 'use strict';
-import {window, workspace, commands, ExtensionContext, Uri, TextDocumentChangeEvent, ViewColumn} from 'vscode';
+import {window, workspace, commands, ExtensionContext, Uri, ViewColumn} from 'vscode';
 import * as base64 from './base64';
 import * as csv from './csvProvider';
 import * as excel from './excelProvider';
@@ -13,13 +13,11 @@ export function activate(context: ExtensionContext) {
     let excelProvider = new excel.ExcelDocumentContentProvider(version);
     let excelSubscription = workspace.registerTextDocumentContentProvider('excel-preview', excelProvider);
     
-    workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-        if (e.document === window.activeTextEditor.document) {
-            csvProvider.update(previewUri);
-        }
-    });
-    
     let csvCommand = commands.registerCommand('csv.preview', () => {
+        if (!window.activeTextEditor) {
+            window.showInformationMessage("Open a CSV file first to show a preview.");
+            return;
+        }
         let file = window.activeTextEditor.document.fileName;
         if (file.startsWith("/")) {
             file = file.substring(1);
@@ -54,8 +52,8 @@ export function activate(context: ExtensionContext) {
         });
     });
     
-    context.subscriptions.push(csvCommand, csvSubscription);
-    context.subscriptions.push(excelCommand, excelSubscription);
+    context.subscriptions.push(csvProvider, csvCommand, csvSubscription);
+    context.subscriptions.push(excelProvider, excelCommand, excelSubscription);
 }
 
 export function deactivate() {

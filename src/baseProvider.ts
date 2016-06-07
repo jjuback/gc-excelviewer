@@ -1,5 +1,5 @@
 'use strict';
-import {workspace, Event, EventEmitter, Uri, TextDocumentContentProvider} from 'vscode';
+import {workspace, Disposable, Event, EventEmitter, Uri, TextDocumentContentProvider} from 'vscode';
 
 export abstract class BaseDocumentContentProvider implements TextDocumentContentProvider {
     
@@ -8,6 +8,10 @@ export abstract class BaseDocumentContentProvider implements TextDocumentContent
 
     constructor(version: string) {
         this._version = version;
+    }
+    
+    dispose() {
+        this._onDidChange.dispose();
     }
     
     get version(): string {

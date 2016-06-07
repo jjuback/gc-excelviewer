@@ -14,6 +14,15 @@ Since Visual Studio Code does not support opening binary files, the steps are sl
 If multiple sheets are present, use the controls at the bottom of the view for navigation.
 
 ## Change Log
+### 1.0.6
+Relaxed the restriction that CSV files must have a .csv extension. The `CSV: Preview File` command now works with any plain text file.
+
+Added the configuration option `csv-preview.quoteMark` that lets you specify the optional character used to surround individual data values in a CSV file (default: double-quote).
+
+Added the configuration option `csv-preview.hasHeaders` that lets you specify whether the first row in a CSV file represents column headers (default: true).
+
+Added enumerated values for the `csv-preview.theme` configuration option.
+
 ### 1.0.5
 Fixed local path issues that prevented Excel files from being opened on Windows. If you downloaded an earlier version, please upgrade to version 1.0.5 or later.
 
