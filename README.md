@@ -18,10 +18,10 @@ To change the default configuration settings for the Excel Viewer extension, edi
 
 Setting | Type | Default Value | Description
 ------- | ---- | ------------- | -----------
-csv-preview.separator | string | , (comma) | Specifies the separator used in a CSV file.
-csv-preview.quoteMark | string | " (double-quote) | Specifies the optional character used to surround individual values in a CSV file.
-csv-preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
-csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
+csv&#8209;preview.separator | string | , (comma) | Specifies the separator used in a CSV file.
+csv&#8209;preview.quoteMark | string | " (double&#8209;quote) | Specifies the optional character used to surround individual values in a CSV file.
+csv&#8209;preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
+csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
 > Any CSV/Excel files that were already previewed during the current editing session will not use the modified settings until you execute the `Reload Window` command after saving `settings.json`.
 
