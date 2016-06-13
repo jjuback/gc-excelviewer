@@ -26,6 +26,9 @@ csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to
 > Any CSV/Excel files that were already previewed during the current editing session will not use the modified settings until you execute the `Reload Window` command after saving `settings.json`.
 
 ## Change Log
+### 1.0.7
+CSV files with double-byte characters are now handled correctly.
+
 ### 1.0.6
 Relaxed the restriction that CSV files must have a .csv extension. The `CSV: Preview File` command now works with any plain text file.
 

@@ -1,6 +1,5 @@
 'use strict';
 import {window, workspace, commands, ExtensionContext, Uri, ViewColumn} from 'vscode';
-import * as base64 from './base64';
 import * as csv from './csvProvider';
 import * as excel from './excelProvider';
 

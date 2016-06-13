@@ -1,7 +1,7 @@
 'use strict';
 import {workspace, window} from 'vscode';
-import * as base64 from './base64';
 import * as base from './baseProvider';
+var Base64 = require('js-base64').Base64;
 var escapeStringRegexp = require('escape-string-regexp');
 
 export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider {
@@ -10,10 +10,10 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         let editor = window.activeTextEditor;
         let lang = editor.document.languageId;
         if (lang !== 'csv' && lang !== 'plaintext') {
-            return this.errorSnippet("Active editor doesn't show a CSV or plain text document.")
+            return this.errorSnippet("Active editor doesn't show a CSV or plain text document.");
         }
         let t = editor.document.getText();
-        let b = base64.base64_encode(t);
+        let b = Base64.encode(t);
         let snip = this.snippet(b, this.theme, this.version);
         return snip;
     }
@@ -39,7 +39,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/external/base64.min.js" type="text/javascript"></script>
+                <script src="http://cdn.wijmo.com/external/js-base64.js" type="text/javascript"></script>
                 <body>
                     <div id="flex"></div>
                 </body>
@@ -65,7 +65,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                     }
                 }
                 var data = [], header = [];
-                var content = base64_decode('${text}');
+                var content = Base64.decode('${text}');
                 var lines = content.split(String.fromCharCode(10));
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
