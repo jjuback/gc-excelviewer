@@ -1,21 +1,25 @@
 'use strict';
-import {workspace, window} from 'vscode';
+import {workspace, window, TextDocument, Uri} from 'vscode';
 import * as base from './baseProvider';
 var Base64 = require('js-base64').Base64;
 var escapeStringRegexp = require('escape-string-regexp');
 
 export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider {
 
-    createSnippet(): string {
-        let editor = window.activeTextEditor;
-        let lang = editor.document.languageId;
-        if (lang !== 'csv' && lang !== 'plaintext') {
-            return this.errorSnippet("Active editor doesn't show a CSV or plain text document.");
-        }
-        let t = editor.document.getText();
-        let b = Base64.encode(t);
-        let snip = this.snippet(b, this.theme, this.version);
-        return snip;
+    createSnippet(uri): Thenable<string> {
+        let file = uri.with({
+            scheme: "file"
+        });
+        return workspace.openTextDocument(file).then(doc => {
+            let lang = doc.languageId;
+            if (lang !== 'csv' && lang !== 'plaintext') {
+                return this.errorSnippet("Active editor doesn't show a CSV or plain text document.");
+            }
+            let t = doc.getText();
+            let b = Base64.encode(t);
+            let snip = this.snippet(b, this.theme, this.version);
+            return snip;
+        });
     }
 
     get separator(): string {
@@ -40,10 +44,14 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/external/js-base64.js" type="text/javascript"></script>
-                <body>
+                <body onload="resizeGrid()" onresize="resizeGrid()">
                     <div id="flex"></div>
                 </body>
                 <script type="text/javascript">
+                function resizeGrid() {
+                    var div = wijmo.getElement("#flex");
+                    div.style.height = html.clientHeight.toString() + "px";
+                }
                 function unquote(text) {
                     if (text.length > 0) {
                         var regex = new RegExp(/^${quote}(.*)${quote}$/);
@@ -85,9 +93,12 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                         }
                     }
                 }
+                var html = wijmo.getElement("html");
+                html.style.overflow = "hidden";
                 var flex = new wijmo.grid.FlexGrid("#flex");
                 flex.isReadOnly = true;
                 flex.itemsSource = data;
+                flex.stickyHeaders = true;
                 var filter = new wijmo.grid.filter.FlexGridFilter(flex);
                 var nag = wijmo.getElement("a");
                 wijmo.setCss(nag.parentElement, { "display": "none" });

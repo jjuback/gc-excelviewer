@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "1.0.7",
+    "version": "1.1.8",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -19,10 +19,11 @@
         "url": "https://github.com/jjuback/gc-excelviewer.git"
     },
     "engines": {
-        "vscode": "^1.0.0"
+        "vscode": "^1.3.0"
     },
     "categories": [
-        "Other"
+        "Other",
+        "Productivity"
     ],
     "keywords": [
         "CSV",
@@ -46,18 +47,64 @@
                 "aliases": [
                     "CSV"
                 ]
+            },
+            {
+                "id": "excel",
+                "extensions": [
+                    ".xls",
+                    ".xlsx"
+                ],
+                "aliases": [
+                    "Excel"
+                ]
             }
         ],
         "commands": [
             {
                 "command": "csv.preview",
-                "title": "CSV: Preview File"
+                "category": "CSV",
+                "title": "Open Preview",
+                "icon": {
+                    "light": "./img/Preview.svg",
+                    "dark": "./img/Preview_inverse.svg"
+                }
             },
             {
                 "command": "excel.preview",
-                "title": "Excel: Preview File"
+                "category": "Excel",
+                "title": "Open Preview",
+                "icon": {
+                    "light": "./img/Preview.svg",
+                    "dark": "./img/Preview_inverse.svg"
+                }
             }
         ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceLangId == excel",
+                    "command": "excel.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == csv",
+                    "command": "csv.preview",
+                    "group": "navigation"                    
+                }
+            ],
+            "editor/title": [
+                {
+                    "when": "resourceLangId == excel && resourceScheme != excel-preview",
+                    "command": "excel.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                }
+            ]
+        },
         "configuration": {
             "type": "object",
             "title": "Excel Viewer configuration",
@@ -117,7 +164,7 @@
     },
     "devDependencies": {
         "typescript": "^1.8.5",
-        "vscode": "^0.11.0"
+        "vscode": "^0.11.14"
     },
     "dependencies": {
         "escape-string-regexp": ">= 1.0.5",

@@ -4,18 +4,10 @@ import * as base from './baseProvider';
 
 export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvider {
 
-    private _path = "dev/null";
-
-    public setPath(path: string) {
-        if (path.startsWith("/")) {
-            this._path = path.slice(1);
-        } else {
-            this._path = path;
-        }
-    }
-    
-    createSnippet() {
-        let file = Uri.file(workspace.rootPath + "/" + this._path);
+    createSnippet(uri) {
+        let file = uri.with({
+            scheme: "file"
+        });
         let snip = this.snippet(file.toString(), this.theme, this.version);
         return snip;
     }
@@ -27,17 +19,24 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.detail.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.sheet.min.js" type="text/javascript"></script>
+                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.sheet.filter.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.xlsx.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.xlsx.min.js" type="text/javascript"></script>
                 <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-                <body>
+                <body onload="resizeSheet()" onresize="resizeSheet()">
                     <div id="sheet"></div>
                 </body>
                 <script type="text/javascript">
+                function resizeSheet() {
+                    var div = wijmo.getElement("#sheet");
+                    div.style.height = html.clientHeight.toString() + "px";
+                }
                 var file = '${file}';
                 var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
+                var filter = new wijmo.grid.sheet.filter.FlexSheetFilter(sheet);
+                var html = wijmo.getElement("html");
+                html.style.overflow = "hidden";
                 var nag = wijmo.getElement("a");
                 wijmo.setCss(nag.parentElement, { "display": "none" });
                 var menu = wijmo.getElement("[wj-part='context-menu']");

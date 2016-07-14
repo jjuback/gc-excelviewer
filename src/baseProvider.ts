@@ -23,7 +23,7 @@ export abstract class BaseDocumentContentProvider implements TextDocumentContent
     }
     
     public provideTextDocumentContent(uri: Uri): string | Thenable<string> {
-        return this.createSnippet();
+        return this.createSnippet(uri);
     }
 
     get onDidChange(): Event<Uri> {
@@ -40,6 +40,6 @@ export abstract class BaseDocumentContentProvider implements TextDocumentContent
                 </body>`;
     }
     
-    abstract createSnippet(): string;
+    abstract createSnippet(uri: Uri): string | Thenable<string>;
     abstract snippet(text: string, theme: string, ver: string): string;
 }
