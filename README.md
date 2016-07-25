@@ -25,9 +25,16 @@ csv&#8209;preview.quoteMark | string | "&nbsp;(double&#8209;quote) | Specifies t
 csv&#8209;preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
 csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
-> Any CSV/Excel files that were already previewed during the current editing session will not use the modified settings until you execute the `Reload Window` command after saving `settings.json`.
+> As of version 1.1.9, any open CSV/Excel previews will automatically update to reflect the modified settings.
 
 ## Change Log
+### 1.1.9
+Fixed bug where the CSV preview did not update automatically when the associated text document was saved. For best results, the `files.autoSave` setting should be set to either `off` (the default) or `onFocusChange`.
+
+Fixed bug where the CSV/Excel preview was always displayed in the left editor group, even if the active document was in the center or right group.
+
+All open CSV/Excel previews now update automatically when the configuration settings are saved. Formerly, an explicit `Reload Window` command was required.
+
 ### 1.1.8
 This version requires Visual Studio Code 1.3 or greater.
 
