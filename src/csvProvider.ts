@@ -1,5 +1,5 @@
 'use strict';
-import {workspace, window, TextDocument, Uri} from 'vscode';
+import {workspace, window, commands, TextDocument, Uri} from 'vscode';
 import * as base from './baseProvider';
 var Base64 = require('js-base64').Base64;
 var escapeStringRegexp = require('escape-string-regexp');
@@ -39,19 +39,24 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         let quote = escapeStringRegexp(this.quoteMark);
         return `<link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
                 <link href="http://cdn.wijmo.com/${ver}/styles/themes/wijmo.theme.${theme}.min.css" rel="stylesheet" type="text/css" />
+
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/external/js-base64.js" type="text/javascript"></script>
+
                 <body onload="resizeGrid()" onresize="resizeGrid()">
                     <div id="flex"></div>
                 </body>
+
                 <script type="text/javascript">
+
                 function resizeGrid() {
                     var div = wijmo.getElement("#flex");
                     div.style.height = html.clientHeight.toString() + "px";
                 }
+
                 function unquote(text) {
                     if (text.length > 0) {
                         var regex = new RegExp(/^${quote}(.*)${quote}$/);
@@ -60,6 +65,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                     }
                     return text;
                 }
+
                 function getHeader(n) {
                     if (header.length > n) {
                         return header[n];
@@ -72,9 +78,27 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                         return String.fromCharCode(65 + h2);
                     }
                 }
+
+                function invoke() {
+                    var state = {
+                        columnLayout: flex.columnLayout,
+                        filterDefinition: filter.filterDefinition,
+                        sortDescriptions: flex.collectionView.sortDescriptions.map(function (sd) {
+                            return {
+                                property: sd.property,
+                                ascending: sd.ascending
+                            }
+                        })
+                    };
+                    var query = ['${this.uri}', state];
+                    nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
+                    nag.click();                    
+                }
+
                 var data = [], header = [];
                 var content = Base64.decode('${text}');
                 var lines = content.split(String.fromCharCode(10));
+
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
                     if (line.length > 0) {
@@ -93,15 +117,39 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                         }
                     }
                 }
+
                 var html = wijmo.getElement("html");
                 html.style.overflow = "hidden";
+                
                 var flex = new wijmo.grid.FlexGrid("#flex");
                 flex.isReadOnly = true;
                 flex.itemsSource = data;
                 flex.stickyHeaders = true;
+                flex.allowDragging = wijmo.grid.AllowDragging.None;
+                
                 var filter = new wijmo.grid.filter.FlexGridFilter(flex);
+                
                 var nag = wijmo.getElement("a");
                 wijmo.setCss(nag.parentElement, { "display": "none" });
+                
+                flex.collectionView.collectionChanged.addHandler(() => {
+                    setTimeout(invoke, 500);
+                });
+
+                flex.resizedColumn.addHandler(() => {
+                    setTimeout(invoke, 500);
+                });
+
+                var json = ${this.state};
+                
+                if (json) {
+                    flex.columnLayout = json.columnLayout;
+                    filter.filterDefinition = json.filterDefinition;
+                    json.sortDescriptions.forEach(function (item) {
+                        var sd = new wijmo.collections.SortDescription(item.property, item.ascending);
+                        flex.collectionView.sortDescriptions.push(sd);
+                    });
+                }
                 </script>`;
     }
 }

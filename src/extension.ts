@@ -6,11 +6,11 @@ import * as path from 'path';
 
 export function activate(context: ExtensionContext) {
     
-    let version = "5.20162.188";
+    let version = "5.20162.198";
     let previewUri: Uri;
-    let csvProvider = new csv.CsvDocumentContentProvider(version);
+    let csvProvider = new csv.CsvDocumentContentProvider(version, context.workspaceState);
     let csvSubscription = workspace.registerTextDocumentContentProvider('csv-preview', csvProvider);
-    let excelProvider = new excel.ExcelDocumentContentProvider(version);
+    let excelProvider = new excel.ExcelDocumentContentProvider(version, context.workspaceState);
     let excelSubscription = workspace.registerTextDocumentContentProvider('excel-preview', excelProvider);
     
     let csvCommand = commands.registerCommand('csv.preview', (uri) => {
@@ -68,11 +68,36 @@ export function activate(context: ExtensionContext) {
 	workspace.onDidChangeConfiguration(() => {
 		workspace.textDocuments.forEach(document => {
             let scheme = document.uri.scheme;
-			if (scheme === 'csv-preview' || scheme === 'excel-preview') {
+			if (scheme === 'csv-preview') {
 				csvProvider.update(document.uri);
+			} else if (scheme === 'excel-preview') {
+				excelProvider.update(document.uri);
 			}
 		});
 	});
+
+    window.onDidChangeActiveTextEditor(editor => {
+        if (!editor) {
+            workspace.textDocuments.forEach(document => {
+                let scheme = document.uri.scheme;
+                if (scheme === 'csv-preview') {
+                    csvProvider.update(document.uri);
+                } else if (scheme === 'excel-preview') {
+                    excelProvider.update(document.uri);
+                }
+            });
+        }
+    });
+
+    let storageCommand = commands.registerCommand('_grapecity.storage', (key, value?) => {
+        if (value) {
+            csvProvider.storage.update(key, value);
+        } else {
+            return csvProvider.storage.get(key);
+        }
+    });
+
+    context.subscriptions.push(storageCommand);
 }
 
 export function deactivate() {

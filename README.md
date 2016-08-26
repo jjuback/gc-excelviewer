@@ -28,6 +28,13 @@ csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to
 > As of version 1.1.9, any open CSV/Excel previews will automatically update to reflect the modified settings.
 
 ## Change Log
+### 1.1.10
+CSV preview now persists column widths and sort/filter criteria.
+
+Excel preview now supports filtering via its column headers. Filter criteria are persisted, but column widths are not.
+
+Upgraded to use Wijmo build 5.20162.198.
+
 ### 1.1.9
 Fixed bug where the CSV preview did not update automatically when the associated text document was saved. For best results, the `files.autoSave` setting should be set to either `off` (the default) or `onFocusChange`.
 
