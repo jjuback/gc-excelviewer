@@ -13,9 +13,13 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
     }
 
     snippet(file: string, theme: string, ver: string): string {
-        return `<link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
+        return `<!DOCTYPE html>
+                <html>
+                <head>
+                <link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
                 <link href="http://cdn.wijmo.com/${ver}/styles/themes/wijmo.theme.${theme}.min.css" rel="stylesheet" type="text/css" />
-                
+                </head>
+
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
                 <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
@@ -92,6 +96,7 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
                 xhr.open("GET", file);
                 xhr.responseType = "blob";
                 xhr.send();
-                </script>`;
+                </script>
+                </html>`;
     }
 }

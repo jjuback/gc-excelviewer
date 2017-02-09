@@ -1,6 +1,8 @@
 # Excel Viewer
 Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace. For a deep dive into the implementation details (written prior to the release of Visual Studio Code 1.3), see this [blog post](http://www.wijmo.com/?p=76123).
 
+> This extension requires Visual Studio Code 1.9.1 Recovery Build or greater.
+
 ## CSV Usage
 For files with a .csv extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
 
@@ -28,6 +30,11 @@ csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to
 > As of version 1.1.9, any open CSV/Excel previews will automatically update to reflect the modified settings.
 
 ## Change Log
+### 1.1.11
+Added a dependency on Visual Studio Code 1.9.1, which fixes issues with blank previews.
+
+Virtual documents now contain well-formed HTML tags.
+
 ### 1.1.10
 CSV preview now persists column widths and sort/filter criteria.
 
