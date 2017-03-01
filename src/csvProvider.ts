@@ -63,7 +63,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
 
                 function unquote(text) {
                     if (text.length > 0) {
-                        var regex = new RegExp(/^${quote}(.*)${quote}$/);
+                        var regex = new RegExp(/${quote}([^${quote}]*)${quote}/);
                         var match = regex.exec(text);
                         return match ? match[1] : text;
                     }
@@ -101,13 +101,15 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
 
                 var data = [], header = [];
                 var content = Base64.decode('${text}');
-                var lines = content.split(String.fromCharCode(10));
+                var regex = new RegExp(/^\s*${quote}/);
+                var quoted = regex.exec(content);
+                var lines = quoted ? content.split(/\\n(?=[${quote}]+[\\r]*)/) : content.split(/\\n/);
 
                 for (var i = 0; i < lines.length; i++) {
-                    var line = lines[i];
+                    var line = lines[i].replace("\\r", "");
                     if (line.length > 0) {
                         // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-                        var items = line.split(/${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)/);
+                        var items = line.split(/${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*)/);
                         if (i === 0 && ${this.hasHeaders}) {
                             for (var j = 0; j < items.length; j++) {
                                 header.push(unquote(items[j]));
