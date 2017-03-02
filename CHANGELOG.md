@@ -1,3 +1,6 @@
+## 1.1.13 (March 1, 2017)
+Fixed CSV regression with quoted values containing the separator character.
+
 ## 1.1.12 (March 1, 2017)
 Fixed issue with Windows line endings and quoted values where the last column in a CSV file was rendered with quote marks.
 

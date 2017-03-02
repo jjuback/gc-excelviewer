@@ -109,7 +109,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                     var line = lines[i].replace("\\r", "");
                     if (line.length > 0) {
                         // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-                        var items = line.split(/${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*)/);
+                        var items = line.split(/${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)/);
                         if (i === 0 && ${this.hasHeaders}) {
                             for (var j = 0; j < items.length; j++) {
                                 header.push(unquote(items[j]));
