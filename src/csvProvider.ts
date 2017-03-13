@@ -128,6 +128,14 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 html.style.overflow = "hidden";
                 
                 var flex = new wijmo.grid.FlexGrid("#flex");
+
+                // The handler must be added before the call to flex.itemsSource
+                // is used.
+                //
+                flex.itemsSourceChanged.addHandler(function(s, e) {
+                    flex.autoSizeColumns();
+                });
+
                 flex.isReadOnly = true;
                 flex.itemsSource = data;
                 flex.stickyHeaders = true;
