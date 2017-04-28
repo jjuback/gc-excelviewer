@@ -1,3 +1,10 @@
+## 1.1.14 (April 28, 2017)
+Added the configuration option `csv-preview.capitalizeHeaders` that lets you specify whether column headers in CSV files are capitalized (default: true).
+
+Added the configuration option `csv-preview.resizeColumns` that lets you specify which columns (all, first, none) are automatically resized to fit the data for CSV files (default: none).
+
+Added the `CSV: Clear Preview State` command that discards persistent user data for the current file. For CSV files, this includes column widths and sort/filter criteria. For Excel files, this includes filter criteria only. Reopen the preview for the affected file to see the changes.
+
 ## 1.1.13 (March 1, 2017)
 Fixed CSV regression with quoted values containing the separator character.
 

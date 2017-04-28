@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "1.1.13",
+    "version": "1.1.14",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -76,6 +76,11 @@
                     "light": "./img/Preview.svg",
                     "dark": "./img/Preview_inverse.svg"
                 }
+            },
+            {
+                "command": "csv.clearState",
+                "category": "CSV",
+                "title": "Clear Preview State"
             }
         ],
         "menus": {
@@ -122,6 +127,21 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Specifies whether the first row in a CSV file represents column headers."
+                },
+                "csv-preview.capitalizeHeaders": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies whether column headers in CSV files are capitalized."
+                },
+                "csv-preview.resizeColumns": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "first",
+                        "none"
+                    ],
+                    "default": "none",
+                    "description": "Specifies whether columns are automatically resized to fit the data for CSV files."
                 },
                 "csv-preview.theme": {
                     "type": "string",

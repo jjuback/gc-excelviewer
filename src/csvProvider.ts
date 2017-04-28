@@ -34,6 +34,14 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         return <boolean>workspace.getConfiguration('csv-preview').get("hasHeaders");
     }
 
+    get capitalizeHeaders(): boolean {
+        return <boolean>workspace.getConfiguration('csv-preview').get("capitalizeHeaders");
+    }
+
+    get resizeColumns(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("resizeColumns");
+    }
+
     snippet(text: string, theme: string, ver: string): string {
         let sep = escapeStringRegexp(this.separator);
         let quote = escapeStringRegexp(this.quoteMark);
@@ -128,6 +136,22 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 html.style.overflow = "hidden";
                 
                 var flex = new wijmo.grid.FlexGrid("#flex");
+
+                flex.itemsSourceChanged.addHandler(function(s, e) {
+                    if (!${this.capitalizeHeaders}) {
+                        for (var i = 0; i < flex.columns.length; i++) {
+                            var c = flex.columns[i];
+                            c.header = c.name;
+                        }
+                    }
+                    var resize = '${this.resizeColumns}';
+                    if (resize === "all") {
+                        flex.autoSizeColumns();
+                    } else if (resize === "first") {
+                        flex.autoSizeColumn(0);
+                    }
+                });
+
                 flex.isReadOnly = true;
                 flex.itemsSource = data;
                 flex.stickyHeaders = true;

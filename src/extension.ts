@@ -98,6 +98,14 @@ export function activate(context: ExtensionContext) {
     });
 
     context.subscriptions.push(storageCommand);
+
+    let clearCommand = commands.registerCommand('csv.clearState', () => {
+        if (previewUri && csvProvider.storage.get(previewUri.toString())) {
+            csvProvider.storage.update(previewUri.toString(), null);
+        }
+    });
+
+    context.subscriptions.push(clearCommand);
 }
 
 export function deactivate() {
