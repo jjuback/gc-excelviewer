@@ -1,3 +1,8 @@
+## 1.1.15 (May 2, 2017)
+Fixed Excel preview bug where the A1 cell was always highlighted.
+
+Upgraded to use Wijmo build 5.20171.282.
+
 ## 1.1.14 (April 28, 2017)
 Added the configuration option `csv-preview.capitalizeHeaders` that lets you specify whether column headers in CSV files are capitalized (default: true).
 

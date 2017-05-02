@@ -45,8 +45,23 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
                         filterDefinition: sheet._filter.filterDefinition
                     };
                     var query = ['${this.uri}', state];
-                    nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
-                    nag.click();                    
+                    if (nag) {
+                        nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
+                        nag.click();
+                    }                    
+                }
+
+                function getNagLink() {
+                    var links = document.querySelectorAll("a[href*='wijmo.com']");
+                    for (var i = 0; i < links.length; i++) {
+                        var parent = links[i].parentElement;
+                        if (parent.style.display !== "none") {
+                            parent.style.display = "none";
+                            wijmo.Control["_updateWme"] = function() {};
+                            return links[i];
+                        }
+                    }
+                    return null;
                 }
 
                 var file = '${file}';
@@ -55,8 +70,7 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
                 var html = wijmo.getElement("html");
                 html.style.overflow = "hidden";
 
-                var nag = wijmo.getElement("a");
-                wijmo.setCss(nag.parentElement, { "display": "none" });
+                var nag = getNagLink();
 
                 var menu = wijmo.getElement("[wj-part='context-menu']");
                 menu.parentElement.removeChild(menu);
@@ -78,9 +92,6 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
 
                 sheet.loaded.addHandler(() => {
                     sheet.isReadOnly = true;
-                    var q = wijmo.getElement(".wj-marquee");
-                    q.style.display = "block";
-
                     if (json) {
                         sheet._filter.filterDefinition = json.filterDefinition;
                     }

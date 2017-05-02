@@ -6,7 +6,7 @@ import * as path from 'path';
 
 export function activate(context: ExtensionContext) {
     
-    let version = "5.20162.198";
+    let version = "5.20171.282";
     let previewUri: Uri;
     let csvProvider = new csv.CsvDocumentContentProvider(version, context.workspaceState);
     let csvSubscription = workspace.registerTextDocumentContentProvider('csv-preview', csvProvider);

@@ -103,8 +103,23 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                         })
                     };
                     var query = ['${this.uri}', state];
-                    nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
-                    nag.click();                    
+                    if (nag) {
+                        nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
+                        nag.click();
+                    }                    
+                }
+
+                function getNagLink() {
+                    var links = document.querySelectorAll("a[href*='wijmo.com']");
+                    for (var i = 0; i < links.length; i++) {
+                        var parent = links[i].parentElement;
+                        if (parent.style.display !== "none") {
+                            parent.style.display = "none";
+                            wijmo.Control["_updateWme"] = function() {};
+                            return links[i];
+                        }
+                    }
+                    return null;
                 }
 
                 var data = [], header = [];
@@ -158,9 +173,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 flex.allowDragging = wijmo.grid.AllowDragging.None;
                 
                 var filter = new wijmo.grid.filter.FlexGridFilter(flex);
-                
-                var nag = wijmo.getElement("a");
-                wijmo.setCss(nag.parentElement, { "display": "none" });
+                var nag = getNagLink();
                 
                 flex.collectionView.collectionChanged.addHandler(() => {
                     setTimeout(invoke, 500);
