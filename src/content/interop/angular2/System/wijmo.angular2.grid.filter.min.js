@@ -1,0 +1,13 @@
+/*
+    *
+    * Wijmo Library 5.20173.380
+    * http://wijmo.com/
+    *
+    * Copyright(c) GrapeCity, Inc.  All rights reserved.
+    *
+    * Licensed under the GrapeCity Commercial License.
+    * sales@wijmo.com
+    * wijmo.com/products/wijmo-5/license/
+    *
+    */
+System.register("wijmo/wijmo.angular2.grid.filter",["@angular/core","@angular/common","wijmo/wijmo.angular2.directiveBase"],function(t,e){"use strict";var r,n,i,o,u,c,l,s,a,f=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var r in e)e.hasOwnProperty(r)&&(t[r]=e[r])};return function(e,r){function n(){this.constructor=e}t(e,r),e.prototype=null===r?Object.create(r):(n.prototype=r.prototype,new n)}}(),p=this&&this.__decorate||function(t,e,r,n){var i,o=arguments.length,u=o<3?e:null===n?n=Object.getOwnPropertyDescriptor(e,r):n;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)u=Reflect.decorate(t,e,r,n);else for(var c=t.length-1;c>=0;c--)(i=t[c])&&(u=(o<3?i(u):o>3?i(e,r,u):i(e,r))||u);return o>3&&u&&Object.defineProperty(e,r,u),u},d=this&&this.__param||function(t,e){return function(r,n){e(r,n,t)}};e&&e.id;return{setters:[function(t){r=t,n=t,i=t},function(t){o=t},function(t){u=t}],execute:function(){t("wjFlexGridFilterMeta",c={selector:"wj-flex-grid-filter",template:"",inputs:["wjProperty","showFilterIcons","showSortButtons","defaultFilterType","filterColumns"],outputs:["initialized","filterChangingNg: filterChanging","filterChangedNg: filterChanged","filterAppliedNg: filterApplied"],providers:[]}),l=function(t){function e(e,r,n){var i=t.call(this,n)||this;i.isInitialized=!1;i._wjBehaviour=u.WjDirectiveBehavior.attach(i,e,r,n);return i.created(),i}return f(e,t),o=e,e.prototype.created=function(){},e.prototype.ngOnInit=function(){this._wjBehaviour.ngOnInit()},e.prototype.ngAfterViewInit=function(){this._wjBehaviour.ngAfterViewInit()},e.prototype.ngOnDestroy=function(){this._wjBehaviour.ngOnDestroy()},e.meta={outputs:c.outputs},e=o=p([r.Component({selector:c.selector,template:c.template,inputs:c.inputs,outputs:c.outputs,providers:[{provide:"WjComponent",useExisting:n.forwardRef(function(){return o})}].concat(c.providers)}),d(0,i.Inject(n.ElementRef)),d(1,i.Inject(n.Injector)),d(2,i.Inject("WjComponent")),d(2,i.SkipSelf()),d(2,n.Optional())],e);var o}(wijmo.grid.filter.FlexGridFilter),t("WjFlexGridFilter",l),s=[l],a=function(){function t(){}return t=p([r.NgModule({imports:[u.WjDirectiveBaseModule,o.CommonModule],declarations:s.slice(),exports:s.slice()})],t)}(),t("WjGridFilterModule",a)}}});

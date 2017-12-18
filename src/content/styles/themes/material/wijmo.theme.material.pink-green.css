@@ -1,0 +1,180 @@
+﻿/* Default MDL font size */
+.wj-control,
+.wj-control input {
+  font-size: 16px;
+}
+/* Extra padding in grids and listboxes */
+.wj-cell {
+  padding: 6px;
+}
+.wj-listbox-item {
+  padding: 6px 10px;
+}
+/* Drop-downs */
+.wj-dropdown-panel {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+/* Backgrounds */
+.wj-content,
+div[wj-part='cells'] {
+  background: #ffffff;
+  color: #212121;
+}
+.wj-content .wj-input-group .wj-form-control {
+  background: #ffffff;
+  color: #212121;
+}
+/* Headers */
+.wj-header {
+  background: #e8e8e8;
+  color: black;
+}
+/* FlexGrid */
+div[wj-part='root'] {
+  background: #ffffff;
+}
+.wj-state-selected {
+  background: #e91e63;
+  color: #ffffff;
+}
+.wj-state-multi-selected {
+  background: #f06493;
+  color: #ffffff;
+}
+.wj-input-group .wj-form-control,
+.wj-grid-editor {
+  background: #ffffff;
+  color: #212121;
+}
+.wj-cell {
+  border-right: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+[dir="rtl"] .wj-cell {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+/* Default grid cell color */
+.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background: #ffffff;
+}
+/* Alternate grid cell color */
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background: #ffffff;
+}
+/* Group row background */
+.wj-flexgrid .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background: #aa1145;
+  color: #ffffff;
+}
+/* Default frozen boundaries */
+.wj-cell.wj-frozen-row {
+  border-bottom-color: black;
+  border-width: 1px;
+}
+.wj-cell.wj-frozen-col {
+  border-right-color: black;
+  border-width: 1px;
+}
+/* Grid headers */
+.wj-flexgrid .wj-header.wj-state-multi-selected {
+  background: #d5d5d5;
+}
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+  border-bottom: 3px solid #e91e63;
+}
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+  border-right: 3px solid #e91e63;
+}
+/* Marquee */
+.wj-flexgrid .wj-marquee {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #e91e63;
+}
+.wj-flexsheet .wj-marquee {
+  border: 2px solid #e91e63;
+}
+/* Drag marker */
+.wj-flexgrid .wj-marker {
+  background: #4caf50;
+}
+/* Input Controls */
+.wj-control.wj-content.wj-dropdown,
+.wj-inputnumber {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.wj-control.wj-content .wj-input-group input.wj-form-control {
+  background-color: transparent;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.wj-content .wj-input-group-btn > .wj-btn:hover,
+.wj-content .wj-btn-group > .wj-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.wj-content .wj-input-group-btn > .wj-btn,
+.wj-content .wj-btn-group > .wj-btn {
+  border-style: none;
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.8);
+  min-width: 32px;
+}
+/* Border Radii */
+.wj-content,
+.wj-input-group,
+.wj-btn-group,
+.wj-btn-group-vertical,
+.wj-tooltip {
+  border-radius: 0;
+}
+/* Tooltip */
+/* style tooltips like https://www.getmdl.io/customize/index.html */
+.wj-tooltip {
+  padding: 20px;
+  color: white;
+  font-weight: bold;
+  background-color: rgba(128, 128, 128, 0.85);
+  border: none;
+}
+/* Gauges */
+.wj-gauge .wj-pointer {
+  fill: #e91e63;
+}
+.wj-gauge.wj-state-focused circle.wj-pointer {
+  fill: #4caf50;
+  transition: fill .2s;
+  /* delay used in MDL */
+}
+/* MultiAutoComplete */
+.wj-control.wj-multi-autocomplete {
+  border-radius: 0;
+}
+.wj-multi-autocomplete .wj-token {
+  border-radius: 0;
+  border: 1px solid #e91e63;
+  background: #e91e63;
+  color: #ffffff;
+}
+.wj-multi-autocomplete .wj-token:hover {
+  border-color: #e91e63;
+}
+.wj-multi-autocomplete .wj-token.wj-token-active {
+  border-color: #e91e63;
+}
+.wj-multi-autocomplete .wj-token .wj-token-close,
+.wj-multi-autocomplete .wj-token .wj-token-close:hover,
+.wj-multi-autocomplete .wj-token .wj-token-close:focus {
+  color: #ffffff;
+}
+/* TreeView */
+.wj-treeview .wj-node {
+  color: #212121;
+}
+.wj-treeview .wj-node.wj-state-selected {
+  background: #e91e63;
+  color: #ffffff;
+}
+

@@ -1,0 +1,266 @@
+﻿/* -- Backgrounds -- */
+.wj-content:not(.wj-viewer-outer),
+div[wj-part='cells'] {
+  color: #000000;
+  background: #f5f5f5;
+}
+.wj-content .wj-input-group .wj-form-control {
+  color: #000000;
+  background: #f5f5f5;
+}
+.wj-listbox-item:not(.wj-state-selected):hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+/* -- Headers -- */
+.wj-header {
+  background: #666666;
+  color: #ffffff;
+}
+.wj-flexgrid .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Group row background */
+  background: #cccccc;
+  color: #000000;
+}
+.wj-flexgrid .wj-marker {
+  background: #cccccc;
+}
+/* -- Grid -- */
+.wj-flexgrid div[wj-part='root'] {
+  background: #e8e8e8;
+}
+.wj-state-selected {
+  background: #cccccc;
+  color: #000000;
+}
+.wj-state-multi-selected {
+  background: #b3b3b3;
+  color: #ffffff;
+}
+.wj-input-group .wj-form-control,
+.wj-grid-editor {
+  background: #fff;
+  color: #000000;
+}
+div[wj-part='rhcells'] .wj-header {
+  background: #666666;
+}
+.wj-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+[dir="rtl"] .wj-cell {
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Default grid cell color */
+  background: #f5f5f5;
+}
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Alternate grid cell color */
+  background: #e8e8e8;
+}
+.wj-frozen.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Default frozen cell color */
+  background: #e4e4e4;
+  color: #000000;
+}
+.wj-frozen.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Alternate frozen cell color */
+  background: #d7d7d7;
+  color: #000000;
+}
+.wj-cell.wj-frozen-row {
+  border-bottom-color: #000000;
+  border-width: 1px;
+}
+.wj-cell.wj-frozen-col {
+  border-right-color: #000000;
+  border-width: 1px;
+}
+.wj-flexgrid .wj-header.wj-state-multi-selected {
+  /* Selected headers */
+  background: #858585;
+  color: #ffffff;
+  font-weight: bold;
+}
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+  /* Selected column headers */
+  border-bottom: 2px solid #cccccc !important;
+}
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+  /* Selected row headers */
+  border-right: 2px solid #cccccc !important;
+}
+.wj-flexgrid .wj-marquee {
+  /* Selection Marquee */
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #cccccc !important;
+}
+.wj-flexsheet .wj-marquee {
+  /* FlexSheet Marquee Border */
+  border: 2px solid #cccccc !important;
+}
+/* -- Buttons -- */
+.wj-content .wj-input-group-btn > .wj-btn,
+.wj-content .wj-btn-group > .wj-btn {
+  background: #dddddd;
+  color: #000000;
+}
+.wj-content .wj-input-group-btn > .wj-btn:hover,
+.wj-content .wj-btn-group > .wj-btn:hover {
+  background: #c4c4c4;
+  color: #000000;
+}
+.wj-content .wj-input-group-btn > .wj-btn:focus,
+.wj-content .wj-btn-group > .wj-btn:focus {
+  background: #c4c4c4;
+  color: #000000;
+}
+.wj-content:not(.wj-dropdown-panel):not(.wj-listbox):not(.wj-flexgrid):not(.wj-calendar-outer):not(.wj-multi-autocomplete) {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.wj-btn-default {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.wj-input-group-btn > .wj-btn {
+  border: 1px;
+}
+/* -- Border Radii -- */
+.wj-content,
+.wj-input-group,
+.wj-btn-group,
+.wj-btn-group-vertical,
+.wj-tooltip,
+.customEdit {
+  border-radius: 4px;
+}
+/* -- Tooltip -- */
+.wj-tooltip {
+  background: #eeeeee;
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+/* -- Gauges -- */
+.wj-gauge .wj-pointer path {
+  fill: #cccccc;
+}
+/* -- MultiAutoComplete -- */
+.wj-control.wj-multi-autocomplete {
+  border-radius: 4px;
+}
+.wj-multi-autocomplete .wj-token {
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  background: #dddddd;
+  color: #000000;
+}
+.wj-multi-autocomplete .wj-token:hover {
+  border-color: #c4c4c4;
+}
+.wj-multi-autocomplete .wj-token.wj-token-active {
+  border-color: #c4c4c4;
+}
+.wj-multi-autocomplete .wj-token .wj-token-close,
+.wj-multi-autocomplete .wj-token .wj-token-close:hover,
+.wj-multi-autocomplete .wj-token .wj-token-close:focus {
+  color: #000000;
+}
+/* -- TreeView -- */
+.wj-treeview .wj-node.wj-state-selected {
+  background: #cccccc;
+  color: #000000;
+}
+/* -- Viewer -- */
+.wj-viewer .wj-toolbar,
+.wj-viewer .wj-viewer-leftpanel {
+  background: #666666;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-svg-btn,
+.wj-viewer .wj-viewer-leftpanel .wj-svg-btn {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane input[type='text'] {
+  color: #000000;
+}
+.wj-content.wj-viewer-outer:not(.customEdit) .wj-btn-group .wj-btn.wj-state-active .wj-svg-btn {
+  fill: #cccccc;
+  stroke: #cccccc;
+}
+.wj-viewer .wj-outlines-tree .wj-state-selected {
+  background-color: #c4c4c4;
+}
+.wj-viewer .wj-outlines-tree .wj-cell a,
+.wj-viewer .wj-outlines-tree .wj-cell a:hover {
+  color: #cccccc;
+}
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a,
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a:hover {
+  color: #000000;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn {
+  background: #666666;
+  color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:hover,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:hover,
+.wj-viewer wj-toolbar-move left:hover,
+.wj-viewer wj-toolbar-move right:hover,
+.wj-control.wj-viewer a[wj-part^="btn-"],
+.wj-control.wj-viewer a[wj-part^="btn-"]:hover {
+  background-color: #c4c4c4;
+  color: #000000;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:hover .wj-svg-btn,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:hover .wj-svg-btn,
+.wj-viewer wj-toolbar-move left:hover .wj-svg-btn,
+.wj-viewer wj-toolbar-move right:hover .wj-svg-btn,
+.wj-control.wj-viewer a[wj-part^="btn-"] .wj-svg-btn,
+.wj-control.wj-viewer a[wj-part^="btn-"]:hover .wj-svg-btn {
+  fill: #000000;
+  stroke: #000000;
+  opacity: 1;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:focus,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:focus,
+.wj-control.wj-viewer a[wj-part^="btn-"]:focus {
+  background-color: none;
+  color: #000000;
+}
+.wj-viewer .wj-input-group {
+  border: 1px solid #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabtitle-wrapper,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabcontent-wrapper,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-outlines-tree,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-flexgrid div[wj-part='root'],
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-searchresult,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabcontent-inner {
+  background: #666666;
+  color: #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-btn-group {
+  border-radius: 0;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabtitle,
+.wj-viewer .wj-tabcontent .wj-tabpane legend {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.wj-viewer .wj-tabcontent .active {
+  border-color: #ffffff;
+}
+.wj-multi-autocomplete {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.wj-viewer .wj-outlines-tree .wj-cell a,
+.wj-viewer .wj-outlines-tree .wj-cell a:hover,
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a,
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a:hover {
+  color: #000000;
+}
+

@@ -1,112 +1,57 @@
 'use strict';
-import {workspace, commands, Uri} from 'vscode';
+import {workspace, Uri, ExtensionContext} from 'vscode';
 import * as base from './baseProvider';
+import LocalWebService from './localWebService';
 
 export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvider {
 
+    private _service: LocalWebService;
+    
+    constructor(context: ExtensionContext) {
+        super(context);
+        // create local express server
+        this._service = new LocalWebService(context);
+        this._service.start();
+    }
+    
     createSnippet(uri) {
         let file = uri.with({
             scheme: "file"
         });
-        let snip = this.snippet(file.toString(), this.theme, this.version);
-        return snip;
+        let options = {
+            uri: this.uri.toString(),
+            state: this.state
+        };
+        this._service.init(file.toString(), options);
+        return this.snippet();
     }
 
-    snippet(file: string, theme: string, ver: string): string {
+    get serviceUrl(): string {
+        return this._service.serviceUrl;
+    }
+
+    snippet(): string {
         return `<!DOCTYPE html>
                 <html>
                 <head>
-                <link href="http://cdn.wijmo.com/${ver}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
-                <link href="http://cdn.wijmo.com/${ver}/styles/themes/wijmo.theme.${theme}.min.css" rel="stylesheet" type="text/css" />
+                    <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
+                    <link href="${this.serviceUrl}/styles/themes/wijmo.theme.${this.theme}.min.css" rel="stylesheet" type="text/css" />
                 </head>
-
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.input.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.sheet.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.grid.xlsx.min.js" type="text/javascript"></script>
-                <script src="http://cdn.wijmo.com/${ver}/controls/wijmo.xlsx.min.js" type="text/javascript"></script>
-                <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-                
+                <script src="${this.serviceUrl}/controls/wijmo.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.input.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.grid.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.grid.filter.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.grid.sheet.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.grid.xlsx.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/controls/wijmo.xlsx.min.js" type="text/javascript"></script>
+                <script src="${this.serviceUrl}/jszip.min.js"></script>
+                <script src="${this.serviceUrl}/common.js"></script>
+                <script src="${this.serviceUrl}/excel.js"></script>
                 <body onload="resizeSheet()" onresize="resizeSheet()">
                     <div id="sheet"></div>
-                </body>
-                
+                </body>                
                 <script type="text/javascript">
-                
-                function resizeSheet() {
-                    var div = wijmo.getElement("#sheet");
-                    div.style.height = html.clientHeight.toString() + "px";
-                }
-                
-                function invoke() {
-                    var state = {
-                        filterDefinition: sheet._filter.filterDefinition
-                    };
-                    var query = ['${this.uri}', state];
-                    if (nag) {
-                        nag.href = encodeURI("command:_grapecity.storage?" + JSON.stringify(query));
-                        nag.click();
-                    }                    
-                }
-
-                function getNagLink() {
-                    var links = document.querySelectorAll("a[href*='wijmo.com']");
-                    for (var i = 0; i < links.length; i++) {
-                        var parent = links[i].parentElement;
-                        if (parent.style.display !== "none") {
-                            parent.style.display = "none";
-                            wijmo.Control["_updateWme"] = function() {};
-                            return links[i];
-                        }
-                    }
-                    return null;
-                }
-
-                var file = '${file}';
-                var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
-
-                var html = wijmo.getElement("html");
-                html.style.overflow = "hidden";
-
-                var nag = getNagLink();
-
-                var menu = wijmo.getElement("[wj-part='context-menu']");
-                menu.parentElement.removeChild(menu);
-
-                var news = wijmo.getElement("[wj-part='new-sheet']");
-                news.parentElement.removeChild(news);
-
-                var filter = sheet._filter.apply;
-                sheet._filter.apply = function () {
-                    filter.apply(sheet._filter);
-                    sheet._filter.onFilterApplied();
-                };
-
-                sheet._filter.filterApplied.addHandler(() => {
-                    if (sheet.selectedSheetIndex === 0) {
-                        setTimeout(invoke, 500);
-                    }
-                });
-
-                sheet.loaded.addHandler(() => {
-                    sheet.isReadOnly = true;
-                    if (json) {
-                        sheet._filter.filterDefinition = json.filterDefinition;
-                    }
-                });
-
-                var json = ${this.state};
-                var xhr = new XMLHttpRequest();
-
-                xhr.onload = function(e) {
-                    sheet.load(xhr.response);
-                };
-
-                xhr.open("GET", file);
-                xhr.responseType = "blob";
-                xhr.send();
+                    loadFile("${this.serviceUrl}", renderFile);
                 </script>
                 </html>`;
     }

@@ -1,0 +1,13 @@
+/*
+    *
+    * Wijmo Library 5.20173.380
+    * http://wijmo.com/
+    *
+    * Copyright(c) GrapeCity, Inc.  All rights reserved.
+    *
+    * Licensed under the GrapeCity Commercial License.
+    * sales@wijmo.com
+    * wijmo.com/products/wijmo-5/license/
+    *
+    */
+System.register("wijmo/wijmo.angular2.chart.animation",["@angular/core","@angular/common","wijmo/wijmo.angular2.directiveBase"],function(t,e){"use strict";var n,o,i,r,a,c,u,s,p,f=this&&this.__extends||function(){var t=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])};return function(e,n){function o(){this.constructor=e}t(e,n),e.prototype=null===n?Object.create(n):(o.prototype=n.prototype,new o)}}(),l=this&&this.__decorate||function(t,e,n,o){var i,r=arguments.length,a=r<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,n):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(t,e,n,o);else for(var c=t.length-1;c>=0;c--)(i=t[c])&&(a=(r<3?i(a):r>3?i(e,n,a):i(e,n))||a);return r>3&&a&&Object.defineProperty(e,n,a),a},m=this&&this.__param||function(t,e){return function(n,o){e(n,o,t)}};e&&e.id;return{setters:[function(t){n=t,o=t,i=t},function(t){r=t},function(t){a=t}],execute:function(){t("wjFlexChartAnimationMeta",c={selector:"wj-flex-chart-animation",template:"",inputs:["wjProperty","animationMode","easing","duration","axisAnimation"],outputs:["initialized"],providers:[]}),u=function(t){function e(e,n,o){var i=t.call(this,o)||this;i.isInitialized=!1;i._wjBehaviour=a.WjDirectiveBehavior.attach(i,e,n,o);return i.created(),i}return f(e,t),r=e,e.prototype.created=function(){},e.prototype.ngOnInit=function(){this._wjBehaviour.ngOnInit()},e.prototype.ngAfterViewInit=function(){this._wjBehaviour.ngAfterViewInit()},e.prototype.ngOnDestroy=function(){this._wjBehaviour.ngOnDestroy()},e.meta={outputs:c.outputs},e=r=l([n.Component({selector:c.selector,template:c.template,inputs:c.inputs,outputs:c.outputs,providers:[{provide:"WjComponent",useExisting:o.forwardRef(function(){return r})}].concat(c.providers)}),m(0,i.Inject(o.ElementRef)),m(1,i.Inject(o.Injector)),m(2,i.Inject("WjComponent")),m(2,i.SkipSelf()),m(2,o.Optional())],e);var r}(wijmo.chart.animation.ChartAnimation),t("WjFlexChartAnimation",u),s=[u],p=function(){function t(){}return t=l([n.NgModule({imports:[a.WjDirectiveBaseModule,r.CommonModule],declarations:s.slice(),exports:s.slice()})],t)}(),t("WjChartAnimationModule",p)}}});

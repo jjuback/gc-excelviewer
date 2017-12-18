@@ -1,0 +1,265 @@
+﻿/* -- Backgrounds -- */
+.wj-content:not(.wj-viewer-outer),
+div[wj-part='cells'] {
+  color: #ffffff;
+  background: #0d2c45;
+}
+.wj-content .wj-input-group .wj-form-control {
+  color: #ffffff;
+  background: #0d2c45;
+}
+.wj-listbox-item:not(.wj-state-selected):hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+/* -- Headers -- */
+.wj-header {
+  background: #000000;
+  color: #ffffff;
+  background-image: linear-gradient(to top, #000000 0%, #1f1f1f 100%);
+}
+.wj-flexgrid .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Group row background */
+  background: #87acca;
+  color: #000000;
+}
+.wj-flexgrid .wj-marker {
+  background: #19a26b;
+}
+/* -- Grid -- */
+.wj-flexgrid div[wj-part='root'] {
+  background: #0d1e2b;
+}
+.wj-state-selected {
+  background: #19a26b;
+  color: #ffffff;
+}
+.wj-state-multi-selected {
+  background: #85cfb1;
+  color: #ffffff;
+}
+.wj-input-group .wj-form-control,
+.wj-grid-editor {
+  background: #fff;
+  color: #000000;
+}
+div[wj-part='rhcells'] .wj-header {
+  background: #000000;
+}
+.wj-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+[dir="rtl"] .wj-cell {
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Default grid cell color */
+  background: #0d2c45;
+}
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Alternate grid cell color */
+  background: #113a5a;
+}
+.wj-frozen.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Default frozen cell color */
+  background: #295744;
+  color: #ffffff;
+}
+.wj-frozen.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  /* Alternate frozen cell color */
+  background: #316852;
+  color: #ffffff;
+}
+.wj-cell.wj-frozen-row {
+  border-bottom-color: #ffffff;
+  border-width: 1px;
+}
+.wj-cell.wj-frozen-col {
+  border-right-color: #ffffff;
+  border-width: 1px;
+}
+.wj-flexgrid .wj-header.wj-state-multi-selected {
+  /* Selected headers */
+  background: #1f1f1f;
+  color: #ffffff;
+  font-weight: bold;
+}
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+  /* Selected column headers */
+  border-bottom: 2px solid #19a26b !important;
+}
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+  /* Selected row headers */
+  border-right: 2px solid #19a26b !important;
+}
+.wj-flexgrid .wj-marquee {
+  /* Selection Marquee */
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #19a26b !important;
+}
+.wj-flexsheet .wj-marquee {
+  /* FlexSheet Marquee Border */
+  border: 2px solid #19a26b !important;
+}
+/* -- Buttons -- */
+.wj-content .wj-input-group-btn > .wj-btn,
+.wj-content .wj-btn-group > .wj-btn {
+  background: #3b546b;
+  color: #ffffff;
+  background-image: linear-gradient(to top, #3b546b 0%, #517392 100%);
+}
+.wj-content .wj-input-group-btn > .wj-btn:hover,
+.wj-content .wj-btn-group > .wj-btn:hover {
+  background: #4d6e8c;
+  color: #ffffff;
+}
+.wj-content .wj-input-group-btn > .wj-btn:focus,
+.wj-content .wj-btn-group > .wj-btn:focus {
+  background: #4d6e8c;
+  color: #ffffff;
+}
+.wj-content:not(.wj-dropdown-panel):not(.wj-listbox):not(.wj-flexgrid):not(.wj-calendar-outer):not(.wj-multi-autocomplete) {
+  border: 0px solid rgba(0, 0, 0, 0.2);
+}
+.wj-btn-default {
+  border: 0px solid rgba(0, 0, 0, 0.2);
+}
+.wj-input-group-btn > .wj-btn {
+  border: 0px;
+}
+/* -- Border Radii -- */
+.wj-content,
+.wj-input-group,
+.wj-btn-group,
+.wj-btn-group-vertical,
+.wj-tooltip,
+.customEdit {
+  border-radius: 0;
+}
+/* -- Tooltip -- */
+.wj-tooltip {
+  background: #e6edf2;
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+/* -- Gauges -- */
+.wj-gauge .wj-pointer path {
+  fill: #19a26b;
+}
+/* -- MultiAutoComplete -- */
+.wj-control.wj-multi-autocomplete {
+  border-radius: 0;
+}
+.wj-multi-autocomplete .wj-token {
+  border-radius: 0;
+  border: 1px solid #3b546b;
+  background: #3b546b;
+  color: #ffffff;
+}
+.wj-multi-autocomplete .wj-token:hover {
+  border-color: #4d6e8c;
+}
+.wj-multi-autocomplete .wj-token.wj-token-active {
+  border-color: #4d6e8c;
+}
+.wj-multi-autocomplete .wj-token .wj-token-close,
+.wj-multi-autocomplete .wj-token .wj-token-close:hover,
+.wj-multi-autocomplete .wj-token .wj-token-close:focus {
+  color: #ffffff;
+}
+/* -- TreeView -- */
+.wj-treeview .wj-node.wj-state-selected {
+  background: #19a26b;
+  color: #ffffff;
+}
+/* -- Viewer -- */
+.wj-viewer .wj-toolbar,
+.wj-viewer .wj-viewer-leftpanel {
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-svg-btn,
+.wj-viewer .wj-viewer-leftpanel .wj-svg-btn {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane input[type='text'] {
+  color: #ffffff;
+}
+.wj-content.wj-viewer-outer:not(.customEdit) .wj-btn-group .wj-btn.wj-state-active .wj-svg-btn {
+  fill: #19a26b;
+  stroke: #19a26b;
+}
+.wj-viewer .wj-outlines-tree .wj-state-selected {
+  background-color: #4d6e8c;
+}
+.wj-viewer .wj-outlines-tree .wj-cell a,
+.wj-viewer .wj-outlines-tree .wj-cell a:hover {
+  color: #19a26b;
+}
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a,
+.wj-viewer .wj-outlines-tree .wj-cell.wj-state-selected a:hover {
+  color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn {
+  background: #000000;
+  color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:hover,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:hover,
+.wj-viewer wj-toolbar-move left:hover,
+.wj-viewer wj-toolbar-move right:hover,
+.wj-control.wj-viewer a[wj-part^="btn-"],
+.wj-control.wj-viewer a[wj-part^="btn-"]:hover {
+  background-color: #4d6e8c;
+  color: #ffffff;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:hover .wj-svg-btn,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:hover .wj-svg-btn,
+.wj-viewer wj-toolbar-move left:hover .wj-svg-btn,
+.wj-viewer wj-toolbar-move right:hover .wj-svg-btn,
+.wj-control.wj-viewer a[wj-part^="btn-"] .wj-svg-btn,
+.wj-control.wj-viewer a[wj-part^="btn-"]:hover .wj-svg-btn {
+  fill: #ffffff;
+  stroke: #ffffff;
+  opacity: 1;
+}
+.wj-viewer .wj-toolbar .wj-btn-group > .wj-btn:focus,
+.wj-content:not(.customEdit) .wj-viewer-leftpanel .wj-btn-group .wj-btn:focus,
+.wj-control.wj-viewer a[wj-part^="btn-"]:focus {
+  background-color: none;
+  color: #ffffff;
+}
+.wj-viewer .wj-input-group {
+  border: 1px solid #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabtitle-wrapper,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabcontent-wrapper,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-outlines-tree,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-flexgrid div[wj-part='root'],
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-searchresult,
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabcontent-inner {
+  background: #000000;
+  color: #ffffff;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-btn-group {
+  border-radius: 0;
+}
+.wj-viewer .wj-tabcontent .wj-tabpane .wj-tabtitle,
+.wj-viewer .wj-tabcontent .wj-tabpane legend {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.wj-viewer .wj-tabcontent .active {
+  border-color: #ffffff;
+}
+.wj-multi-autocomplete {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.wj-content.wj-multi-autocomplete .wj-input-group .wj-form-control {
+  color: #333;
+}
+

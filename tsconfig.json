@@ -4,12 +4,15 @@
         "target": "es6",
         "outDir": "out",
         "lib": [
-            "es6"
+            "es6",
+            "dom"
         ],
         "sourceMap": true,
         "rootDir": "."
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "src/content",
+        "out/src/content"
     ]
 }

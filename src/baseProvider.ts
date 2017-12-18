@@ -1,24 +1,18 @@
 'use strict';
-import {workspace, Disposable, Event, EventEmitter, Uri, TextDocumentContentProvider, Memento} from 'vscode';
+import {workspace, ExtensionContext, Disposable, Event, EventEmitter, Uri, TextDocumentContentProvider, Memento} from 'vscode';
 
 export abstract class BaseDocumentContentProvider implements TextDocumentContentProvider {
     
-    private _version: string;
     private _storage: Memento;
     private _uri: Uri;
     private _onDidChange = new EventEmitter<Uri>();
 
-    constructor(version: string, storage?: Memento) {
-        this._version = version;
-        this._storage = storage;
+    constructor(context: ExtensionContext) {
+        this._storage = context.workspaceState;
     }
     
     dispose() {
         this._onDidChange.dispose();
-    }
-    
-    get version(): string {
-        return this._version;
     }
     
     get storage(): Memento {
@@ -34,8 +28,7 @@ export abstract class BaseDocumentContentProvider implements TextDocumentContent
     }
 
     get state(): any {
-        var s = this.storage.get(this.uri.toString());
-        return s ? JSON.stringify(s) : null;
+        return this.storage.get(this.uri.toString());
     }
     
     public provideTextDocumentContent(uri: Uri): string | Thenable<string> {
@@ -58,5 +51,5 @@ export abstract class BaseDocumentContentProvider implements TextDocumentContent
     }
     
     abstract createSnippet(uri: Uri): string | Thenable<string>;
-    abstract snippet(text: string, theme: string, ver: string): string;
+    abstract snippet(): string;
 }

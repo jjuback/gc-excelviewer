@@ -6,11 +6,10 @@ import * as path from 'path';
 
 export function activate(context: ExtensionContext) {
     
-    let version = "5.20171.282";
     let previewUri: Uri;
-    let csvProvider = new csv.CsvDocumentContentProvider(version, context.workspaceState);
+    let csvProvider = new csv.CsvDocumentContentProvider(context);
     let csvSubscription = workspace.registerTextDocumentContentProvider('csv-preview', csvProvider);
-    let excelProvider = new excel.ExcelDocumentContentProvider(version, context.workspaceState);
+    let excelProvider = new excel.ExcelDocumentContentProvider(context);
     let excelSubscription = workspace.registerTextDocumentContentProvider('excel-preview', excelProvider);
     
     let csvCommand = commands.registerCommand('csv.preview', (uri) => {
@@ -88,16 +87,6 @@ export function activate(context: ExtensionContext) {
             });
         }
     });
-
-    let storageCommand = commands.registerCommand('_grapecity.storage', (key, value?) => {
-        if (value) {
-            csvProvider.storage.update(key, value);
-        } else {
-            return csvProvider.storage.get(key);
-        }
-    });
-
-    context.subscriptions.push(storageCommand);
 
     let clearCommand = commands.registerCommand('csv.clearState', () => {
         if (previewUri && csvProvider.storage.get(previewUri.toString())) {
