@@ -22,12 +22,12 @@ To change the default configuration settings for the Excel Viewer extension, edi
 
 Setting | Type | Default Value | Description
 ------- | ---- | ------------- | -----------
-csv&#8209;preview.separator | string | , (comma) | Specifies the separator used in a CSV file.
-csv&#8209;preview.quoteMark | string | "&nbsp;(double&#8209;quote) | Specifies the optional character used to surround individual values in a CSV file.
-csv&#8209;preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
-csv&#8209;preview.capitalizeHeaders | boolean | true | Specifies whether column headers in CSV files are capitalized.
-csv&#8209;preview.resizeColumns | string | none | Specifies whether columns are automatically resized to fit the data for CSV files.
-csv&#8209;preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
+csv-preview.separator | string | , (comma) | Specifies the separator used in a CSV file.
+csv-preview.quoteMark | string | "&nbsp;(double&#8209;quote) | Specifies the optional character used to surround individual values in a CSV file.
+csv-preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
+csv-preview.capitalizeHeaders | boolean | true | Specifies whether column headers in CSV files are capitalized.
+csv-preview.resizeColumns | string | none | Specifies whether columns are automatically resized to fit the data for CSV files.
+csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
 > As of version 1.1.9, any open CSV/Excel previews will automatically update to reflect the modified settings.
 
