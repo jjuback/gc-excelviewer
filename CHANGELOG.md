@@ -1,3 +1,8 @@
+## 2.0.17 (January 12, 2018)
+Excel preview now uses the ambient font instead of switching to Arial, if present.
+
+Removed references to .xls files in the extension manifest and documentation. Only .xlsx files are supported.
+
 ## 2.0.16 (December 18, 2017)
 The extension no longer relies upon the Wijmo CDN for external file references. This fixes issues where the extension would not run behind a firewall or proxy server.
 

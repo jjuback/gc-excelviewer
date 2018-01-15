@@ -10,6 +10,7 @@ function processFile(storage, callback) {
 
 function renderFile(data, options) {
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
+    wijmo.setCss(sheet.hostElement, { "font-family": "" });
     var nag = getNagLink();
     var json = options.state;
     
