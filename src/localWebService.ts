@@ -31,6 +31,7 @@ export default class LocalWebService {
         });
         this.app.post('/state', function (req, res) {
             context.workspaceState.update(self._options.uri, req.body);
+            res.send(200);
         });
         this.server.on('request', this.app);
     }

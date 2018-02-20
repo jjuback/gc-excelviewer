@@ -11,10 +11,15 @@ function loadFile(server, callback) {
     xhr.send();
 }
 
-function postState(server, state) {
+function postState(server, state, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", server + "/state");
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            callback();
+        }
+    };
     xhr.send(JSON.stringify(state));
 }
 
