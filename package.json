@@ -50,7 +50,7 @@
             {
                 "id": "excel",
                 "extensions": [
-                    ".xlsx"
+                    ".xlsx", ".xlsm"
                 ],
                 "aliases": [
                     "Excel"
