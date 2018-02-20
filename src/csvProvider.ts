@@ -20,7 +20,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
             scheme: "file"
         });
         return workspace.openTextDocument(file).then(doc => {
-            let lang = doc.languageId;
+            let lang = doc ? doc.languageId : null;
             if (lang !== 'csv' && lang !== 'plaintext') {
                 return this.errorSnippet("Active editor doesn't show a CSV or plain text document.");
             }

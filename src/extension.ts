@@ -101,8 +101,11 @@ export function deactivate() {
 }
 
 function isCsvFile(document: TextDocument) {
-    let lang = document.languageId;
-	return (lang === 'csv' || lang === 'plaintext') && document.uri.scheme !== 'csv-preview';
+    if (document) {
+        let lang = document.languageId;
+        return (lang === 'csv' || lang === 'plaintext') && document.uri.scheme !== 'csv-preview';
+    }
+    return false;
 }
 
 function getViewColumn(): ViewColumn {
