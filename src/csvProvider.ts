@@ -78,7 +78,7 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         <script src="${this.serviceUrl}/js-base64.js"></script>
         <script src="${this.serviceUrl}/common.js"></script>
         <script src="${this.serviceUrl}/csv.js"></script>
-        <body onload="resizeGrid()" onresize="resizeGrid()">
+        <body style="padding:0px; overflow:hidden" onload="resizeGrid()" onresize="resizeGrid()">
             <div id="flex"></div>
         </body>
         <script type="text/javascript">

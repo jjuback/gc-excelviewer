@@ -82,8 +82,9 @@ function renderFile(data, options) {
 
     var filter = new wijmo.grid.filter.FlexGridFilter(flex);
     var nag = getNagLink();
+    var busy = false, pending = false;
 
-    function invoke() {
+    function getState() {
         var state = {
             columnLayout: flex.columnLayout,
             filterDefinition: filter.filterDefinition,
@@ -92,47 +93,73 @@ function renderFile(data, options) {
                     property: sd.property,
                     ascending: sd.ascending
                 }
-            })
+            }),
+            scrollPosition: flex.scrollPosition
         };
-        postState(gcLocalServer, state);
+        return state;
+    }
+
+    function preserveState() {
+        if (!busy) {
+            busy = true;
+            var state = getState();
+            postState(gcLocalServer, state, function() {
+                busy = false;
+                if (pending) {
+                    pending = false;
+                    preserveState();
+                }
+            })
+        } else {
+            pending = true;
+        }
+    }
+
+    function layoutChanged(state, flex) {
+        var stateCols = JSON.parse(state.columnLayout).columns;
+        var flexCols = JSON.parse(flex.columnLayout).columns;
+        if (stateCols.length != flexCols.length) {
+            return true;
+        }
+        for (var i = 0; i < stateCols.length; i++) {
+            if (stateCols[i].name !== flexCols[i].name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function applyState() {
+        var json = options.state;
+        if (json && !layoutChanged(json, flex)) {
+            flex.columnLayout = json.columnLayout;
+            filter.filterDefinition = json.filterDefinition;
+            json.sortDescriptions.forEach(function (item) {
+                var sd = new wijmo.collections.SortDescription(item.property, item.ascending);
+                flex.collectionView.sortDescriptions.push(sd);
+            });
+            if (json.scrollPosition) {
+                flex.scrollPosition = json.scrollPosition;
+            }
+        }    
     }
 
     flex.collectionView.collectionChanged.addHandler(() => {
-        setTimeout(invoke, 500);
+        preserveState();
     });
 
     flex.resizedColumn.addHandler(() => {
-        setTimeout(invoke, 500);
+        preserveState();
     });
 
-    var json = options.state;
-    if (json && !layoutChanged(json, flex)) {
-        flex.columnLayout = json.columnLayout;
-        filter.filterDefinition = json.filterDefinition;
-        json.sortDescriptions.forEach(function (item) {
-            var sd = new wijmo.collections.SortDescription(item.property, item.ascending);
-            flex.collectionView.sortDescriptions.push(sd);
-        });       
-    }
-}
+    flex.scrollPositionChanged.addHandler(() => {
+        preserveState();
+    });
 
-function layoutChanged(state, flex) {
-    var stateCols = JSON.parse(state.columnLayout).columns;
-    var flexCols = JSON.parse(flex.columnLayout).columns;
-    if (stateCols.length != flexCols.length) {
-        return true;
-    }
-    for (var i = 0; i < stateCols.length; i++) {
-        if (stateCols[i].name !== flexCols[i].name) {
-            return true;
-        }
-    }
-    return false;
+    applyState();
 }
 
 function resizeGrid() {
     var div = wijmo.getElement("#flex");
-    var html = wijmo.getElement("html");
-    div.style.width = html.clientWidth.toString() + "px";
-    div.style.height = html.clientHeight.toString() + "px";
+    div.style.height = window.frameElement.offsetHeight.toString() + "px";
 }
