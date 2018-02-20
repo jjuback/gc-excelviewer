@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,14 +15,19 @@
  */
 var wijmo;
 (function (wijmo) {
-    wijmo.culture = {
+    // process the scenario where "wijmo" !== "window['wijmo']", for example when culture file is loaded
+    // using 'import' statement in a WebPack bundled app, where "wijmo" will be local to this module.
+    if (!window['wijmo']) {
+        window['wijmo'] = wijmo;
+    }
+    wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'nl',
             displayName: 'Dutch',
             numberFormat: {
                 '.': ',',
                 ',': '.',
-                percent: { pattern: ['-n %', 'n %'] },
+                percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['$ -n', '$ n'] }
             },
             calendar: {
@@ -59,7 +64,7 @@ var wijmo;
             ascending: '\u2191 Oplopend',
             descending: '\u2193 Aflopend',
             apply: 'Toepassen',
-            cancel: 'Avbryt',
+            cancel: 'Annuleren',
             clear: 'Wissen',
             conditions: 'Filteren op voorwaarde',
             values: 'Filteren op waarde',

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -183,6 +183,13 @@ declare module wijmo {
      * @param value Value to test.
      */
     function isObject(value: any): boolean;
+    /**
+     * Determines whether an object is empty
+     * (contains no enumerable properties).
+     *
+     * @param obj Object to test.
+     */
+    function isEmpty(obj: any): boolean;
     /**
      * Creates a new unique id for an element by adding sequential
      * numbers to a given base id.
@@ -476,6 +483,12 @@ declare module wijmo {
      * @param end Offset into the text field for the end of the selection.
      */
     function setSelectionRange(e: HTMLInputElement, start: number, end?: number): void;
+    /**
+     * Safely removes an element from the DOM tree.
+     *
+     * @param e Element to remove from the DOM tree.
+     */
+    function removeChild(e: Node): Node;
     /**
      * Gets a reference to the element that contains the focus,
      * accounting for shadow document fragments.
@@ -969,7 +982,7 @@ declare module wijmo {
          * Standard Numeric Format Strings</a>, except for the 'e' and 'x' formats
          * (scientific notation and hexadecimal) which are not supported.
          *
-         * Numeric format strings take the form <i>Axxccss</i>, where:
+         * Numeric format strings take the form <i>Axxsscc</i>, where:
          * <ul>
          * <li>
          *  <i>A</i> is a single case-insensitive alphabetic character called the
@@ -978,15 +991,15 @@ declare module wijmo {
          *  <i>xx</i> is an optional integer called the precision specifier.
          *  The precision specifier affects the number of digits in the result.</li>
          * <li>
+         *  <i>ss</i> is an optional string used to scale the number. If provided,
+         *  it must consist of commas. The number is divided by 1000 for each comma
+         *  specified.</li>
+         * <li>
          *  <i>cc</i> is an optional string used to override the currency symbol
          *  when formatting currency values. This is useful when formatting
          *  currency values for cultures different than the current default
          *  (for example, when formatting Euro or Yen values in applications
          *  that use the English culture).</li>
-         * <li>
-         *  <i>ss</i> is an optional string used to scale the number. If provided,
-         *  it must consist of commas. The number is divided by 1000 for each comma
-         *  specified.</li>
          * </ul>
          *
          * The following table describes the standard numeric format specifiers and
@@ -1252,6 +1265,10 @@ declare module wijmo {
          * Gets a value that indicates whether this event has any handlers.
          */
         readonly hasHandlers: boolean;
+        /**
+         * Gets the number of handlers added to this event.
+         */
+        readonly handlerCount: number;
     }
     /**
      * Base class for event arguments.
@@ -1345,17 +1362,22 @@ declare module wijmo {
         protected static _wme: HTMLElement;
         static _touching: boolean;
         static _REFRESH_INTERVAL: number;
+        static _FOCUS_INTERVAL: number;
         static _ANIM_DEF_DURATION: number;
         static _ANIM_DEF_STEP: number;
+        static _CLICK_DELAY: number;
+        static _CLICK_REPEAT: number;
+        static _CLIPBOARD_DELAY: number;
         static _CTRL_KEY: string;
         static _OWNR_KEY: string;
         static _SCRL_KEY: string;
         static _rxInputAtts: RegExp;
         protected _e: HTMLElement;
         protected _orgOuter: string;
-        protected _orgInner: string;
-        protected _listeners: any;
         protected _orgTag: string;
+        protected _orgAtts: NamedNodeMap;
+        protected _pristine: boolean;
+        protected _listeners: any;
         protected _focus: boolean;
         protected _updating: number;
         protected _fullUpdate: boolean;
@@ -1586,6 +1608,22 @@ declare module wijmo {
          * Raises the @see:lostFocus event.
          */
         onLostFocus(e?: EventArgs): void;
+        /**
+         * Occurs when the control is about to refresh its contents.
+         */
+        readonly refreshing: Event;
+        /**
+         * Raises the @see:refreshing event.
+         */
+        onRefreshing(e?: EventArgs): void;
+        /**
+         * Occurs after the control has refreshed its contents.
+         */
+        readonly refreshed: Event;
+        /**
+         * Raises the @see:refreshed event.
+         */
+        onRefreshed(e?: EventArgs): void;
         _hasPendingUpdates(): boolean;
         private static _updateWme();
         protected _handleResize(): void;
@@ -1595,6 +1633,7 @@ declare module wijmo {
         protected _handleTouchEnd(e: any): void;
         private _handleDisabled(e);
         private _replaceWithDiv(element);
+        private _copyAttributes(e, atts, names);
     }
 }
 
@@ -2568,7 +2607,8 @@ declare module wijmo.collections {
          * @param e Contains a description of the change.
          */
         onCollectionChanged(e?: NotifyCollectionChangedEventArgs): void;
-        private _raiseCollectionChanged(action?, item?, index?);
+        protected _raiseCollectionChanged(action?: NotifyCollectionChangedAction, item?: any, index?: number): void;
+        protected _notifyItemChanged(item: any): void;
         /**
          * Occurs before the value of the @see:sourceCollection property changes.
          */
@@ -2640,7 +2680,7 @@ declare module wijmo.collections {
          */
         readonly isEmpty: boolean;
         /**
-         * Gets a collection of @see:SortDescription objects that describe how the items
+         * Gets an array of @see:SortDescription objects that describe how the items
          * in the collection are sorted in the view.
          */
         readonly sortDescriptions: ObservableArray;
@@ -3339,7 +3379,7 @@ declare module wijmo {
          * content as a parameter.
          */
         static paste(callback: Function): void;
-        private static _copyPasteInternal(textOrCallback);
+        private static _copyPaste(copyText, pasteCallback);
     }
 }
 
@@ -3380,10 +3420,12 @@ declare module wijmo {
      *
      * @param popup Popup element to hide.
      * @param remove Whether to remove the popup from the DOM or just to hide it.
+     * This parameter may be a boolean or a callback function that gets invoked
+     * after the popup has been removed from the DOM.
      * @param fadeOut Whether to use a fade-out animation to make the popup disappear gradually.
      * @return An interval id that you can use to suspend the fade-out animation.
      */
-    function hidePopup(popup: HTMLElement, remove?: boolean, fadeOut?: boolean): any;
+    function hidePopup(popup: HTMLElement, remove?: any, fadeOut?: boolean): any;
 }
 
 declare module wijmo {
@@ -3470,6 +3512,7 @@ declare module wijmo {
         _backSpace: boolean;
         _composing: boolean;
         _full: boolean;
+        _matchEnd: number;
         _autoComplete: string;
         _spellCheck: boolean;
         _hbInput: any;
@@ -3477,6 +3520,7 @@ declare module wijmo {
         _hbKeyPress: any;
         _hbCompositionStart: any;
         _hbCompositionEnd: any;
+        _evtInput: any;
         static _X_DBCS_BIG_HIRA: string;
         static _X_DBCS_BIG_KATA: string;
         static _X_SBCS_BIG_KATA: string;
@@ -3516,14 +3560,14 @@ declare module wijmo {
          * Updates the control mask and content.
          */
         refresh(): void;
-        _input(): void;
+        _input(e: any): void;
         _keydown(e: KeyboardEvent): void;
         _keypress(e: KeyboardEvent): void;
         _compositionstart(e: KeyboardEvent): void;
         _compositionend(e: KeyboardEvent): void;
         _preventKey(charCode: number): boolean;
         _connect(connect: boolean): void;
-        _valueChanged(): void;
+        _valueChanged(): boolean;
         _applyMask(): string;
         _handleVagueLiterals(text: string): string;
         _isCharValid(mask: string, c: string): boolean;
@@ -3545,6 +3589,43 @@ declare module wijmo {
          * @param charCase Whether to convert wildcard matches to upper or lowercase.
          */
         constructor(wildcardOrLiteral: string, charCase?: string);
+    }
+}
+
+declare module wijmo {
+    /**
+     * Class that provides repeat-clicking on behalf of an HTMLElement
+     * (typically a button).
+     */
+    class _ClickRepeater {
+        private static _stopEvents;
+        private _e;
+        private _disabled;
+        private _isDown;
+        private _toDelay;
+        private _toRepeat;
+        private _mousedownBnd;
+        private _mouseupBnd;
+        private _onClickBnd;
+        /**
+         * Initializes a new instance of the @see:_ClickRepeater class.
+         *
+         * @param element Element that will raise click events while the mouse is down.
+         */
+        constructor(element: HTMLElement);
+        /**
+         * Gets or sets the element that will raise click events while the mouse is down.
+         */
+        element: HTMLElement;
+        /**
+         * Gets or sets a value that determines whether this repeater is disabled.
+         */
+        disabled: boolean;
+        _connect(connect: boolean): void;
+        _clearTimeouts(): void;
+        _mousedown(e: MouseEvent): void;
+        _mouseup(e: MouseEvent): void;
+        _onClick(): void;
     }
 }
 

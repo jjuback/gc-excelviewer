@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -11,14 +11,19 @@
     *
     */
 /*
- * Wijmo culture file: ru (Russian)
+ * Wijmo culture file: ru (Русский)
  */
 var wijmo;
 (function (wijmo) {
-    wijmo.culture = {
+    // process the scenario where "wijmo" !== "window['wijmo']", for example when culture file is loaded
+    // using 'import' statement in a WebPack bundled app, where "wijmo" will be local to this module.
+    if (!window['wijmo']) {
+        window['wijmo'] = wijmo;
+    }
+    wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'ru',
-            displayName: 'Russian',
+            displayName: 'Русский',
             numberFormat: {
                 '.': ',',
                 ',': ' ',
@@ -59,7 +64,7 @@ var wijmo;
             ascending: '\u2191 По возрастанию',
             descending: '\u2193 По убыванию',
             apply: 'Применить',
-            cancel: 'Отказаться',
+            cancel: 'Отмена',
             clear: 'Очистить',
             conditions: 'Фильтр по условию',
             values: 'Фильтр по значению',

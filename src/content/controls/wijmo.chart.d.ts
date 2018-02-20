@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -196,9 +196,46 @@ declare module wijmo.chart {
         selectionMode: SelectionMode;
         /**
          * Gets or sets the item formatter function that allows you to customize
-         * the appearance of data points. See the Explorer sample's <a target="_blank"
-         * href="http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/chart/itemFormatter">
-         * Item Formatter</a> for a demonstration.
+         * the appearance of the chart elements.
+         *
+         * If specified, the function should take three parameters: the chart's
+         * @see:IRenderEngine responsible for rendering elements on the chart,
+         * a @see:HitTestInfo parameter that describes the element being rendered,
+         * and a function that provides the default rendering for the item.
+         *
+         * For example:
+         * <pre>
+         * itemFormatter: function (engine, hitTestInfo, defaultRenderer) {
+         *   var ht = hitTestInfo,
+         *       binding = 'downloads';
+         *
+         *   // check that this is the right series/element
+         *   if (ht.series.binding == binding && ht.pointIndex &gt; 0 &&
+         *       ht.chartElement == wijmo.chart.ChartElement.SeriesSymbol) {
+         *
+         *     // get current and previous values
+         *     var chart = ht.series.chart,
+         *         items = chart.collectionView.items,
+         *         valNow = items[ht.pointIndex][binding],
+         *         valPrev = items[ht.pointIndex - 1][binding];
+         *
+         *     // add line if value is increasing
+         *     if (valNow &gt; valPrev) {
+         *       var pt1 = chart.dataToPoint(ht.pointIndex, valNow),
+         *           pt2 = chart.dataToPoint(ht.pointIndex - 1, valPrev);
+         *       engine.drawLine(pt1.x, pt1.y, pt2.x, pt2.y, null, {
+         *         stroke: 'gold',
+         *         strokeWidth: 6
+         *       });
+         *     }
+         *   }
+         *
+         *   // render element as usual
+         *   defaultRenderer();
+         * }
+         * </pre>
+         *
+         * @fiddle:rptz23nL
          */
         itemFormatter: Function;
         /**
@@ -222,16 +259,20 @@ declare module wijmo.chart {
          */
         onRendering(e: RenderEventArgs): void;
         /**
-         * Save chart to an image file. The function doesn't work in IE browsers.
-         * Add wijmo.chart.render module on page to support chart export in IE browsers.
+         * Saves the chart to an image file.
+         *
+         * NOTE: This method does not work in IE browsers. If you require IE support,
+         * add the <code>wijmo.chart.render</code> module to the page.
          *
          * @param filename The filename for the exported image file including extension.
          * Supported types are PNG, JPEG and SVG.
          */
         saveImageToFile(filename: string): void;
         /**
-         * Save chart to image data url. The function doesn't work in IE browsers.
-         * Add wijmo.chart.render module on page to support chart export in IE browsers.
+         * Saves the chart to an image data url.
+         *
+         * NOTE: This method does not work in IE browsers. If you require IE support,
+         * add the <code>wijmo.chart.render</code> module to the page.
          *
          * @param format The @see:ImageFormat for the exported image.
          * @param done A function to be called after data url is generated. The function gets passed the data url as its argument.
@@ -2149,6 +2190,9 @@ declare module wijmo.chart {
     class Legend {
         _chart: FlexChartBase;
         _position: Position;
+        private _title;
+        private _titleAlign;
+        private _titlePadding;
         private _areas;
         private _sz;
         private _colRowLens;
@@ -2163,6 +2207,15 @@ declare module wijmo.chart {
          * appears in relation to the plot area.
          */
         position: Position;
+        /**
+         * Gets or sets a value that determines the title of the legend.
+         */
+        title: string;
+        /**
+         * Gets or sets a value that determines the align value of the legend.
+         * The value should be 'left', 'center' or 'right'.
+         */
+        titleAlign: string;
         _getDesiredSize(engine: IRenderEngine, pos: Position, w: number, h: number): Size;
         _getPosition(w: number, h: number): Position;
         _render(engine: IRenderEngine, pt: Point, pos: Position, w: number, h: number): void;
@@ -2224,8 +2277,12 @@ declare module wijmo.chart {
          */
         constructor(chart: FlexChartBase, point: Point, element?: ChartElement);
         /**
-         * Gets the point in control coordinates to which this @see:wijmo.chart.HitTestInfo
-         * object refers to.
+         * Gets the @see:FlexChartBase that owns this @see:wijmo.chart.HitTestInfo.
+         */
+        readonly chart: FlexChartBase;
+        /**
+         * Gets the point, in control coordinates,
+         * that this @see:wijmo.chart.HitTestInfo refers to.
          */
         readonly point: Point;
         /**
@@ -2241,7 +2298,7 @@ declare module wijmo.chart {
          */
         readonly chartElement: ChartElement;
         /**
-         * Gets the distance from the closest data point.
+         * Gets the distance to the closest data point.
          */
         readonly distance: number;
         /**
@@ -2263,6 +2320,8 @@ declare module wijmo.chart {
         _setData(series: SeriesBase, pi?: number): void;
         _setDataPoint(dataPoint: _DataPoint): void;
         private _getValue(index, formatted);
+        private readonly ax;
+        private readonly ay;
     }
 }
 
@@ -2875,6 +2934,7 @@ declare module wijmo.chart {
         load(): void;
         unload(): void;
         adjustLimits(dataInfo: _DataInfo, plotRect: Rect): Rect;
+        private _isRange(series);
         plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
         private drawSymbol(engine, rect, series, pointIndex, point);
         private drawDefaultSymbol(engine, rect, series);

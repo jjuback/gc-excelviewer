@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -51,6 +51,7 @@ declare module wijmo.odata {
         _sortOnServer: boolean;
         _pageOnServer: boolean;
         _filterOnServer: boolean;
+        _showDatesAsGmt: boolean;
         _inferDataTypes: boolean;
         _dataTypesInferred: any;
         _filterDef: string;
@@ -154,6 +155,11 @@ declare module wijmo.odata {
          * the @see:dataTypes property.
          */
         inferDataTypes: boolean;
+        /**
+         * Gets or sets a value that determines whether dates should be adjusted
+         * to look like GMT rather than local dates.
+         */
+        showDatesAsGmt: boolean;
         /**
          * Gets or sets a value that determines whether sort operations
          * should be performed on the server or on the client.
@@ -335,7 +341,7 @@ declare module wijmo.odata {
         _getReadUrl(nextLink?: string): string;
         _getReadParams(nextLink?: string): any;
         _getData(nextLink?: string): void;
-        private _stringifyNumbers(item);
+        private _convertToDbFormat(item);
         private _convertItem(dataTypes, item);
         private _getInferredDataTypes(arr);
         private _getServiceUrl();

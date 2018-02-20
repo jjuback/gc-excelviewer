@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,7 +15,12 @@
  */
 var wijmo;
 (function (wijmo) {
-    wijmo.culture = {
+    // process the scenario where "wijmo" !== "window['wijmo']", for example when culture file is loaded
+    // using 'import' statement in a WebPack bundled app, where "wijmo" will be local to this module.
+    if (!window['wijmo']) {
+        window['wijmo'] = wijmo;
+    }
+    wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'ro',
             displayName: 'Romanian',
@@ -59,7 +64,7 @@ var wijmo;
             ascending: '\u2191 Crescător',
             descending: '\u2193 Descrescător',
             apply: 'Aplicare',
-            cancel: 'Revocare',
+            cancel: 'Anulare',
             clear: 'Golire',
             conditions: 'Filtrare după stare',
             values: 'Filtrare după valoare',

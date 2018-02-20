@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -115,6 +115,7 @@ declare module wijmo.grid {
         _rcBounds: Rect;
         _ptScrl: Point;
         _cellPadding: number;
+        _clipToScreen: boolean;
         _mouseHdl: _MouseHandler;
         _edtHdl: _EditHandler;
         _selHdl: _SelectionHandler;
@@ -160,9 +161,9 @@ declare module wijmo.grid {
         private _deferResizing;
         private _bndSortConverter;
         private _bndScroll;
-        private _afScrl;
         private _stickyHdr;
-        private _toSticky;
+        private _afScrl;
+        private _afSticky;
         private _pSel;
         private _pOutline;
         private _vt;
@@ -222,7 +223,6 @@ declare module wijmo.grid {
          * the large number of elements on the page.
          */
         virtualizationThreshold: number;
-        _virtualizationThreshold: number;
         /**
          * Gets or sets a value that determines whether the grid should generate columns
          * automatically based on the @see:itemsSource.
@@ -886,9 +886,11 @@ declare module wijmo.grid {
          *
          * @param r Index of the row to scroll into view.
          * @param c Index of the column to scroll into view.
+         * @param refresh Optional parameter that determines whether the grid
+         * should refresh to show the new scroll position immediately.
          * @return True if the grid scrolled.
          */
-        scrollIntoView(r: number, c: number): boolean;
+        scrollIntoView(r: number, c: number, refresh?: boolean): boolean;
         /**
          * Checks whether a given CellRange is valid for this grid's row and column collections.
          *
@@ -984,7 +986,7 @@ declare module wijmo.grid {
          * buttons to the cells in columns that have the @see:Column.showDropDown
          * property set to true.
          *
-         * The drop-down buttons are shown only on columns that have a @see:dataMap
+         * The drop-down buttons are shown only on columns that have a @see:Column.dataMap
          * set and are editable. Clicking on the drop-down buttons causes the grid
          * to show a list where users can select the value for the cell.
          *
@@ -1017,6 +1019,17 @@ declare module wijmo.grid {
          * }, true);</pre>
          */
         toggleDropDownList(): void;
+        /**
+         * Occurs after the grid has been bound to a new items source.
+         */
+        readonly itemsSourceChanging: Event;
+        /**
+         * Raises the @see:itemsSourceChanged event.
+         *
+         * @param e @see:CancelEventArgs that contains the event data.
+         * @return True if the event was not canceled.
+         */
+        onItemsSourceChanging(e: CancelEventArgs): boolean;
         /**
          * Occurs after the grid has been bound to a new items source.
          */
@@ -1610,8 +1623,9 @@ declare module wijmo.grid {
         _getError(p: GridPanel, r: number, c: number): string;
         private _setAria(name, value);
         private _setFocus(force);
-        _setFocusNoScroll(cell: HTMLElement): void;
+        _setFocusNoScroll(e: HTMLElement): void;
         private _getDefaultRowHeight();
+        private _getDefaultCellPadding();
         protected _getCollectionView(value: any): collections.ICollectionView;
         private _getCanvasContext();
         private _getWidestRow(p, rowRange, col, ctx);
@@ -1622,14 +1636,15 @@ declare module wijmo.grid {
         private _sortConverter(sd, item, value, init);
         protected _bindGrid(full: boolean): void;
         _cvCollectionChanged(sender: any, e: collections.NotifyCollectionChangedEventArgs): void;
-        private _cvCurrentChanged(sender, e);
+        private _cvCurrentChanged(s, e);
+        private _syncSelection(force);
         private _getRowIndex(index);
         _getCvIndex(index: number): number;
         private _findRow(data);
         private _updateLayout();
         private _updateStickyHeaders();
         private _updateScrollHandler();
-        _clipToScreen(): boolean;
+        _getClipToScreen(): boolean;
         private _scroll(e);
         private _updateScrollPosition();
         private _updateContent(recycle, state?);
@@ -1716,11 +1731,17 @@ declare module wijmo.grid {
      */
     class CellEditEndingEventArgs extends CellRangeEventArgs {
         _stayInEditMode: boolean;
+        _refresh: boolean;
         /**
          * Gets or sets whether the cell should remain in edit mode instead
          * of finishing the edits.
          */
         stayInEditMode: boolean;
+        /**
+         * Gets or sets a value that determines whether the grid should refresh
+         * all its contents after the edits are done.
+         */
+        refresh: boolean;
     }
 }
 
@@ -1854,6 +1875,7 @@ declare module wijmo.grid {
         readonly hostElement: HTMLElement;
         _getOffsetY(): number;
         _updateContent(recycle: boolean, state: boolean, offsetY: number): HTMLElement;
+        _updateScrollPosition(): void;
         _clearCells(): void;
         _reorderCells(rngNew: CellRange, rngOld: CellRange): void;
         _createRange(start: number, end: number): Range;

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -54,14 +54,14 @@ declare module wijmo.olap {
      * <pre>{ Country: 'UK', Customer: 'Joe', Category: 'Desserts', Product: 'Pie' };</pre>
      */
     class _PivotKey {
-        _fields: PivotFieldCollection;
-        _fieldCount: number;
-        _valueFields: PivotFieldCollection;
-        _valueFieldIndex: number;
-        _item: any;
-        _key: string;
-        _vals: any[];
-        _names: string[];
+        private _fields;
+        private _fieldCount;
+        private _valueFields;
+        private _valueFieldIndex;
+        private _item;
+        private _key;
+        private _vals;
+        private _names;
         static _ROW_KEY_NAME: string;
         /**
          * Initializes a new instance of the @see:PivotKey class.
@@ -82,6 +82,10 @@ declare module wijmo.olap {
          */
         readonly valueFields: PivotFieldCollection;
         /**
+         * Gets the @see:PivotField that contains the main value for this key.
+         */
+        readonly valueField: PivotField;
+        /**
          * Gets an array with the values used to create this key.
          */
         readonly values: any[];
@@ -100,6 +104,14 @@ declare module wijmo.olap {
          * @param formatted Whether to return a formatted string or the raw value.
          */
         getValue(index: number, formatted: boolean): any;
+        /**
+         * Gets the subtotal level that this key represents.
+         *
+         * The value -1 indicates the key does not represent a subtotal.
+         * Zero indicates a grand total.
+         * Values greater than zero indicate the subtotal level.
+         */
+        readonly level: number;
         /**
          * Comparer function used to sort arrays of @see:_PivotKey objects.
          *
@@ -191,7 +203,12 @@ declare module wijmo.olap {
          */
         readonly engine: PivotEngine;
         _performSort(items: any[]): void;
-        _getRowLevel(items: any[], index: number): number;
+        _performFilter(items: any[]): any[];
+        _getGroupRange(items: any[], item: any): number[];
+        _sortGroups(items: any[], level: number, start: number, end: number): void;
+        _sortSegment(items: any[], start: number, end: number): void;
+        _sortData(items: any[]): void;
+        _getItemLevel(item: any): any;
     }
 }
 
@@ -262,6 +279,17 @@ declare module wijmo.olap {
          * Gets or sets the data type of the field.
          */
         dataType: DataType;
+        /**
+         * Gets a value that indicates whether the field is a measure or
+         * a dimension.
+         *
+         * Measures as also known as 'facts'. They are typically numeric
+         * values that can be aggregated to convey information about the field.
+         *
+         * Dimensions are typically strings, dates, or boolean values that
+         * can be used to divide measures into categories.
+         */
+        readonly isMeasure: boolean;
         /**
          * Gets or sets the format to use when displaying field values.
          */
@@ -375,15 +403,6 @@ declare module wijmo.olap {
         private _subFields;
         private _dimensionType;
         /**
-         * Initializes a new instance of the @see:PivotField class.
-         *
-         * @param engine @see:PivotEngine that owns this field.
-         * @param binding Property that this field is bound to.
-         * @param header Header shown to identify this field (defaults to the binding).
-         * @param options JavaScript object containing initialization data for the field.
-         */
-        constructor(engine: PivotEngine, binding: string, header?: string, options?: any);
-        /**
          * Gets or sets a string used to represent this field in the user interface.
          */
         header: string;
@@ -391,6 +410,10 @@ declare module wijmo.olap {
          * Gets or sets the dimension type of the field.
          */
         dimensionType: DimensionType;
+        /**
+         * Overridden to account for the dimension type.
+         */
+        readonly isMeasure: boolean;
         /**
          * Gets this field's child fields.
          */
@@ -414,7 +437,7 @@ declare module wijmo.olap {
         Dimension = 0,
         /** Fields that contain quantitative, numerical information. */
         Measure = 1,
-        /** Calculations associated with a measure group used to evaluate business success. */
+        /** Calculations associated with a measure group used to evaluate business performance. */
         Kpi = 2,
         /** Multidimensional Expression (MDX) that returns a set of dimension members. */
         NameSet = 3,
@@ -754,6 +777,7 @@ declare module wijmo.olap {
         private _showRowTotals;
         private _showColTotals;
         private _totalsBefore;
+        private _sortableGroups;
         private _showZeros;
         private _updating;
         private _dirty;
@@ -832,6 +856,13 @@ declare module wijmo.olap {
          * and total columns appear on the left of regular data columns.
          */
         totalsBeforeData: boolean;
+        /**
+         * Gets or sets a value that determines whether the engine should
+         * sort groups when sorting the value fields (measures) or whether
+         * it should keep the group order and the data only within each
+         * group.
+         */
+        sortableGroups: boolean;
         /**
          * Gets or sets a value that determines whether the Olap output table
          * should use zeros to indicate the missing values.
@@ -925,8 +956,8 @@ declare module wijmo.olap {
         /**
          * Gets a value that determines whether a pivot view is currently defined.
          *
-         * A pivot view is defined if the @see:valueFields list is not empty and
-         * either the @see:rowFields or @see:columnFields lists are not empty.
+         * A pivot view is defined if any of the @see:valueFields, @see:rowFields,
+         * or @see:columnFields lists are not empty.
          */
         readonly isViewDefined: boolean;
         /**
@@ -1122,6 +1153,8 @@ declare module wijmo.olap {
         private _getLastValueInRowGroup(arr, row, col);
         private _getRowDifference(arr, row, col, showAs);
         private _getColDifference(arr, row, col, showAs);
+        _getShowRowTotals(): ShowTotals;
+        _getShowColTotals(): ShowTotals;
         private _generateFields();
         _createField(options: any, autoGenerated: boolean): PivotField;
         private _cvCollectionChanged(sender, e);
@@ -1287,6 +1320,8 @@ declare module wijmo.olap {
         private _dragSource;
         private _dragField;
         private _dropIndex;
+        private _showIcons;
+        private _restrictDrag;
         /**
          * Gets or sets the template used to instantiate @see:PivotPanel controls.
          */
@@ -1365,6 +1400,26 @@ declare module wijmo.olap {
          */
         readonly isViewDefined: boolean;
         /**
+         * Gets or sets a value that determines whether the main field list should
+         * include icons indicating whether fields are measure or dimension fields.
+         */
+        showFieldIcons: boolean;
+        /**
+         * Gets or sets a value that determines whether the panel should restrict
+         * drag operations based on field types.
+         *
+         * Setting this property to true prevents dragging dimension fields into
+         * the value field list and measure fields into the row or column field
+         * lists.
+         *
+         * Setting this property to false allows all drag operations.
+         *
+         * Setting this property to null (the default value) allows all drag
+         * operations on regular data sources, and restricts dragging on
+         * cube data sources.
+         */
+        restrictDragging: boolean;
+        /**
          * Occurs after the value of the @see:itemsSource property changes.
          */
         readonly itemsSourceChanged: Event;
@@ -1412,6 +1467,7 @@ declare module wijmo.olap {
         _drop(e: DragEvent): void;
         _dragend(e: DragEvent): void;
         _hitTestField(grid: wijmo.grid.FlexGrid, e: MouseEvent): PivotField;
+        _getRestrictDrag(): boolean;
         _resetMouseState(): void;
         _getFlexGridTarget(e: DragEvent): wijmo.grid.FlexGrid;
         _updateDropMarker(grid?: wijmo.grid.FlexGrid, e?: DragEvent): void;
@@ -1487,6 +1543,7 @@ declare module wijmo.olap {
         private _showColFldHdrs;
         private _centerVert;
         private _docRange;
+        private _collapsedKeys;
         static _WJA_COLLAPSE: string;
         /**
          * Initializes a new instance of the @see:PivotGrid class.
@@ -1589,11 +1646,14 @@ declare module wijmo.olap {
          * levels expand all columns.
          */
         collapseColumnsToLevel(level: number): void;
-        refresh(fullUpdate?: boolean): void;
+        _getQuickAutoSize(): boolean;
+        _bindGrid(full: boolean): void;
         protected _getCollectionView(value: any): collections.ICollectionView;
+        refresh(fullUpdate?: boolean): void;
         onItemsSourceChanged(e?: EventArgs): void;
         onResizedColumn(e: grid.CellRangeEventArgs): void;
         _updatedView(): void;
+        _viewDefinitionChanged(): void;
         onLoadedRows(e?: EventArgs): void;
         _updateFixedCounts(): void;
         _setLength(arr: collections.ObservableArray, cnt: number): void;
@@ -1605,15 +1665,15 @@ declare module wijmo.olap {
         _dblclick(e: MouseEvent): void;
         _getRowLevel(row: number): number;
         _getGroupedRows(rng: grid.CellRange): grid.CellRange;
+        _toggleRowCollapsed(rng: grid.CellRange): void;
         _getRowCollapsed(rng: grid.CellRange): boolean;
         _setRowCollapsed(rng: grid.CellRange, collapse: boolean): void;
-        _toggleRowCollapsed(rng: grid.CellRange): void;
         _collapseRowsToLevel(level: number): void;
         _getColLevel(col: number): number;
         _getGroupedCols(rng: grid.CellRange): grid.CellRange;
+        _toggleColCollapsed(rng: grid.CellRange): void;
         _getColCollapsed(rng: grid.CellRange): boolean;
         _setColCollapsed(rng: grid.CellRange, collapse: boolean): void;
-        _toggleColCollapsed(rng: grid.CellRange): void;
         _collapseColsToLevel(level: number): void;
     }
 }

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -147,6 +147,7 @@ declare module wijmo.grid.multirow {
         _cellGroupsByColumn: any;
         _centerVert: boolean;
         _collapsedHeaders: boolean;
+        _collapsedHeadersWasNull: boolean;
         _btnCollapse: HTMLElement;
         /**
          * Initializes a new instance of the @see:MultiRow class.
@@ -278,6 +279,25 @@ declare module wijmo.grid.multirow {
          * toggle the value of the <b>collapsedHeaders</b> property.
          */
         showHeaderCollapseButton: boolean;
+        /**
+         * Occurs after the value of the @see:collapsedHeaders property changes.
+         */
+        readonly collapsedHeadersChanging: Event;
+        /**
+         * Raises the @see:collapsedHeadersChanging event.
+         *
+         * @param e @see:CancelEventArgs that contains the event data.
+         * @return True if the event was not canceled.
+         */
+        onCollapsedHeadersChanging(e: CancelEventArgs): boolean;
+        /**
+         * Occurs after the value of the @see:collapsedHeaders property has changed.
+         */
+        readonly collapsedHeadersChanged: Event;
+        /**
+         * Raises the @see:collapsedHeadersChanged event.
+         */
+        onCollapsedHeadersChanged(e?: EventArgs): void;
         _addBoundRow(items: any[], index: number): void;
         _addNode(items: any[], index: number, level: number): void;
         _bindColumns(): void;

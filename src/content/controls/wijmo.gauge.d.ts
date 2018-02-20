@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -249,7 +249,8 @@ declare module wijmo.gauge {
          */
         hasShadow: boolean;
         /**
-         * Gets or sets a value that indicates whether the gauge animates value changes.
+         * Gets or sets a value that determines whether the @see:Gauge
+         * should use animation to show value changes.
          */
         isAnimated: boolean;
         /**
@@ -405,10 +406,15 @@ declare module wijmo.gauge {
          */
         sweepAngle: number;
         /**
-         * Gets or sets a value that indicates whether the gauge automatically scales to
-         * fill the host element.
+         * Gets or sets a value that indicates whether the gauge automatically
+         * scales to fill the host element.
          */
         autoScale: boolean;
+        /**
+         * Gets the size of the gauge's client area, taking into account the
+         * @see:autoScale, padding, borders, and margins.
+         */
+        readonly clientSize: Size;
         /**
          * Refreshes the control.
          *

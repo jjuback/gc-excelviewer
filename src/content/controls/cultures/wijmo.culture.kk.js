@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,7 +15,12 @@
  */
 var wijmo;
 (function (wijmo) {
-    wijmo.culture = {
+    // process the scenario where "wijmo" !== "window['wijmo']", for example when culture file is loaded
+    // using 'import' statement in a WebPack bundled app, where "wijmo" will be local to this module.
+    if (!window['wijmo']) {
+        window['wijmo'] = wijmo;
+    }
+    wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'kk',
             displayName: 'Kazakh',
@@ -59,7 +64,7 @@ var wijmo;
             ascending: '\u2191 Артуы бойынша',
             descending: '\u2193 Кемуі бойынша',
             apply: 'Қолдану',
-            cancel: 'болдырмау',
+            cancel: 'бас тарту',
             clear: 'Тазалау',
             conditions: 'Шарты бойынша сүзу',
             values: 'Мәні бойынша сүзу',
@@ -265,7 +270,7 @@ var wijmo;
             docExportName: 'Microsoft Word',
             xlsExportName: 'Microsoft Excel',
             mhtmlExportName: 'Web archive (MHTML)',
-            htmlExportName: 'HTML document',
+            htmlExportName: 'HTML құжаты',
             rtfExportName: 'RTF құжат',
             metafileExportName: 'Compressed metafiles',
             csvExportName: 'CSV',

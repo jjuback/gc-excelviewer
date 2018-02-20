@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -21,6 +21,7 @@ declare module wijmo.grid.xlsx {
      * and saving @see:FlexGrid controls from and to Excel xlsx files.
      */
     class FlexGridXlsxConverter {
+        private static hasCssText;
         /**
          * Save the @see:FlexGrid instance to the @see:Workbook instance.
          * This method works with JSZip 2.5.
@@ -154,13 +155,16 @@ declare module wijmo.grid.xlsx {
         static loadAsync(grid: FlexGrid, workbook: any, options?: IFlexGridXlsxOptions, onLoaded?: (workbook: wijmo.xlsx.Workbook) => void, onError?: (reason?: any) => any): void;
         private static _saveFlexGridToWorkbook(grid, options?);
         private static _loadToFlexGrid(grid, workbook, options);
-        private static _parseFlexGridRowToSheetRow(panel, workbookRow, rowIndex, startColIndex, columnSettings, includeCellStyles, fakeCell, isGroupRow, groupLevel, includeColumns, formatItem?);
+        private static _parseFlexGridRowToSheetRow(panel, workbookRow, rowIndex, startColIndex, columnSettings, includeCellStyles, fakeCell, cellsCache, isGroupRow, groupLevel, includeColumns, formatItem?);
         static _parseCellStyle(cellStyle: any, isTableStyle?: boolean): wijmo.xlsx.IWorkbookStyle;
         private static _parseBorder(cellStyle, isTableBorder);
         private static _parseEgdeBorder(cellStyle, edge);
         static _parseBorderStyle(borderStyle: wijmo.xlsx.BorderStyle, edge: string, cellStyle: any): void;
         private static _parseToExcelFontFamily(fontFamily);
         private static _parseToExcelFormula(formula, isDate);
+        private static _parseToTextRuns(value);
+        private static _parseToTextRunFont(style);
+        static _getMeasureCell(panel: GridPanel, colIndex: number, patternCell: HTMLDivElement, cellsCache: _CellsCache): HTMLDivElement;
         private static _getColumnSetting(column, defaultWidth);
         private static _toExcelHAlign(value);
         private static _getColumnCount(sheetData);
@@ -170,6 +174,7 @@ declare module wijmo.grid.xlsx {
         private static _setColumn(columns, columnIndex, item);
         private static _getItemValue(item);
         static _getCellStyle(panel: GridPanel, fakeCell: HTMLDivElement, r: number, c: number): any;
+        private static _parseTextRunsToHTML(textRuns);
         private static _extend(dst, src);
         private static _checkParentCollapsed(groupCollapsedSettings, groupLevel);
         private static _getColSpan(p, mergedRange, includeColumns);
@@ -181,7 +186,8 @@ declare module wijmo.grid.xlsx {
         private _cell;
         private _patternCell;
         private _xlsxCell;
-        constructor(panel: GridPanel, rng: CellRange, cell: HTMLDivElement, patternCell: HTMLDivElement, xlsxCell: wijmo.xlsx.IWorkbookCell);
+        private _cellsCache;
+        constructor(panel: GridPanel, rng: CellRange, cell: HTMLDivElement, patternCell: HTMLDivElement, cellsCache: _CellsCache, xlsxCell: wijmo.xlsx.IWorkbookCell);
         /**
          * If IFlexGridXlsxOptions.includeCellStyles is set to true then contains a
          * reference to the element that represents the formatted grid cell; otherwise, a null value.
@@ -288,5 +294,6 @@ declare module wijmo.grid.xlsx {
          */
         formatItem?: (args: XlsxFormatItemEventArgs) => void;
     }
+    type _CellsCache = HTMLDivElement[][];
 }
 

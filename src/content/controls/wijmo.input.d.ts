@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -1275,6 +1275,7 @@ declare module wijmo.input {
          * Raises the @see:itemClicked event.
          */
         onItemClicked(e?: EventArgs): void;
+        refresh(fullUpdate?: boolean): void;
         onIsDroppedDownChanged(e?: EventArgs): void;
         protected _keydown(e: KeyboardEvent): void;
         protected _dropDownClick(e: MouseEvent): void;
@@ -1534,6 +1535,8 @@ declare module wijmo.input {
         _fadeIn: boolean;
         _fadeOut: boolean;
         _removeOnHide: boolean;
+        _draggable: boolean;
+        _dragged: boolean;
         _click: any;
         _mousedown: any;
         _bkdrop: HTMLDivElement;
@@ -1618,6 +1621,29 @@ declare module wijmo.input {
          * key.
          */
         modal: boolean;
+        /**
+         * Gets or sets a value that determines whether the popup can be dragged
+         * with the mouse by its header.
+         *
+         * The header is identified by the '.wj-dialog-header' CSS selector.
+         * If the dialog does not contain any elements with the 'wj-dialog-header'
+         * class, user will not be able to drag the popup.
+         *
+         * When making popups draggable, you may want to set the cursor property
+         * of the '.wj-dialog-header' CSS selector. For example:
+         *
+         * <pre>
+         * &lt;style&gt;
+         *   .wj-popup {
+         *     width: 30%;
+         *   }
+         *   .wj-dialog-header {
+         *     cursor: move;
+         *   }
+         * &lt;/style&gt;
+         * </pre>
+         */
+        isDraggable: boolean;
         /**
          * Gets or sets a value that can be used for handling the content of the @see:Popup
          * after it is hidden.
@@ -1707,6 +1733,7 @@ declare module wijmo.input {
         dispose(): void;
         onLostFocus(e?: EventArgs): void;
         refresh(fullUpdate?: boolean): void;
+        _makeDraggable(draggable: boolean): void;
         protected _handleResize(): void;
         protected _handleClick(e: any): void;
         protected _handleMouseDown(e: any): void;
@@ -1718,8 +1745,8 @@ declare module wijmo.input {
 declare module wijmo.input {
     /**
      * The @see:InputDate control allows users to type in dates using any format
-     * supported by the @see:Globalize class, or to pick dates from a drop-down box
-     * that shows a @see:Calendar control.
+     * supported by the @see:Globalize class, or to pick dates from a drop-down
+     * that contains a @see:Calendar control.
      *
      * Use the @see:min and @see:max properties to restrict the range of
      * values that the user can enter.
@@ -2102,8 +2129,8 @@ declare module wijmo.input {
      * acceptable values, and the @see:step property to provide spinner buttons
      * that increase or decrease the value with a click.
      *
-     * For details about using the @see:min and @see:max properties, please see the
-     * <a href="static/minMax.html">Using the min and max properties</a> topic.
+     * For details about using the @see:min and @see:max properties, please see
+     * the <a href="static/minMax.html">Using the min and max properties</a> topic.
      *
      * Use the @see:value property to get or set the currently selected number.
      *
@@ -2132,6 +2159,8 @@ declare module wijmo.input {
         _rxSym: RegExp;
         _rxNeg: RegExp;
         _delKey: boolean;
+        _rptUp: _ClickRepeater;
+        _rptDn: _ClickRepeater;
         /**
          * Gets or sets the template used to instantiate @see:InputNumber controls.
          */
@@ -2221,6 +2250,12 @@ declare module wijmo.input {
          */
         showSpinner: boolean;
         /**
+         * Gets or sets a value that determines whether the spinner buttons
+         * should act as repeat buttons, firing repeatedly as the button
+         * remains pressed.
+         */
+        repeatButtons: boolean;
+        /**
          * Sets the focus to the control and selects all its content.
          */
         selectAll(): void;
@@ -2241,6 +2276,7 @@ declare module wijmo.input {
          * Raises the @see:valueChanged event.
          */
         onValueChanged(e?: EventArgs): void;
+        dispose(): void;
         onGotFocus(e: EventArgs): void;
         onLostFocus(e?: EventArgs): void;
         refresh(fullUpdate?: boolean): void;
@@ -2303,6 +2339,7 @@ declare module wijmo.input {
      */
     class InputMask extends Control {
         _tbx: HTMLInputElement;
+        _oldValue: string;
         _msk: _MaskProvider;
         /**
          * Gets or sets the template used to instantiate @see:InputMask controls.
@@ -2372,6 +2409,7 @@ declare module wijmo.input {
          * Raises the @see:valueChanged event.
          */
         onValueChanged(e?: EventArgs): void;
+        dispose(): void;
         refresh(fullUpdate?: boolean): void;
         onGotFocus(e: any): void;
     }

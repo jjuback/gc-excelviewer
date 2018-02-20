@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -246,7 +246,6 @@ declare module wijmo.grid.sheet {
     class _ColumnsChangedAction extends _UndoAction {
         private _oldValue;
         private _newValue;
-        private _selection;
         _affectedFormulas: any;
         _affectedDefinedNameVals: any;
         _deletedTables: Table[];
@@ -258,7 +257,6 @@ declare module wijmo.grid.sheet {
     class _RowsChangedAction extends _UndoAction {
         private _oldValue;
         private _newValue;
-        private _selection;
         _affectedFormulas: any;
         _affectedDefinedNameVals: any;
         _deletedTables: Table[];
@@ -467,7 +465,7 @@ declare module wijmo.grid.sheet {
         private _toRefresh;
         _copiedRanges: CellRange[];
         _copiedSheet: Sheet;
-        _cutData: string;
+        _isCutting: boolean;
         private _cutValue;
         private _isContextMenuKeyDown;
         private _tables;
@@ -484,6 +482,7 @@ declare module wijmo.grid.sheet {
         private _builtInTableStylesCache;
         _needCopyToSheet: boolean;
         _isPasting: boolean;
+        private _resizing;
         /**
          * Overrides the template used to instantiate @see:FlexSheet control.
          */
@@ -628,9 +627,10 @@ declare module wijmo.grid.sheet {
          * @param c Index, name, or binding of the column that contains the cell.
          * @param value Value to store in the cell.
          * @param coerce Whether to change the value automatically to match the column's data type.
+         * @param invalidate Whether to invalidate the FlexSheet to show the change.
          * @return True if the value was stored successfully, false otherwise.
          */
-        setCellData(r: number, c: any, value: any, coerce?: boolean): boolean;
+        setCellData(r: number, c: any, value: any, coerce?: boolean, invalidate?: boolean): boolean;
         /**
          * Overrides the base class method to take into account the function list.
          */
@@ -1075,7 +1075,7 @@ declare module wijmo.grid.sheet {
         private _sheetSortConverter(sd, item, value, init);
         private _formatEvaluatedResult(result, col, format);
         private _updateCellRef(cellData, sheetIndex, index, count, isAdding, isRow);
-        private _copyRowsToSelectedSheet();
+        _copyRowsToSelectedSheet(): void;
         _copyColumnsToSelectedSheet(): void;
         private _parseFromWorkbookTable(table);
         private _parseFromWorkbookTableStyle(tableStyle);
@@ -1155,7 +1155,7 @@ declare module wijmo.grid.sheet {
         private _count;
         private _added;
         /**
-         * Initializes a new instance of the @see:UnknownFunctionEventArgs class.
+         * Initializes a new instance of the @see:RowColumnChangedEventArgs class.
          *
          * @param index The start index of the changed rows or columns.
          * @param count The added or removed count of the rows or columns.
@@ -1217,9 +1217,10 @@ declare module wijmo.grid.sheet {
          * @param c The index, name, or binding of the column that contains the cell.
          * @param value The value to store in the cell.
          * @param coerce A value indicating whether to change the value automatically to match the column's data type.
+         * @param invalidate Whether to invalidate the FlexSheet to show the change.
          * @return Returns true if the value is stored successfully, otherwise false (failed cast).
          */
-        setCellData(r: number, c: any, value: any, coerce?: boolean): boolean;
+        setCellData(r: number, c: any, value: any, coerce?: boolean, invalidate?: boolean): boolean;
         _renderCell(row: HTMLElement, r: number, c: number, vrng: CellRange, state: boolean, ctr: number): number;
     }
     /**
@@ -1731,6 +1732,10 @@ declare module wijmo.grid.sheet {
          * Cancel the current sort descriptions to the FlexSheet control.
          */
         cancelSort(): void;
+        /**
+         * Clear the sort descriptions.
+         */
+        clearSort(): void;
         _refresh(): void;
         private _getColumnIndex(property);
         private _getSortItem(columnIndex);
@@ -1939,6 +1944,7 @@ declare module wijmo.grid.sheet {
 declare module wijmo.grid.sheet {
     class _FlexSheetValueFilterEditor extends wijmo.grid.filter.ValueFilterEditor {
         updateEditor(): void;
+        updateFilter(): void;
     }
 }
 

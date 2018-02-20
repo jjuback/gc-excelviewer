@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -12,6 +12,19 @@
     */
 declare var JSZip: any;
 declare module wijmo.xlsx {
+    /**
+     * Defines a reference to JSZip module that will be used by the Wijmo xlsx export modules.
+     *
+     * This method should be used in npm modules based applications to provide wijmo.xlsx module
+     * with a reference to the JSZip module retrieved using the ES6 import statement. For example:
+     * <pre>import * as JSZip from 'jszip';
+     * import * as wjcXlsx from 'wijmo/wijmo.xlsx';
+     * wjcXlsx.useJSZip(JSZip);
+     * </pre>
+     *
+     * @param jszip Reference to the JSZip constructor function.
+     */
+    function useJSZip(jszip: any): void;
     class _xlsx {
         private static _alphabet;
         private static _indexedColors;
@@ -53,10 +66,14 @@ declare module wijmo.xlsx {
         private static _getSheet(sheet, index, result);
         private static _getTable(table);
         private static _getTableColumn(column);
-        private static _getSheetRelatedTable(rels, rId, tables);
+        private static _getSheetRelatedTable(rel, tables);
+        private static _getSheetRelatedHyperlink(rel, id, sheet);
         private static _getTableStyles(styleDefs, dxfs);
         private static _getTableStyleElement(dxf);
         private static _getTableStyleByName(styleName);
+        private static _getHyperlink(sheet, hyperlinkPart);
+        private static _getTextRunFont(item);
+        private static _getTextOfTextRuns(textRuns);
         private static _isBuiltInStyleName(styleName);
         private static _generateRelsDoc();
         private static _generateThemeDoc();
@@ -82,9 +99,11 @@ declare module wijmo.xlsx {
         private static _generateWorkbook(file);
         private static _generateWorkSheet(sheetIndex, file, xlWorksheets);
         private static _generateSharedStringsDoc();
+        private static _generatePlainText(val);
         private static _generateTable(tableIndex, table, xlTables);
         private static _generateTableFilterSetting(ref, showTotalRow, columns);
-        private static _generateSheetRel(tables, tableNames);
+        private static _generateHyperlinkRel(externalLinks);
+        private static _generateTableRel(tables, tableNames, startIndex);
         private static _getDxfs();
         private static _generateDxfs();
         private static _generateTableStyles();
@@ -141,7 +160,17 @@ declare module wijmo.xlsx {
  * <pre>&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"&gt;&lt;/script&gt;</pre></li>
  * <li>In order to invoke the asynchronous save and load methods, JSZip3 library should be
  * referenced in html page with the markup like this:
- * <pre>&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"&gt;&lt;/script&gt;</pre></li></ul>
+ * <pre>&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"&gt;&lt;/script&gt;</pre></li>
+ * <li>If application is constructed based on npm modules then you may prefer to load JSZip module by means of the ES6
+ * <b>import</b> statement, instead of a script tag. In this case you should additionally provide wijmo.xlsx module
+ * with a reference to the JSZip module using the @see:useJSZip function, with a code like shown below:
+ * <pre>import * as JSZip from 'jszip';
+ * import * as wjcXlsx from 'wijmo/wijmo.xlsx';
+ * wjcXlsx.useJSZip(JSZip);
+ * </pre>
+ *
+ * It's enough to call the @see:useJSZip function only once per application page, and the best place to do it
+ * could be a some root module of the application.</li></ul>
 */
 declare module wijmo.xlsx {
     /**
@@ -618,11 +647,21 @@ declare module wijmo.xlsx {
          */
         rowSpan: number;
         /**
+         * Gets or sets the hyperlink of cell.
+         */
+        link: string;
+        /**
+         * Gets or sets the text runs represent the rich text of cell.
+         */
+        textRuns: WorkbookTextRun[];
+        /**
          * Initializes a new instance of the @see:WorkbookCell class.
          */
         constructor();
         _serialize(): IWorkbookCell;
         _deserialize(workbookCellOM: IWorkbookCell): void;
+        private _serializeTextRuns();
+        private _deserializeTextRuns(textRunOMs);
         private _checkEmptyWorkbookCell();
     }
     /**
@@ -921,6 +960,25 @@ declare module wijmo.xlsx {
         _serialize(): IWorkbookTableBorder;
         _deserialize(workbookBorderOM: IWorkbookTableBorder): void;
     }
+    /**
+     * Represents the Workbook Object Model text run definition.
+     */
+    class WorkbookTextRun implements IWorkbookTextRun {
+        /**
+         * Gets or sets the font of the text run.
+         */
+        font: WorkbookFont;
+        /**
+         * Gets or sets the text of the text run.
+         */
+        text: string;
+        /**
+         * Initializes a new instance of the @see:WorkbookTextRun class.
+         */
+        constructor();
+        _serialize(): IWorkbookTextRun;
+        _deserialize(workbookTextRunOM: IWorkbookTextRun): void;
+    }
     interface IXlsxFileContent {
         base64: string;
         base64Array: Uint8Array;
@@ -1092,6 +1150,14 @@ declare module wijmo.xlsx {
          * Cell rowSpan setting
          */
         rowSpan?: number;
+        /**
+         * The hyperlink of the cell.
+         */
+        link?: string;
+        /**
+         * The text runs represent the rich text of cell.
+         */
+        textRuns?: IWorkbookTextRun[];
     }
     /**
      * Workbook frozen pane definition
@@ -1420,6 +1486,19 @@ declare module wijmo.xlsx {
     interface IWorkbookTableBorder extends IWorkbookBorder {
         vertical?: IWorkbookBorderSetting;
         horizontal?: IWorkbookBorderSetting;
+    }
+    /**
+     * Piece of text run for rich text.
+     */
+    interface IWorkbookTextRun {
+        /**
+         * The font of the text run.
+         */
+        font?: IWorkbookFont;
+        /**
+         * The text of the text run.
+         */
+        text: string;
     }
     /**
      * Defines the Workbook Object Model horizontal text alignment.

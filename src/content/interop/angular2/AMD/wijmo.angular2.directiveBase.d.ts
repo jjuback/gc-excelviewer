@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -61,7 +61,7 @@ export declare class WjOptions {
     * you application logic are sensible to a moment when binding source update happens, you can change
     * this functionality by setting the global <b>asyncBindings</b> property to false. This should be
     * done before the first Wijmo component was instantiated by your application logic, and the best
-    * place to do it is the file where you declare the application's root NgModel. This can be done
+    * place to do it is the file where you declare the application's root NgModule. This can be done
     * with the code like this:
     * <pre>import * as wjBase from 'wijmo/wijmo.angular2.directiveBase';
     * wjBase.WjOptions.asyncBindings = false;</pre>

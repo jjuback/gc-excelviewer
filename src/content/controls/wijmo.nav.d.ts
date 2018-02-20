@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -78,7 +78,7 @@ declare module wijmo.nav {
         private _isReadOnly;
         private _edtNode;
         /**
-         * Gets or sets the template used to instantiate @see:FlexGrid controls.
+         * Gets or sets the template used to instantiate @see:TreeView controls.
          */
         static controlTemplate: string;
         /**
@@ -354,6 +354,14 @@ declare module wijmo.nav {
          */
         getNode(item: any): TreeNode;
         /**
+         * Adds a child node at a specific position.
+         *
+         * @param index Index of the new child node.
+         * @param dataItem Data item used to create the new node.
+         * @return The @see:TreeNode that was added.
+         */
+        addChildNode(index: number, dataItem: any): TreeNode;
+        /**
          * Collapses all the tree items to a given level.
          *
          * This method will typically expand or collapse multiple nodes
@@ -366,8 +374,10 @@ declare module wijmo.nav {
         collapseToLevel(level: number): void;
         /**
          * Loads the tree using data from the current @see:itemsSource.
+         * @param preserveOutlineState Whether to preserve the outline state when loading the
+         * tree data. Defaults to false.
          */
-        loadTree(): void;
+        loadTree(preserveOutlineState?: boolean): void;
         /**
          * Occurs when the value of the @see:itemsSource property changes.
          */
@@ -382,8 +392,9 @@ declare module wijmo.nav {
         readonly loadingItems: Event;
         /**
          * Raises the @see:loadingItems event.
+         * @return True if the event was not canceled.
          */
-        onLoadingItems(e?: EventArgs): void;
+        onLoadingItems(e?: CancelEventArgs): boolean;
         /**
          * Occurs after the tree items have been generated.
          */
@@ -588,12 +599,13 @@ declare module wijmo.nav {
          */
         refresh(): void;
         _reload(): void;
+        _createNode(dataItem: any): TreeNode;
         private _mousedown(e);
         private _click(e);
         private _keydown(e);
         private _keypress(e);
         private _findNext();
-        private _loadTree();
+        private _loadTree(preserveOutlineState?);
         private _addItem(host, level, item);
         private _collapseToLevel(nodes, maxLevel, currentLevel);
         _lazyLoadNode(node: TreeNode): void;
@@ -623,7 +635,7 @@ declare module wijmo.nav {
         /**
          * Gets the HTML element that represents this node on the @see:TreeView.
          */
-        readonly element: any;
+        readonly element: HTMLElement;
         /**
          * Gets a reference to the @see:TreeView that contains this node.
          */
@@ -737,7 +749,27 @@ declare module wijmo.nav {
          */
         setChecked(checked: boolean, updateParent?: boolean): void;
         /**
-         * Moves a @see:TreeNode to a new position on the @see:TreeView.
+         * Removes this @see:TreeNode from a @see:TreeView.
+         */
+        remove(): void;
+        /**
+         * Adds a child node at a specific position.
+         *
+         * @param index Index of the new child node.
+         * @param dataItem Data item used to create the new node.
+         * @return The @see:TreeNode that was added.
+         */
+        addChildNode(index: number, dataItem: any): TreeNode;
+        /**
+         * Refreshes a node to reflect data changes.
+         *
+         * @param dataItem New node data. This parameter is optional.
+         * If not provided, the node will be refreshed based on its
+         * original data item (which presumably has been updated).
+         */
+        refresh(dataItem?: any): void;
+        /**
+         * Moves this @see:TreeNode to a new position on the @see:TreeView.
          *
          * @param refNode Reference @see:TreeNode that defines the location
          * where the node will be moved.
@@ -745,11 +777,18 @@ declare module wijmo.nav {
          * the reference node.
          * @return True if the node was moved successfully.
          */
-        move(refNode: TreeNode, position: DropPosition): boolean;
+        move(refNode: any, position: DropPosition): boolean;
+        /**
+         * Gets the array that contains the items for this @see:TreeNode.
+         *
+         * This property is read-only. It returns an array that is a
+         * member of the parent @see:TreeView's @see:TreeView.itemsSource array.
+         */
+        readonly itemsSource: any[];
         _pse(e: HTMLElement): HTMLElement;
         _contains(node: TreeNode): boolean;
         _getArray(): any[];
-        _moveElements(refNode: TreeNode, position: DropPosition): void;
+        _moveElements(refNode: any, position: DropPosition): void;
         _updateState(): void;
         _updateEmptyState(): void;
         _updateCheckedState(): void;

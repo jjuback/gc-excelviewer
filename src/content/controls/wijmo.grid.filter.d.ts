@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -704,8 +704,11 @@ declare module wijmo.grid.filter {
         readonly filterChanging: Event;
         /**
          * Raises the @see:filterChanging event.
+         *
+         * @param e @see:CellRangeEventArgs that contains the event data.
+         * @return True if the event was not canceled.
          */
-        onFilterChanging(e: CellRangeEventArgs): void;
+        onFilterChanging(e: CellRangeEventArgs): boolean;
         /**
          * Occurs after a column filter has been edited by the user.
          *

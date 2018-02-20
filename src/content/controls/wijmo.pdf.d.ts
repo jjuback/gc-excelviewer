@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -1992,20 +1992,25 @@ declare module wijmo.pdf {
 
 declare module wijmo.pdf {
     /**
-     * Provides arguments for the @see:PdfDocument.end event.
-     */
+    * Provides arguments for the @see:PdfDocument.end event.
+    */
     class PdfDocumentEndedEventArgs extends EventArgs {
         private _blob;
+        private _chunks;
         /**
         * Initializes a new instance of the @see:PdfDocumentEndedEventArgs class.
         *
-        * @param blob A Blob object that contains the document data.
+        * @param chunks An array of chunks.
         */
-        constructor(blob: Blob);
+        constructor(chunks: Uint8Array[]);
         /**
-         * Gets a Blob object that contains the document data.
-         */
+        * Gets a Blob object that contains the document data.
+        */
         readonly blob: Blob;
+        /**
+        * Gets the underlying array of buffers that contains the document data.
+        */
+        readonly chunks: Uint8Array[];
     }
 }
 

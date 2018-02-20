@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -11,6 +11,7 @@
     *
     */
 declare module wijmo.viewer {
+    function isIOS(): boolean;
     var icons: {
         paginated: string;
         print: string;
@@ -103,8 +104,6 @@ declare module wijmo.viewer {
         private _expiredDateTime;
         private _executionDateTime;
         private _initialPosition;
-        private static _isMobileEnvironment;
-        private static _isIOSEnvironment;
         pageCountChanged: Event;
         disposed: Event;
         pageSettingsChanged: Event;
@@ -118,8 +117,6 @@ declare module wijmo.viewer {
         _getIsDisposed(): boolean;
         _checkHasOutlines(data: _IDocumentStatus): boolean;
         _checkIsLoadCompleted(data: _IDocumentStatus): boolean;
-        static _isMobile(): boolean;
-        static _isIOS(): boolean;
         readonly executionDateTime: Date;
         readonly expiredDateTime: Date;
         readonly errors: string[];
@@ -481,7 +478,7 @@ declare module wijmo.viewer {
         PrcEnvelopeNumber10Rotated = 118,
     }
     /**
-     * Provides arguments for @see:queryLoadingData event.
+     * Provides arguments for @see:wijmo.viewer.ViewerBase.queryLoadingData event.
      */
     class QueryLoadingDataEventArgs extends EventArgs {
         private _data;
@@ -714,8 +711,10 @@ declare module wijmo.viewer {
         private _currentIndex;
         private _needUpdate;
         currentChanged: Event;
+        searchStarted: Event;
         searchCompleted: Event;
         private _onCurrentChanged();
+        private _onSearchStarted();
         private _onSearchCompleted();
         text: string;
         matchCase: boolean;

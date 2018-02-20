@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.380
+    * Wijmo Library 5.20173.409
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -45,6 +45,7 @@ declare module wijmo.grid.grouppanel {
         _dragMarker: HTMLElement;
         _divMarkers: HTMLElement;
         _divPH: HTMLElement;
+        _hiddenCols: any[];
         /**
          * Gets or sets the template used to instantiate @see:GroupPanel controls.
          */
@@ -91,6 +92,7 @@ declare module wijmo.grid.grouppanel {
         _getIndex(e: MouseEvent): number;
         _getElementIndex(e: HTMLElement): number;
         _draggingColumn(s: FlexGrid, e: CellRangeEventArgs): void;
+        _itemsSourceChanging(s: FlexGrid, e: EventArgs): void;
         _itemsSourceChanged(s: FlexGrid, e: EventArgs): void;
         _groupsChanged(s: any, e: EventArgs): void;
         _dragStart(e: any): void;

@@ -225,6 +225,7 @@ input[type=submit] {
 
 .wj-template {
     height: 100%;
+    display: table-cell;
 }
 
 .wj-dropdown-panel {
@@ -283,7 +284,7 @@ input[type=submit] {
     overflow: hidden;
     width: 100%;
     height: 100%;
-    min-height: 2em;
+    /*min-height: 2em; Removed to fix dropdown button height */
     border-collapse: separate;
     border-radius: 4px;
     background: inherit;
@@ -314,12 +315,14 @@ input[type=submit] {
         float: none;
         width: auto;
         vertical-align: middle;
-        padding: 6px 8px;
+        /*padding: 6px 8px; removed to fix button height bug in combobox*/
     }
 
 /* Remove border from outside of buttons - outer border set at wj-content level */
 .wj-input-group-btn > .wj-btn {
     border-width: 0;
+    min-height: 2em; /* to avoid some blank space in some versions of Chrome (see Explorer/Globalization) */
+    /*padding: 6px 10px; removed to fix button height bug in combobox */
 }
 
 /* Remove first button right-side border radius */
@@ -339,7 +342,7 @@ input[type=submit] {
 /* RTL borders */
 
 /* Remove first button left-side border radius */
-[dir="rtl"] .wj-input-group-btn:first-child > .wj-btn {
+[dir=rtl] .wj-input-group-btn:first-child > .wj-btn {
     border-left-width: 1px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -350,7 +353,7 @@ input[type=submit] {
 }
 
 /* Remove last button right-side border radius */
-[dir="rtl"] .wj-input-group-btn:last-child > .wj-btn {
+[dir=rtl] .wj-input-group-btn:last-child > .wj-btn {
     border-right-width: 1px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -508,8 +511,8 @@ input[type=submit] {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 3px;
-    border-right: 1px solid #c6c6c6;
-    border-bottom: 1px solid #c6c6c6;
+    border-right: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4;
     outline: none;
 }
 
@@ -611,7 +614,7 @@ input[type=submit] {
     right: 0;
 }
 
-[dir="rtl"] .wj-cell .wj-elem-dropdown {
+[dir=rtl] .wj-cell .wj-elem-dropdown {
     left: 0;
     right: auto;
 }
@@ -631,13 +634,13 @@ input[type=submit] {
 }
 
 /* Switch cell borders in RTL grids */
-[dir="rtl"] .wj-cell {
+[dir=rtl] .wj-cell {
     border-left: 1px solid #c6c6c6;
     border-right: none;
 }
 
 /* Switch frozen borders in RTL grids */
-[dir="rtl"] .wj-frozen-col {
+[dir=rtl] .wj-frozen-col {
     border-left: 1px solid #666;
     border-right: none;
 }
@@ -650,7 +653,7 @@ input[type=submit] {
     padding: 0 4px;
 }
 
-[dir="rtl"] .wj-header .wj-elem-filter {
+[dir=rtl] .wj-header .wj-elem-filter {
     float: left;
 }
 
@@ -804,7 +807,8 @@ input[type=submit] {
     }
 
     .wj-flexchart .wj-axis-x .wj-title,
-    .wj-flexchart .wj-axis-y .wj-title {
+    .wj-flexchart .wj-axis-y .wj-title,
+    .wj-flexchart .wj-legend .wj-title {
         font-style: italic;
     }
 
@@ -1221,313 +1225,184 @@ input[type=submit] {
     Glyphs
 */
 
-.wj-glyph-up {
+.wj-glyph-asterisk, .wj-glyph-calendar, .wj-glyph-check, .wj-glyph-circle, .wj-glyph-clipboard,
+.wj-glyph-clock, .wj-glyph-diamond, .wj-glyph-dimension, .wj-glyph-down, .wj-glyph-down-left,
+.wj-glyph-down-right, .wj-glyph-file, .wj-glyph-filter, .wj-glyph-left, .wj-glyph-measure, .wj-glyph-minus,
+.wj-glyph-pencil, .wj-glyph-plus, .wj-glyph-right, .wj-glyph-square, .wj-glyph-step-backward,
+.wj-glyph-step-forward, .wj-glyph-up, .wj-glyph-up-left, .wj-glyph-up-right,
+.wj-glyph-left-rtl, .wj-glyph-right-rtl, .wj-glyph-step-backward-rtl, .wj-glyph-step-forward-rtl {
     position: relative;
     display: inline-block;
-    border-right: .4em solid transparent;
-    border-bottom: .5em solid;
-    border-left: .4em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-down {
-    position: relative;
-    display: inline-block;
-    border-top: .5em solid;
-    border-right: .4em solid transparent;
-    border-left: .4em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-left,
-.wj-glyph-step-backward {
-    position: relative;
-    display: inline-block;
-    border-top: .4em solid transparent;
-    border-right: .5em solid;
-    border-bottom: .4em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-step-backward {
-    transform: translateX(.12em);
-}
-    .wj-glyph-step-backward:after {
-        position: absolute;
-        border-left: .2em solid;
-        height: .75em;
-        transform: translate(-100%,-50%);
-        content: "";
-    }
-
-.wj-glyph-right,
-.wj-glyph-step-forward {
-    position: relative;
-    display: inline-block;
-    border-top: .4em solid transparent;
-    border-bottom: .4em solid transparent;
-    border-left: .5em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-step-forward:after {
-        position: absolute;
-        border-left: .2em solid;
-        height: .75em;
-        transform: translateY(-50%);
-        content: "";
-    }
-
-.wj-glyph-left-rtl,
-.wj-glyph-step-backward-rtl {
-    position: relative;
-    display: inline-block;
-    border-top: .4em solid transparent;
-    border-bottom: .4em solid transparent;
-    border-left: .5em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-step-backward-rtl:after {
-        position: absolute;
-        border-left: .2em solid;
-        height: .75em;
-        transform: translate(100%, -50%);
-        content: "";
-    }
-
-.wj-glyph-right-rtl,
-.wj-glyph-step-forward-rtl {
-    position: relative;
-    display: inline-block;
-    border-top: .4em solid transparent;
-    border-right: .5em solid;
-    border-bottom: .4em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-step-forward-rtl {
-    transform: translateX(.12em);
-}
-    .wj-glyph-step-forward-rtl:after {
-        position: absolute;
-        border-left: .2em solid;
-        height: .75em;
-        transform: translateY(-50%);
-        content: "";
-    }
-
-.wj-glyph-down-left {
-    position: relative;
-    display: inline-block;
-    border-top: .65em solid transparent;
-    border-left: .65em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-down-right {
-    position: relative;
-    display: inline-block;
-    border-bottom: .65em solid;
-    border-left: .65em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-up-left {
-    position: relative;
-    display: inline-block;
-    border-bottom: .65em solid transparent;
-    border-left: .65em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-up-right {
-    position: relative;
-    display: inline-block;
-    border-top: .65em solid;
-    border-left: .65em solid transparent;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-circle {
-    position: relative;
-    display: inline-block;
-    border: .25em solid;
-    border-radius: 1em;
-    transform: translateY(-.1em);
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-square {
-    position: relative;
-    display: inline-block;
-    border: .25em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-diamond {
-    position: relative;
-    display: inline-block;
-    border: .25em solid;
-    transform: rotate(45deg);
-    transform-origin: 50% 50%;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-check {
-    position: relative;
-    display: inline-block;
-    width: .75em;
-    height: .75em;
-    border-right: .3em solid;
-    border-bottom: .22em solid;
-    transform: rotate(35deg) scaleX(.5);
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.wj-glyph-filter {
-    position: relative;
     box-sizing: border-box;
-    display: inline-block;
-    top: -.1em;
-    width: .5em;
-    border-top: .5em solid;
-    border-right: .4em solid transparent;
-    border-left: .4em solid transparent;
-    opacity: 0.75;
+    text-align: center;
+    opacity: .75;
     cursor: pointer;
-}
-    .wj-glyph-filter:after {
-        position: absolute;
-        box-sizing: border-box;
-        border-left: .2em solid;
-        height: .4em;
-        transform: translateX(-50%);
-        top: -.2em;
-        content: "";
-    }
-
-[dir="rtl"] .wj-glyph-filter:after {
-    transform: translateX(50%);
-}
-
-.wj-glyph-plus,
-.wj-glyph-minus {
-    position: relative;
-    box-sizing: border-box;
-    display: inline-block;
-    border-top: .25em solid;
-    width: .9em;
-    top: -.2em;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-plus:after {
-        position: absolute;
-        box-sizing: border-box;
-        border-left: .25em solid;
-        width: .25em;
-        height: .85em;
-        left: .32em;
-        top: -.55em;
-        content: "";
-    }
-
-.wj-glyph-file {
-    position: relative;
-    display: inline-block;
-    border-left: .7em solid;
-    height: .85em;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-file:after {
-        position: absolute;
-        transform: translateX(-100%);
-        border-top: .3em solid transparent;
-        border-left: .3em solid white;
-        content: "";
-    }
-
-.wj-glyph-calendar {
-    position: relative;
-    display: inline-block;
-    top: .2em;
-    width: 1em;
-    height: 1em;
-    border: .1em solid;
-    border-top: .3em solid;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-calendar:after {
-        position: absolute;
-        font-size: 50%;
-        top: -.15em;
-        left: .4em;
-        content: '1';
-    }
-
-.wj-glyph-clock {
-    position: relative;
-    display: inline-block;
-    top: .2em;
-    width: 1em;
-    height: 1em;
-    border: .13em solid;
-    border-radius: 50%;
-    opacity: 0.75;
-    cursor: pointer;
-}
-    .wj-glyph-clock:after {
-        position: absolute;
-        border-left: .1em solid;
-        border-bottom: .1em solid;
-        width: .3em;
-        height: .4em;
-        top: .05em;
-        left: .32em;
-        content: "";
-    }
-
-.wj-glyph-pencil {
-    position: relative;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    opacity: 0.75;
-}
-    .wj-glyph-pencil:after {
-        position: absolute;
-        left: 0;
-        content: "\270E";
-    }
-
-.wj-glyph-asterisk {
-    position: relative;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    opacity: 0.75;
 }
     .wj-glyph-asterisk:after {
-        position: absolute;
-        left: 0;
-        content: "\2731";
+        content: '\2731\fe0e'
     }
-
+    .wj-glyph-calendar {
+        top: .2em;
+        width: 1em;
+        height: 1em;
+        border: .1em solid;
+        border-top: .3em solid;
+    }
+        .wj-glyph-calendar:after {
+            position: absolute;
+            font-size: 50%;
+            /*top: -.15em;*/
+            left: .5em;
+            content: '1';
+        }
+    .wj-glyph-check:after {
+        content: '\2714\fe0e';
+        font-weight: bold
+    }
+    .wj-glyph-circle {
+        border: .25em solid;
+        border-radius: 1em;
+        transform: translateY(-.1em);
+    }
+    .wj-glyph-clipboard:after {
+        content: '\1f4cb\fe0e'
+    }
+    .wj-glyph-clock {
+        width: 1em;
+        height: 1em;
+        border: .13em solid;
+        border-radius: 50%;
+    }
+        .wj-glyph-clock:after {
+            position: absolute;
+            border-left: .1em solid;
+            border-bottom: .1em solid;
+            width: .3em;
+            height: .4em;
+            top: .05em;
+            left: .32em;
+            content: "";
+        }
+    .wj-glyph-diamond:after {
+        content: '\25c6\fe0e'
+    }
+    .wj-glyph-dimension:after {
+        content: '\27c0\fe0e'
+    }
+    .wj-glyph-down {
+        border-top: .5em solid;
+        border-right: .4em solid transparent;
+        border-left: .4em solid transparent;
+    }
+    .wj-glyph-down-left {
+        border-top: .65em solid transparent;
+        border-left: .65em solid;
+    }
+    .wj-glyph-down-right {
+        border-bottom: .65em solid;
+        border-left: .65em solid transparent;
+    }
+    .wj-glyph-file {
+        border-left: .7em solid;
+        height: .85em;
+    }
+        .wj-glyph-file:after {
+            position: absolute;
+            transform: translateX(-100%);
+            border-top: .3em solid transparent;
+            border-left: .3em solid white;
+            content: '';
+        }
+    .wj-glyph-left, .wj-glyph-right-rtl {
+        border-top: .4em solid transparent;
+        border-right: .5em solid;
+        border-bottom: .4em solid transparent;
+    }
+    .wj-glyph-measure:after {
+        content: '\1f4ca\fe0e'
+    }
+    .wj-glyph-plus, .wj-glyph-minus {
+        border-top: .25em solid;
+        width: .9em;
+        top: -.2em;
+    }
+        .wj-glyph-plus:after {
+            position: absolute;
+            box-sizing: border-box;
+            border-left: .25em solid;
+            width: .25em;
+            height: .85em;
+            left: .32em;
+            top: -.55em;
+            content: "";
+        }
+    .wj-glyph-pencil:after {
+        content: '\270e\fe0e'
+    }
+    .wj-glyph-right, .wj-glyph-left-rtl {
+        border-top: .4em solid transparent;
+        border-bottom: .4em solid transparent;
+        border-left: .5em solid;
+    }
+    .wj-glyph-square {
+        border: .25em solid;
+    }
+    .wj-glyph-step-backward, .wj-glyph-step-forward-rtl {
+        border-top: .4em solid transparent;
+        border-right: .5em solid;
+        border-bottom: .4em solid transparent;
+        transform: translateX(.12em);
+    }
+        .wj-glyph-step-backward:after, .wj-glyph-step-forward-rtl:after {
+            position: absolute;
+            border-left: .2em solid;
+            height: .75em;
+            transform: translate(-100%,-50%);
+            content: '';
+        }
+    .wj-glyph-step-forward, .wj-glyph-step-backward-rtl {
+        border-top: .4em solid transparent;
+        border-bottom: .4em solid transparent;
+        border-left: .5em solid;
+    }
+        .wj-glyph-step-forward:after, .wj-glyph-step-backward-rtl:after {
+            position: absolute;
+            border-left: .2em solid;
+            height: .75em;
+            transform: translateY(-50%);
+            content: '';
+        }
+    .wj-glyph-up {
+        border-right: .4em solid transparent;
+        border-bottom: .5em solid;
+        border-left: .4em solid transparent;
+    }
+    .wj-glyph-up-left {
+        border-bottom: .65em solid transparent;
+        border-left: .65em solid;
+    }
+    .wj-glyph-up-right {
+        border-top: .65em solid;
+        border-left: .65em solid transparent;
+    }
+    .wj-glyph-filter {
+        top: -.1em;
+        width: .5em;
+        border-top: .5em solid;
+        border-right: .4em solid transparent;
+        border-left: .4em solid transparent;
+    }
+        .wj-glyph-filter:after {
+            position: absolute;
+            border-left: .2em solid;
+            height: .4em;
+            transform: translateX(-50%);
+            top: -.2em;
+            content: '';
+        }
+            [dir=rtl] .wj-glyph-filter:after {
+                transform: translateX(50%);
+            }
 
 /**************************************************************************
     wijmo.grid.sheet module
@@ -1675,7 +1550,7 @@ div.wj-sheet > div {
     float: left;
 }
 
-[dir="rtl"] div.wj-sheet > div {
+[dir=rtl] div.wj-sheet > div {
     display: block;
     float: right;
 }
@@ -1781,6 +1656,10 @@ div.wj-sheet > div {
         cursor: default;
         opacity: 0.5;
     }
+    .wj-pivotpanel .wj-flexgrid .wj-glyph-dimension,
+    .wj-pivotpanel .wj-flexgrid .wj-glyph-measure {
+        cursor: default;
+    }
     .wj-pivotpanel .wj-flexgrid .wj-aggregate {
         font-size: 80%;
         opacity: 0.5;
@@ -1790,11 +1669,11 @@ div.wj-sheet > div {
         margin: 0;
     }
 
-/* _ListContextMenu */
-.context-menu {
-    font-size: 90%;
-    padding: 6px;
-}
+    /* _ListContextMenu */
+    .context-menu {
+        font-size: 90%;
+        padding: 6px;
+    }
 
 .menu-icon {
     display: inline-block;
@@ -1930,7 +1809,7 @@ div.wj-sheet > div {
             margin-right: 4px;
         }
         .wj-treeview .wj-node:before { 
-            content: "";
+            content: '';
             position: relative;
             display: inline-block;
             border-top: .5em solid;
@@ -1987,24 +1866,24 @@ div.wj-sheet > div {
 }
 
 /* TreeView RTL support */
-[dir="rtl"] .wj-nodelist .wj-nodelist {
+[dir=rtl] .wj-nodelist .wj-nodelist {
     padding-left: unset;
     padding-right: 1em;
 }
-[dir="rtl"] .wj-node img {
+[dir=rtl] .wj-node img {
     padding-right: unset;
     padding-left: 4px;
 }
-[dir="rtl"] .wj-node .wj-node-check {
+[dir=rtl] .wj-node .wj-node-check {
     margin-right: unset;
     margin-left: 4px;
 }
-[dir="rtl"] .wj-nodelist .wj-node:before { 
+[dir=rtl] .wj-nodelist .wj-node:before { 
     margin-right: unset;
     margin-left: 4px;
 }
-[dir="rtl"] .wj-nodelist .wj-node.wj-state-collapsed:before,
-[dir="rtl"] .wj-nodelist .wj-node.wj-state-collapsing:before {
+[dir=rtl] .wj-nodelist .wj-node.wj-state-collapsed:before,
+[dir=rtl] .wj-nodelist .wj-node.wj-state-collapsing:before {
     transform: rotate(+90deg);
 }
 
@@ -3239,6 +3118,11 @@ body.full-screen {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.wj-viewpanel-container.rubberband-actived .wj-view-page svg,
+.wj-viewpanel-container.magnifier-actived .wj-view-page svg {
+    pointer-events: none;
 }
 
 .wj-magnifier {
