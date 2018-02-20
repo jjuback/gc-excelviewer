@@ -28,6 +28,7 @@
         "CSV",
         "Excel",
         "spreadsheet",
+        "TSV",
         "viewer",
         "vscode"
     ],
@@ -45,6 +46,15 @@
                 ],
                 "aliases": [
                     "CSV"
+                ]
+            },
+            {
+                "id": "tsv",
+                "extensions": [
+                    ".tsv"
+                ],
+                "aliases": [
+                    "TSV"
                 ]
             },
             {
@@ -92,7 +102,12 @@
                 {
                     "when": "resourceLangId == csv",
                     "command": "csv.preview",
-                    "group": "navigation"                    
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == tsv",
+                    "command": "csv.preview",
+                    "group": "navigation"
                 }
             ],
             "editor/title": [
@@ -103,6 +118,11 @@
                 },
                 {
                     "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 }

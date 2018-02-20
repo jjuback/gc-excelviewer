@@ -21,13 +21,13 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
         });
         return workspace.openTextDocument(file).then(doc => {
             let lang = doc ? doc.languageId : null;
-            if (lang !== 'csv' && lang !== 'plaintext') {
+            if (lang !== 'csv' && lang !== 'tsv' && lang !== 'plaintext') {
                 return this.errorSnippet("Active editor doesn't show a CSV or plain text document.");
             }
             let text = doc.getText();
             let base64 = Base64.encode(text);
             let options = {
-                separator: this.separator,
+                separator: (lang === 'tsv') ? "\t" : this.separator,
                 quoteMark: this.quoteMark,
                 hasHeaders: this.hasHeaders,
                 capitalizeHeaders: this.capitalizeHeaders,

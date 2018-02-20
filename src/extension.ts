@@ -103,7 +103,7 @@ export function deactivate() {
 function isCsvFile(document: TextDocument) {
     if (document) {
         let lang = document.languageId;
-        return (lang === 'csv' || lang === 'plaintext') && document.uri.scheme !== 'csv-preview';
+        return (lang === 'csv' || lang === 'tsv' || lang === 'plaintext') && document.uri.scheme !== 'csv-preview';
     }
     return false;
 }
