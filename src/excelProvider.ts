@@ -47,7 +47,7 @@ export class ExcelDocumentContentProvider extends base.BaseDocumentContentProvid
                 <script src="${this.serviceUrl}/jszip.min.js"></script>
                 <script src="${this.serviceUrl}/common.js"></script>
                 <script src="${this.serviceUrl}/excel.js"></script>
-                <body onload="resizeSheet()" onresize="resizeSheet()">
+                <body style="padding:0px; overflow:hidden" onload="resizeSheet()" onresize="resizeSheet()">
                     <div id="sheet"></div>
                 </body>                
                 <script type="text/javascript">

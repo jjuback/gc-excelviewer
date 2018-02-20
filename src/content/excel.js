@@ -11,14 +11,42 @@ function processFile(storage, callback) {
 function renderFile(data, options) {
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
+
     var nag = getNagLink();
-    var json = options.state;
+    var busy = false, pending = false;
     
-    function invoke() {
+    function getState() {
         var state = {
+            selectedSheetIndex: sheet.selectedSheetIndex,
             filterDefinition: sheet._filter.filterDefinition
         };
-        postState(gcLocalServer, state);
+        return state;
+    }
+
+    function preserveState() {
+        if (!busy) {
+            busy = true;
+            var state = getState();
+            postState(gcLocalServer, state, function() {
+                busy = false;
+                if (pending) {
+                    pending = false;
+                    preserveState();
+                }
+            })
+        } else {
+            pending = true;
+        }
+    }
+
+    function applyState() {
+        var json = options.state;
+        if (json) {
+            if (json.selectedSheetIndex || json.selectedSheetIndex == 0) {
+                sheet.selectedSheetIndex = json.selectedSheetIndex;
+            }
+            sheet._filter.filterDefinition = json.filterDefinition;
+        }
     }
 
     var menu = wijmo.getElement("[wj-part='context-menu']");
@@ -33,17 +61,17 @@ function renderFile(data, options) {
         sheet._filter.onFilterApplied();
     };
 
-    sheet._filter.filterApplied.addHandler(() => {
-        if (sheet.selectedSheetIndex === 0) {
-            setTimeout(invoke, 500);
-        }
-    });
-
     sheet.loaded.addHandler(() => {
         sheet.isReadOnly = true;
-        if (json) {
-            sheet._filter.filterDefinition = json.filterDefinition;
-        }
+        applyState();
+
+        sheet._filter.filterApplied.addHandler(() => {
+            preserveState();
+        });
+    
+        sheet.selectedSheetChanged.addHandler(() => {
+            preserveState();
+        });
     });
 
     sheet.load(data);
@@ -51,7 +79,5 @@ function renderFile(data, options) {
 
 function resizeSheet() {
     var div = wijmo.getElement("#sheet");
-    var html = wijmo.getElement("html");
-    html.style.overflow = "hidden";
-    div.style.height = html.clientHeight.toString() + "px";
+    div.style.height = window.frameElement.offsetHeight.toString() + "px";
 }
