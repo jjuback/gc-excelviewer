@@ -1,3 +1,22 @@
+## 2.0.18 (February 21, 2018)
+Fixed the initial scroll bar display for CSV and Excel files.
+
+Improved regular expression parsing for CSV files, particularly for fields that are surrounded by delimiters but span multiple lines. Such fields are displayed on a single line in the preview, but are now parsed correctly.
+
+Relaxed the restriction for CSV files that the first field on each line must be enclosed in quotes if the header row begins with a quote.
+
+For CSV files, the horizontal and vertical scroll bar positions are now persisted along with column widths and sort/filter criteria.
+
+Added support for the .tsv file extension (like .csv except that a tab delimiter is assumed).
+
+For Excel files, the selected sheet index is now persisted along with filter criteria for that sheet only.
+
+Added support for the .xlsm file extension (Excel file with macros, which the extension ignores).
+
+Fixed bug which caused the error message: Cannot read property 'languageId' of undefined.
+
+Upgraded to use Wijmo build 5.20173.409.
+
 ## 2.0.17 (January 12, 2018)
 Excel preview now uses the ambient font instead of switching to Arial, if present.
 
