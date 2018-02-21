@@ -29,16 +29,17 @@ function processFile(storage, callback) {
 
     var data = [], header = [];
     var content = Base64.decode(text);
-    var regexQuote = new RegExp(`^\s*${quote}`);
-    var quoted = regexQuote.exec(content);
+    var regexMultiline = new RegExp(`(${quote}[^${quote}]+\n.*${quote})\n`);
+    var multilineFields = content.split(regexMultiline).length > 1;
     var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
-    var lines = quoted ? content.split(regexLines) : content.split("\n");
+    var lines = multilineFields ? content.split(regexLines) : content.split("\n");
+
+    // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
+    var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].replace("\r", "");
         if (line.length > 0) {
-            // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-            var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
             var items = line.split(regexItems);
             if (i === 0 && hasHeaders) {
                 for (var j = 0; j < items.length; j++) {
