@@ -29,7 +29,7 @@ function processFile(storage, callback) {
 
     var data = [], header = [];
     var content = Base64.decode(text);
-    var regexMultiline = new RegExp(`(${quote}[^${quote}]+\n.*${quote})\n`);
+    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\r\n]+.*${quote})[\r\n]+`, 'm');
     var multilineFields = content.split(regexMultiline).length > 1;
     var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
     var lines = multilineFields ? content.split(regexLines) : content.split("\n");

@@ -1,3 +1,6 @@
+## 2.0.19 (February 22, 2018)
+Improved regular expression parsing for CSV files with Windows line endings (CR/LF).
+
 ## 2.0.18 (February 21, 2018)
 Fixed the initial scroll bar display for CSV and Excel files.
 
