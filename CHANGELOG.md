@@ -5,6 +5,10 @@ Added two configuration options that let you exclude comment lines from the CSV 
 
 `"csv-preview.commentCharacter": "[%@]"`
 
+Alternatively, to use C# or JavaScript style comments (`//`), do this:
+
+`"csv-preview.commentCharacter": "/{2}"`
+
 ## 2.0.19 (February 22, 2018)
 Improved regular expression parsing for CSV files with Windows line endings (CR/LF).
 
