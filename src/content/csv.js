@@ -4,14 +4,27 @@ function processFile(storage, callback) {
     var sep = options.separator;
     var quote = options.quoteMark;
     var hasHeaders = options.hasHeaders;
+    var comment = options.commentCharacter;
+    var skip = options.skipComments;
+
+    var regexQuote = new RegExp(`${quote}([^${quote}]*)${quote}`);
+    var regexComment = new RegExp(String.raw`^\s*${comment}|^\s+$`);
+    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\r\n]+.*${quote})[\r\n]+`, 'm');
+    var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
+
+    // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
+    var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
 
     function unquote(text) {
         if (text.length > 0) {
-            var regex = new RegExp(`${quote}([^${quote}]*)${quote}`);
-            var match = regex.exec(text);
+            var match = regexQuote.exec(text);
             return match ? match[1] : text;
         }
         return text;
+    }
+
+    function isComment(text) {
+        return !skip ? false : ((text.length > 0) ? regexComment.exec(text) : true);
     }
 
     function getHeader(n) {
@@ -29,22 +42,19 @@ function processFile(storage, callback) {
 
     var data = [], header = [];
     var content = Base64.decode(text);
-    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\r\n]+.*${quote})[\r\n]+`, 'm');
     var multilineFields = content.split(regexMultiline).length > 1;
-    var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
     var lines = multilineFields ? content.split(regexLines) : content.split("\n");
-
-    // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
-    var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
+    var firstLine = hasHeaders;
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].replace("\r", "");
-        if (line.length > 0) {
+        if (!isComment(line)) {
             var items = line.split(regexItems);
-            if (i === 0 && hasHeaders) {
+            if (firstLine) {
                 for (var j = 0; j < items.length; j++) {
                     header.push(unquote(items[j]));
                 }
+                firstLine = false;
             } else {
                 var obj = {};
                 for (var j = 0; j < items.length; j++) {
@@ -75,6 +85,14 @@ function renderFile(data, options) {
             flex.autoSizeColumn(0);
         }
     });
+
+    if (options.lineNumbers) {
+        flex.itemFormatter = function(panel, r, c, cell) {
+            if (panel.cellType == wijmo.grid.CellType.RowHeader) {
+                cell.textContent = (r + 1).toString();
+            }
+        };
+    }
 
     flex.isReadOnly = true;
     flex.itemsSource = data;

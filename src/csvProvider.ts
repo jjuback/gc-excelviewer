@@ -32,6 +32,9 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
                 hasHeaders: this.hasHeaders,
                 capitalizeHeaders: this.capitalizeHeaders,
                 resizeColumns: this.resizeColumns,
+                lineNumbers: this.lineNumbers,
+                commentCharacter: this.commentCharacter,
+                skipComments: this.skipComments,
                 uri: this.uri.toString(),
                 state: this.state
             };
@@ -58,6 +61,18 @@ export class CsvDocumentContentProvider extends base.BaseDocumentContentProvider
 
     get resizeColumns(): string {
         return <string>workspace.getConfiguration('csv-preview').get("resizeColumns");
+    }
+
+    get lineNumbers(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("lineNumbers");
+    }
+
+    get commentCharacter(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("commentCharacter");
+    }
+
+    get skipComments(): boolean {
+        return <boolean>workspace.getConfiguration('csv-preview').get("skipComments");
     }
 
     get serviceUrl(): string {

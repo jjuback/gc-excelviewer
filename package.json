@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.0.19",
+    "version": "2.0.20",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -160,6 +160,21 @@
                     ],
                     "default": "none",
                     "description": "Specifies whether columns are automatically resized to fit the data for CSV files."
+                },
+                "csv-preview.lineNumbers": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Specifies whether to display line numbers for CSV files."
+                },
+                "csv-preview.commentCharacter": {
+                    "type": "string",
+                    "default": "#",
+                    "description": "Specifies the character used to mark comment lines in CSV files."
+                },
+                "csv-preview.skipComments": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Specifies whether lines that begin with the comment character should be omitted from the CSV preview."
                 },
                 "csv-preview.theme": {
                     "type": "string",

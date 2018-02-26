@@ -1,3 +1,10 @@
+## 2.0.20 (February 25, 2018)
+Added the configuration option `csv-preview.lineNumbers` that lets you specify whether to display line numbers for CSV files (default: false).
+
+Added two configuration options that let you exclude comment lines from the CSV preview. Use `csv-preview.commentCharacter` to specify the character used to mark comment lines (default: #). If the option `csv-preview.skipComments` is true (default: false), then lines that begin with the comment character will not be included in the preview. The comment character may be preceded by whitespace in the CSV file. To specify multiple comment characters, use a regular expression character set. For example, to use both % and @ as comment symbols, do this:
+
+`"csv-preview.commentCharacter": "[%@]"`
+
 ## 2.0.19 (February 22, 2018)
 Improved regular expression parsing for CSV files with Windows line endings (CR/LF).
 

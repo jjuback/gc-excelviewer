@@ -3,7 +3,7 @@ Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provid
 
 > This extension requires Visual Studio Code 1.9.1 Recovery Build or greater.
 
-This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version fixes issues where changes to CSV file structure were not immediately reflected in the preview window. It also includes improvements for CSV file parsing, particularly for fields that span multiple lines. See the changelog for details.
+This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version fixes issues where changes to CSV file structure were not immediately reflected in the preview window. It also includes improvements for CSV file parsing, particularly for fields that span multiple lines. New features also include optional line numbers and the ability to comment out lines that begin with a specified character. See the changelog for details.
 
 ## CSV Usage
 For files with a .csv or .tsv extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
@@ -32,6 +32,9 @@ csv-preview.quoteMark | string | "&nbsp;(double&#8209;quote) | Specifies the opt
 csv-preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
 csv-preview.capitalizeHeaders | boolean | true | Specifies whether column headers in CSV files are capitalized.
 csv-preview.resizeColumns | string | none | Specifies whether columns are automatically resized to fit the data for CSV files.
+csv-preview.lineNumbers | boolean | false | Specifies whether to display line numbers for CSV files.
+csv-preview.commentCharacter | string | # | Specifies the character used to mark comment lines in CSV files.
+csv-preview.skipComments | boolean | false | Specifies whether lines that begin with the comment character should be omitted from the CSV preview.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
 > Any open CSV/Excel previews will automatically update to reflect the modified settings.
