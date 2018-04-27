@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -106,12 +106,13 @@ declare module wijmo.chart.hierarchical {
         /**
          * Initializes a new instance of the @see:TreeMap class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options A Javascript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
         _rollUp(): void;
         private _toogleTooltip(evt);
+        readonly _treeMapItems: any[];
         /**
          * Gets the chart's @see:Tooltip.
          */

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'ΚΛΕΙΣΙΜΟ',
+            ctc: 'Παρακαλούμε επικοινωνήστε με GrapeCity: <a href="mailto:us.sales@grapecity.com"> us.sales@grapecity.com</a>.',
+            dmn: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη για τον τρέχοντα τομέα. Άδεια τομέα <b>{licDomain}</b>, τον τρέχοντα τομέα είναι <b>{domain}</b>.',
+            evl: 'Wijmo έκδοση αξιολόγησης ({version})',
+            exp: 'Έχει λήξει η άδεια Wijmo σε αυτή την εφαρμογή. Η ημερομηνία λήξης της άδειας χρήσης είναι <b>{expDate:d}</b>.',
+            hdr: 'Wijmo άδεια χρήσης',
+            lic: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη.',
+            mss: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν έχει ρυθμιστεί.',
+            prd: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη για το στοιχείο ελέγχου <b>{control}</b>  .',
+            ver: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη για την έκδοση σε χρήση. Την έκδοση άδειας <b>{licVer}</b>, την έκδοση του προϊόντος είναι  <b> {version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} αντικείμενα που επιλέγονται',
             selectAll: 'Επιλογή όλων'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Φίλτρο επεξεργασίας στήλης',
             ascending: '\u2191 Με αύξουσα σειρά',
             descending: '\u2193 Με φθίνουσα σειρά',
             apply: 'Εφαρμογή',

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -16,18 +16,40 @@ declare module wijmo.react {
      * Base class for all Wijmo components for React.
      */
     class ComponentBase extends React.Component<any, any> {
+        static readonly _propsParent: string;
+        static readonly _typeSiblingIdProp: string;
+        static _siblingDirId: number;
         private _objPropHash;
+        private _isMounted;
+        private _mountedCBs;
+        private _siblingInsertedEH;
         controlType: any;
         props: any;
+        control: any;
+        parent: ComponentBase;
+        protected _parentProp: string;
+        protected _parentInCtor: boolean;
+        protected _siblingId: string;
         constructor(props: any, controlType: any, meta?: any);
-        render(): React.DOMElement<{}, Element>;
+        render(): React.DOMElement<any, Element>;
         componentDidMount(): any;
         componentWillUnmount(): void;
         shouldComponentUpdate(nextProps: any): boolean;
-        private _getControl(component);
-        private _copy(dst, src);
+        _mountedCB(cb: () => void): void;
+        protected _createControl(): any;
+        private _prepareControl();
+        protected _initParent(): void;
+        private _setParent(parent);
+        private _isChild();
+        private _isParentInCtor();
+        private _getParentProp();
+        private _getSiblingIndex();
+        private _siblingInserted(e);
+        private _copy(dst, src, isInit?);
         private _sameValue(v1, v2);
         private _isEvent(ctrl, propName);
+        private _getElement();
+        private _ignoreProp(prop);
     }
 }
 
@@ -281,6 +303,14 @@ declare module wijmo.react {
     class FlexGrid extends ComponentBase {
         constructor(props: any);
     }
+    /**
+     * React component that represents a @see:wijmo.grid.Column in a @see:wijmo.react.FlexGrid.
+     */
+    class FlexGridColumn extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+        protected _initParent(): void;
+    }
 }
 declare var Wj: typeof wijmo.react;
 
@@ -465,6 +495,76 @@ declare module wijmo.react {
     class FlexPie extends ComponentBase {
         constructor(props: any);
     }
+    /**
+     * React component that represents a @see:wijmo.chart.Axis in one of the following components:
+     * @see:wijmo.react.FlexChart
+     * , @see:wijmo.react.FlexChartSeries
+     * , @see:wijmo.react.FinancialChart
+     *  or @see:wijmo.react.FinancialChartSeries.
+     */
+    class FlexChartAxis extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.Legend in one of the following components:
+     * @see:wijmo.react.FlexChart
+     * , @see:wijmo.react.FlexPie
+     * , @see:wijmo.react.FinancialChart
+     * , @see:wijmo.react.FlexRadar
+     *  or @see:wijmo.react.Sunburst.
+     */
+    class FlexChartLegend extends ComponentBase {
+        _parentProp: string;
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.DataLabel in a @see:wijmo.react.FlexChart.
+     */
+    class FlexChartDataLabel extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.PieDataLabel in a @see:wijmo.react.FlexPie.
+     */
+    class FlexPieDataLabel extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.Series in a @see:wijmo.react.FlexChart.
+     */
+    class FlexChartSeries extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.LineMarker in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartLineMarker extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.DataPoint in a @see:wijmo.react.FlexChartAnnotation.
+     */
+    class FlexChartDataPoint extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.PlotArea in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartPlotArea extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
 }
 declare var Wj: typeof wijmo.react;
 
@@ -631,6 +731,16 @@ declare module wijmo.react {
      * current value.
      */
     class RadialGauge extends ComponentBase {
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.gauge.Range in one of the following components:
+     * @see:wijmo.react.LinearGauge
+     * , @see:wijmo.react.BulletGraph
+     *  or @see:wijmo.react.RadialGauge.
+     */
+    class Range extends ComponentBase {
+        _parentProp: string;
         constructor(props: any);
     }
 }
@@ -1026,6 +1136,13 @@ declare module wijmo.react {
     class FlexSheet extends ComponentBase {
         constructor(props: any);
     }
+    /**
+     * React component that represents a @see:wijmo.grid.sheet.Sheet in a @see:wijmo.react.FlexSheet.
+     */
+    class Sheet extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
 }
 declare var Wj: typeof wijmo.react;
 
@@ -1099,6 +1216,13 @@ declare module wijmo.react {
      * React component that encapsulates the @see:wijmo.chart.finance.FinancialChart control.
      */
     class FinancialChart extends ComponentBase {
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.FinancialSeries in a @see:wijmo.react.FinancialChart.
+     */
+    class FinancialChartSeries extends ComponentBase {
+        _parentProp: string;
         constructor(props: any);
     }
 }
@@ -1255,6 +1379,641 @@ declare module wijmo.react {
      * React component that encapsulates the @see:wijmo.chart.radar.FlexRadar control.
      */
     class FlexRadar extends ComponentBase {
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.radar.FlexRadarAxis in one of the following components:
+     * @see:wijmo.react.FlexRadar
+     *  or @see:wijmo.react.FlexRadarSeries.
+     */
+    class FlexRadarAxis extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.radar.FlexRadarSeries in a @see:wijmo.react.FlexRadar.
+     */
+    class FlexRadarSeries extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.TrendLine in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartTrendLine extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.MovingAverage in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartMovingAverage extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.YFunctionSeries in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartYFunctionSeries extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.ParametricFunctionSeries in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartParametricFunctionSeries extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.Waterfall in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartWaterfall extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.BoxWhisker in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartBoxWhisker extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.analytics.ErrorBar in a @see:wijmo.react.FlexChart.
+     */
+    class FlexChartErrorBar extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.chart.animation.ChartAnimation in one of the following components:
+     * @see:wijmo.react.FlexChart
+     * , @see:wijmo.react.FlexPie
+     * , @see:wijmo.react.FinancialChart
+     *  or @see:wijmo.react.FlexRadar.
+     */
+    class FlexChartAnimation extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.chart.annotation.AnnotationLayer in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartAnnotationLayer extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see: in a @see:wijmo.react.FlexChartAnnotationLayer.
+     */
+    class FlexChartAnnotation extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+        protected _createControl(): any;
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.Fibonacci in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartFibonacci extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.FibonacciArcs in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartFibonacciArcs extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.FibonacciFans in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartFibonacciFans extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.FibonacciTimeZones in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartFibonacciTimeZones extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.ATR in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartAtr extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.CCI in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartCci extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.RSI in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartRsi extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.WilliamsR in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartWilliamsR extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.Macd in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartMacd extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.MacdHistogram in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartMacdHistogram extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.Stochastic in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartStochastic extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.BollingerBands in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartBollingerBands extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.finance.analytics.Envelopes in a @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartEnvelopes extends ComponentBase {
+        _parentProp: string;
+        constructor(props: any);
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.chart.interaction.RangeSelector in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartRangeSelector extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+    /**
+     * React component that represents a @see:wijmo.chart.interaction.ChartGestures in one of the following components:
+     * @see:wijmo.react.FlexChart
+     *  or @see:wijmo.react.FinancialChart.
+     */
+    class FlexChartGestures extends ComponentBase {
+        _parentInCtor: boolean;
+        constructor(props: any);
+    }
+}
+declare var Wj: typeof wijmo.react;
+
+/**
+ * Wijmo interop module for <a href="https://facebook.github.io/react/">React</a>.
+ *
+ * This module provides React components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the React and
+ * ReactDOM libraries, as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to React components, include the appropriate
+ * tags in your JSX (or TSX) files. For example, the code below adds
+ * an @see:InputNumber control to a React component:
+ *
+ * <pre>&lt;label htmlFor="inputnumber"&gt;Here's an InputNumber control:&lt;/label&gt;
+ * &lt;Wj.InputNumber
+ *   id="inputNumber"
+ *   format="c2"
+ *   min={ 0 } max={ 10 } step={ .5 }
+ *   value={ this.state.value }
+ *   valueChanged={ this.valueChanged }/&gt;</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "Wj" prefix, followed by
+ *      the control name. The "Wj" is a shorthand for the full module name
+ *      "wijmo.react" which can also be used.</li>
+ * <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ * <li>
+ *      Attribute values enclosed in quotes are interpreted as strings, and
+ *      values enclosed in curly braces are interpreted as JavaScript expressions.</li>
+ * <li>
+ *      React components do not have implicit two-way bindings, so controls that
+ *      modify values typically use event handlers to explicitly apply changes to
+ *      the parent component's state.</li>
+ * </ol>
+ *
+ * To illustrate this last point, the component that contains the markup given above
+ * would typically implement a "valueChanged" event handler as follows:
+ *
+ * <pre>valueChanged: function(s, e) {
+ *   this.setState({ value, s.value });
+ * }</pre>
+ *
+ * The event handler calls React's
+ * <a href="https://facebook.github.io/react/docs/component-api.html">setState</a>
+ * method to update the component state, automatically triggering a UI update.
+ * Notice that the method does not write directly into the "state" object, which
+ * should be treated as immutable in React applications.
+ *
+ * All Wijmo React components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;Wj.FlexGrid
+ *   initialized={ function(s,e) {
+ *
+ *     // assign a custom MergeManager to the grid
+ *     s.mergeManager = new CustomMergeManager(s);
+ *
+ *   }}
+ * /&gt;</pre>
+ */
+declare module wijmo.react {
+    /**
+     * React component that represents a @see:wijmo.grid.filter.FlexGridFilter in a @see:wijmo.react.FlexGrid.
+     */
+    class FlexGridFilter extends ComponentBase {
+        _parentInCtor: boolean;
         constructor(props: any);
     }
 }

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-%n', '%n'] },
                 currency: { decimals: 2, symbol: '₺', pattern: ['-$n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'KAPAT',
+            ctc: 'Lütfen GrapeCity başvurun: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Bu uygulamada Wijmo lisans geçerli etki alanı için geçerli değil. Lisans Alan\'ın <b> {licDomain}</b>; <b>{domain}</b>etki alanı için geçerli adıdır.',
+            evl: 'Wijmo değer biçmek yorum ({version})',
+            exp: 'Bu uygulamada Wijmo lisansının süresi doldu. <b>{expDate:d}</b>Lisans sona erme tarihidir.',
+            hdr: 'Wijmo lisans',
+            lic: 'Bu uygulamada Wijmo lisans geçersiz.',
+            mss: 'Bu uygulamada Wijmo lisans ayarlanmamış.',
+            prd: 'Bu uygulamada Wijmo lisans <b>{control}</b> denetimi için geçerli değil.',
+            ver: 'Wijmo lisans bu uygulamada kullanılan sürümü için geçerli değildir. Lisans sürümüne <b>{licVer}</b>; <b>{version}</b>ürün sürümüdür.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} ürün seçilen',
             selectAll: 'Tümünü Seç'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filtre Düzenleyicisi sütun için',
             ascending: '\u2191 Artan',
             descending: '\u2193 Azalan',
             apply: 'Uygula',

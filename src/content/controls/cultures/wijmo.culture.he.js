@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '₪', pattern: ['$-n', '$ n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'סגור',
+            ctc: 'אנא צרו קשר עם GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'הרשיון Wijmo ביישום זה אינו חוקי עבור התחום הנוכחי. התחום רשיון <b> {domain}</b>; התחום הנוכחי הוא <b> {licDomain}</b>.',
+            evl: 'גירסאת הערכה Wijmo ({version})',
+            exp: 'פג התוקף של הרשיון Wijmo ביישום זה. תאריך התפוגה הרישיון הוא <b> {expDate:d}</b>.',
+            hdr: 'רשיון Wijmo',
+            lic: 'הרשיון Wijmo ביישום זה אינו חוקי.',
+            mss: 'הרשיון Wijmo ביישום זה אינו מוגדר.',
+            prd: 'הרשיון Wijmo ביישום זה אינו חוקי עבור הפקד  <b> {control} </b>  .',
+            ver: 'הרשיון Wijmo ביישום זה אינו חוקי עבור הגירסה בשימוש. גירסת רשיון <b>{version}</b>; גירסת המוצר הוא <b> {licVer}</b>.'
+        },
         MultiSelect: {
             itemsSelected: 'פריטים שנבחרו  {count:n0}',
             selectAll: 'בחר הכל'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'עורך מסנן עבור עמודה',
             ascending: '\u2191 ‏‏סדר עולה',
             descending: '\u2193 ‏‏סדר יורד',
             apply: 'החל',

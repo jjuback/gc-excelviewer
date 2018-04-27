@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -155,10 +155,11 @@ declare module wijmo.grid.multirow {
          * In most cases, the <b>options</b> parameter will include the value for the
          * @see:layoutDefinition property.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         /**
          * Gets or sets an array that defines the layout of the rows used to display each data item.
          *

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: 'XDR', pattern: ['-$n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'CERRAR',
+            ctc: 'Por favor, póngase en contacto con GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'La licencia de Wijmo en esta aplicación no es válida para el dominio actual. El dominio de la licencia es <b>{licDomain}</b>; el dominio actual es <b>{domain}</b>.',
+            evl: 'Versión de evaluación Wijmo ({version})',
+            exp: 'La licencia de Wijmo en esta aplicación ha expirado. La fecha de vencimiento de la licencia es <b>{expDate:d}</b>.',
+            hdr: 'Licencia Wijmo',
+            lic: 'La licencia de Wijmo en esta aplicación no es válida.',
+            mss: 'La licencia de Wijmo en esta aplicación no está configurada.',
+            prd: 'La licencia de Wijmo en esta aplicación no es válida para el control <b>{control}</b>.',
+            ver: 'La licencia de Wijmo en esta aplicación no es válida para la versión en uso. La versión de la licencia es <b>{licVer}</b>; la versión del producto es <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} ítems seleccionados',
             selectAll: 'Seleccionar todo'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor de filtro para la columna',
             ascending: '\u2191 Ascendente',
             descending: '\u2193 Descendente',
             apply: 'Aplicar',

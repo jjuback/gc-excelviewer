@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -19,6 +19,22 @@ declare module wijmo {
      * Gets the version of the Wijmo library that is currently loaded.
      */
     function getVersion(): string;
+    /**
+     * Sets the license key that identifies licensed Wijmo applications.
+     *
+     * @param licenseKey String containing the license key to use in this application.
+     *
+     * If you do not set the license key, Wijmo will run in evaluation mode,
+     * adding a watermark element to the page.
+     *
+     * Licensed users may obtain keys at the
+     * <a href="https://www.grapecity.com/en/my-account" target="_blank">My Account</a>
+     * section of the Wijmo site.
+     *
+     * Note that Wijmo does not send keys or any licensing information to any servers.
+     * It only checks the internal consistency of the key provided.
+     */
+    function setLicenseKey(licenseKey: string): void;
     /**
      * Specifies constants that represent keyboard codes.
      *
@@ -479,10 +495,18 @@ declare module wijmo {
      * in HTMLInputElement objects, except it checks for conditions that
      * may cause exceptions (element not in the DOM, disabled, or hidden).
      *
+     * @param e HTMLInputElement or HTMLTextAreaElement to select.
      * @param start Offset into the text field for the start of the selection.
      * @param end Offset into the text field for the end of the selection.
      */
-    function setSelectionRange(e: HTMLInputElement, start: number, end?: number): void;
+    function setSelectionRange(e: any, start: number, end?: number): boolean;
+    /**
+     * Disables the autocomplete, autocorrect, autocapitalize, and spellcheck
+     * properties of an input element.
+     *
+     * @param e The input element.
+     */
+    function disableAutoComplete(e: HTMLInputElement): void;
     /**
      * Safely removes an element from the DOM tree.
      *
@@ -1359,7 +1383,8 @@ declare module wijmo {
      * and for handling the HTML templates that define the control structure.
      */
     class Control {
-        protected static _wme: HTMLElement;
+        static _licKey: string;
+        static _wme: HTMLElement;
         static _touching: boolean;
         static _REFRESH_INTERVAL: number;
         static _FOCUS_INTERVAL: number;
@@ -1368,6 +1393,8 @@ declare module wijmo {
         static _CLICK_DELAY: number;
         static _CLICK_REPEAT: number;
         static _CLIPBOARD_DELAY: number;
+        static _DRAG_SCROLL_EDGE: number;
+        static _DRAG_SCROLL_STEP: number;
         static _CTRL_KEY: string;
         static _OWNR_KEY: string;
         static _SCRL_KEY: string;
@@ -1387,7 +1414,7 @@ declare module wijmo {
         /**
          * Initializes a new instance of the @see:Control class and attaches it to a DOM element.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          * @param invalidateOnResize Whether the control should be invalidated when it is resized.
          */
@@ -1441,7 +1468,7 @@ declare module wijmo {
         /**
          * Gets the control that is hosted in a given DOM element.
          *
-         * @param element The DOM element that is hosting the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          */
         static getControl(element: any): Control;
         /**
@@ -1624,8 +1651,9 @@ declare module wijmo {
          * Raises the @see:refreshed event.
          */
         onRefreshed(e?: EventArgs): void;
+        _getProductInfo(): string;
+        private _updateWme();
         _hasPendingUpdates(): boolean;
-        private static _updateWme();
         protected _handleResize(): void;
         protected _updateFocusState(): void;
         protected _updateState(): void;
@@ -2397,6 +2425,7 @@ declare module wijmo.collections {
         _edtClone: any;
         _committing: boolean;
         _canceling: boolean;
+        _pendingRefresh: boolean;
         _pgSz: number;
         _pgIdx: number;
         _updating: number;
@@ -3498,6 +3527,11 @@ declare module wijmo {
     }
 }
 
+declare var theLic: string;
+declare module wijmo {
+    function _updateWme(ctl: Control, key: string): void;
+}
+
 declare module wijmo {
     /**
      * Class that provides masking services to an HTMLInputElement.
@@ -3633,9 +3667,11 @@ declare module wijmo {
     function isMobile(): boolean;
     function isFirefox(): boolean;
     function isSafari(): boolean;
+    function isEdge(): boolean;
     function isIE(): boolean;
     function isIE9(): boolean;
     function getEventOptions(capture: boolean, passive: boolean): any;
+    function supportsFocusOptions(): boolean;
     function _startDrag(dataTransfer: any, effectAllowed: string): void;
 }
 

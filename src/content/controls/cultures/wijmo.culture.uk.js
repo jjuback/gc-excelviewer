@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '₴', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'ЗАКРИТИ',
+            ctc: 'Будь ласка, звертайтеся GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Цей застосунок, ліцензія Wijmo неприпустимий для поточного домену. Ліцензію домен <b></b>{licDomain}; поточного домену є <b> </b>{domain}.',
+            evl: 'Wijmo пробної версії ({version})',
+            exp: 'Ліцензія Wijmo в цьому додатку, минув. Термін дії ліцензії є <b>{expDate:d}</b>.',
+            hdr: 'Wijmo ліцензії',
+            lic: 'Цей застосунок, ліцензія Wijmo неприпустимий.',
+            mss: 'Цей застосунок, ліцензія Wijmo не встановлено.',
+            prd: 'Ліцензія Wijmo у цій програмі недійсна для <b>{control}</b> контроль',
+            ver: 'Цей застосунок, ліцензія Wijmo неприпустимий для версії використовується. Версія, ліцензія, <b></b>{licVer}; версію продукту є <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} пунктів обраний',
             selectAll: 'Шукати все'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Фільтр редактор для стовпця',
             ascending: '\u2191 У порядку зростання',
             descending: '\u2193 У порядку спадання',
             apply: 'Застосувати',

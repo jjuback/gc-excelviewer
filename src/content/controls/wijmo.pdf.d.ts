@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -60,7 +60,7 @@ interface _IPdfKitDocument {
     on(eventName: string, handler: Function): _IPdfKitDocument;
     on(eventName: 'data', handler: (chunk: any) => {}): _IPdfKitDocument;
     removeAllListeners(type: string): _IPdfKitDocument;
-    removeEventListener(type: string, listener: Function): _IPdfKitDocument;
+    removeListener(type: string, listener: Function): _IPdfKitDocument;
     fill(colorOrRule: string): _IPdfKitDocument;
     fill(color: string, rule?: string): _IPdfKitDocument;
     fill(color: number[], rule?: string): _IPdfKitDocument;

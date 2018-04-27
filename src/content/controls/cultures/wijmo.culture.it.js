@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'CHIUDE',
+            ctc: 'Si prega di contattare GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'La licenza Wijmo in questa applicazione non è valida per il dominio corrente. Il dominio della licenza è <b>{licDomain}</b>; il dominio corrente è <b>{domain}</b>.',
+            evl: 'Versione di valutazione Wijmo ({version})',
+            exp: 'La licenza Wijmo in questa applicazione è scaduta. La data di scadenza della licenza è <b>{expDate:d}</b>.',
+            hdr: 'Licenza Wijmo',
+            lic: 'La licenza Wijmo in questa applicazione non è valida.',
+            mss: 'La licenza Wijmo in questa applicazione non è impostata.',
+            prd: 'La licenza Wijmo in questa applicazione non è valida per il controllo <b>{control}</b>.',
+            ver: 'La licenza Wijmo in questa applicazione non è valida per la versione in uso. La versione della licenza è <b>{licVer}</b>; la versione del prodotto è <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} elementi selezionati',
             selectAll: 'Seleziona tutto'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor di filtri per colonna',
             ascending: '\u2191 Crescente',
             descending: '\u2193 Decrescente',
             apply: 'Applica',

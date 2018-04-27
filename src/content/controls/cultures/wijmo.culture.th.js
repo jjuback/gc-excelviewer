@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '฿', pattern: ['-$n', '$n'] }
             },
@@ -53,6 +56,18 @@ var wijmo;
                 fiscalYearOffsets: [-3, -3]
             }
         },
+        Licensing: {
+            cls: 'ปิด',
+            ctc: 'กรุณาติดต่อ GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>',
+            dmn: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้องสำหรับโดเมนปัจจุบัน โดเมนสิทธิ์การใช้งานคือ <b>{licDomain}</b>; <b>{domain}</b>เป็นโดเมนปัจจุบัน',
+            evl: 'Wijmo การประเมินรุ่น ({version})',
+            exp: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ได้หมดอายุ วันหมดอายุสิทธิ์การใช้งานเป็น <b>{expDate:d}</b>',
+            hdr: 'อนุญาตให้ใช้สิทธิของ Wijmo',
+            lic: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้อง',
+            mss: 'ไม่มีการตั้งค่าสิทธิ์การใช้งาน Wijmo ในโปรแกรมประยุกต์นี้',
+            prd: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้องสำหรับตัวควบคุม <b>{control}</b>',
+            ver: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้องสำหรับรุ่นที่ใช้ รุ่นใบอนุญาตคือ <b>{licVer}</b>รุ่นผลิตภัณฑ์เป็น <b>{version}</b>'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} รายการที่เลือก',
             selectAll: 'เลือกทั้งหมด'
@@ -62,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'แก้ไขตัวกรองสำหรับคอลัมน์',
             ascending: '\u2191 เรียงขึ้น',
             descending: '\u2193 เรียงลง',
             apply: 'ใช้',

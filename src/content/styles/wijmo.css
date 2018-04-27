@@ -26,15 +26,16 @@
     -ms-user-select: none;
     user-select: none;
 }
-
-/*
-  Required to make contenteditable work on iOS
-  http://stackoverflow.com/questions/21295698/html5-contenteditable-attribute-not-working-properly-on-ios7-mobile-safari
-*/
-.wj-control [contenteditable] {
-    -webkit-user-select: text;
-    user-select: text;
-}
+    /*
+      Required to make contenteditable work on iOS
+      http://stackoverflow.com/questions/21295698/html5-contenteditable-attribute-not-working-properly-on-ios7-mobile-safari
+    */
+    .wj-control [contenteditable] {
+        -moz-user-select: text;
+        -webkit-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
 
 
 /* Define control header */
@@ -58,7 +59,7 @@
 
 /* Disabled elements (via CSS) */
 .wj-state-disabled {
-    opacity: 0.5;
+    opacity: .5;
     cursor: default;
     pointer-events: none;
 }
@@ -74,7 +75,7 @@
 
 /* Basic style for all button types */
 button,
-html input[type=button],
+input[type=button],
 input[type=reset],
 input[type=submit] {
     -webkit-appearance: button;
@@ -225,7 +226,7 @@ input[type=submit] {
 
 .wj-template {
     height: 100%;
-    display: table-cell;
+    display: table-cell; /* to work in Firefox, TFS 307664 */
 }
 
 .wj-dropdown-panel {
@@ -556,7 +557,7 @@ input[type=submit] {
     border: 1.2px solid red;
 }
 .wj-rowheaders .wj-cell.wj-state-invalid {
-    background: rgba(255, 0, 0, 0.30)
+    background: rgba(255, 180, 180, 1); /* TFS 306815 */
 }
 .wj-cells .wj-cell.wj-state-invalid:after {
     position: absolute;
@@ -568,9 +569,17 @@ input[type=submit] {
     border-right: 6px solid red;
 }
 
-/* Cells with word-wrapping */
+/* Cells with word-wrapping/line breaks */
 .wj-cell.wj-wrap {
     white-space: normal;
+    text-overflow: clip;
+}
+.wj-cell.wj-multiline {
+    white-space: pre; /* or pre-line? */
+    text-overflow: clip;
+}
+.wj-cell.wj-wrap.wj-multiline {
+    white-space: pre-wrap;
     text-overflow: clip;
 }
 
@@ -652,35 +661,33 @@ input[type=submit] {
     cursor: pointer;
     padding: 0 4px;
 }
-
 [dir=rtl] .wj-header .wj-elem-filter {
     float: left;
 }
-
 .wj-filter-on .wj-glyph-filter {
     opacity: 0.85;
 }
-
 .wj-filter-off .wj-glyph-filter {
     opacity: 0.25;
 }
-
 .wj-columnfiltereditor {
     padding: 10px;
     min-width: 230px;
     max-width: 400px;
 }
-
     .wj-columnfiltereditor .wj-control {
         margin-bottom: 6px;
         width: 100%;
     }
-
-    .wj-columnfiltereditor .wj-listbox .wj-listbox-item label {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+    .wj-columnfiltereditor .wj-listbox {
+        height: 150px;
     }
+        .wj-columnfiltereditor .wj-listbox .wj-listbox-item {
+            max-width: 25em;
+        }
+            .wj-columnfiltereditor .wj-listbox .wj-listbox-item label {
+                white-space: nowrap;
+            }
 
 /* FlexGrid GroupPanel extension */
 .wj-grouppanel {
@@ -688,14 +695,12 @@ input[type=submit] {
     background-color: #f4f4f4;
     padding: 15px;
 }
-
     .wj-grouppanel .wj-cell {
         margin-right: 10px;
         padding: 6px 16px;
         border: 1px solid #e6e6e6;
         cursor: pointer;
     }
-
         .wj-grouppanel .wj-cell:hover {
             background: #e0e0e0;
         }
@@ -1242,7 +1247,6 @@ input[type=submit] {
         content: '\2731\fe0e'
     }
     .wj-glyph-calendar {
-        top: .2em;
         width: 1em;
         height: 1em;
         border: .1em solid;
@@ -1251,7 +1255,6 @@ input[type=submit] {
         .wj-glyph-calendar:after {
             position: absolute;
             font-size: 50%;
-            /*top: -.15em;*/
             left: .5em;
             content: '1';
         }
@@ -1270,17 +1273,17 @@ input[type=submit] {
     .wj-glyph-clock {
         width: 1em;
         height: 1em;
-        border: .13em solid;
+        border: .1em solid;
         border-radius: 50%;
     }
         .wj-glyph-clock:after {
             position: absolute;
             border-left: .1em solid;
             border-bottom: .1em solid;
-            width: .3em;
-            height: .4em;
-            top: .05em;
-            left: .32em;
+            width: .25em;
+            height: .3em;
+            top: .1em;
+            left: .35em;
             content: "";
         }
     .wj-glyph-diamond:after {
@@ -1360,6 +1363,9 @@ input[type=submit] {
             transform: translate(-100%,-50%);
             content: '';
         }
+        [dir=rtl] .wj-glyph-step-backward:after, .wj-glyph-step-forward-rtl:after {
+            transform: translate(0, -50%);
+        }
     .wj-glyph-step-forward, .wj-glyph-step-backward-rtl {
         border-top: .4em solid transparent;
         border-bottom: .4em solid transparent;
@@ -1372,6 +1378,10 @@ input[type=submit] {
             transform: translateY(-50%);
             content: '';
         }
+        [dir=rtl] .wj-glyph-step-forward:after, .wj-glyph-step-backward-rtl:after {
+            transform: translate(100%, -50%);
+        }
+
     .wj-glyph-up {
         border-right: .4em solid transparent;
         border-bottom: .5em solid;
@@ -1636,22 +1646,15 @@ div.wj-sheet > div {
         opacity: 0.5;
         pointer-events: none;
     }
-    .wj-pivotpanel .wj-flexgrid .wj-cell:not(.wj-header) {
+    .wj-pivotpanel .wj-flexgrid .wj-cell {
         border: none;
         background: inherit !important;
         color: inherit !important;
     }
-        .wj-pivotpanel .wj-flexgrid .wj-cell:not(.wj-header):hover {
+        .wj-pivotpanel .wj-flexgrid .wj-cell:hover {
             background: rgba(0, 0, 0, 0.03) !important;
             border-radius: 4px;
-            transition: all linear 300ms;
         }
-    .wj-pivotpanel .wj-flexgrid .wj-cell.wj-header {
-        font-weight: bold;
-        color: inherit;
-        background: rgba(0, 0, 0, 0.05);
-        border: none;
-    }
     .wj-pivotpanel .wj-flexgrid .wj-glyph-filter {
         cursor: default;
         opacity: 0.5;
@@ -1710,6 +1713,10 @@ div.wj-sheet > div {
     .wj-pivotfiltereditor .wj-control {
         margin-bottom: 6px;
         width: 100%;
+    }
+
+    .wj-pivotfiltereditor .wj-listbox {
+        max-height: 150px;
     }
 
     .wj-pivotfiltereditor .wj-listbox .wj-listbox-item label {
@@ -1777,6 +1784,63 @@ div.wj-sheet > div {
     padding: 1em;
     box-sizing: border-box;
 }
+
+/**** TabPanel styles ****/
+
+.wj-tabpanel {
+    display: block;
+}
+    .wj-tabpanel .wj-tabpanes {
+        overflow: auto;
+        border-top: 1px solid #ddd;
+        user-select: text;
+        -moz-user-select: text;
+        -webkit-user-select: text;
+        -ms-user-select: text;
+    }
+    .wj-tabpanel .wj-tabheaders .wj-tabheader {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: inherit;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+        .wj-tabpanel .wj-tabheaders .wj-tabheader.wj-state-active { /* active tab headers*/
+            color: #0085c7;
+            background: white;
+        }
+        .wj-tabpanel .wj-tabheaders .wj-tabheader:not(.wj-state-active):focus { /* focused/inactive tab headers*/
+            background: rgba(0,0,0,.1);
+        }
+        .wj-tabpanel .wj-tabheaders .wj-tabheader:after { /* underline active header */
+            content: '';
+            position: absolute;
+            background-color: #0085c7;
+            height: 2.5px;
+            left: 45%;
+            width: 10%;
+            bottom: 0;
+            visibility: hidden;
+        }
+        .wj-tabpanel .wj-tabheaders .wj-tabheader.wj-state-active:after { /* show underline */
+            left: 0;
+            width: 100%;
+            visibility: visible;
+            transition-duration: .2s;
+        }
+    .wj-tabpanel .wj-tabpanes .wj-tabpane:not(.wj-state-active) { /* hide inactive panes */
+        display: none;
+    }
+    .wj-tabpanel .wj-tabheaders, /* remove focus outlines */
+    .wj-tabpanel .wj-tabheaders .wj-tabheader,
+    .wj-tabpanel .wj-tabpanes,
+    .wj-tabpanel .wj-tabpanes .wj-tabpane {
+        outline: none;
+    }
 
 /**** TreeView styles ****/
 
@@ -2881,7 +2945,9 @@ body.full-screen {
     pointer-events: none;
 }
 
-.wj-view-page a rect {
+.wj-view-page rect[arsvg\:data-action-type],
+.wj-view-page a rect
+{
     pointer-events: inherit;
 }
 

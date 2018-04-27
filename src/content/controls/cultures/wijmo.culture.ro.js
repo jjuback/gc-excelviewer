@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: 'lei', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'ÎNCHIDERE',
+            ctc: 'Vă rugăm să contactaţi GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo de licenţă în această aplicație nu este validă pentru domeniul curent. Domeniul de licenţă este <b>{licDomain}</b>;  <b>{domain}</b>de domeniu curent este.',
+            evl: 'Versiunea de evaluare Wijmo ({version})',
+            exp: 'Wijmo licenţa în această cerere a expirat. Data de expirare a licenţei este <b>{expDate:d}</b>.',
+            hdr: 'Licenta Wijmo',
+            lic: 'Wijmo de licenţă în această aplicație nu este validă.',
+            mss: 'Wijmo de licenţă în această aplicație nu este setată.',
+            prd: 'Wijmo de licenţă în această aplicație nu este validă pentru controlul <b>{control}</b>  .',
+            ver: 'Wijmo de licenţă în această aplicație nu este validă pentru versiunea în uz. Versiunea de licenţă este <b>{licVer}</b>; versiunea produsului este <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} articole selectat',
             selectAll: 'Selectare totală'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor filtrul pentru coloană',
             ascending: '\u2191 Crescător',
             descending: '\u2193 Descrescător',
             apply: 'Aplicare',

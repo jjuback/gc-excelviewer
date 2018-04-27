@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -109,7 +109,7 @@ declare module wijmo.gauge {
         /**
          * Initializes a new instance of the @see:Gauge class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -347,7 +347,7 @@ declare module wijmo.gauge {
         /**
          * Initializes a new instance of the @see:LinearGauge class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -389,7 +389,7 @@ declare module wijmo.gauge {
         /**
          * Initializes a new instance of the @see:RadialGauge class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -450,7 +450,7 @@ declare module wijmo.gauge {
         /**
          * Initializes a new instance of the @see:BulletGraph class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -496,9 +496,10 @@ declare module wijmo.gauge {
         /**
          * Initializes a new instance of the @see:Range class.
          *
-         * @param name The name of the range.
+         * @param options Initialization options for the @see:Range or a string
+         * containing the @see:Range name.
          */
-        constructor(name?: string);
+        constructor(options?: string);
         /**
          * Gets or sets the minimum value for this range.
          */

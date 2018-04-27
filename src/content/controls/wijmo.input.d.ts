@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -187,8 +187,8 @@ declare module wijmo.input {
      *     <tr><td>PgDn</td><td>Next month</td></tr>
      *     <tr><td>Alt + PgUp</td><td>Previous year</td></tr>
      *     <tr><td>Alt + PgDn</td><td>Next year</td></tr>
-     *     <tr><td>Home</td><td>@see:min value (if defined) or first of the month</td></tr>
-     *     <tr><td>End</td><td>@see:max value (if defined) or last of the month</td></tr>
+     *     <tr><td>Home</td><td>First valid day of the month</td></tr>
+     *     <tr><td>End</td><td>Last valid day of the month</td></tr>
      *     <tr><td>Alt + End</td><td>Today's date</td></tr>
      *   </tbody>
      * </table>
@@ -417,6 +417,7 @@ declare module wijmo.input {
         private _monthInValidRange(month);
         private _yearInValidRange(year);
         private _sameMonth(date, month);
+        private _getValidDate(month, first);
         _clamp(value: Date): Date;
         private _createChildren();
         private _createElement(tag, parent?, className?);
@@ -426,7 +427,6 @@ declare module wijmo.input {
         private _getMonth(date);
         private _monthMode();
         private _navigate(skip);
-        _setDisplayMonth(value: Date): void;
     }
 }
 
@@ -550,14 +550,16 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:ListBox class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
         /**
          * Refreshes the list.
+         *
+         * @param fullUpdate Indicates whether to update the control layout as well as the content.
          */
-        refresh(): void;
+        refresh(fullUpdate?: boolean): void;
         /**
          * Gets or sets the array or @see:ICollectionView object that contains the list items.
          */
@@ -1142,7 +1144,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:Menu class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -1325,7 +1327,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:MultiSelect class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -1422,7 +1424,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:MultiAutoComplete class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -1537,8 +1539,6 @@ declare module wijmo.input {
         _removeOnHide: boolean;
         _draggable: boolean;
         _dragged: boolean;
-        _click: any;
-        _mousedown: any;
         _bkdrop: HTMLDivElement;
         _result: any;
         _resultEnter: any;
@@ -1547,10 +1547,12 @@ declare module wijmo.input {
         _visible: boolean;
         _wasVisible: boolean;
         _composing: boolean;
+        _ownerClickBnd: any;
+        _ownerMousedownBnd: any;
         /**
          * Initializes a new instance of the @see:Popup class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -1735,8 +1737,8 @@ declare module wijmo.input {
         refresh(fullUpdate?: boolean): void;
         _makeDraggable(draggable: boolean): void;
         protected _handleResize(): void;
-        protected _handleClick(e: any): void;
-        protected _handleMouseDown(e: any): void;
+        protected _ownerClick(e: any): void;
+        protected _ownerMouseDown(e: any): void;
         private _showBackdrop();
         private _validateAndHide(result);
     }
@@ -1773,7 +1775,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:InputDate class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -1907,7 +1909,7 @@ declare module wijmo.input {
          * Raises the @see:valueChanged event.
          */
         onValueChanged(e?: EventArgs): void;
-        refresh(): void;
+        refresh(fullUpdate?: boolean): void;
         onIsDroppedDownChanged(e?: EventArgs): void;
         protected _createDropDown(): void;
         protected _updateDropDown(): void;
@@ -1953,7 +1955,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:InputTime class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -2038,7 +2040,7 @@ declare module wijmo.input {
         onValueChanged(e?: EventArgs): void;
         onItemsSourceChanged(e?: EventArgs): void;
         protected _updateInputSelection(start: number): void;
-        refresh(): void;
+        refresh(fullUpdate?: boolean): void;
         onSelectedIndexChanged(e?: EventArgs): void;
         protected _updateItems(): void;
         private _getTime(value);
@@ -2073,7 +2075,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:InputDateTime class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -2106,7 +2108,7 @@ declare module wijmo.input {
          */
         readonly inputTime: InputTime;
         dispose(): void;
-        refresh(): void;
+        refresh(fullUpdate?: boolean): void;
         protected _updateBtn(): void;
         protected _clamp(value: Date): Date;
         protected _commitText(): void;
@@ -2154,6 +2156,9 @@ declare module wijmo.input {
         _composing: boolean;
         _chrDec: string;
         _chrCur: string;
+        _chrNeg: string;
+        _chrPls: string;
+        _chrPct: string;
         _fmtSpc: string;
         _fmtPrc: number;
         _rxSym: RegExp;
@@ -2168,7 +2173,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:InputNumber class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -2348,7 +2353,7 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:InputMask class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -2397,6 +2402,11 @@ declare module wijmo.input {
          */
         isRequired: boolean;
         /**
+         * Gets or sets a value that indicates whether the user can modify
+         * the control value using the mouse and keyboard.
+         */
+        isReadOnly: boolean;
+        /**
          * Sets the focus to the control and selects all its content.
          */
         selectAll(): void;
@@ -2409,6 +2419,7 @@ declare module wijmo.input {
          * Raises the @see:valueChanged event.
          */
         onValueChanged(e?: EventArgs): void;
+        _updateState(): void;
         dispose(): void;
         refresh(fullUpdate?: boolean): void;
         onGotFocus(e: any): void;

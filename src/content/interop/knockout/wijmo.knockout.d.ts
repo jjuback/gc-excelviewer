@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -621,7 +621,7 @@ declare module wijmo.knockout {
       *
       * The wjContextMenu binding is specified as a parameter added to the
       * element that the context menu applies to. The parameter value is a
-      * selector for the element that contains the menu. For example:
+      * CSS selector for the element that contains the menu. For example:
       *
       * <pre>&lt;!-- paragraph with a context menu --&gt;
       *&lt;p data-bind="wjContextMenu: { id: '#idMenu'}" &gt;
@@ -1998,6 +1998,7 @@ declare module wijmo.knockout {
      */
     class wjRange extends WjBinding {
         _getControlConstructor(): any;
+        _createControl(element: any): any;
     }
 }
 

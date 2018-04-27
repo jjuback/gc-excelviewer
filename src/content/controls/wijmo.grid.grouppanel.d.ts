@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -53,7 +53,7 @@ declare module wijmo.grid.grouppanel {
         /**
          * Initializes a new instance of the @see:GroupPanel class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);

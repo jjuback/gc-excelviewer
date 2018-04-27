@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '₹', pattern: ['$ -n', '$n'] }
             },
@@ -53,6 +56,18 @@ var wijmo;
                 fiscalYearOffsets: [3, 3]
             }
         },
+        Licensing: {
+            cls: 'बंद करें',
+            ctc: 'कृपया संपर्क GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'इस अनुप्रयोग में Wijmo लायसेंस वर्तमान डोमेन के लिए मांय नहीं है । लायसेंस डोमेन <b>{licDomain}है</b>; वर्तमान डोमेन <b> {domain} है</b>.',
+            evl: 'Wijmo मूल्यांकन संस्करण ({version})',
+            exp: 'इस अनुप्रयोग में Wijmo लायसेंस की समयसीमा समाप्त हो गई है । लायसेंस समय सीमा समाप्ति दिनांक <b>{expDate:d}है</b>.',
+            hdr: 'Wijmo लायसेंस',
+            lic: 'इस अनुप्रयोग में Wijmo लायसेंस अमांय है ।',
+            mss: 'इस अनुप्रयोग में Wijmo लायसेंस सेट नहीं है ।',
+            prd: 'इस अनुप्रयोग में Wijmo लायसेंस  <b>{control}</b> नियंत्रण के लिए मांय नहीं है ।',
+            ver: 'इस अनुप्रयोग में Wijmo लायसेंस उपयोग में संस्करण के लिए मांय नहीं है । लायसेंस संस्करण <b>{licVer}है</b>; उत्पाद संस्करण <b> {version} है</b>।'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} आइटम चयनित',
             selectAll: 'सभी का चयन करे'
@@ -62,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'स्तंभ के लिए फ़िल्टर संपादक',
             ascending: '\u2191 आरोही',
             descending: '\u2193 अवरोही',
             apply: 'लागू करें',

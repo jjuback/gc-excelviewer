@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: '$', pattern: ['(n $)', 'n $'] }
             },
@@ -53,6 +56,18 @@ var wijmo;
                 fiscalYearOffsets: [3, 3]
             }
         },
+        Licensing: {
+            cls: 'FERMER',
+            ctc: 'S’il vous plaît contacter GrapeCity: <a href="mailto:us.sales@grapecity.com"> us.sales@grapecity.com</a>.',
+            dmn: 'La licence de Wijmo dans la présente demande n’est pas valable pour le domaine actuel. Le domaine de la licence est <b>{licDomain}</b>; le domaine actuel est <b>{domain}</b>.',
+            evl: 'Version d’évaluation de Wijmo ({version})',
+            exp: 'La licence de Wijmo dans la présente demande a expiré. Date d’expiration de la licence est <b>{expDate:d}</b>.',
+            hdr: 'Licence Wijmo',
+            lic: 'La licence de Wijmo dans la présente demande n’est pas valide.',
+            mss: 'La licence de Wijmo dans la présente demande n’est pas définie.',
+            prd: 'La licence de Wijmo dans la présente demande n’est pas valide pour le contrôle de <b>{control}</b>  .',
+            ver: 'La licence de Wijmo dans la présente demande n’est pas valide pour la version en cours d’utilisation. La version de la licence est  <b>{licVer}</b>; la version du produit est <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} articles sélectionnés',
             selectAll: 'Sélectionner tous les éléments'
@@ -62,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Éditeur de filtre pour la colonne',
             ascending: '\u2191 Croissant',
             descending: '\u2193 Décroissant',
             apply: 'Appliquer',

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: 'NT$', pattern: ['-$n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: '關閉',
+            ctc: '请联系葡萄城厂家： <a href="mailto:sales.xa@grapecity.com">sales.xa@grapecity.com</a>。',
+            dmn: '当前应用程序中的Wijmo许可对于该域名无效。授权域名是<b>{licDomain}</b>；当前域名是<b>{domain}</b>。',
+            evl: 'Wijmo 试用版({version})',
+            exp: '当前应用程序中的Wijmo许可已经过期。 许可失效时间为<b>{expDate:d}</b>。',
+            hdr: 'Wijmo许可',
+            lic: '当前应用程序中的Wijmo许可无效。',
+            mss: '当前应用程序中的Wijmo许可未被设置。',
+            prd: '当前应用程序中的Wijmo许可对于<b>{control}</b>控件无效。',
+            ver: '当前应用程序中的Wijmo许可对正在使用的控件版本无效。 许可版本是<b>{licVer}</b>；当前版本是<b>{version}</b>。'
+        },
         MultiSelect: {
             itemsSelected: '選定{count:n0}個項目',
             selectAll: '選取全部'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: '列的濾鏡編輯器',
             ascending: '\u2191 遞增排序',
             descending: '\u2193 遞減排序',
             apply: '應用',
@@ -248,10 +264,10 @@ var wijmo;
             pageWidth: '頁面寬度',
             zoomOut: '拉遠顯示',
             zoomIn: '拉近顯示',
-            rubberbandTool: 'Zoom by Selection',
+            rubberbandTool: '按選區縮放',
             magnifierTool: '放大鏡',
             rotatePage: '旋轉頁面',
-            rotateDocument: 'Rotate Document',
+            rotateDocument: '旋轉文檔',
             exports: '匯出',
             fullScreen: '全螢幕',
             exitFullScreen: '結束全螢幕',
@@ -316,7 +332,7 @@ var wijmo;
             encryptionType: '加密級別︰',
             paged: '已分頁',
             showNavigator: '顯示導覽',
-            navigatorPosition: 'Navigator Position',
+            navigatorPosition: '導航器位置',
             singleFile: '單個檔',
             tolerance: '容限時檢測文本邊界 （點）︰',
             pictureLayer: '使用單獨的圖片圖層',
@@ -330,7 +346,7 @@ var wijmo;
             searchNext: '搜尋下一個',
             checkMark: '\u2713',
             exportOk: '出口…',
-            cannotSearch: 'Search requires a document source to be specified.',
+            cannotSearch: '搜索要求指定文檔源。',
             parameters: '參數',
             requiringParameters: '請輸入參數。',
             nullParameterError: '值不能為 null。',

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 0, symbol: 'Rp', pattern: ['-$n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'TUTUP',
+            ctc: 'Hubungi GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Lisensi Wijmo dalam aplikasi ini ini tidak berlaku untuk domain saat ini. Domain lisensi  <b>{licDomain}</b>; domain saat ini adalah <b>{domain}</b>.',
+            evl: 'Wijmo evaluasi ({version})',
+            exp: 'Lisensi Wijmo dalam aplikasi ini telah kedaluwarsa. Tanggal kadaluarsa lisensi adalah <b>{expDate:d}</b>.',
+            hdr: 'Lisensi Wijmo',
+            lic: 'Lisensi Wijmo dalam aplikasi ini tidak valid.',
+            mss: 'Lisensi Wijmo dalam aplikasi ini tidak diatur.',
+            prd: 'Lisensi Wijmo dalam aplikasi ini ini tidak berlaku untuk kontrol <b>{control}</b>  .',
+            ver: 'Lisensi Wijmo dalam aplikasi ini ini tidak berlaku untuk versi digunakan. Versi lisensi <b>{licVer}</b>; versi produk adalah  <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} item yang dipilih',
             selectAll: 'Pilih Semua'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filter Editor untuk kolom',
             ascending: '\u2191 Menaik',
             descending: '\u2193 Menurun',
             apply: 'Terapkan',

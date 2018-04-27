@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: 'HK$', pattern: ['($n)', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: '關閉',
+            ctc: '請聯絡葡萄城廠商 ： <a href="mailto:sales.xa@grapecity.com">sales.xa@grapecity.com</a>。',
+            dmn: '當前應用程式中的Wijmo許可對於該網域名無效。授權網域名是<b>{licDomain}</b>；當前網域名是<b>{domain}</b>。',
+            evl: 'Wijmo 試用版({version})',
+            exp: '當前應用程式中的Wijmo許可已經過期。 許可失效時間為<b>{expDate:d}</b>。',
+            hdr: 'Wijmo許可',
+            lic: '當前應用程式中的Wijmo許可無效。',
+            mss: '當前應用程式中的Wijmo許可未被設置。',
+            prd: '當前應用程式中的Wijmo許可對於<b>{control}</b>控制項無效。',
+            ver: '當前應用程式中的Wijmo許可對正在使用的控制項版本無效。 許可版本是<b>{licVer}</b>；當前版本是<b>{version}</b>。'
+        },
         MultiSelect: {
             itemsSelected: '選定{count:n0}個項目',
             selectAll: '全部選擇'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 由小至大排列',
             descending: '\u2193 由大至小排列',
             apply: '套用',

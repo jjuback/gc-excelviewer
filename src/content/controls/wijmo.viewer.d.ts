@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -86,6 +86,8 @@ declare module wijmo.viewer {
     function _getTransformedPosition(bound: _IRect, size: _ISize, rotateAngle: _RotateAngle, zoomFactor: number): Point;
     function _getRotatedSize(size: _ISize, rotateAngle: _RotateAngle): _ISize;
     function _getPositionByHitTestInfo(hitTestInfo: _IHitTestInfo): _IDocumentPosition;
+    function _strEndsWith(str: string, value: string, ignoreCase?: boolean): boolean;
+    function _isEqual(a: any, b: any): boolean;
 }
 
 declare module wijmo.viewer {
@@ -117,6 +119,7 @@ declare module wijmo.viewer {
         _getIsDisposed(): boolean;
         _checkHasOutlines(data: _IDocumentStatus): boolean;
         _checkIsLoadCompleted(data: _IDocumentStatus): boolean;
+        readonly encodeRequestParams: boolean;
         readonly executionDateTime: Date;
         readonly expiredDateTime: Date;
         readonly errors: string[];
@@ -132,13 +135,14 @@ declare module wijmo.viewer {
         _updatePageSettings(newValue: _IPageSettings): void;
         readonly _innerService: _DocumentService;
         readonly paginated: boolean;
+        readonly hasThumbnails: boolean;
         readonly hasOutlines: boolean;
         readonly pageCount: number;
         initialPosition: _IDocumentPosition;
         readonly service: _IDocumentService;
         getSupportedExportDescriptions(): IPromise;
         getBookmark(name: string): IPromise;
-        executeCustomAction(actionString: string): IPromise;
+        executeCustomAction(action: _IDocAction): IPromise;
         getOutlines(): IPromise;
         getFeatures(): IPromise;
         dispose(): IPromise;
@@ -155,8 +159,9 @@ declare module wijmo.viewer {
         print(rotations?: _RotateAngle[]): void;
         private _removeScript(doc);
         private _rotate(doc, rotations);
-        renderToFilter(options: Object): IPromise;
-        getRenderToFilterUrl(options: Object): string;
+        renderToFilter(options: _IRenderOptions): IPromise;
+        getRenderToFilterUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IRenderOptions): IPromise;
         search(searchOptions: _ISearchOptions): IPromise;
     }
     function _statusJsonReviver(k: string, v: any): any;
@@ -199,7 +204,7 @@ declare module wijmo.viewer {
         rightMargin: _Unit;
         topMargin: _Unit;
     }
-    interface _ISearchResult {
+    interface _ISearchResultItem {
         nearText: string;
         positionInNearText: number;
         boundsList: _IRect[];
@@ -207,7 +212,7 @@ declare module wijmo.viewer {
     }
     interface _IOutlineNode {
         caption: string;
-        children: _IOutlineNode[];
+        children: _IOutlineNode[] | (() => IPromise);
         level: number;
         target: string;
         position?: _IDocumentPosition;
@@ -242,6 +247,12 @@ declare module wijmo.viewer {
     interface _IDocumentOptions extends _IDocumentService {
         paginated?: boolean;
     }
+    interface _IRenderOptions {
+        format: string;
+        paged?: boolean;
+        outputRange?: string | number;
+        resolution?: number;
+    }
     class _DocumentService implements _IDocumentService {
         private _url;
         private _documentPath;
@@ -251,18 +262,19 @@ declare module wijmo.viewer {
         getStatus(): IPromise;
         setPageSettings(pageSettings: _IPageSettings): IPromise;
         getBookmark(name: string): IPromise;
-        executeCustomAction(actionString: string): IPromise;
+        executeCustomAction(action: _IDocAction): IPromise;
         load(data?: any): IPromise;
         dispose(): IPromise;
         getOutlines(): IPromise;
-        renderToFilter(options: Object): IPromise;
+        renderToFilter(options: _IRenderOptions): IPromise;
         search(searchOptions: _ISearchOptions): IPromise;
-        getRenderToFilterUrl(options: Object): string;
+        getRenderToFilterUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IRenderOptions): IPromise;
         getSupportedExportDescriptions(): IPromise;
         getFeatures(): IPromise;
+        getPingTimeout(): number;
     }
     function _pageSettingsJsonReviver(k: string, v: any): any;
-    function _strEndsWith(text: string, suffix: string): boolean;
     function _appendQueryString(url: string, queries: Object): string;
     function _joinUrl(...data: (string | string[])[]): string;
     function _joinStringUrl(data: string[]): string[];
@@ -271,6 +283,7 @@ declare module wijmo.viewer {
     function _objToParams(obj: Object): string;
     interface _IHttpRequest {
         method?: string;
+        urlEncode?: boolean;
         data?: any;
         async?: boolean;
         cache?: boolean;
@@ -346,10 +359,10 @@ declare module wijmo.viewer {
     }
     class _Promise implements IPromise {
         private _callbacks;
-        then(onFulfilled?: (value?: any) => any, onRejected?: (reason?: any) => any): IPromise;
+        then(onFulfilled?: (value?: any) => any, onRejected?: (reason?: any) => any): this;
         catch(onRejected: (reason?: any) => any): IPromise;
-        resolve(value?: any): void;
-        reject(reason?: any): void;
+        resolve(value?: any): this;
+        reject(reason?: any): this;
         onFulfilled(value: any): void;
         onRejected(reason: any): void;
     }
@@ -501,7 +514,15 @@ declare module wijmo.viewer {
 }
 
 declare module wijmo.viewer {
-    class _Report extends _DocumentSource {
+    class _ReportDocumentSourceBase extends _DocumentSource {
+        constructor(options: _IDocumentOptions);
+        readonly autoRun: boolean;
+        readonly hasParameters: boolean;
+        getParameters(): IPromise;
+        setParameters(parameters: Object): IPromise;
+        render(): IPromise;
+    }
+    class _Report extends _ReportDocumentSourceBase {
         private _hasParameters;
         private _parameters;
         private _status;
@@ -526,7 +547,7 @@ declare module wijmo.viewer {
         _createDocumentService(options: _IReportService): _ReportService;
         readonly _innerService: _ReportService;
         render(): IPromise;
-        executeCustomAction(actionString: string): IPromise;
+        executeCustomAction(action: _IDocAction): IPromise;
     }
     interface _IReportService extends _IDocumentService {
         reportName: string;
@@ -562,7 +583,7 @@ declare module wijmo.viewer {
         static getReports(serviceUrl: string, path: string, data?: any): IPromise;
         readonly reportName: string;
         getBookmark(name: string): IPromise;
-        executeCustomAction(actionString: string): IPromise;
+        executeCustomAction(action: _IDocAction): IPromise;
         getStatus(): IPromise;
         getDocumentStatus(): IPromise;
         _getReportCache(): IPromise;
@@ -574,12 +595,13 @@ declare module wijmo.viewer {
         _checkReportInstanceController(promise?: _Promise): boolean;
         _getError(xhr: XMLHttpRequest): string;
         render(data?: any): IPromise;
+        renderToFilter(options: _IRenderOptions): IPromise;
         load(data?: any): IPromise;
         cancel(): IPromise;
         dispose(): IPromise;
         getOutlines(): IPromise;
-        renderToFilter(options: Object): IPromise;
-        getRenderToFilterUrl(options: Object): string;
+        getRenderToFilterUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IRenderOptions): IPromise;
         search(searchOptions: _ISearchOptions): IPromise;
         setPageSettings(pageSettings: _IPageSettings): IPromise;
         setParameters(parameters: Object): IPromise;
@@ -607,7 +629,10 @@ declare module wijmo.viewer {
         name: string;
         dataType: _ParameterType;
         nullable: boolean;
-        allowedValues: any[];
+        allowedValues: {
+            key: string;
+            value: any;
+        }[];
         value: any;
         hidden: boolean;
         multiValue: boolean;
@@ -673,7 +698,7 @@ declare module wijmo.viewer {
         load(): IPromise;
         _updateStatus(newValue: string): void;
         getStatus(): IPromise;
-        renderToFilter(options: Object): IPromise;
+        renderToFilter(options: _IRenderOptions): IPromise;
         _updateDocumentStatus(data: _IDocumentStatus): void;
     }
     class _PdfDocumentService extends _DocumentService {
@@ -691,8 +716,9 @@ declare module wijmo.viewer {
         dispose(): IPromise;
         load(data?: any): IPromise;
         getStatus(data?: any): IPromise;
-        renderToFilter(options: Object, data?: any): IPromise;
-        getRenderToFilterUrl(options: Object): string;
+        renderToFilter(options: _IRenderOptions, data?: any): IPromise;
+        getRenderToFilterUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IRenderOptions): IPromise;
         getSupportedExportDescriptions(): IPromise;
         getFeatures(): IPromise;
         search(searchOptions: _ISearchOptions): IPromise;
@@ -707,25 +733,26 @@ declare module wijmo.viewer {
         private _text;
         private _matchCase;
         private _wholeWord;
-        private _searchResults;
+        private _searchResult;
         private _currentIndex;
         private _needUpdate;
         currentChanged: Event;
         searchStarted: Event;
         searchCompleted: Event;
+        readonly current: _ISearchResultItem;
+        currentIndex: number;
+        documentSource: _DocumentSource;
+        matchCase: boolean;
+        readonly searchResult: _ISearchResultItem[];
+        text: string;
+        wholeWord: boolean;
+        clear(): void;
+        search(pre?: boolean): void;
+        private _clearResults();
+        private _getSearchResults();
         private _onCurrentChanged();
         private _onSearchStarted();
         private _onSearchCompleted();
-        text: string;
-        matchCase: boolean;
-        wholeWord: boolean;
-        readonly searchResults: _ISearchResult[];
-        currentIndex: number;
-        readonly current: _ISearchResult;
-        private _clearResults();
-        private _getSearchResults();
-        documentSource: _DocumentSource;
-        search(pre?: boolean): void;
     }
 }
 
@@ -1055,9 +1082,11 @@ declare module wijmo.viewer {
         private static _moveStep;
         private static _moveInterval;
         private static _enabledCss;
+        private _disposed;
         static controlTemplate: string;
         constructor(element: any);
         applyTemplate(css: string, tpl: string, parts: Object): HTMLElement;
+        dispose(): void;
         private _clearToolbarMoveTimer();
         private _scrollRight();
         private _scrollLeft();
@@ -1227,8 +1256,10 @@ declare module wijmo.viewer {
         rotateAngle: _RotateAngle;
         readonly content: any;
         getContent(): IPromise;
+        protected _processSvgResponse(svg: string): string;
+        _extractSize(content: HTMLElement): _ISize;
         private _onLinkClicked(e);
-        private _replaceActionLinks(svg);
+        protected _processActionLinks(svg: SVGElement, actionElementFound: (element: SVGElement) => void): void;
         private _addGlobalUniqueId(svgHtml);
     }
     class _CompositePageView extends Control implements _IPageView {
@@ -1594,8 +1625,16 @@ declare module wijmo.viewer {
     }
     class _LinkClickedEventArgs extends EventArgs {
         private _a;
-        constructor(a: SVGAElement);
-        readonly element: SVGAElement;
+        constructor(a: SVGElement);
+        readonly element: SVGElement;
+    }
+    enum _ActionKind {
+        Bookmark = 0,
+        Custom = 1,
+    }
+    interface _IDocAction {
+        kind: _ActionKind;
+        data?: string;
     }
     class _HistoryManager {
         private _items;
@@ -1720,10 +1759,11 @@ declare module wijmo.viewer {
         /**
          * Initializes a new instance of the @see:ViewerBase class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that will host the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         /**
          * Gets or sets the address of C1 Web API service.
          *
@@ -1772,8 +1812,8 @@ declare module wijmo.viewer {
         private _bindEvents();
         private _checkMiniToolbarVisible(e);
         private _showMiniToolbar(visible);
-        _goToBookmark(name: string): void;
-        _executeCustomAction(actionString: string): void;
+        _goToBookmark(action: _IDocAction): void;
+        _executeCustomAction(action: _IDocAction): void;
         _getStatusUtilCompleted(documentSource: _DocumentSource): void;
         private _initChildren();
         private _initSearchBar();
@@ -1853,8 +1893,10 @@ declare module wijmo.viewer {
         _getDocumentSource(): _DocumentSource;
         _setDocumentSource(value: _DocumentSource): void;
         _loadDocument(value: _DocumentSource): IPromise;
-        private _hyperlinkClicked(a);
+        protected _actionElementClicked(element: SVGElement): void;
+        protected _getActionInfo(element: SVGElement): _IDocAction;
         private _onDocumentSourceLoadCompleted();
+        _createPage(index: number, defPageSize: _ISize): _Page;
         _clearKeepSerConnTimer(): void;
         _keepServiceConnection(): void;
         _getExpiredTime(): number;
@@ -2127,10 +2169,11 @@ declare module wijmo.viewer {
         /**
          * Initializes a new instance of the @see:ReportViewer class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that will host the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         /**
         * Gets or sets the report name.
         *
@@ -2177,9 +2220,13 @@ declare module wijmo.viewer {
         private _renderDocumentSource();
         _disposeDocument(): void;
         _setDocumentRendering(): void;
-        _getSource(): _Report;
+        _getSource(): _DocumentSource;
         _supportsPageSettingActions(): boolean;
         refresh(fullUpdate?: boolean): void;
+        protected _isArReport(): boolean;
+        _createPage(index: number, defPageSize: _ISize): _Page;
+        protected _actionElementClicked(element: SVGElement): void;
+        protected _getActionInfo(element: SVGElement): _IDocAction;
     }
     class _ParametersEditor extends Control {
         private _itemSources;
@@ -2260,12 +2307,207 @@ declare module wijmo.viewer {
         /**
          * Initializes a new instance of the @see:PdfViewer class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that will host the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         readonly _innerDocumentSource: _PdfDocumentSource;
         _getSource(): _PdfDocumentSource;
+    }
+}
+
+declare module wijmo.viewer {
+    enum _ArActionKind {
+        Hyperlink = "hyperlink",
+        Bookmark = "bookmark",
+        Drillthrough = "drillthrough",
+        Sort = "sort",
+        Toggle = "toggle",
+    }
+    interface _IArDocAction extends _IDocAction {
+        arKind: _ArActionKind;
+    }
+    interface IArClientParameter {
+        Name: string;
+        Value: any;
+    }
+    enum _ArParameterType {
+        String = 0,
+        DateTime = 1,
+        Boolean = 2,
+        Integer = 3,
+        Float = 4,
+    }
+    enum _ArParameterState {
+        OK = 0,
+        ExpectValue = 1,
+        HasOutstandingDependencies = 2,
+        ValuesValidationFailed = 3,
+        DynamicValuesUnavailable = 4,
+    }
+    interface _IArParameterValue {
+        Label: string;
+        Value: any;
+    }
+    interface _IArParameter {
+        Name: string;
+        ParameterType: _ArParameterType;
+        Prompt: string;
+        Nullable: boolean;
+        MultiLine: boolean;
+        MultiValue: boolean;
+        AllowEmpty: boolean;
+        DateOnly: boolean;
+        Value: any;
+        Values: _IArParameterValue[];
+        AvailableValues: _IArParameterValue[];
+        State: _ArParameterState;
+        ExtendedErrorInfo: string;
+        DependantParameters: _IArParameter[];
+    }
+    interface _IArExecutionInfo extends _IExecutionInfo {
+    }
+    interface _IArExportOptions extends _IRenderOptions {
+        printing?: boolean;
+    }
+}
+
+declare module wijmo.viewer {
+    class _ArPage extends _Page {
+        _processSvgResponse(svg: string): string;
+        protected _processActionLinks(svg: SVGElement, actionElementFound: (element: SVGElement) => void): void;
+    }
+}
+
+declare module wijmo.viewer {
+    enum _ArDocumentFormat {
+        Image = 3,
+        Pdf = 4,
+        Html = 5,
+        Word = 6,
+        Xls = 7,
+        Xml = 8,
+        Svg = 9,
+    }
+    enum _ArLoadState {
+        NotStarted = 0,
+        Rendering = 1,
+        Rendered = 2,
+        Cancelling = 3,
+        Cancelled = 4,
+        Error = 5,
+    }
+    enum _ArErrorCode {
+        InvalidCulture = 0,
+        InvalidVersion = 1,
+        UnknownReportType = 2,
+        NoSuchReport = 3,
+        ParametersNotSet = 4,
+        RuntimeIsBusy = 5,
+        InternalError = 6,
+        ParameterNotExists = 7,
+        NoAcceptableFormats = 8,
+        InvalidToken = 9,
+        UnsupportedFormat = 10,
+        InvalidSetOfParameters = 11,
+        MethodNotSupported = 12,
+        NoValidLicenseFound = 13,
+    }
+    interface _IArError {
+        Description: string;
+        ErrorCode: _ArErrorCode;
+    }
+    interface _IArMethodResponse {
+        Error: _IArError;
+    }
+    interface _IArJsonResponse<T extends _IArMethodResponse> {
+        xhr: XMLHttpRequest;
+        json?: T;
+    }
+    interface _IADrillthroughReportData {
+        Parameters: _IArParameter[];
+        NumberOfParameters: number;
+        ReportName: string;
+    }
+    class _ArReportService extends _DocumentService {
+        private _lifeTime;
+        private _token;
+        private _parameters;
+        private _hasDelayedContent;
+        private _canChangeRenderMode;
+        private _documentFormat;
+        private _autoRun;
+        private _uid;
+        private _isDisposed;
+        private _hasOutlines;
+        static StateToStatus(state: _ArLoadState): _ExecutionStatus;
+        static ConvertFormat(format: string): _ArDocumentFormat;
+        static IsError(data: _IArJsonResponse<_IArMethodResponse>): data is _IArJsonResponse<_IArMethodResponse>;
+        readonly isDisposed: boolean;
+        readonly autoRun: boolean;
+        readonly canChangeRenderMode: boolean;
+        readonly parameters: _IArParameter[];
+        getStatus(): IPromise;
+        setPageSettings(pageSettings: _IPageSettings): IPromise;
+        getBookmark(name: string): IPromise;
+        executeCustomAction(action: _IArDocAction): IPromise;
+        load(data?: {
+            parameters: IArClientParameter[];
+        }): IPromise;
+        loadDrillthroughReport(data: _IADrillthroughReportData): IPromise;
+        processOnClick(actionData: string): IPromise;
+        getReportProperty(name: string): IPromise;
+        render(data?: any): IPromise;
+        dispose(async?: boolean): IPromise;
+        getOutlines(test?: boolean): IPromise;
+        _getError(data: _IArJsonResponse<any> | XMLHttpRequest): string;
+        _getBookmarks(parentId: number, startFrom: number, count: number, getChildren?: boolean): IPromise;
+        renderToFilter(options: _IRenderOptions): IPromise;
+        search(options: _ISearchOptions): IPromise;
+        setParameters(value: _IArParameter[]): IPromise;
+        validateParameter(value: _IArParameter): IPromise;
+        getRenderToFilterUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IArExportOptions): IPromise;
+        getPingTimeout(): number;
+        getSupportedExportDescriptions(): IPromise;
+        getFeatures(): IPromise;
+        private _ajax(url, settings?, data?);
+        private _convertFromServiceParameter(p);
+        private _convertToServiceParameter(p);
+        private _merge(src, dst);
+        private _mergeParameters(client, server);
+        private _parseXml(data);
+    }
+}
+
+declare module wijmo.viewer {
+    interface _IArDocumentOptions extends _IDocumentOptions {
+    }
+    class _ArReportSource extends _ReportDocumentSourceBase {
+        private _status;
+        statusChanged: Event;
+        constructor(options: _IArDocumentOptions);
+        readonly autoRun: boolean;
+        readonly encodeRequestParams: boolean;
+        readonly hasParameters: boolean;
+        readonly hasThumbnails: boolean;
+        readonly _innerService: _ArReportService;
+        readonly status: string;
+        executeCustomAction(action: _IDocAction): IPromise;
+        load(): IPromise;
+        getParameters(): IPromise;
+        setParameters(value: Object): IPromise;
+        print(rotations?: _RotateAngle[]): void;
+        render(): IPromise;
+        onStatusChanged(e?: EventArgs): void;
+        _createDocumentService(options: _IDocumentService): _DocumentService;
+        _getIsDisposed(): boolean;
+        _updateExecutionInfo(data: _IArExecutionInfo): void;
+        _updateDocumentStatus(data: _IReportStatus): void;
+        _checkIsLoadCompleted(data: _IReportStatus): boolean;
+        _updateStatus(data: _IReportStatus): void;
+        _convertParameters(params: _IArParameter[]): _IParameter[];
     }
 }
 

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -125,6 +125,7 @@ declare module wijmo.grid {
         _mrgMgr: MergeManager;
         private _autoGenCols;
         private _autoClipboard;
+        private _autoScroll;
         private _readOnly;
         private _indent;
         private _autoSizeMode;
@@ -177,7 +178,7 @@ declare module wijmo.grid {
         /**
          * Initializes a new instance of the @see:FlexGrid class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -265,6 +266,15 @@ declare module wijmo.grid {
          * Read-only cells are not affected by paste operations.
          */
         autoClipboard: boolean;
+        /**
+         * Gets or sets a value that determines whether the grid should automatically
+         * scroll its contents while users drag rows or columns into new positions.
+         *
+         * Row and column dragging are controlled by the @see:allowDragging property.
+         *
+         * This property is set to true by default.
+         */
+        autoScroll: boolean;
         /**
          * Gets or sets a JSON string that defines the current column layout.
          *
@@ -484,6 +494,25 @@ declare module wijmo.grid {
         /**
          * Gets or sets a value that determines whether users are allowed to drag
          * rows and/or columns with the mouse.
+         *
+         * If the @see:autoScroll property is set to true, the grid will automatically
+         * scroll its contents while the user drags rows or columns into new positions.
+         *
+         * The grid allows dragging columns by default.
+         *
+         * Dragging rows requires special considerations in bound scenarios.
+         *
+         * When you drag rows on bound grids, the rows will get out of sync with the
+         * data source (row 4 may refer to item 6 for example).
+         * To avoid this, you should handle the @see:draggedRow event and
+         * synchronize the data with the new row positions.
+         *
+         * Also, remember to set the @see:allowSorting property to false or you
+         * the row order will be determined by the data, and dragging rows will be
+         * pointless.
+         *
+         * This fiddle demonstrates row dragging with a bound grid:
+         * <a href="http://jsfiddle.net/Wijmo5/kyg0qsda/" target="_blank">Bound Row Dragging</a>.
          */
         allowDragging: AllowDragging;
         /**
@@ -1648,6 +1677,7 @@ declare module wijmo.grid {
         private _scroll(e);
         private _updateScrollPosition();
         private _updateContent(recycle, state?);
+        private _fixScroll();
         private _clearCells();
         _useFrozenDiv(): boolean;
         private _updateFrozenCells(state);
@@ -2094,8 +2124,10 @@ declare module wijmo.grid {
         HtmlContent = 1024,
         /** Cells in this row or column may contain wrapped text. */
         WordWrap = 2048,
+        /** Cells in this row or column may contain wrapped text. */
+        MultiLine = 4096,
         /** Cells in this column have templates. */
-        HasTemplate = 4096,
+        HasTemplate = 8192,
         /** Default settings for new rows. */
         RowDefault = 3,
         /** Default settings for new columns. */
@@ -2175,9 +2207,15 @@ declare module wijmo.grid {
          */
         isContentHtml: boolean;
         /**
-         * Gets or sets a value that indicates whether cells in the row or column wrap their content.
+         * Gets or sets a value that indicates whether the content of cells in
+         * this row or column should wrap to fit the available column width.
          */
         wordWrap: boolean;
+        /**
+         * Gets or sets a value that indicates whether the content of cells in
+         * this row or column should wrap at new line characters (\n).
+         */
+        multiLine: boolean;
         /**
          * Gets or sets a CSS class name to use when rendering
          * non-header cells in the row or column.
@@ -2940,6 +2978,8 @@ declare module wijmo.grid {
         Selected = 1,
         /** The cell is selected and is the active cell. */
         Cursor = 2,
+        /** The cell is active cell but not in a selected state. */
+        Active = 3,
     }
     /**
      * Specifies constants that represent a type of movement for the selection.
@@ -3220,6 +3260,7 @@ declare module wijmo.grid {
         _keydown(e: KeyboardEvent): boolean;
         private _keydownListBox(e);
         _keypress(e: KeyboardEvent): void;
+        _findString(items: string[], text: string, caseSensitive: boolean): number;
         _toggleListBox(evt: any, rng?: CellRange): boolean;
         private _createListBox();
         private _removeListBox();
@@ -3274,7 +3315,11 @@ declare module wijmo.grid {
     class _ImeHandler {
         _g: FlexGrid;
         _tbx: HTMLInputElement;
-        _mouseDown: boolean;
+        _isMouseDown: boolean;
+        _compStartBnd: any;
+        _updateImeFocusBnd: any;
+        _mouseDownBnd: any;
+        _mouseUpBnd: any;
         static _cssHidden: {
             position: string;
             pointerEvents: string;
@@ -3284,7 +3329,8 @@ declare module wijmo.grid {
             width: number;
         };
         /**
-         * Initializes a new instance of the @see:_ImeHandler class and attaches it to a @see:FlexGrid.
+         * Initializes a new instance of the @see:_ImeHandler class
+         * and attaches it to a @see:FlexGrid.
          *
          * @param g @see:FlexGrid that this @see:_ImeHandler will be attached to.
          */

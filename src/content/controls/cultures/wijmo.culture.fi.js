@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: '&SULJE',
+            ctc: 'Ota yhteyttä GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Tämän sovelluksen Wijmo-lisenssi ei ole kelvollinen nykyisen toimialueen. Lisenssi on <b>{licDomain}</b>, nykyisessä toimialueessa on <b>{domain}</b>.',
+            evl: 'Wijmo arvioinnin versio ({version})',
+            exp: 'Tämän sovelluksen Wijmo-käyttöoikeus on vanhentunut. Käyttöoikeuden vanhentumispäivämäärä on <b>{expDate:d}</b>.',
+            hdr: 'Wijmo käyttöoikeus',
+            lic: 'Tämän sovelluksen Wijmo-käyttöoikeus ei kelpaa.',
+            mss: 'Tämän sovelluksen Wijmo-lisenssi ei ole määritetty.',
+            prd: 'Tämän sovelluksen Wijmo-lisenssi ei kelpaa <b>{control}</b> valvontaa.',
+            ver: 'Tämän sovelluksen Wijmo-lisenssi ei ole kelvollinen versio käytössä. Anniskeluoikeudet käännös on <b>{licVer}</b>, tuoteversio ei <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} kohdetta valittu',
             selectAll: 'Valitse kaikki'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Suodattaa sarake-editori',
             ascending: '\u2191 Nouseva',
             descending: '\u2193 Laskeva',
             apply: 'Käytä',

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '$', pattern: ['-$n', '$n'] }
             },
@@ -50,7 +53,20 @@ var wijmo;
                     g: 'dd/MM/yyyy hh:mm tt', G: 'dd/MM/yyyy hh:mm:ss tt',
                     s: 'yyyy"-"MM"-"dd"T"HH":"mm":"ss'
                 },
+                fiscalYearOffsets: [-3, -3]
             }
+        },
+        Licensing: {
+            cls: 'CERRAR',
+            ctc: 'Por favor, póngase en contacto con GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'La licencia de Wijmo en esta aplicación no es válida para el dominio actual. El dominio de licencia es  <b> {licDomain}</b>; el dominio actual es <b>{domain}</b>.',
+            evl: 'Wijmo evaluación versión ({version})',
+            exp: 'Ha caducado la licencia de Wijmo en esta aplicación. La fecha de caducidad de licencia es <b>{expDate:d}</b>.',
+            hdr: 'Licencia Wijmo',
+            lic: 'La licencia de Wijmo en esta aplicación no es válida.',
+            mss: 'No se establece la licencia de Wijmo en esta aplicación.',
+            prd: 'La licencia de Wijmo en esta aplicación no es válida para el control de <b>{control}</b>  .',
+            ver: 'La licencia de Wijmo en esta aplicación no es válida para la versión en uso. La versión de licencia es <b>{licVer}</b>, la versión del producto es <b>{version}</b>.'
         },
         MultiSelect: {
             itemsSelected: '{count:n0} ítems seleccionados',
@@ -61,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor de filtro para la columna',
             ascending: '\u2191 Ascendente',
             descending: '\u2193 Descendente',
             apply: 'Aplicar',
@@ -159,7 +176,7 @@ var wijmo;
                     p0: 'Porcentaje (p0)',
                     p2: 'Porcentaje (p2)',
                     n2c: 'Miles (n2,)',
-                    n2cc: 'Millones (n2,,)',
+                    n2cc: 'Millones (n2),',
                     n2ccc: 'Billones (n2,,,)',
                     d: 'Fecha (d)',
                     MMMMddyyyy: 'Mes día año (MMMM dd, yyyy)',

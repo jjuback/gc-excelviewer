@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -180,7 +180,6 @@ declare module wijmo.grid.filter {
          * Updates editor with current filter settings.
          */
         updateEditor(): void;
-        _updateEditor(): void;
         /**
          * Clears the editor without applying changes to the filter.
          */
@@ -319,8 +318,11 @@ declare module wijmo.grid.filter {
         updateFilter(): void;
         private _createOperatorCombo(element);
         private _createValueInput(e);
-        private _isTimeFormat(fmt);
+        private _hasDatePart(fmt);
+        private _hasTimePart(fmt);
         private _btnAndOrChanged(e);
+        private _checkRadio(radio, checked);
+        private _keydown(e);
     }
 }
 
@@ -334,6 +336,14 @@ declare module wijmo.grid.filter {
         private _op;
         private _val;
         private _strVal;
+        private _mapVal;
+        private _filter;
+        /**
+         * Initializes a new instance of the @see:FilterCondition class.
+         *
+         * @param filter The @see:ConditionFilter that owns this @see:FilterCondition.
+         */
+        constructor(filter?: ConditionFilter);
         /**
          * Gets or sets the operator used by this @see:FilterCondition.
          */
@@ -657,6 +667,14 @@ declare module wijmo.grid.filter {
          */
         filterDefinition: string;
         /**
+         * Gets the active @see:ColumnFilterEditor.
+         *
+         * This property allows you to customize the filter editor when
+         * handling the @see:filterChanging event.
+         * It returns null when no filters are being edited.
+         */
+        readonly activeEditor: ColumnFilterEditor;
+        /**
          * Shows the filter editor for the given grid column.
          *
          * @param col The @see:Column that contains the filter to edit.
@@ -722,7 +740,7 @@ declare module wijmo.grid.filter {
         onFilterChanged(e: CellRangeEventArgs): void;
         _asColumn(col: any): Column;
         private _filter(item);
-        private _formatItem(sender, e);
+        private _formatItem(s, e);
         _mousedown(e: MouseEvent): void;
         _click(e: MouseEvent): void;
         private _toggleEditor(e);

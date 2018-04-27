@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -52,9 +52,12 @@ declare module wijmo.xlsx {
         private static _dxfs;
         private static _tables;
         static load(base64: string): any;
-        static loadAsync(base64: string): _Promise;
+        static loadAsync(base64: string): any;
         static save(workbook: any): any;
         static saveAsync(workbook: any, onError?: (reason?: any) => any): any;
+        private static _loadImpl(zipImpl, base64);
+        private static _getZipStyle(zip, retChain, result);
+        private static _getZipSharedString(zip, retChain, result);
         private static _saveWorkbookToZip(workbook, isAsync?);
         private static _getSharedString(sharedString);
         private static _getInlineString(cell);
@@ -66,7 +69,7 @@ declare module wijmo.xlsx {
         private static _getSheet(sheet, index, result);
         private static _getTable(table);
         private static _getTableColumn(column);
-        private static _getSheetRelatedTable(rel, tables);
+        private static _getSheetRelatedTable(rel);
         private static _getSheetRelatedHyperlink(rel, id, sheet);
         private static _getTableStyles(styleDefs, dxfs);
         private static _getTableStyleElement(dxf);
@@ -100,10 +103,9 @@ declare module wijmo.xlsx {
         private static _generateWorkSheet(sheetIndex, file, xlWorksheets);
         private static _generateSharedStringsDoc();
         private static _generatePlainText(val);
-        private static _generateTable(tableIndex, table, xlTables);
+        private static _generateTable(table, xlTables);
         private static _generateTableFilterSetting(ref, showTotalRow, columns);
         private static _generateHyperlinkRel(externalLinks);
-        private static _generateTableRel(tables, tableNames, startIndex);
         private static _getDxfs();
         private static _generateDxfs();
         private static _generateTableStyles();
@@ -134,20 +136,6 @@ declare module wijmo.xlsx {
         private static _getAttr(s, attr);
         private static _getChildNodeValue(s, child);
         private static _getSheetIndexBySheetName(file, sheetName);
-    }
-    class _Promise {
-        private _callbacks;
-        then(onFulfilled?: (value?: any) => any, onRejected?: (reason?: any) => any): _Promise;
-        catch(onRejected: (reason?: any) => any): _Promise;
-        resolve(value?: any): void;
-        reject(reason?: any): void;
-        private _onFulfilled(value);
-        private _onRejected(reason);
-    }
-    class _CompositedPromise extends _Promise {
-        private _promises;
-        constructor(promises: _Promise[]);
-        _init(): void;
     }
 }
 
@@ -209,7 +197,6 @@ declare module wijmo.xlsx {
         private _sheets;
         private _styles;
         private _definedNames;
-        private _tables;
         private _tableStyles;
         private _colorThemes;
         private static _alphabet;
@@ -230,7 +217,6 @@ declare module wijmo.xlsx {
          * Gets the defined name items of the workbook.
          */
         readonly definedNames: DefinedName[];
-        readonly tables: WorkbookTable[];
         /**
          * Gets the color of the workbook themes.
          */
@@ -434,12 +420,10 @@ declare module wijmo.xlsx {
         private _serializeWorkSheets();
         private _serializeWorkbookStyles();
         private _serializeDefinedNames();
-        private _serializeTables();
         private _serializeTableStyles();
         private _deserializeWorkSheets(workSheets);
         private _deserializeWorkbookStyles(workbookStyles);
         private _deserializeDefinedNames(definedNames);
-        private _deserializeTables(tables);
         private _deserializeTableStyles(tableStyles);
     }
     /**
@@ -476,7 +460,7 @@ declare module wijmo.xlsx {
         style: WorkbookStyle;
         private _columns;
         private _rows;
-        private _tableNames;
+        private _tables;
         /**
          * Initializes a new instance of the @see:WorkSheet class.
          */
@@ -508,15 +492,20 @@ declare module wijmo.xlsx {
          * value, then the default row height is applied.
          */
         readonly rows: WorkbookRow[];
-        readonly tableNames: string[];
+        /**
+         * Gets the name of tables refered in this worksheet.
+         */
+        readonly tables: WorkbookTable[];
         _serialize(): IWorkSheet;
         _deserialize(workSheetOM: IWorkSheet): void;
         _addWorkbookColumn(column: WorkbookColumn, columnIndex?: number): void;
         _addWorkbookRow(row: WorkbookRow, rowIndex?: number): void;
         private _serializeWorkbookColumns();
         private _serializeWorkbookRows();
+        private _serializeTables();
         private _deserializeWorkbookColumns(workbookColumns);
         private _deserializeWorkbookRows(workbookRows);
+        private _deserializeTables(tables);
         private _checkEmptyWorkSheet();
     }
     /**
@@ -778,7 +767,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character dash
          * notation, for example, "#afbfcf".
          */
-        color: any;
+        color: string;
         /**
          * Initializes a new instance of the @see:WorkbookFont class.
          */
@@ -802,7 +791,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character dash
          * notation, for example, "#afbfcf".
          */
-        color: any;
+        color: string;
         /**
          * Initializes a new instance of the @see:WorkbookFill class.
          */
@@ -857,7 +846,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character dash
          * notation, for example, "#afbfcf".
          */
-        color: any;
+        color: string;
         /**
          * Gets or sets the border type.
          */
@@ -895,67 +884,200 @@ declare module wijmo.xlsx {
         _serialize(): IDefinedName;
         _deserialize(definedNameOM: IDefinedName): void;
     }
+    /**
+     * Represents the WorkbookTable Object Model background setting definition.
+     */
     class WorkbookTable implements IWorkbookTable {
+        /**
+         * The name of the table.  It is used to reference the table programmatically.
+         */
         name: string;
-        ref: string;
+        /**
+         * The range on the relevant sheet that the table occupies expressed using A1 style referencing. i.e. "A1:D4".
+         * The reference shall include the totals row if it is shown.
+         */
+        range: string;
+        /**
+         * Indicates whether show the header row for the table.
+         */
         showHeaderRow: boolean;
+        /**
+         * Indicates whether show the total row for the table.
+         */
         showTotalRow: boolean;
+        /**
+         * Indicating whether banded column formatting is applied.
+         */
         showBandedColumns: boolean;
+        /**
+         * The table style to use with the table.
+         */
         style: WorkbookTableStyle;
+        /**
+         * Indicating whether banded row formatting is applied.
+         */
         showBandedRows: boolean;
-        showFirstColumn: boolean;
-        showLastColumn: boolean;
+        /**
+         * Indicating whether the first column in the table should have the style applied.
+         */
+        alterFirstColumn: boolean;
+        /**
+         * Indicating whether the last column in the table should have the style applied.
+         */
+        alterLastColumn: boolean;
         private _columns;
+        /**
+         * The columns of the table.
+         */
         readonly columns: WorkbookTableColumn[];
+        /**
+         * Initializes a new instance of the @see:WorkbookTable class.
+         */
         constructor();
         _serialize(): IWorkbookTable;
         _deserialize(workbookTableOM: IWorkbookTable): void;
         private _serializeTableColumns();
         private _deserializeTableColumns(tableColumnOMs);
     }
+    /**
+     * Represents the WorkbookTableColumn Object Model background setting definition.
+     */
     class WorkbookTableColumn implements IWorkbookTableColumn {
+        /**
+         * The name of the table column. It is referenced through functions.
+         */
         name: string;
+        /**
+         * The string to show in the totals row cell for the column.
+         */
         totalRowLabel: string;
+        /**
+         * The function to show in the totals row cell for this column.
+         */
         totalRowFunction: string;
+        /**
+         * Indicating whether show filter button for the column.
+         */
         showFilterButton: boolean;
+        /**
+         * Initializes a new instance of the @see:WorkbookTableColumn class.
+         */
         constructor();
         _serialize(): IWorkbookTableColumn;
         _deserialize(workbookTableColumnOM: IWorkbookTableColumn): void;
     }
+    /**
+     * Represents the WorkbookTableStyle Object Model background setting definition.
+     */
     class WorkbookTableStyle implements IWorkbookTableStyle {
+        /**
+         * The name of the table style.
+         */
         name: string;
+        /**
+         * The whole table style.
+         */
         wholeTableStyle: WorkbookTableCommonStyle;
+        /**
+         * The first column stripe style.
+         */
         firstBandedColumnStyle: WorkbookTableBandedStyle;
+        /**
+         * The second column stripe style.
+         */
         secondBandedColumnStyle: WorkbookTableBandedStyle;
+        /**
+         * The first row stripe style.
+         */
         firstBandedRowStyle: WorkbookTableBandedStyle;
+        /**
+         * The second row stripe style.
+         */
         secondBandedRowStyle: WorkbookTableBandedStyle;
+        /**
+         * The first column style.
+         */
         firstColumnStyle: WorkbookTableCommonStyle;
+        /**
+         * The last column style.
+         */
         lastColumnStyle: WorkbookTableCommonStyle;
+        /**
+         * The header row style.
+         */
         headerRowStyle: WorkbookTableCommonStyle;
+        /**
+         * The total row style.
+         */
         totalRowStyle: WorkbookTableCommonStyle;
+        /**
+         * The first cell style in the header row.
+         */
         firstHeaderCellStyle: WorkbookTableCommonStyle;
+        /**
+         * The last cell style in the header row.
+         */
         lastHeaderCellStyle: WorkbookTableCommonStyle;
+        /**
+         * The first cell style in the total row.
+         */
         firstTotalCellStyle: WorkbookTableCommonStyle;
+        /**
+         * The last cell style in the total row.
+         */
         lastTotalCellStyle: WorkbookTableCommonStyle;
+        /**
+         * Initializes a new instance of the @see:WorkbookTableStyle class.
+         */
         constructor();
         _serialize(): IWorkbookTableStyle;
         _deserialize(workbookTableStyleOM: IWorkbookTableStyle): void;
         private _checkEmptyWorkbookTableStyle();
     }
+    /**
+     * Represents the WorkbookTableCommonStyle Object Model background setting definition.
+     */
     class WorkbookTableCommonStyle extends WorkbookStyle implements IWorkbookTableCommonStyle {
+        /**
+         * Table borders setting.
+         */
         borders: WorkbookTableBorder;
+        /**
+         * Initializes a new instance of the @see:WorkbookTableCommonStyle class.
+         */
         constructor();
         _deserialize(workbookTableCommonStyleOM: IWorkbookTableCommonStyle): void;
     }
+    /**
+     * Represents the WorkbookTableBandedStyle Object Model background setting definition.
+     */
     class WorkbookTableBandedStyle extends WorkbookTableCommonStyle implements IWorkbookTableBandedStyle {
+        /**
+         * Number of rows or columns in a single band of striping.
+         */
         size: number;
+        /**
+         * Initializes a new instance of the @see:WorkbookTableBandedStyle class.
+         */
         constructor();
         _serialize(): IWorkbookTableBandedStyle;
         _deserialize(workbookTableBandedStyleOM: IWorkbookTableBandedStyle): void;
     }
+    /**
+     * Represents the Workbook Object Model table border definition.
+     */
     class WorkbookTableBorder extends WorkbookBorder implements IWorkbookTableBorder {
+        /**
+         * Vertical border setting.
+         */
         vertical: WorkbookBorderSetting;
+        /**
+         * Horizontal border setting.
+         */
         horizontal: WorkbookBorderSetting;
+        /**
+         * Initializes a new instance of the @see:WorkbookTableBorder class.
+         */
         constructor();
         _serialize(): IWorkbookTableBorder;
         _deserialize(workbookBorderOM: IWorkbookTableBorder): void;
@@ -1041,7 +1163,10 @@ declare module wijmo.xlsx {
          * and can be overridden by the specific cell styles.
          */
         style?: IWorkbookStyle;
-        tableNames?: string[];
+        /**
+         * Gets the tables in this worksheet.
+         */
+        tables?: IWorkbookTable[];
     }
     /**
      * Represents the Workbook Object Model column definition.
@@ -1232,7 +1357,6 @@ declare module wijmo.xlsx {
          * The array of the defined name items.
          */
         definedNames?: IDefinedName[];
-        tables?: IWorkbookTable[];
         /**
          * The color of the workbook themes.
          */
@@ -1327,7 +1451,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character
          * dash notation, for example, "#afbfcf".
          */
-        color?: any;
+        color?: string;
     }
     /**
      * Workbook cell outline definition.
@@ -1369,7 +1493,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character
          * dash notation, for example, "#afbfcf".
          */
-        color?: any;
+        color?: string;
         /**
          * Border type.
          */
@@ -1390,7 +1514,7 @@ declare module wijmo.xlsx {
          * For import, a value is always represented in the HTML 6-character
          * dash notation, for example, "#afbfcf".
          */
-        color?: any;
+        color?: string;
     }
     interface ITableIndex {
         row: number;
@@ -1402,6 +1526,9 @@ declare module wijmo.xlsx {
      * Defines a cell index with zero-based row and column components,
      * as well as the properties indicating whether the index component
      * is absolute (for example: "$D") or relative (for example: "D").
+     *
+     * It is not related with the WorkbookTable any more.
+     * It is a zero-based row/column indices pair that stores the converted Excel's alphanumeric cell.
      */
     interface ITableAddress {
         /**
@@ -1443,48 +1570,163 @@ declare module wijmo.xlsx {
          */
         sheetName?: string;
     }
+    /**
+     * Represents the Table definition.
+     */
     interface IWorkbookTable {
+        /**
+         * The name of the table.  It is used to reference the table programmatically.
+         */
         name: string;
-        ref: string;
+        /**
+         * The range on the relevant sheet that the table occupies expressed using A1 style referencing. i.e. "A1:D4".
+         * The reference shall include the totals row if it is shown.
+         */
+        range: string;
+        /**
+         * Indicates whether show the header row for the table.
+         */
         showHeaderRow: boolean;
+        /**
+         * Indicates whether show the total row for the table.
+         */
         showTotalRow: boolean;
+        /**
+         * Indicating whether banded column formatting is applied.
+         */
         showBandedColumns: boolean;
+        /**
+         * The table style to use with the table.
+         */
         style: IWorkbookTableStyle;
+        /**
+         * Indicating whether banded row formatting is applied.
+         */
         showBandedRows: boolean;
-        showFirstColumn: boolean;
-        showLastColumn: boolean;
+        /**
+         * Indicating whether the first column in the table should have the style applied.
+         */
+        alterFirstColumn: boolean;
+        /**
+         * Indicating whether the last column in the table should have the style applied.
+         */
+        alterLastColumn: boolean;
+        /**
+         * The columns of the table.
+         */
         columns: IWorkbookTableColumn[];
     }
+    /**
+     * Represents the Table Column definition.
+     */
     interface IWorkbookTableColumn {
+        /**
+         * The name of the table column. It is referenced through functions.
+         */
         name: string;
+        /**
+         * The string to show in the totals row cell for the column.
+         */
         totalRowLabel?: string;
+        /**
+         * The function to show in the totals row cell for this column.
+         */
         totalRowFunction?: string;
+        /**
+         * Indicating whether show filter button for the column.
+         */
         showFilterButton?: boolean;
     }
+    /**
+     * Represents the Table Style definition.
+     */
     interface IWorkbookTableStyle {
+        /**
+         * The name of the table style.
+         */
         name: string;
+        /**
+         * The whole table style.
+         */
         wholeTableStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The first column stripe style.
+         */
         firstBandedColumnStyle?: IWorkbookTableBandedStyle;
+        /**
+         * The second column stripe style.
+         */
         secondBandedColumnStyle?: IWorkbookTableBandedStyle;
+        /**
+         * The first row stripe style.
+         */
         firstBandedRowStyle?: IWorkbookTableBandedStyle;
+        /**
+         * The second row stripe style.
+         */
         secondBandedRowStyle?: IWorkbookTableBandedStyle;
+        /**
+         * The first column style.
+         */
         firstColumnStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The last column style.
+         */
         lastColumnStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The header row style.
+         */
         headerRowStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The total row style.
+         */
         totalRowStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The first cell style in the header row.
+         */
         firstHeaderCellStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The last cell style in the header row.
+         */
         lastHeaderCellStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The first cell style in the total row.
+         */
         firstTotalCellStyle?: IWorkbookTableCommonStyle;
+        /**
+         * The last cell style in the total row.
+         */
         lastTotalCellStyle?: IWorkbookTableCommonStyle;
     }
+    /**
+     * Represents the Table Common Style definition.
+     */
     interface IWorkbookTableCommonStyle extends IWorkbookStyle {
+        /**
+         * Table borders setting.
+         */
         borders?: IWorkbookTableBorder;
     }
+    /**
+     * Represents the Table Stripe Style definition.
+     */
     interface IWorkbookTableBandedStyle extends IWorkbookTableCommonStyle {
+        /**
+         * Number of rows or columns in a single band of striping.
+         */
         size?: number;
     }
+    /**
+     * Table border definition.
+     */
     interface IWorkbookTableBorder extends IWorkbookBorder {
+        /**
+         * Vertical border setting.
+         */
         vertical?: IWorkbookBorderSetting;
+        /**
+         * Horizontal border setting.
+         */
         horizontal?: IWorkbookBorderSetting;
     }
     /**

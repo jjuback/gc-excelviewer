@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -11,7 +11,7 @@
     *
     */
 /*
- * Wijmo culture file: ru (Русский)
+ * Wijmo culture file: ru (Russian)
  */
 var wijmo;
 (function (wijmo) {
@@ -23,10 +23,13 @@ var wijmo;
     wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'ru',
-            displayName: 'Русский',
+            displayName: 'Russian',
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '₽', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'ЗАКР',
+            ctc: 'Пожалуйста, свяжитесь с GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Лицензия Wijmo в этом приложении недействительна для текущего домена. Домен лицензии <b>{licDomain}</b>; текущий домен <b>{domain}</b>.',
+            evl: 'Версия оценки Wijmo ({version})',
+            exp: 'Лицензия Wijmo в этом приложении истекла. Срок действия лицензии <b>{expDate:d}</b>.',
+            hdr: 'Лицензия Wijmo',
+            lic: 'Лицензия Wijmo в этом приложении недействительна.',
+            mss: 'Лицензия Wijmo в этом приложении не установлена.',
+            prd: 'Лицензия Wijmo в этом приложении недействительна для элемента управления <b>{control}</b>.',
+            ver: 'Лицензия Wijmo в этом приложении недействительна для используемой версии. Версия лицензии <b>{licVer}</b>; версия продукта <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} пунктов выбрано',
             selectAll: 'Выбрать все'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Редактор фильтров для столбца',
             ascending: '\u2191 По возрастанию',
             descending: '\u2193 По убыванию',
             apply: 'Применить',

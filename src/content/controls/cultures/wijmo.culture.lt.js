@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'CLOSE',
+            ctc: 'Susisiekite su GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo licencijos šiai paskirčiai netinka į esamą domeną. Licencijos domenas yra <b>{licDomain}</b>; dabartinė domenas yra  <b>{domain}</b>.',
+            evl: 'Wijmo vertinimo versija ({version})',
+            exp: 'Baigėsi Wijmo licencijos šiai paskirčiai. Licencijos galiojimo data yra <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licencija',
+            lic: 'Neleistinas Wijmo licencijos šiai paskirčiai.',
+            mss: 'Wijmo licencijos šiai paskirčiai nenustatytas.',
+            prd: 'Wijmo licencijos šiai paskirčiai netinka <b>{control}</b> valdymo.',
+            ver: 'Wijmo licencijos šiai paskirčiai netinka naudoti redakcijos. Licencijos versija yra <b>{licVer}</b>; produkto versija yra  <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} vnt pasirinktas',
             selectAll: 'Pasirinkti viską'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Stulpelio redaktorius filtras',
             ascending: '\u2191 Didėjimo tvarka',
             descending: '\u2193 Mažėjimo tvarka',
             apply: 'Taikyti',

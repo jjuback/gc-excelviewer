@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: 'kr', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'STÄNG',
+            ctc: 'Kontakta GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo licensen i denna ansökan är inte giltigt för den aktuella domänen. Licens domänen är <b>{licDomain}</b>; den aktuella domänen är <b>{domain}</b>.',
+            evl: 'Wijmo bedömningen Version ({version})',
+            exp: 'Wijmo licensen i denna ansökan har gått ut. Licensens förfallodatum är <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licens',
+            lic: 'Wijmo licensen i denna ansökan är ogiltig.',
+            mss: 'Wijmo licensen i denna ansökan är inte inställd.',
+            prd: 'Wijmo licensen i denna ansökan är inte giltig för <b>{control}</b> kontroll.',
+            ver: 'Wijmo licensen i denna ansökan är inte giltigt för versionen som används. Licensversionen är <b>{licVer}</b>; produktversionen är <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} objekt utvalda',
             selectAll: 'Välj alla'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filtrera redaktör för kolumn',
             ascending: '\u2191 Stigande',
             descending: '\u2193 Fallande',
             apply: 'Använd',

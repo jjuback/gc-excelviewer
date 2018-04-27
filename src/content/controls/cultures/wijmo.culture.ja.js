@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 0, symbol: '¥', pattern: ['-$n', '$n'] }
             },
@@ -58,6 +61,18 @@ var wijmo;
                 fiscalYearOffsets: [3, 0]
             }
         },
+        Licensing: {
+            cls: '閉じる',
+            ctc: '弊社までお問い合わせください: <a href="mailto:sales@grapecity.com">sales@grapecity.com</a>.',
+            dmn: 'アプリケーションで使用しているWijmoのライセンスは現在のドメインで無効です。このライセンスは<b>{licDomain}</b>に割り当てられています。現在のドメインは <b>{domain}</b>です。',
+            evl: 'Wijmo トライアル版({version})',
+            exp: 'アプリケーションで使用しているWijmoのライセンス有効期限が終了しました。有効期限日は<b>{expDate:d}</b>です。',
+            hdr: 'Wijmoライセンス',
+            lic: 'アプリケーションで使用しているWijmoのライセンスは無効です。',
+            mss: 'アプリケーションで使用しているWijmoのライセンスが設定されていません。',
+            prd: 'アプリケーションで使用しているWijmoのライセンスは<b>{control}</b>コントロールで無効です。',
+            ver: 'アプリケーションで使用しているWijmoのライセンスはご利用中のバージョンで無効です。このライセンスのバージョンは<b>{licVer}</b>ですが、ご利用中のバージョンは<b>{version}</b>です。'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} 個の項目を選択中',
             selectAll: 'すべて選択'
@@ -67,6 +82,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: '列のフィルター エディター',
             ascending: '\u2191 昇順',
             descending: '\u2193 降順',
             apply: '適用',

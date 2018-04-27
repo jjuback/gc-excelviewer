@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'CLOSE',
+            ctc: 'Kontaktujte, prosím, GrapeCity:  <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo licencie v tejto aplikácie nie je platný pre aktuálnu doménu. Licencia domény je  <b> {licDomain}</b>; aktuálnej doméne je <b>{domain}</b>.',
+            evl: 'Wijmo vyhodnotenie verzia ({version})',
+            exp: 'Wijmo licencie v tejto žiadosti uplynula. Dátum expirácie je <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licencia',
+            lic: 'Licencia Wijmo Táto aplikácia je neplatná.',
+            mss: 'Wijmo licencie v tejto aplikácie nie je nastavený.',
+            prd: 'Wijmo licencie v tejto aplikácie nie je platný pre kontrolu <b>{control}</b>  .',
+            ver: 'Wijmo licencie v tejto aplikácie nie je platný pre verzie v použití. Licencia verzia je <b>{licVer}</b>; verzia produktu je  <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} položiek vybraného',
             selectAll: 'Vybrať všetko'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor filtrov pre stĺpec',
             ascending: '\u2191 Vzostupne',
             descending: '\u2193 Zostupne',
             apply: 'Použiť',

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['$ -n', '$ n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'SLUITEN',
+            ctc: 'Neem contact op met GrapeCity:  <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'De licentie van de Wijmo in deze toepassing is niet geldig voor het huidige domein. Het domein van de licentie is <b>{licDomain}</b>, het huidige domein is <b>{domain}</b>.',
+            evl: 'Wijmo evaluatieversie ({version})',
+            exp: 'De licentie van de Wijmo in deze toepassing is verlopen. De vervaldatum van de licentie is <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licentie',
+            lic: 'De licentie van de Wijmo in deze aanvraag is ongeldig.',
+            mss: 'De licentie van de Wijmo in deze toepassing is niet ingesteld.',
+            prd: 'De licentie van de Wijmo in deze toepassing is niet geldig voor het besturingselement <b>{control}</b>  .',
+            ver: 'De licentie van de Wijmo in deze toepassing is niet geldig voor de versie in gebruik. De licentieversie is <b>{licVer}</b>; de productversie is <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} geselecteerde artikelen',
             selectAll: 'Alles selecteren'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor voor kolom filteren',
             ascending: '\u2191 Oplopend',
             descending: '\u2193 Aflopend',
             apply: 'Toepassen',

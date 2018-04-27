@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -617,6 +617,7 @@ declare module wijmo.chart {
         static _CSS_TITLE: string;
         static _CSS_SELECTION: string;
         static _CSS_PLOT_AREA: string;
+        static _CSS_DATA_LABELS: string;
         static _FG: string;
         private _series;
         private _axes;
@@ -653,7 +654,7 @@ declare module wijmo.chart {
         /**
          * Initializes a new instance of the @see:FlexChart class.
          *
-         * @param element The DOM element that will host the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options A JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -831,7 +832,7 @@ declare module wijmo.chart {
         static _toOADate(date: Date): number;
         static _fromOADate(val: number): Date;
         static _renderText(engine: IRenderEngine, text: string, pos: Point, halign: any, valign: any, className?: string, groupName?: string, style?: any, test?: any): Rect;
-        static _renderRotatedText(engine: IRenderEngine, text: string, pos: Point, halign: any, valign: any, center: Point, angle: number, className: string, groupClassName?: string, style?: any): void;
+        static _renderRotatedText(engine: IRenderEngine, text: string, pos: Point, halign: any, valign: any, center: Point, angle: number, className: string, groupClassName?: string, style?: any): any;
     }
     /**
      * Analyzes chart data.
@@ -1007,8 +1008,7 @@ declare module wijmo.chart {
         /**
          * Initializes a new instance of the @see:FlexChart class.
          *
-         * @param element The DOM element that will host the control,
-         * or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options A JavaScript object containing initialization data
          * for the control.
          */
@@ -2143,9 +2143,11 @@ declare module wijmo.chart {
         private _fontSize;
         private _fontFamily;
         private _group;
+        private _groupCls;
         private _clipRect;
         private static _isff;
         private _savedGradient;
+        private _bbCache;
         constructor(element: HTMLElement);
         beginRender(): void;
         endRender(): void;
@@ -2175,9 +2177,11 @@ declare module wijmo.chart {
         private _appendChild(element);
         private _create();
         private _setText(element, s);
+        private _getKey(s, cls, group);
         private _createText(pos, text);
         private _applyStyle(el, style);
         private _deCase(s);
+        private _getClass(el);
         private _getBBox(text);
         private _applyColor(el, key, val);
     }
@@ -2429,6 +2433,10 @@ declare module wijmo.chart {
         Center = 2,
         /** The item appears outside the pie slice. */
         Outside = 3,
+        /** The item appears inside the pie slice and depends of its angle. */
+        Radial = 4,
+        /** The item appears inside the pie slice and has circular direction. */
+        Circular = 5,
     }
     /**
      * Provides arguments for @see:DataLabel rendering event.

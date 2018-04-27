@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 0, symbol: '₩', pattern: ['-$n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: '닫기',
+            ctc: 'Please contact GrapeCity Korea: <a href="mailto:sales-kor@grapecity.com">sales-kor@grapecity.com</a><br/>전화:1670-0583',
+            dmn: 'The Wijmo license in this application is not valid for the current domain. The license domain is <b>{licDomain}</b>; the current domain is <b>{domain}</b>.',
+            evl: 'Wijmo 평가 버전 ({})',
+            exp: '이 응용 프로그램에서 Wijmo 라이센스 만료 되었습니다. 라이센스 만료 날짜는  <b> {expDate:d}</b>.',
+            hdr: 'Wijmo 라이센스',
+            lic: '이 응용 프로그램에서 Wijmo 라이센스 유효 하지 않습니다.',
+            mss: '이 응용 프로그램에서 Wijmo 라이센스 설정 되지 않았습니다.',
+            prd: '이 응용 프로그램에서 Wijmo 라이센스  <b> {control} </b>  컨트롤에 대 한 유효 하지 않습니다.',
+            ver: '이 응용 프로그램에서 Wijmo 라이센스 사용 중인 버전에 대 한 유효 하지 않습니다. 라이센스 버전  <b> {licVer}</b>이며 제품 버전은  <b> {version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} 항목 선택',
             selectAll: '모두 선택'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: '열에 대 한 필터 편집기',
             ascending: '\u2191 상승',
             descending: '\u2193 하락',
             apply: '적용',

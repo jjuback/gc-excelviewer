@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: 'Ft', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'BEZÁRÁS',
+            ctc: 'Kérjük, forduljon Alancleaver_2000: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'A Wijmo engedély, ez az alkalmazás az aktuális tartomány érvénytelen. A licenckiszolgáló tartomány <b>{licDomain}</b>, az aktuális tartomány <b>{domain}</b>.',
+            evl: 'Wijmo becslés változat ({version})',
+            exp: 'Ez az alkalmazás a Wijmo engedély lejárt. A licenc lejárati dátuma az <b>{expDate:d}</b>.',
+            hdr: 'Wijmo engedély',
+            lic: 'Ez az alkalmazás a Wijmo licenc érvénytelen.',
+            mss: 'Ez az alkalmazás a Wijmo engedély nincs beállítva.',
+            prd: 'A Wijmo licenc ebben az alkalmazásban nem érvényes a <b>{control}</b> ellenőrzés.',
+            ver: 'Ez az alkalmazás a Wijmo licenc érvénytelen a verziót használja. A licenc változat <b>{licVer}</b>; a termék változat <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} kiválasztott tételek',
             selectAll: 'Az összes kiválasztása'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Szűrőt szerkesztő oszlop',
             ascending: '\u2191 Növekvő',
             descending: '\u2193 Csökkenő',
             apply: 'Alkalmaz',

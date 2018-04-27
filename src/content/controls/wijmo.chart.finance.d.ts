@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -148,6 +148,7 @@ declare module wijmo.chart.finance {
          * control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         /**
          * Gets or sets the type of financial chart to create.
          */

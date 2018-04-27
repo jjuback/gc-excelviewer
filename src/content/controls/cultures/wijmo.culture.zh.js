@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '¥', pattern: ['$-n', '$n'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: '关闭',
+            ctc: '请联系葡萄城厂商： <a href="mailto:sales.xa@grapecity.com">sales.xa@grapecity.com</a>。',
+            dmn: '当前应用程序中的Wijmo许可对于该域名无效。授权域名是<b>{licDomain}</b>；当前域名是<b>{domain}</b>。',
+            evl: 'Wijmo 试用版({version})',
+            exp: '当前应用程序中的Wijmo许可已经过期。 许可失效时间为<b>{expDate:d}</b>。',
+            hdr: 'Wijmo许可',
+            lic: '当前应用程序中的Wijmo许可无效。',
+            mss: '当前应用程序中的Wijmo许可未被设置。',
+            prd: '当前应用程序中的Wijmo许可对于<b>{control}</b>控件无效。',
+            ver: '当前应用程序中的Wijmo许可对正在使用的控件版本无效。 许可版本是<b>{licVer}</b>；当前版本是<b>{version}</b>。'
+        },
         MultiSelect: {
             itemsSelected: '选定{count:n0}个项目',
             selectAll: '选择全部'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: '列的滤镜编辑器',
             ascending: '\u2191 升序',
             descending: '\u2193 降序',
             apply: '应用',
@@ -248,10 +264,10 @@ var wijmo;
             pageWidth: '适应页宽',
             zoomOut: '缩小',
             zoomIn: '放大',
-            rubberbandTool: 'Zoom by Selection',
+            rubberbandTool: '按选区缩放',
             magnifierTool: '放大镜',
             rotatePage: '旋转页面',
-            rotateDocument: 'Rotate Document',
+            rotateDocument: '旋转文档',
             exports: '导出',
             fullScreen: '全屏',
             exitFullScreen: '退出全屏',
@@ -316,7 +332,7 @@ var wijmo;
             encryptionType: '加密级别︰',
             paged: '分页的',
             showNavigator: '显示导航器',
-            navigatorPosition: 'Navigator Position',
+            navigatorPosition: '导航器位置',
             singleFile: '单个文件',
             tolerance: '容限时检测文本边界 （点）︰',
             pictureLayer: '使用单独的图片图层',
@@ -330,7 +346,7 @@ var wijmo;
             searchNext: '搜索下一个',
             checkMark: '\u2713',
             exportOk: '出口…',
-            cannotSearch: 'Search requires a document source to be specified.',
+            cannotSearch: '搜索要求指定文档源。',
             parameters: '参数',
             requiringParameters: '请输入参数.',
             nullParameterError: '值不能为空.',

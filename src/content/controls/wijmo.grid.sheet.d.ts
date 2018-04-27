@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -26,6 +26,7 @@ declare module wijmo.grid.sheet {
         private _rowIndex;
         private _columnIndex;
         private _containsCellRef;
+        private _sheet;
         constructor(owner: FlexSheet);
         unknownFunction: Event;
         onUnknownFunction(funcName: string, params: Array<_Expression>): _Expression;
@@ -92,7 +93,6 @@ declare module wijmo.grid.sheet {
         private _checkCache(expression);
         private _ensureNonFunctionExpression(expr, sheet?);
         private _getDefinedName(name, sheetName);
-        private _getTableRelatedSheet(tableName);
     }
     class _Token {
         private _tokenType;
@@ -212,6 +212,7 @@ declare module wijmo.grid.sheet {
         private _newValues;
         private _isPaste;
         private _mergeAction;
+        private _cellStyleAction;
         private _deletedTables;
         constructor(owner: FlexSheet, selection?: CellRange);
         readonly isPaste: boolean;
@@ -222,6 +223,8 @@ declare module wijmo.grid.sheet {
         updateForPasting(rng: CellRange): void;
         _storeDeletedTables(table: Table): void;
         private _checkActionState();
+        private _saveValues(isOldValue);
+        private _handleUndoRedo(isUndo);
     }
     class _ColumnResizeAction extends _UndoAction {
         private _colIndex;
@@ -232,6 +235,7 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _handleUndoRedo(isUndo);
     }
     class _RowResizeAction extends _UndoAction {
         private _rowIndex;
@@ -242,6 +246,7 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _handleUndoRedo(isUndo);
     }
     class _ColumnsChangedAction extends _UndoAction {
         private _oldValue;
@@ -253,6 +258,8 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _saveValues(isOldValue);
+        private _handleUndoRedo(isUndo);
     }
     class _RowsChangedAction extends _UndoAction {
         private _oldValue;
@@ -264,6 +271,8 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _saveValues(isOldvalue);
+        private _handleUndoRedo(isUndo);
     }
     class _CellStyleAction extends _UndoAction {
         private _oldStyledCells;
@@ -272,6 +281,7 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _handleUndoRedo(isUndo);
     }
     class _CellMergeAction extends _UndoAction {
         private _oldMergedCells;
@@ -280,6 +290,7 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _handleUndoRedo(isUndo);
     }
     class _SortColumnAction extends _UndoAction {
         private _oldValue;
@@ -288,6 +299,8 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _saveValues(isOldvalue);
+        private _handleUndoRedo(isUndo);
     }
     class _MoveCellsAction extends _UndoAction {
         private _draggingCells;
@@ -307,6 +320,8 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _saveValues(isOldvalue);
+        private _handleUndoRedo(isUndo);
     }
     class _CutAction extends _UndoAction {
         private _selection;
@@ -317,11 +332,14 @@ declare module wijmo.grid.sheet {
         private _oldCutValues;
         private _newCutValues;
         private _mergeAction;
+        private _celltyleAction;
         constructor(owner: FlexSheet);
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
         updateForPasting(rng: CellRange): void;
+        private _saveCutValues(isOldvalue);
+        private _handleUndoRedo(isUndo);
     }
     class _TableSettingAction extends _UndoAction {
         private _table;
@@ -331,12 +349,15 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        private _saveValues(isOldvalue);
+        private _handleUndoRedo(isUndo);
     }
     class _TableAction extends _UndoAction {
         private _addedTable;
         constructor(owner: FlexSheet, table: Table);
         undo(): void;
         redo(): void;
+        private _handleUndoRedo(isUndo);
     }
     class _FilteringAction extends _UndoAction {
         private _oldFilterDefinition;
@@ -439,7 +460,7 @@ declare module wijmo.grid.sheet {
         private _divContainer;
         private _columnHeaderClicked;
         private _htDown;
-        _filter: _FlexSheetFilter;
+        private _filter;
         private _calcEngine;
         private _functionListHost;
         private _functionList;
@@ -468,7 +489,6 @@ declare module wijmo.grid.sheet {
         _isCutting: boolean;
         private _cutValue;
         private _isContextMenuKeyDown;
-        private _tables;
         _colorThemes: string[];
         _enableMulSel: boolean;
         _isClicking: boolean;
@@ -490,10 +510,11 @@ declare module wijmo.grid.sheet {
         /**
          * Initializes a new instance of the @see:FlexSheet class.
          *
-         * @param element The DOM element that will host the control, or a jQuery selector (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        _getProductInfo(): string;
         /**
          * Gets the collection of @see:Sheet objects representing workbook sheets.
          */
@@ -523,6 +544,10 @@ declare module wijmo.grid.sheet {
          */
         readonly sortManager: SortManager;
         /**
+         * Gets the @see:FlexSheetFilter instance that controls <b>FlexSheet</b> filtering.
+         */
+        readonly filter: FlexSheetFilter;
+        /**
          * Gets or sets the visiblity of the filter icon.
          */
         showFilterIcons: boolean;
@@ -531,7 +556,6 @@ declare module wijmo.grid.sheet {
          * defined in the <b>FlexSheet</b>.
          */
         readonly definedNames: wijmo.collections.ObservableArray;
-        readonly tables: wijmo.collections.ObservableArray;
         /**
          * Occurs when current sheet index changed.
          */
@@ -746,8 +770,9 @@ declare module wijmo.grid.sheet {
          * @param format If specified, defines the .Net format that will be applied to the evaluated value.
          * @param sheet The @see:Sheet whose data will be used for evaluation.
          *              If not specified then the current sheet is used.
+         * @param getPrimitiveResult Indicates whether need convert the non-primitive result to primitive type.
          */
-        evaluate(formula: string, format?: string, sheet?: Sheet): any;
+        evaluate(formula: string, format?: string, sheet?: Sheet, getPrimitiveResult?: boolean): any;
         /**
          * Gets the evaluated cell value.
          *
@@ -986,8 +1011,6 @@ declare module wijmo.grid.sheet {
          */
         setClipString(text: string, rng?: CellRange): void;
         getBuiltInTableStyle(styleName: string): TableStyle;
-        addTable(rowIndex: number, colIndex: number, rowSpan: number, colSpan: number, tableName?: string, tableStyle?: TableStyle, options?: ITableOptions, sheet?: Sheet): Table;
-        addTableFromDataSource(rowIndex: number, colIndex: number, dataSource: any[], tableName?: string, tableStyle?: TableStyle, options?: ITableOptions, sheet?: Sheet): Table;
         _getCvIndex(index: number): number;
         private _init();
         private _initFuncsList();
@@ -1007,7 +1030,7 @@ declare module wijmo.grid.sheet {
         private _updateCellMergeRangeForRow(currentRange, index, count, updatedMergeCell, isDelete?);
         private _updateCellsForUpdatingColumn(originalColumnCount, index, count, isDelete?);
         private _updateCellMergeRangeForColumn(currentRange, index, count, originalColumnCount, updatedMergeCell, isDelete?);
-        _cloneMergedCells(): any;
+        _cloneObject(source: any): any;
         private _evaluate(formula, format?, sheet?, rowIndex?, columnIndex?);
         _copyTo(sheet: Sheet): void;
         _copyFrom(sheet: Sheet, needRefresh?: boolean): void;
@@ -1024,8 +1047,10 @@ declare module wijmo.grid.sheet {
         private _showDraggingMarker(e);
         private _handleDropping(e);
         private _moveCellContent(srcRowIndex, srcColIndex, desRowIndex, desColIndex, isCopyContent);
+        private _allowExchangeCells(isRow, isReverse);
+        private _exchangeTableColumns(isReverse);
         private _exchangeCellStyle(isReverse);
-        _containsMergedCells(rng: CellRange): boolean;
+        _containsMergedCells(rng: CellRange, sheet?: Sheet): boolean;
         private _multiSelectColumns(ht);
         private _cumulativeOffset(element);
         private _cumulativeScrollOffset(element);
@@ -1042,7 +1067,7 @@ declare module wijmo.grid.sheet {
         private _containsRandFormula(ranges, sheet);
         private _isMultipleRowsSelected(ranges?, sheet?);
         private _isMultipleColumnsSelected(ranges?, sheet?);
-        private _postSetClipStringProcess(cellData, row, col, copiedRow, copiedCol);
+        private _postSetClipStringProcess(cellData, row, col, copiedRow, copiedCol, styleInfo?);
         private _delCutData();
         private _containsMultiLineText(rows);
         private _sortByRow(sel1, sel2);
@@ -1065,19 +1090,18 @@ declare module wijmo.grid.sheet {
         _checkExistDefinedName(name: string, sheetName: string, ignoreIndex?: number): boolean;
         private _updateDefinedNameWithSheetRefUpdating(oldSheetName, newSheetName);
         _updateFormulasWithNameUpdating(oldName: string, newName: string, isTable?: boolean): void;
-        _updateTableNameForSheet(oldName: string, newName: string): void;
         _getDefinedNameIndexByName(name: string): number;
         private _updateTablesForUpdatingRow(index, count, isDelete?);
         private _updateTablesForUpdatingColumn(index, count, isDelete?);
         _isDisableDeleteRow(topRow: number, bottomRow: number): boolean;
         _copy(key: string, value: any): boolean;
-        _getTableSheetIndex(tableName: string): number;
+        private _getTableSheetIndex(sheetTables, tableName);
         private _sheetSortConverter(sd, item, value, init);
-        private _formatEvaluatedResult(result, col, format);
+        _formatEvaluatedResult(result: any, col: Column, format: string): any;
         private _updateCellRef(cellData, sheetIndex, index, count, isAdding, isRow);
         _copyRowsToSelectedSheet(): void;
         _copyColumnsToSelectedSheet(): void;
-        private _parseFromWorkbookTable(table);
+        private _parseFromWorkbookTable(workbookTable, sheet);
         private _parseFromWorkbookTableStyle(tableStyle);
         private _parseFromWorkbookTableStyleElement(tableStyleElement);
         private _parseToWorkbookTable(table);
@@ -1085,10 +1109,8 @@ declare module wijmo.grid.sheet {
         private _parseToWorkbookTableStyleElement(tableStyleElement, isBandedStyle?);
         private _isBuiltInStyleName(styleName);
         _getTable(name: string): Table;
-        _addTable(range: CellRange, tableName?: string, tableStyle?: TableStyle, columns?: TableColumn[], options?: ITableOptions, sheet?: Sheet): Table;
         private _isTableColumnRef(cellData, cellRef);
-        private _getUniqueTableName();
-        _getThemeColor(theme: any, tint: any): string;
+        private _getThemeColor(theme, tint?);
         private _createBuiltInTableStyle(styleName);
         private _generateTableLightStyle1(styleIndex, styleName, isLowerStyle);
         private _generateTableLightStyle2(styleIndex, styleName);
@@ -1301,11 +1323,11 @@ declare module wijmo.grid.sheet {
         /**
          * The background color.
          */
-        backgroundColor?: any;
+        backgroundColor?: string;
         /**
          * The font color.
          */
-        color?: any;
+        color?: string;
         /**
          * Format string for formatting the value of the cell.
          */
@@ -1317,7 +1339,7 @@ declare module wijmo.grid.sheet {
         /**
          * Color of the Left border.
          */
-        borderLeftColor?: any;
+        borderLeftColor?: string;
         /**
          * Style of the Left border.
          */
@@ -1329,7 +1351,7 @@ declare module wijmo.grid.sheet {
         /**
          * Color of the Right border.
          */
-        borderRightColor?: any;
+        borderRightColor?: string;
         /**
          * Style of the Right border.
          */
@@ -1341,7 +1363,7 @@ declare module wijmo.grid.sheet {
         /**
          * Color of the Top border.
          */
-        borderTopColor?: any;
+        borderTopColor?: string;
         /**
          * Style of the Top border.
          */
@@ -1353,7 +1375,7 @@ declare module wijmo.grid.sheet {
         /**
          * Color of the Bottom border.
          */
-        borderBottomColor?: any;
+        borderBottomColor?: string;
         /**
          * Style of the Bottom border.
          */
@@ -1388,14 +1410,6 @@ declare module wijmo.grid.sheet {
          */
         isMergedCell?: boolean;
     }
-    interface ITableOptions {
-        showHeaderRow?: boolean;
-        showTotalRow?: boolean;
-        showBandedColumns?: boolean;
-        showBandedRows?: boolean;
-        showFirstColumn?: boolean;
-        showLastColumn?: boolean;
-    }
 }
 
 declare module wijmo.grid.sheet {
@@ -1404,7 +1418,7 @@ declare module wijmo.grid.sheet {
      */
     class Sheet {
         private _name;
-        private _owner;
+        _owner: FlexSheet;
         private _rowCount;
         private _columnCount;
         private _visible;
@@ -1419,7 +1433,7 @@ declare module wijmo.grid.sheet {
         _scrollPosition: Point;
         _freezeHiddenRowCnt: number;
         _freezeHiddenColumnCnt: number;
-        private _tableNames;
+        private _tables;
         /**
          * Initializes a new instance of the @see:Sheet class.
          *
@@ -1459,12 +1473,13 @@ declare module wijmo.grid.sheet {
          * Gets or sets the array or @see:ICollectionView for the @see:FlexGrid instance of the sheet.
          */
         itemsSource: any;
+        /**
+         * Gets the collection of the @see:Table objects on this Sheet.
+         * It allows to insert/remove @see:Table on this Sheet via the tables collection.
+         */
+        readonly tables: wijmo.collections.ObservableArray;
         _styledCells: any;
         _mergedRanges: any;
-        /**
-         * Gets the names of tables render in this sheet.
-         */
-        readonly tableNames: string[];
         /**
          * Occurs after the sheet name has changed.
          */
@@ -1489,6 +1504,20 @@ declare module wijmo.grid.sheet {
          */
         getCellStyle(rowIndex: number, columnIndex: number): ICellStyle;
         /**
+         * Add table from an object array.
+         *
+         * @param row The row position of the table.
+         * @param column The column position of the table.
+         * @param array The object array load to the table.
+         * @param properties It allows to retrieve only a subset of columns from the object of the array.  If it is omitted, the table will load all the keys of the object of the array.
+         * @param tableName The name of the table.
+         * @param tableStyle The table style is applied to the table.
+         * @param options The options @see:ITableOptions of the table.
+         * @param shift Indicates whether cells beneath the table should be shifted or not.  If not specified cells beneath will be shifted.
+         * @return the table if the table was added successfully, otherwise retun null.
+         */
+        addTableFromArray(row: number, column: number, array: any[], properties?: string[], tableName?: string, tableStyle?: TableStyle, options?: ITableOptions, shift?: boolean): Table;
+        /**
          * Finds the table via the cell location.
          *
          * @param rowIndex the row index of the specified cell.
@@ -1499,11 +1528,23 @@ declare module wijmo.grid.sheet {
         _setValidName(validName: string): void;
         _storeRowSettings(): void;
         _setRowSettings(): void;
+        _addTable(range: CellRange, tableName?: string, tableStyle?: TableStyle, columns?: TableColumn[], options?: ITableOptions): Table;
         private _compareRows();
         private _createGrid();
         private _clearGrid();
         private _gridItemsSourceChanged();
         private _addHeaderRow();
+        private _getUniqueTableName();
+        private _needShiftForTable(range);
+        private _needAddRowCountForAddTable(shiftCount, tableRange);
+        _moveDownTable(table: Table): void;
+        _moveDownCells(count: number, range: CellRange): void;
+        _moveUpCells(count: number, range: CellRange): void;
+        _moveDownCellsWithinTable(index: number, count: number, tableRange: CellRange): void;
+        _moveUpCellsWithinTable(index: number, count: number, tableRange: CellRange): void;
+        _canShiftCells(shiftRange: CellRange): boolean;
+        _needMoveDownTable(table: Table): boolean;
+        _needAddRowCountForInsertTableRows(count: number, range: CellRange): number;
     }
     /**
      * Defines the collection of the @see:Sheet objects.
@@ -1782,12 +1823,17 @@ declare module wijmo.grid.sheet {
         private _pointer;
         _pendingAction: _UndoAction;
         private _resizingTriggered;
+        private _stackSize;
         /**
          * Initializes a new instance of the @see:UndoStack class.
          *
          * @param owner The @see:FlexSheet control that the @see:UndoStack works for.
          */
         constructor(owner: FlexSheet);
+        /**
+         * Gets or sets the size of the undo stack.
+         */
+        stackSize: number;
         /**
          * Checks whether an undo action can be performed.
          */
@@ -1826,8 +1872,12 @@ declare module wijmo.grid.sheet {
 }
 
 declare module wijmo.grid.sheet {
+    /**
+     * Represents a Table within the @see:FlexSheet control.
+     */
     class Table {
-        private _owner;
+        _owner: FlexSheet;
+        private _sheet;
         private _name;
         private _columns;
         private _range;
@@ -1836,59 +1886,164 @@ declare module wijmo.grid.sheet {
         private _showTotalRow;
         private _showBandedColumns;
         private _showBandedRows;
-        private _showFirstColumn;
-        private _showLastColumn;
-        constructor(owner: FlexSheet, name: string, range: CellRange, style?: TableStyle, columns?: TableColumn[], showHeaderRow?: boolean, showTotalRow?: boolean, showBandedColumns?: boolean, showBandedRows?: boolean, showFirstColumn?: boolean, showLastColumn?: boolean);
+        private _alterFirstColumn;
+        private _alterLastColumn;
+        _orgHeaderCellsContent: any[];
+        /**
+         * Initializes a new instance of the @see:Table class.
+         *
+         * @param name The name of the table.
+         * @param range The range of the table.
+         * @param style The table style to use with the table.  The default style is the 'TableStyleMedium9' built-in table style, if the style is omitted.
+         * @param columns The columns of the table.
+         * @param options The options @see:ITableOptions of the table.
+         */
+        constructor(name: string, range: CellRange, style?: TableStyle, columns?: TableColumn[], options?: ITableOptions);
+        /**
+         * Gets or sets the table name.
+         *
+         * The table name is used to reference the table programmatically.
+         */
         name: string;
+        /**
+         * Gets the @see:Sheet this table belongs to.
+         */
         readonly sheet: Sheet;
-        readonly range: CellRange;
-        readonly columns: TableColumn[];
+        /**
+         * Gets or sets the @see:TableStyle associated with this table.
+         */
         style: TableStyle;
+        /**
+         * Indicates whether the table should include a header row.
+         */
         showHeaderRow: boolean;
+        /**
+         * Indicates whether the table should include a total row.
+         */
         showTotalRow: boolean;
+        /**
+         * Indicating whether banded column formatting is applied.
+         */
         showBandedColumns: boolean;
+        /**
+         * Gets or sets a value that determines whether banded row
+         * formatting is applied.
+         */
         showBandedRows: boolean;
-        showFirstColumn: boolean;
-        showLastColumn: boolean;
-        getColumnRange(columnName: string): CellRange;
-        getDataRange(): CellRange;
-        getHeaderRange(): CellRange;
-        getTotalRange(): CellRange;
+        /**
+         * Gets or sets a value that determines whether the first table
+         * column should have the style applied.
+         */
+        alterFirstColumn: boolean;
+        /**
+         * Gets or sets a value that determines whether the last table
+         * column should have the style applied.
+         */
+        alterLastColumn: boolean;
+        /**
+         * Gets the range of the specific section and column on the relevant sheet that the table occupies.
+         *
+         * @param section The section of Table.  If the section is omitted.  It will get the range of entire table.
+         * @param column The column of Table. The column could be @see:TableColumn instance, column name or column index.
+         *      If the column is omitted.  It will get the range for all columns in the table.
+         *      If the section is null, the reference of the specific column includes the header row and the totals row if they are visible.
+         * @return the range of the specific table section and specific column, if the specific column doesn't exist in table it will return null.
+         */
+        getRange(section?: TableSection, column?: any): CellRange;
+        /**
+         * Gets the table's columns.
+         */
+        getColumns(): TableColumn[];
+        /**
+         * Insert rows into Table.
+         *
+         * @param index The position where new rows should be added in table.
+         * @param count The numbers of rows to add. If not specified then one row will be added.
+         * @param shift Indicates whether cells beneath the table should be shifted or not.  If not specified cells beneath will be shifted.
+         * @return True if the rows are inserted successfully.
+         */
+        insertRows(index: number, count?: number, shift?: boolean): boolean;
+        /**
+         * Delete rows of Table.
+         *
+         * @param index The starting index of the deleting rows in Table.
+         * @param count The numbers of rows to delete. If not specified then one row will be deleted.
+         * @param shift Indicates whether cells beneath the table should be shifted or not.  If not specified cells beneath will be shifted.
+         */
+        deleteRows(index: number, count?: number, shift?: boolean): void;
         _addColumn(index: number, columnName?: string): void;
         _updateCell(rowIndex: number, colIndex: number, cell: HTMLElement): void;
         _updateTableRange(topRowChange: number, bottomRowChage: number, leftColChange: number, rightColChange: number): void;
         _setTableRange(range: CellRange, columns?: TableColumn[]): void;
         _updateColumnName(columnIndex: number, columnName: string): void;
+        _updateColumnTotalRowContent(column: TableColumn, columnIndex?: number): void;
+        _attachSheet(sheet: Sheet): void;
+        _detachSheet(): void;
+        private _pushTableColumns(columns);
         private _generateColumns(showHeaderRow);
-        _getTableCellAppliedStyles(cellRowIndex: number, cellColIndex: number): ITableStyle;
+        _getTableCellAppliedStyles(cellRowIndex: number, cellColIndex: number): ITableSectionStyle;
         private _applyStylesForCell(cellStyle, cell);
         private _extendStyle(dstStyle, srcStyle, cellRowIndex, cellColIndex, isHeaderCell, isTotalCell);
-        private _cloneThemeColor(dstColor, srcColor);
-        _getStrColor(color: any): string;
         private _getSubtotalFunction(functionName);
-        private _moveDownTable();
-        private _moveDownCellsBelowTable();
-        private _moveUpCellsBelowTable();
-        private _isOtherTableBelow();
-        private _needMoveDownTable();
-        private _needAddNewRow();
         private _checkColumnNameExist(name);
         private _adjustTableRangeWithHeaderRow();
-        private _adjustTableRangeWithTotalRow(isPropChange);
+        private _adjustTableRangeWithTotalRow();
         private _updateTotalRow();
         private _getUniqueColumnName(index, columnName?);
+        _moveColumns(src: number, dst: number): void;
+        private _canInsertRowsWithoutShift(count);
+        private _beneathRowIsEmpty();
+        private _getDataRange();
+        private _getHeaderRange();
+        private _getFooterRange();
+        private _getColumnIndex(column);
     }
+    /**
+     * Represents a column within the @see:Table.
+     */
     class TableColumn {
+        private _table;
         private _name;
-        private _totalRowLabel;
-        private _totalRowFunction;
+        _totalRowLabel: string;
+        _totalRowFunction: string;
         private _showFilterButton;
+        /**
+         * Initializes a new instance of the @see:TableColumn class.
+         *
+         * @param name The name of the table column.
+         * @param totalRowLabel The string to show in the totals row cell for the column.
+         * @param totalRowFunction The function to show in the totals row cell for this column.
+         * @param showFilterButton Indicating whether show the filter button for the table column.  The default value of showFilterButton is true.
+         */
         constructor(name: string, totalRowLabel?: string, totalRowFunction?: string, showFilterButton?: boolean);
+        /**
+         * Gets the Table the table columns belongs to.
+         */
+        readonly table: Table;
+        /**
+         * Gets the name of the table column. It is referenced through functions.
+         */
         name: string;
+        /**
+         * The string to show in the totals row cell for the column.
+         */
         totalRowLabel: string;
+        /**
+         * The function to show in the totals row cell for the column.
+         */
         totalRowFunction: string;
+        /**
+         * Indicating whether show the filter button for the table column.
+         *
+         * As FlexSheet has not supported filter for table yet, this property is used for import/export operation only by now.
+         */
         showFilterButton: boolean;
+        _attach(table: Table): void;
+        private _updateTableTotalInfo();
     }
+    /**
+     * Represents a Table style for the @see:Table.
+     */
     class TableStyle {
         private _name;
         private _isBuiltIn;
@@ -1905,64 +2060,250 @@ declare module wijmo.grid.sheet {
         private _lastHeaderCellStyle;
         private _firstTotalCellStyle;
         private _lastTotalCellStyle;
+        /**
+         * Initializes a new instance of the @see:TableStyle class.
+         *
+         * @param name The name of the table style.
+         * @param isBuiltIn Indicates whether the table style is built-in style.
+         */
         constructor(name: string, isBuiltIn?: boolean);
+        /**
+         * Gets or sets the name of the table style.
+         */
         name: string;
-        wholeTableStyle: ITableStyle;
-        firstBandedColumnStyle: IBandedTableStyle;
-        secondBandedColumnStyle: IBandedTableStyle;
-        firstBandedRowStyle: IBandedTableStyle;
-        secondBandedRowStyle: IBandedTableStyle;
-        firstColumnStyle: ITableStyle;
-        lastColumnStyle: ITableStyle;
-        headerRowStyle: ITableStyle;
-        totalRowStyle: ITableStyle;
-        firstHeaderCellStyle: ITableStyle;
-        lastHeaderCellStyle: ITableStyle;
-        firstTotalCellStyle: ITableStyle;
-        lastTotalCellStyle: ITableStyle;
+        /**
+         * Gets or sets the whole table style.
+         */
+        wholeTableStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the first banded column style.
+         */
+        firstBandedColumnStyle: IBandedTableSectionStyle;
+        /**
+         * Gets or sets the second banded column style.
+         */
+        secondBandedColumnStyle: IBandedTableSectionStyle;
+        /**
+         * Gets or sets the first banded row style.
+         */
+        firstBandedRowStyle: IBandedTableSectionStyle;
+        /**
+         * Gets or sets the second banded row style.
+         */
+        secondBandedRowStyle: IBandedTableSectionStyle;
+        /**
+         * Gets or sets the first column style.
+         */
+        firstColumnStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the last column style.
+         */
+        lastColumnStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the header row style.
+         */
+        headerRowStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the total row style.
+         */
+        totalRowStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the first cell style in the header row.
+         */
+        firstHeaderCellStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the last cell style in the header row.
+         */
+        lastHeaderCellStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the first cell style in the total row.
+         */
+        firstTotalCellStyle: ITableSectionStyle;
+        /**
+         * Gets or sets the last cell style in the total row.
+         */
+        lastTotalCellStyle: ITableSectionStyle;
+        /**
+         * Indicates whether the table style is built-in style.
+         */
         readonly isBuiltIn: boolean;
     }
-    interface ITableStyle extends ICellStyle {
+    /**
+     * Defines the table styling properties.
+     */
+    interface ITableSectionStyle extends ICellStyle {
+        /**
+         * Color of the Horizontal border.
+         */
         borderHorizontalColor?: any;
+        /**
+         * Style of the Horizontal border.
+         */
         borderHorizontalStyle?: string;
+        /**
+         * Width of the Horizontal border.
+         */
         borderHorizontalWidth?: string;
+        /**
+         * Color of the Vertical border.
+         */
         borderVerticalColor?: any;
+        /**
+         * Style of the Vertical border.
+         */
         borderVerticalStyle?: string;
+        /**
+         * Width of the Vertical border.
+         */
         borderVerticalWidth?: string;
     }
-    interface IBandedTableStyle extends ITableStyle {
+    /**
+     * Defines the table stripe styling properties.
+     */
+    interface IBandedTableSectionStyle extends ITableSectionStyle {
+        /**
+         * Number of rows or columns in a single band of striping.
+         */
         size?: number;
+    }
+    /**
+     * Defines the table options for creating table.
+     */
+    interface ITableOptions {
+        /**
+         * Indicates whether show the header row for the table.
+         */
+        showHeaderRow?: boolean;
+        /**
+         * Indicates whether show the total row for the table.
+         */
+        showTotalRow?: boolean;
+        /**
+         * Indicating whether banded column formatting is applied.
+         */
+        showBandedColumns?: boolean;
+        /**
+         * Indicating whether banded row formatting is applied.
+         */
+        showBandedRows?: boolean;
+        /**
+         * Indicating whether the first column in the table should have the style applied.
+         */
+        alterFirstColumn?: boolean;
+        /**
+         * Indicating whether the last column in the table should have the style applied.
+         */
+        alterLastColumn?: boolean;
+    }
+    /**
+     * Specifies constants define the section of Table.
+     */
+    enum TableSection {
+        /** The entire table, including header, data and footer **/
+        All = 0,
+        /** The data rows **/
+        Data = 1,
+        /** The header row **/
+        Header = 2,
+        /** The footer row **/
+        Footer = 3,
     }
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetValueFilter extends wijmo.grid.filter.ValueFilter {
+    /**
+     * Defines a value filter for a column on a @see:FlexSheet control.
+     *
+     * Value filters contain an explicit list of values that should be
+     * displayed by the sheet.
+     */
+    class FlexSheetValueFilter extends wijmo.grid.filter.ValueFilter {
+        /**
+         * Gets a value that indicates whether a value passes the filter.
+         *
+         * @param value The value to test.
+         */
         apply(value: any): boolean;
     }
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetValueFilterEditor extends wijmo.grid.filter.ValueFilterEditor {
+    /**
+     * The editor used to inspect and modify @see:FlexSheetValueFilter objects.
+     *
+     * This class is used by the @see:FlexSheetFilter class; you
+     * rarely use it directly.
+     */
+    class FlexSheetValueFilterEditor extends wijmo.grid.filter.ValueFilterEditor {
+        /**
+         * Updates editor with current filter settings.
+         */
         updateEditor(): void;
+        /**
+         * Updates filter to reflect the current editor values.
+         */
         updateFilter(): void;
     }
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetConditionFilter extends wijmo.grid.filter.ConditionFilter {
+    /**
+     * Defines a condition filter for a column on a @see:FlexSheet control.
+     *
+     * Condition filters contain two conditions that may be combined
+     * using an 'and' or an 'or' operator.
+     *
+     * This class is used by the @see:FlexSheetFilter class; you will
+     * rarely use it directly.
+     */
+    class FlexSheetConditionFilter extends wijmo.grid.filter.ConditionFilter {
+        /**
+         * Returns a value indicating whether a value passes this filter.
+         *
+         * @param value The value to test.
+         */
         apply(value: any): boolean;
     }
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetColumnFilter extends wijmo.grid.filter.ColumnFilter {
-        constructor(owner: _FlexSheetFilter, column: Column);
+    /**
+     * Defines a filter for a column on a @see:FlexSheet control.
+     *
+     * The @see:FlexSheetColumnFilter contains a @see:FlexSheetConditionFilter and a
+     * @see:FlexSheetValueFilter; only one of them may be active at a time.
+     *
+     * This class is used by the @see:FlexSheetFilter class; you
+     * rarely use it directly.
+     */
+    class FlexSheetColumnFilter extends wijmo.grid.filter.ColumnFilter {
+        /**
+         * Initializes a new instance of the @see:FlexSheetColumnFilter class.
+         *
+         * @param owner The @see:FlexSheetFilter that owns this column filter.
+         * @param column The @see:Column to filter.
+         */
+        constructor(owner: FlexSheetFilter, column: Column);
     }
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetColumnFilterEditor extends wijmo.grid.filter.ColumnFilterEditor {
-        constructor(element: any, filter: _FlexSheetColumnFilter, sortButtons?: boolean);
+    /**
+     * The editor used to inspect and modify column filters.
+     *
+     * This class is used by the @see:FlexSheetFilter class; you
+     * rarely use it directly.
+     */
+    class FlexSheetColumnFilterEditor extends wijmo.grid.filter.ColumnFilterEditor {
+        /**
+         * Initializes a new instance of the @see:FlexSheetColumnFilterEditor class.
+         *
+         * @param element The DOM element that hosts the control, or a selector
+         * for the host element (e.g. '#theCtrl').
+         * @param filter The @see:FlexSheetColumnFilter to edit.
+         * @param sortButtons Whether to show sort buttons in the editor.
+         */
+        constructor(element: any, filter: FlexSheetColumnFilter, sortButtons?: boolean);
         _showFilter(filterType: wijmo.grid.filter.FilterType): void;
         private _sortBtnClick(e, asceding);
         private cloneElement(element);
@@ -1970,13 +2311,42 @@ declare module wijmo.grid.sheet {
 }
 
 declare module wijmo.grid.sheet {
-    class _FlexSheetFilter extends wijmo.grid.filter.FlexGridFilter {
+    /**
+     * Implements an Excel-style filter for @see:FlexSheet controls.
+     *
+     * To enable filtering on a @see:FlexSheet control, create an instance
+     * of the @see:FlexSheetFilter and pass the grid as a parameter to the
+     * constructor.
+     */
+    class FlexSheetFilter extends wijmo.grid.filter.FlexGridFilter {
         private _undoAcion;
+        /**
+         * Gets or sets the current filter definition as a JSON string.
+         */
         filterDefinition: string;
+        /**
+         * Applies the current column filters to the sheet.
+         */
         apply(): void;
+        /**
+         * Shows the filter editor for the given grid column.
+         *
+         * @param col The @see:Column that contains the filter to edit.
+         * @param ht A @see:wijmo.chart.HitTestInfo object containing the range of the cell that
+         * triggered the filter display.
+         */
         editColumnFilter(col: any, ht?: wijmo.grid.HitTestInfo): void;
+        /**
+         * Closes the filter editor.
+         */
         closeEditor(): void;
-        getColumnFilter(col: any, create?: boolean): _FlexSheetColumnFilter;
+        /**
+         * Gets the filter for the given column.
+         *
+         * @param col The @see:Column that the filter applies to (or column name or index).
+         * @param create Whether to create the filter if it does not exist.
+         */
+        getColumnFilter(col: any, create?: boolean): FlexSheetColumnFilter;
         private _checkGroupVisible(range);
     }
 }

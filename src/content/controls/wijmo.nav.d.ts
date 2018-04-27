@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -11,18 +11,21 @@
     *
     */
 /**
- * Defines navigation controls including the @see:TreeView and associated classes.
+ * Defines navigation controls including the #see:TabPanel, @see:TreeView,
+ * and associated classes.
  */
 declare module wijmo.nav {
     /**
-     * The @see:TreeView control displays a hierarchical list of @see:TreeNode objects
-     * which may contain text, checkboxes, images, or arbitrary HTML content.
+     * The @see:TreeView control displays a hierarchical list of @see:TreeNode
+     * objects which may contain text, checkboxes, images, or arbitrary HTML
+     * content.
      *
      * A @see:TreeView is typically used to display the headings in a document,
      * the entries in an index, the files and directories on a disk, or any other
      * kind of information that might usefully be displayed as a hierarchy.
      *
-     * After creating a @see:TreeView, you will typically set the following properties:
+     * After creating a @see:TreeView, you will typically set the following
+     * properties:
      *
      * <ol>
      *  <li>
@@ -77,6 +80,7 @@ declare module wijmo.nav {
         private _isDirty;
         private _isReadOnly;
         private _edtNode;
+        private _toItemsChanged;
         /**
          * Gets or sets the template used to instantiate @see:TreeView controls.
          */
@@ -84,7 +88,7 @@ declare module wijmo.nav {
         /**
          * Initializes a new instance of the @see:TreeView class.
          *
-         * @param element The DOM element that hosts the control, or a selector for the host element (e.g. '#theCtrl').
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
          * @param options The JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
@@ -596,8 +600,11 @@ declare module wijmo.nav {
         onNodeEditEnded(e: TreeNodeEventArgs): void;
         /**
          * Overridden to re-populate the tree.
+         *
+         * @param fullUpdate Indicates whether to update the control layout as well as the content.
          */
-        refresh(): void;
+        refresh(fullUpdate?: boolean): void;
+        _raiseCheckedItemsChanged(): void;
         _reload(): void;
         _createNode(dataItem: any): TreeNode;
         private _mousedown(e);
@@ -724,7 +731,7 @@ declare module wijmo.nav {
          */
         next(visible?: boolean, enabled?: boolean): TreeNode;
         /**
-         * Gets a reference to the next sibling node in the view.
+         * Gets a reference to the previous sibling node in the view.
          */
         previousSibling(): TreeNode;
         /**
@@ -955,6 +962,147 @@ declare module wijmo.nav {
          * @param value Value to apply to the data item.
          */
         setValue(dataItem: any, level: number, value: any): void;
+    }
+}
+
+declare module wijmo.nav {
+    /**
+     * The @see:TabPanel enables content organization at a high level,
+     * such as switching between views, data sets, or functional aspects
+     * of an application.
+     *
+     * Tabs are presented as a single row above their associated content.
+     * Tab headers succinctly describe the content within.
+     *
+     * Tabs can be selected with the mouse or keyboard, and automatically
+     * update the content to reflect the current selection.
+     */
+    class TabPanel extends Control {
+        private _tabs;
+        private _selectedIndex;
+        private _toAnim;
+        private _animated;
+        private _autoSwitch;
+        private _tabIndex;
+        private _dRoot;
+        private _dTabHeaders;
+        private _dTabPanes;
+        /**
+         * Gets or sets the template used to instantiate @see:TabPanel controls.
+         */
+        static controlTemplate: string;
+        /**
+         * Initializes a new instance of the @see:TabPanel class.
+         *
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
+         * @param options The JavaScript object containing initialization data for the control.
+         * @param keepChildren Whether to keep child elements. If set to true, the caller becomes responsible for
+         * populating the @see:tabs array based on the DOM).
+         */
+        constructor(element: any, options?: any, keepChildren?: boolean);
+        /**
+         * Gets an array of @see:Tab objects whose @see:Tab.header and
+         * @see:Tab.pane properties determine the content of the
+         * @see:TabPanel control.
+         */
+        readonly tabs: collections.ObservableArray;
+        /**
+         * Gets or sets the index of the currently selected (active) tab.
+         */
+        selectedIndex: number;
+        /**
+         * Gets or sets the @see:Tab object that is currently selected.
+         */
+        selectedTab: Tab;
+        /**
+         * Gets or sets a value that determines whether tab changes should be animated
+         * with a fade-in effect.
+         */
+        isAnimated: boolean;
+        /**
+         * Gets or sets a value that determines whether the control should switch
+         * tabs automatically when the user selects a tab using the arrow keys.
+         *
+         * When @see:autoSwitch is set to true (the default value), pressing the
+         * arrow keys automatically switches tabs. Pressing the tab key selects
+         * the next element in the tab sequence, which excludes non-selected
+         * tab headers.
+         *
+         * When @see:autoSwitch is set to false, pressing the arrow keys or the
+         * tab key moves the focus to the next or previous tab header, but does
+         * not switch tabs. Pressing the Enter or Space keys is required to
+         * activate the tab that has the focus.
+         *
+         * In most cases, the default value provides adequate (accessible)
+         * behavior, but some users may prefer to set @see:autoSwitch to false.
+         * For a more detailed discussion of this topic, please see the
+         * <a href="https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus" target="_blank">W3C ARIA practices</a>
+         * and
+         * <a href="http://simplyaccessible.com/article/danger-aria-tabs/" target="_blank">SimplyAccessible</a> articles.
+         */
+        autoSwitch: boolean;
+        /**
+         * Gets a @see:Tab by id or by header content.
+         *
+         * @param id Id of the @see:Tab to retrieve.
+         */
+        getTab(id: string): Tab;
+        /**
+         * Occurs when the value of the @see:selectedIndex property changes.
+         */
+        readonly selectedIndexChanged: Event;
+        /**
+         * Raises the @see:selectedIndexChanged event.
+         */
+        onSelectedIndexChanged(e?: EventArgs): void;
+        _populateControl(): void;
+        _validateSelection(): void;
+        private _updateContent();
+        private _removeChildren(e);
+        private _click(e);
+        private _keydown(e);
+        private _getTabIndex(e);
+        private _getNextIndex(index, step);
+    }
+    /**
+     * Represents a tab within a @see:TabPanel control.
+     *
+     * Tabs have two elements: a header and a pane. The header displays
+     * the tab title and the pane represents the tab content.
+     */
+    class Tab {
+        private _hdr;
+        private _pane;
+        private _p;
+        /**
+         * Initializes a new instance of the @see:Tab class.
+         *
+         * @param header Element or CSS selector for the element that contains the Tab header.
+         * @param pane Element or CSS selector for the element that contains the Tab content.
+         */
+        constructor(header: any, pane: any);
+        /**
+         * Gets a reference to the @see:TabPanel that contains this Tab.
+         */
+        readonly tabPanel: TabPanel;
+        /**
+         * Gets the tab's header element.
+         */
+        readonly header: HTMLElement;
+        /**
+         * Gets the tab's content element.
+         */
+        readonly pane: HTMLElement;
+        /**
+         * Gets or sets a value that determines whether this @see:Tab is disabled.
+         */
+        isDisabled: boolean;
+        /**
+         * Gets or sets a value that determines whether this @see:Tab is visible.
+         */
+        isVisible: boolean;
+        _setParts(header: HTMLElement, pane: HTMLElement): void;
+        _setPanel(panel: TabPanel): void;
     }
 }
 

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -235,9 +235,9 @@ declare module wijmo.grid.xlsx {
          */
         fonts: string[];
         /**
-         * The name of tables refered in this worksheet.
+         * The tables in this worksheet.
          */
-        tableNames: string[];
+        tables: wijmo.xlsx.WorkbookTable[];
     }
     /**
      * FlexGrid Xlsx conversion options

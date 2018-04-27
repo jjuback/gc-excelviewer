@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'CLOSE',
+            ctc: 'Lūdzu, sazinieties ar GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Šajā lietojumprogrammā Wijmo licence nav derīga pašreizējam domēnam. Licences domēns ir <b>{licDomain}</b>; pašreizējais domēns ir <b>{domain}</b>.',
+            evl: 'Wijmo Evaluation Version ({version})',
+            exp: 'Šajā pieteikumā Wijmo licences derīgums. Licences derīguma termiņš ir <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licences',
+            lic: 'Šajā pieteikumā Wijmo licence ir nederīga.',
+            mss: 'Wijmo licence šajā pieteikumā nav iestatīts.',
+            prd: 'Šajā lietojumprogrammā Wijmo licence nav derīga <b>{control}</b> kontrole.',
+            ver: 'Šajā lietojumprogrammā Wijmo licence nav derīga izmantotajai versijai. Licences versija ir <b>{licVer}</b>; produkta versija ir <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} priekšmeti izvēlēts',
             selectAll: 'Atlasīt visu'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Kolonnas filtra redaktors',
             ascending: '\u2191 Augošā secībā',
             descending: '\u2193 Dilstošā secībā',
             apply: 'Lietot',

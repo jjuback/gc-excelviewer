@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: 'د.إ.‏', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'قم بإغلاق',
+            ctc: 'يرجى الاتصال جرابيسيتي:  <a href="mailto:us.sales@grapecity.com"> us.sales@grapecity.com</a>.',
+            dmn: 'الترخيص ويجمو في هذا التطبيق غير صالح للمجال الحالي. مجال الترخيص هي  <b> {domain}</b>؛ والمجال الحالي هو  <b> {licDomain}</b>.',
+            evl: 'ويجمو التقييم النسخة ({version})',
+            exp: 'انتهت مدة صلاحية الترخيص ويجمو في هذا التطبيق. تاريخ انتهاء صلاحية الترخيص هو  <b> {expDate:d}</b>.',
+            hdr: 'رخصة ويجمو',
+            lic: 'الترخيص ويجمو في هذا التطبيق غير صالح.',
+            mss: 'لم يتم تعيين ترخيص ويجمو في هذا التطبيق.',
+            prd: 'الترخيص ويجمو في هذا التطبيق غير صالح لعنصر التحكم  <b> {control} </b>  .',
+            ver: 'الترخيص ويجمو في هذا التطبيق غير صالحة للإصدار قيد الاستخدام. يتم إصدار ترخيص  <b> {version}</b>؛ وهو إصدار المنتج  <b> {licVer}</b>.'
+        },
         MultiSelect: {
             itemsSelected: 'العناصر المحددة  {count:n0}',
             selectAll: 'تحديد الكل'
@@ -61,10 +76,11 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'تحرير عامل تصفية لعمود',
             ascending: '\u2191 تصاعديًا',
             descending: '\u2193 تنازليًا',
             apply: 'تطبيق',
-            cancel: 'Cancel',
+            cancel: 'إلغاء الأمر',
             clear: 'مسح',
             conditions: 'تصنيف حسب الحالة',
             values: 'تصنيف حسب القيمة',
@@ -248,10 +264,10 @@ var wijmo;
             pageWidth: 'تلائم عرض الصفحة',
             zoomOut: 'التصغير',
             zoomIn: 'تكبير',
-            rubberbandTool: 'Zoom by Selection',
-            magnifierTool: 'Magnifier',
-            rotatePage: 'Rotate Page',
-            rotateDocument: 'Rotate Document',
+            rubberbandTool: 'التكبير/التصغير بالتحديد',
+            magnifierTool: 'المكبر',
+            rotatePage: 'استدارة الصفحة',
+            rotateDocument: 'استدارة المستند',
             exports: 'تصدير',
             fullScreen: 'كامل الشاشة',
             exitFullScreen: 'إنهاء وضع ملء الشاشة',
@@ -316,7 +332,7 @@ var wijmo;
             encryptionType: 'مستوى التشفير:',
             paged: 'مقسم إلى صفحات',
             showNavigator: 'إظهار المستكشف',
-            navigatorPosition: 'Navigator Position',
+            navigatorPosition: 'موقف المستكشف',
             singleFile: 'ملف واحد',
             tolerance: 'التسامح عند الكشف عن حدود النص (نقاط):',
             pictureLayer: 'استخدام صورة منفصلة طبقة',
@@ -330,7 +346,7 @@ var wijmo;
             searchNext: 'البحث عن التالي',
             checkMark: '\u2713',
             exportOk: 'تصدير…',
-            cannotSearch: 'Search requires a document source to be specified.',
+            cannotSearch: 'يتطلب البحث عن مصدر مستند المطلوب تحديدها.',
             parameters: 'معلمات',
             requiringParameters: 'الرجاء إدخال المعلمات.',
             nullParameterError: 'لا يمكن أن تكون القيمة فارغة.',

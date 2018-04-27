@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n %', 'n %'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'ZAPRI',
+            ctc: 'Obrnite se na GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo licence v tem programu ni veljavna za trenutno domeno. Licenco domene je <b> {licDomain}</b>, trenutni domeni je  <b>{domain}</b>.',
+            evl: 'Wijmo vrednotenje prevod ({version})',
+            exp: 'Wijmo licenca v tem programu je potekla. Datum poteka licence je <b>{expDate:d}</b>.',
+            hdr: 'Wijmo licenco',
+            lic: 'Wijmo licenca v tem programu ni veljavna.',
+            mss: 'Wijmo licence v tem programu ni nastavljen.',
+            prd: 'Wijmo dovoljenje v ta program ni veljaven za nadzor <b>{control}</b>  .',
+            ver: 'Wijmo dovoljenje v ta program ni veljaven za prevod v uporabi. Dati dovoljenje prevod je <b>{licVer}</b>; različico izdelka, ki je <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} postavke izbrali',
             selectAll: 'Izberi vse'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Urednik filter za stolpec',
             ascending: '\u2191 Naraščajoče',
             descending: '\u2193 Padajoče',
             apply: 'Uporabi',

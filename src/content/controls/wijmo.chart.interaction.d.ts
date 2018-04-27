@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -78,8 +78,8 @@ declare module wijmo.chart.interaction {
          */
         maxScale: number;
         /**
-         * Gets or sets a value that determines whether the minimal and
-         * maximal handler will move seamlessly.
+         * Gets or sets a value that determines whether the min/max elements
+         * may be reversed by dragging one over the other.
          */
         seamless: boolean;
         /**

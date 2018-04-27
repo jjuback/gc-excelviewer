@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': '.',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -52,6 +55,18 @@ var wijmo;
                 },
             }
         },
+        Licensing: {
+            cls: 'TANCA',
+            ctc: 'Contacteu amb GrapeCity:  <a href="mailto:us.sales@grapecity.com"> us.sales@grapecity.com</a>.',
+            dmn: 'La llicència Wijmo en aquesta aplicació no és vàlida per al domini actual. El domini de llicència és <b>{licDomain}</b>; domini actual és <b> {domain}</b>.',
+            evl: 'Wijmo versió d\'avaluació ({version})',
+            exp: 'Ha caducat la llicència Wijmo en aquesta aplicació. La data de caducitat de llicència és <b>{expDate:d}</b>.',
+            hdr: 'Llicència de Wijmo',
+            lic: 'La llicència Wijmo en aquesta aplicació no és vàlida.',
+            mss: 'La llicència Wijmo en aquesta aplicació no està definida.',
+            prd: 'La llicència Wijmo en aquesta aplicació no és vàlida per al control de  <b> {control} </b>  .',
+            ver: 'La llicència Wijmo en aquesta aplicació no és vàlida per a la versió en ús. La versió de la llicència és <b> {licVer}</b>, la versió de producte és  <b> {version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} articles seleccionats',
             selectAll: 'Selecciona-ho tot'
@@ -61,6 +76,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Editor de filtre per a la columna',
             ascending: '\u2191 Ascendent',
             descending: '\u2193 Descendent',
             apply: 'Aplica',

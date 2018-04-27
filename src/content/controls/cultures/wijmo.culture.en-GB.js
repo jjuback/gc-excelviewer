@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': '.',
                 ',': ',',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '£', pattern: ['-$n', '$n'] }
             },
@@ -53,6 +56,18 @@ var wijmo;
                 fiscalYearOffsets: [3, 3]
             }
         },
+        Licensing: {
+            cls: 'CLOSE',
+            ctc: 'Please contact GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'The Wijmo license in this application is not valid for the current domain. The license domain is <b>{licDomain}</b>; the current domain is <b>{domain}</b>.',
+            evl: 'Wijmo Evaluation Version ({version})',
+            exp: 'The Wijmo license in this application has expired. The license expiration date is <b>{expDate:d}</b>.',
+            hdr: 'Wijmo License',
+            lic: 'The Wijmo license in this application is invalid.',
+            mss: 'The Wijmo license in this application is not set.',
+            prd: 'The Wijmo license in this application is not valid for the <b>{control}</b> control.',
+            ver: 'The Wijmo license in this application is not valid for the version in use. The license version is <b>{licVer}</b>; the product version is <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} items selected',
             selectAll: 'Select All'
@@ -62,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 Ascending',
             descending: '\u2193 Descending',
             apply: 'Apply',

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20173.409
+    * Wijmo Library 5.20181.436
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -27,6 +27,9 @@ var wijmo;
             numberFormat: {
                 '.': ',',
                 ',': ' ',
+                '-': '-',
+                '+': '+',
+                '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
                 currency: { decimals: 2, symbol: '€', pattern: ['-n $', 'n $'] }
             },
@@ -53,6 +56,18 @@ var wijmo;
                 fiscalYearOffsets: [-3, -3]
             }
         },
+        Licensing: {
+            cls: 'CLOSE',
+            ctc: 'Võtke ühendust GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
+            dmn: 'Wijmo litsentsi selles rakenduses ei sobi praeguses domeenis. Litsentsi valdkond on <b>{licDomain}</b>, praeguses domeenis on <b>{domain}</b>.',
+            evl: 'Wijmo hindamine versioon ({version})',
+            exp: 'Selles rakenduses Wijmo litsents on aegunud. Litsents kehtib kuni kuupäev on <b>{expDate:d}</b>.',
+            hdr: 'Wijmo litsents',
+            lic: 'Selles rakenduses Wijmo litsents on kehtetu.',
+            mss: 'Wijmo litsentsi käesolevas taotluses on esitatud.',
+            prd: 'Wijmo litsentsi selles rakenduses ei sobi <b>{control}</b> kontrolli.',
+            ver: 'Selles rakenduses Wijmo litsents ei ole kehtiv versioon kasutusel. Litsentsi versioon <b>{licVer}</b>; toote versioon on  <b>{version}</b>.'
+        },
         MultiSelect: {
             itemsSelected: '{count:n0} üksust',
             selectAll: 'Vali kõik'
@@ -62,6 +77,7 @@ var wijmo;
         },
         FlexGridFilter: {
             // filter
+            ariaLabel: 'Filter toimetaja veerg',
             ascending: '\u2191 Tõusev järjestus',
             descending: '\u2193 Laskuv järjestus',
             apply: 'Rakenda',
