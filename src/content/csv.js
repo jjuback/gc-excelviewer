@@ -7,7 +7,8 @@ function processFile(storage, callback) {
     var comment = options.commentCharacter;
     var skip = options.skipComments;
 
-    var regexQuote = new RegExp(`${quote}([^${quote}]*)${quote}`);
+    var regexQuote = new RegExp(`^${quote}(.*)${quote}$`);
+    var regexDoubleQuote = new RegExp(`${quote}${quote}`, 'g');
     var regexComment = new RegExp(String.raw`^\s*${comment}|^\s+$`);
     var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\r\n]+.*${quote})[\r\n]+`, 'm');
     var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
@@ -18,19 +19,20 @@ function processFile(storage, callback) {
     function unquote(text) {
         if (text.length > 0) {
             var match = regexQuote.exec(text);
-            return match ? match[1] : text;
+            return match ? dblquote(match[1]) : text;
         }
         return text;
+    }
+
+    function dblquote(text) {
+        return text.length > 1 ? text.replace(regexDoubleQuote, `${quote}`) : text;
     }
 
     function isComment(text) {
         return !skip ? false : ((text.length > 0) ? regexComment.exec(text) : true);
     }
 
-    function getHeader(n) {
-        if (header.length > n) {
-            return header[n];
-        }
+    function getBinding(n) {
         var h1 = Math.floor(n / 26);
         var h2 = n % 26;
         if (h1 > 0) {
@@ -40,44 +42,59 @@ function processFile(storage, callback) {
         }
     }
 
-    var data = [], header = [];
+    var data = [], headers = [], bindings = [];
     var content = Base64.decode(text);
     var multilineFields = content.split(regexMultiline).length > 1;
     var lines = multilineFields ? content.split(regexLines) : content.split("\n");
     var firstLine = hasHeaders;
+    var maxLength = 0;
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].replace("\r", "");
         if (!isComment(line)) {
             var items = line.split(regexItems);
+            if (items.length > maxLength) {
+                maxLength = items.length;
+            }
             if (firstLine) {
                 for (var j = 0; j < items.length; j++) {
-                    header.push(unquote(items[j]));
+                    headers.push(unquote(items[j]));
                 }
                 firstLine = false;
             } else {
                 var obj = {};
                 for (var j = 0; j < items.length; j++) {
-                    obj[getHeader(j)] = unquote(items[j]);
+                    var value = unquote(items[j]);
+                    var num = value.length ? Number(value) : NaN;
+                    obj[getBinding(j)] = isNaN(num) ? value : num;
                 }
                 data.push(obj);
             }
         }
     }
 
-    callback(data, options);
+    for (var i = 0; i < maxLength; i++) {
+        var key = getBinding(i);
+        var header = (headers.length > i) ? headers[i] : hasHeaders ? "" : key;
+        bindings.push({
+            binding: key,
+            header: header
+        });
+    }
+
+    callback(data, options, bindings);
 }
 
-function renderFile(data, options) {
-    var flex = new wijmo.grid.FlexGrid("#flex");
+function renderFile(data, options, bindings) {
+    var flex = new wijmo.grid.FlexGrid("#flex", {
+        autoGenerateColumns: false,
+        columns: bindings,
+        isReadOnly: true,
+        stickyHeaders: true,
+        allowDragging: wijmo.grid.AllowDragging.None
+    });
 
     flex.itemsSourceChanged.addHandler(function(s, e) {
-        if (!options.capitalizeHeaders) {
-            for (var i = 0; i < flex.columns.length; i++) {
-                var c = flex.columns[i];
-                c.header = c.name;
-            }
-        }
         var resize = options.resizeColumns;
         if (resize === "all") {
             flex.autoSizeColumns();
@@ -86,18 +103,43 @@ function renderFile(data, options) {
         }
     });
 
-    if (options.lineNumbers) {
-        flex.itemFormatter = function(panel, r, c, cell) {
-            if (panel.cellType == wijmo.grid.CellType.RowHeader) {
-                cell.textContent = (r + 1).toString();
+    flex.sortingColumn.addHandler(function(s, e) {
+        var shift = s._mouseHdl._eMouse.shiftKey;
+        if (shift) {
+            e.cancel = true;
+            var binding = s.columns[e.col].binding;
+            var sorts = s.collectionView.sortDescriptions;
+            var index = -1;
+            for (var i = 0; i < sorts.length; i++) {
+                if (sorts[i].property === binding) {
+                    index = i;
+                    break;
+                }
             }
-        };
-    }
+            var asc = (index === -1) ? true : !sorts[index].ascending;
+            var desc = new wijmo.collections.SortDescription(binding, asc);
+            if (index === -1) {
+                sorts.push(desc);
+            } else {
+                sorts.setAt(index, desc);
+            }
+        }
+    });
 
-    flex.isReadOnly = true;
+    flex.formatItem.addHandler(function(s, e) {
+        if (options.lineNumbers) {
+            if (e.panel.cellType == wijmo.grid.CellType.RowHeader) {
+                e.cell.textContent = (e.row + 1).toString();
+            }
+        }
+        if (options.capitalizeHeaders) {
+            if (e.panel.cellType == wijmo.grid.CellType.ColumnHeader) {
+                e.cell.textContent = wijmo.toHeaderCase(e.cell.textContent);
+            }
+        }
+    });
+
     flex.itemsSource = data;
-    flex.stickyHeaders = true;
-    flex.allowDragging = wijmo.grid.AllowDragging.None;
 
     var filter = new wijmo.grid.filter.FlexGridFilter(flex);
     var nag = getNagLink();
@@ -113,7 +155,8 @@ function renderFile(data, options) {
                     ascending: sd.ascending
                 }
             }),
-            scrollPosition: flex.scrollPosition
+            scrollPosition: flex.scrollPosition,
+            version: "2.0.21"
         };
         return state;
     }
@@ -135,6 +178,9 @@ function renderFile(data, options) {
     }
 
     function layoutChanged(state, flex) {
+        if (!state.version) {
+            return true;
+        }
         var stateCols = JSON.parse(state.columnLayout).columns;
         var flexCols = JSON.parse(flex.columnLayout).columns;
         if (stateCols.length != flexCols.length) {

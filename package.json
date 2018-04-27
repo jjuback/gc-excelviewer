@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.0.20",
+    "version": "2.0.21",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -45,6 +45,15 @@
                 ],
                 "aliases": [
                     "CSV"
+                ]
+            },
+            {
+                "id": "tab",
+                "extensions": [
+                    ".tab"
+                ],
+                "aliases": [
+                    "TAB"
                 ]
             },
             {
@@ -104,6 +113,11 @@
                     "group": "navigation"
                 },
                 {
+                    "when": "resourceLangId == tab",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
                     "when": "resourceLangId == tsv",
                     "command": "csv.preview",
                     "group": "navigation"
@@ -117,6 +131,11 @@
                 },
                 {
                     "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == tab && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },

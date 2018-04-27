@@ -1,3 +1,24 @@
+## 2.0.21 (April 26, 2018)
+Upgraded to use Wijmo build 5.20181.436.
+
+Added support for the .tab file extension (like .csv except that a tab delimiter is assumed).
+
+Fixed bug where the original CSV column order was not preserved in all cases.
+
+Fixed bug where multiple CSV columns with the same name were ignored.
+
+Added support for multiple column sorting in CSV previews. Hold down the Shift key while clicking a column header to specify additional sort criteria. Hold down the Ctrl key while clicking a previously sorted column header to remove all sort criteria.
+
+CSV previews now handle numbers correctly when sorting and filtering. Values in numeric columns are now right-aligned.
+
+Since this version contains bug fixes that depend upon revised column structure, any persistent data for CSV files saved with earlier versions will be ignored.
+
+CSV previews now handle quoted strings as in Microsoft Excel. For example, if `csv-preview.quoteMark` is set to `"` (the default), then the following diagram depicts how quoted strings will be rendered (note that the surrounding quotes are not displayed):
+
+CSV Value | Preview
+--------- | -------
+`"This word is ""quoted"" in preview."` | This word is "quoted" in preview.
+
 ## 2.0.20 (February 25, 2018)
 Added the configuration option `csv-preview.lineNumbers` that lets you specify whether to display line numbers for CSV files (default: false).
 
