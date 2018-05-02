@@ -18,11 +18,11 @@ For files with an .xlsx or .xlsm extension, use the explorer context menu or edi
 ![Image](./img/excel-preview-2.gif)
 
 ## Persistent Data
-The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, and scroll bar positions. For Excel files, this includes the selected sheet index and any filter criteria associated with that sheet only. As of version 2.0.16, if the column structure of a CSV file changes, any persistent data is ignored for that file. This fixes issues where new columns were not displayed unless the file was moved or renamed.
+The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. As of version 2.0.16, if the column structure of a CSV file changes, any persistent data is ignored for that file. This fixes issues where new columns were not displayed unless the file was moved or renamed.
 
 To discard persistent data for a CSV or Excel file, execute the command `CSV: Clear Preview State`, then reopen the preview for the affected file to see the changes.
 
-> Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV files saved with earlier versions will be ignored.
+> Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
 
 ## Configuration
 To change the default configuration settings for the Excel Viewer extension, edit the user or workspace settings as described [here](http://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings). The available settings are as follows:
