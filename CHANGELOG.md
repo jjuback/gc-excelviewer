@@ -1,4 +1,4 @@
-## 2.0.21 (April 26, 2018)
+## 2.0.21 (May 2, 2018)
 Upgraded to use Wijmo build 5.20181.436.
 
 Added support for the .tab file extension (like .csv except that a tab delimiter is assumed).
@@ -11,7 +11,11 @@ Added support for multiple column sorting in CSV previews. Hold down the Shift k
 
 CSV previews now handle numbers correctly when sorting and filtering. Values in numeric columns are now right-aligned.
 
-Since this version contains bug fixes that depend upon revised column structure, any persistent data for CSV files saved with earlier versions will be ignored.
+For Excel files, the horizontal and vertical scroll bar positions are now persisted along with sort/filter criteria (for the selected sheet only). Formerly, only filter criteria were persisted.
+
+Any tables within Excel files are now rendered using the built-in style `TableStyleMedium8` (to avoid conflicts with the setting `csv-preview.theme`).
+
+Since this version contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
 
 CSV previews now handle quoted strings as in Microsoft Excel. For example, if `csv-preview.quoteMark` is set to `"` (the default), then the following diagram depicts how quoted strings will be rendered (note that the surrounding quotes are not displayed):
 

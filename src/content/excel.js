@@ -12,13 +12,24 @@ function renderFile(data, options) {
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
 
-    var nag = getNagLink();
     var busy = false, pending = false;
     
     function getState() {
+        var sorts = [];
+        var items = sheet.sortManager.sortDescriptions.items;
+        for (var i = 0; i < items.length; i++) {
+            var desc = items[i];
+            sorts.push({
+                columnIndex: desc.columnIndex,
+                ascending: desc.ascending
+            });
+        }
         var state = {
             selectedSheetIndex: sheet.selectedSheetIndex,
-            filterDefinition: sheet._filter.filterDefinition
+            filterDefinition: sheet.filter.filterDefinition,
+            sortDescriptions: JSON.stringify(sorts),
+            scrollPosition: sheet.scrollPosition,
+            version: "2.0.21"
         };
         return state;
     }
@@ -41,11 +52,21 @@ function renderFile(data, options) {
 
     function applyState() {
         var json = options.state;
-        if (json) {
-            if (json.selectedSheetIndex || json.selectedSheetIndex == 0) {
+        if (json && json.version) {
+            if (json.selectedSheetIndex >= 0) {
                 sheet.selectedSheetIndex = json.selectedSheetIndex;
             }
-            sheet._filter.filterDefinition = json.filterDefinition;
+            sheet.filter.filterDefinition = json.filterDefinition;
+            if (json.sortDescriptions) {
+                var sorts = JSON.parse(json.sortDescriptions);
+                sorts = sorts.map((s) => {
+                    return new wijmo.grid.sheet.ColumnSortDescription(s.columnIndex, s.ascending);
+                });
+                sheet.sortManager.sortDescriptions = new wijmo.collections.CollectionView(sorts);
+            }
+            if (json.scrollPosition) {
+                sheet.scrollPosition = json.scrollPosition;
+            }
         }
     }
 
@@ -55,23 +76,31 @@ function renderFile(data, options) {
     var news = wijmo.getElement("[wj-part='new-sheet']");
     news.parentElement.removeChild(news);
 
-    var filter = sheet._filter.apply;
-    sheet._filter.apply = function () {
-        filter.apply(sheet._filter);
-        sheet._filter.onFilterApplied();
-    };
-
     sheet.loaded.addHandler(() => {
+        var defStyle = sheet.getBuiltInTableStyle("TableStyleMedium8");
+        sheet.sheets.forEach(s => {
+            s.tables.forEach(t => {
+                t.style = defStyle;
+            });
+        });
         sheet.isReadOnly = true;
         applyState();
 
-        sheet._filter.filterApplied.addHandler(() => {
+        sheet.filter.filterApplied.addHandler(() => {
             preserveState();
         });
     
         sheet.selectedSheetChanged.addHandler(() => {
             preserveState();
         });
+
+        sheet.sortManager.sortDescriptions.collectionChanged.addHandler(() => {
+            preserveState();
+        });
+
+        sheet.scrollPositionChanged.addHandler(() => {
+            preserveState();
+        });    
     });
 
     sheet.load(data);

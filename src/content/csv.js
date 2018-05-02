@@ -142,7 +142,6 @@ function renderFile(data, options, bindings) {
     flex.itemsSource = data;
 
     var filter = new wijmo.grid.filter.FlexGridFilter(flex);
-    var nag = getNagLink();
     var busy = false, pending = false;
 
     function getState() {

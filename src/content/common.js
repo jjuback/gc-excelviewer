@@ -22,16 +22,3 @@ function postState(server, state, callback) {
     };
     xhr.send(JSON.stringify(state));
 }
-
-function getNagLink() {
-    var links = document.querySelectorAll("a[href*='wijmo.com']");
-    for (var i = 0; i < links.length; i++) {
-        var parent = links[i].parentElement;
-        if (parent.style.display !== "none") {
-            parent.style.display = "none";
-            wijmo.Control["_updateWme"] = function() {};
-            return links[i];
-        }
-    }
-    return null;
-}
