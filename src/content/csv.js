@@ -78,7 +78,8 @@ function processFile(storage, callback) {
         var header = (headers.length > i) ? headers[i] : hasHeaders ? "" : key;
         bindings.push({
             binding: key,
-            header: header
+            header: header,
+            format: 'g2'
         });
     }
 
