@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -56,10 +56,10 @@ var wijmo;
             }
         },
         Licensing: {
-            cls: 'ЗАКР',
+            cls: 'ЗАКРЫТЬ',
             ctc: 'Пожалуйста, свяжитесь с GrapeCity: <a href="mailto:us.sales@grapecity.com">us.sales@grapecity.com</a>.',
             dmn: 'Лицензия Wijmo в этом приложении недействительна для текущего домена. Домен лицензии <b>{licDomain}</b>; текущий домен <b>{domain}</b>.',
-            evl: 'Версия оценки Wijmo ({version})',
+            evl: 'Пробная версия Wijmo ({version})',
             exp: 'Лицензия Wijmo в этом приложении истекла. Срок действия лицензии <b>{expDate:d}</b>.',
             hdr: 'Лицензия Wijmo',
             lic: 'Лицензия Wijmo в этом приложении недействительна.',

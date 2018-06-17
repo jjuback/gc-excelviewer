@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -538,6 +538,7 @@ declare module wijmo.react {
      */
     class FlexChartSeries extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1223,6 +1224,7 @@ declare module wijmo.react {
      */
     class FinancialChartSeries extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
 }
@@ -1395,6 +1397,7 @@ declare module wijmo.react {
      */
     class FlexRadarSeries extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
 }
@@ -1473,6 +1476,7 @@ declare module wijmo.react {
      */
     class FlexChartTrendLine extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1482,6 +1486,7 @@ declare module wijmo.react {
      */
     class FlexChartMovingAverage extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1491,6 +1496,7 @@ declare module wijmo.react {
      */
     class FlexChartYFunctionSeries extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1500,6 +1506,7 @@ declare module wijmo.react {
      */
     class FlexChartParametricFunctionSeries extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1509,6 +1516,7 @@ declare module wijmo.react {
      */
     class FlexChartWaterfall extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1518,6 +1526,7 @@ declare module wijmo.react {
      */
     class FlexChartBoxWhisker extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1525,6 +1534,7 @@ declare module wijmo.react {
      */
     class FlexChartErrorBar extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
 }
@@ -1767,6 +1777,7 @@ declare module wijmo.react {
      */
     class FlexChartFibonacci extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1774,6 +1785,7 @@ declare module wijmo.react {
      */
     class FlexChartFibonacciArcs extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1781,6 +1793,7 @@ declare module wijmo.react {
      */
     class FlexChartFibonacciFans extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1788,6 +1801,7 @@ declare module wijmo.react {
      */
     class FlexChartFibonacciTimeZones extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1795,6 +1809,7 @@ declare module wijmo.react {
      */
     class FlexChartAtr extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1802,6 +1817,7 @@ declare module wijmo.react {
      */
     class FlexChartCci extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1809,6 +1825,7 @@ declare module wijmo.react {
      */
     class FlexChartRsi extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1816,6 +1833,7 @@ declare module wijmo.react {
      */
     class FlexChartWilliamsR extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1823,6 +1841,7 @@ declare module wijmo.react {
      */
     class FlexChartMacd extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1830,6 +1849,7 @@ declare module wijmo.react {
      */
     class FlexChartMacdHistogram extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1837,6 +1857,7 @@ declare module wijmo.react {
      */
     class FlexChartStochastic extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1844,6 +1865,7 @@ declare module wijmo.react {
      */
     class FlexChartBollingerBands extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
     /**
@@ -1851,6 +1873,7 @@ declare module wijmo.react {
      */
     class FlexChartEnvelopes extends ComponentBase {
         _parentProp: string;
+        _siblingId: string;
         constructor(props: any);
     }
 }

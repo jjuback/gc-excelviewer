@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -55,8 +55,9 @@ interface _IPdfKitDocument {
     fontSize(size: number): _IPdfKitDocument;
     registerFont(name: string, standardFontName: string): _IPdfKitDocument;
     registerFont(name: string, src: ArrayBuffer, fontFamily?: string): _IPdfKitDocument;
-    image(URI: string, options?: _IPdfKitImageOptions): _IPdfKitDocument;
-    image(URI: string, x?: number, y?: number, options?: _IPdfKitImageOptions): _IPdfKitDocument;
+    image(URI: string | _IPdfKitImage, options?: _IPdfKitImageOptions): _IPdfKitDocument;
+    image(URI: string | _IPdfKitImage, x?: number, y?: number, options?: _IPdfKitImageOptions): _IPdfKitDocument;
+    openImage(URI: string): _IPdfKitImage;
     on(eventName: string, handler: Function): _IPdfKitDocument;
     on(eventName: 'data', handler: (chunk: any) => {}): _IPdfKitDocument;
     removeAllListeners(type: string): _IPdfKitDocument;
@@ -174,6 +175,10 @@ interface _IPdfKitMeasurementTextOptions extends _IPdfKitTextOptions {
 }
 interface _IPdfKitWidthOfStringOptions {
     characterSpacing?: number;
+}
+interface _IPdfKitImage {
+    width: number;
+    height: number;
 }
 interface _IPdfKitImageOptions {
     width?: number;
@@ -669,6 +674,19 @@ declare module wijmo.pdf {
         * The default value is true.
         */
         includeLastLineExternalLeading?: boolean;
+    }
+    /**
+    * Represents the image opened using @see:PdfPageArea.openImage method.
+    */
+    interface IPdfImage {
+        /**
+        * The width of the image, in pixels.
+        */
+        width: number;
+        /**
+        * The height of the image, in pixels.
+        */
+        height: number;
     }
     /**
      * Represents the image drawing settings used by @see:PdfPageArea.drawImage method.
@@ -1518,13 +1536,13 @@ declare module wijmo.pdf {
         * Finally, if the image was drawn in the text flow, the method updates @see:y.
         * Hence, any subsequent text or image starts below this point.
         *
-        * @param url A string containing the URL to get the image from or the data URI containing a base64 encoded image.
+        * @param src A string containing the URL to get the image from or the data URI containing a base64 encoded image or a @see:wijmo.pdf.IPdfImage object.
         * @param x The x-coordinate of the point to draw the image at, in points.
         * @param y The y-coordinate of the point to draw the image at, in points.
         * @param options Determines the image drawing options.
         * @return The @see:PdfPageArea object.
         */
-        drawImage(url: string, x?: number, y?: number, options?: IPdfImageDrawSettings): PdfPageArea;
+        drawImage(src: any, x?: number, y?: number, options?: IPdfImageDrawSettings): PdfPageArea;
         /**
         * Draws a SVG image with the given options.
         *
@@ -1591,6 +1609,13 @@ declare module wijmo.pdf {
         * @return The @see:PdfPageArea object.
         */
         moveUp(lines?: number, font?: PdfFont): PdfPageArea;
+        /**
+        * Opens an image in JPG or PNG format.
+        *
+        * @param url A string containing the URL to get the image from or the data URI containing a base64 encoded image.
+        * @return The @see:IPdfImage object containing image data.
+        */
+        openImage(url: string): IPdfImage;
         /**
         * Scales the graphic context by a specified scaling factor.
         *

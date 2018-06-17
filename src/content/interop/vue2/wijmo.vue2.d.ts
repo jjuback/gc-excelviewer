@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -10,7 +10,46 @@
     * wijmo.com/products/wijmo-5/license/
     *
     */
+declare var Vue: any;
 declare module wijmo.vue2 {
+    var WjVueBase: any;
+    class WjComponentBehavior {
+        static tag: string;
+        static template: string;
+        static className: string;
+        static classCtor: () => any;
+        static parentProp: string;
+        static parentInCtor: boolean;
+        static siblingId: string;
+        private static readonly _typeSiblingIdAttr;
+        static readonly _behClassProp: string;
+        static readonly _behProp: string;
+        private static _siblingDirId;
+        private _siblingId;
+        private _isMounted;
+        private _mountedCBs;
+        private _siblingInsertedEH;
+        readonly component: any;
+        control: any;
+        parent: WjComponentBehavior;
+        ['constructor']: typeof WjComponentBehavior;
+        static _attach(component: any): WjComponentBehavior;
+        static register(): any;
+        constructor(component: any);
+        lhMounted(): void;
+        lhDestroyed(): void;
+        protected _createControl(): any;
+        protected _initParent(): void;
+        private _prepareControl();
+        private _isChild();
+        private _isParentInCtor();
+        private _getParentProp();
+        private _getSiblingIndex();
+        private _siblingInserted(e);
+        private _getElement();
+        private static _getControlType();
+        _mountedCB(cb: () => void): void;
+    }
     function _getProps(ctlClass: string, extraProps?: string[]): string[];
     function _initialize(component: any, ctl: any): any;
 }

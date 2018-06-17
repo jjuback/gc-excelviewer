@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -803,6 +803,7 @@ declare module wijmo.olap {
         private _batchStart;
         private _toUpdateTallies;
         private _activeFilterFields;
+        private _sortOnServer;
         _tallies: any;
         _keys: any;
         private _fields;
@@ -929,6 +930,18 @@ declare module wijmo.olap {
          */
         sortableGroups: boolean;
         /**
+         * Gets or sets a value that indicates whether the summary data received
+         * from the server is already sorted.
+         *
+         * If this property is set to true, the @see:PivotEngine will not sort
+         * the data it receives from the server.
+         *
+         * This property should be used only in conjunction with custom servers
+         * that return the aggregated data properly sorted, typically using
+         * custom logic not available in the standard @see:PivotEngine.
+         */
+        sortOnServer: boolean;
+        /**
          * Gets or sets a value that determines whether the Olap output table
          * should use zeros to indicate the missing values.
          */
@@ -952,8 +965,8 @@ declare module wijmo.olap {
          * set to 'Customer Name'.
          *
          * When adding fields to one of the view lists using strings, you must specify
-         * the @see:PivotField.header, not the @see:binding (unlike bindings, field
-         * headers must be unique).
+         * the @see:PivotField.header, not the @see:PivotField.binding (unlike bindings,
+         * field headers must be unique).
          */
         autoGenerateFields: boolean;
         /**
@@ -1225,7 +1238,7 @@ declare module wijmo.olap {
         private _updateView();
         private _updateTallies(arr, startIndex);
         private _updatePivotView();
-        private _getSortedKeys(obj);
+        private _getSortedKeys(obj, sortedOnServer?);
         private _updateFieldValues(arr);
         private _getColTotal(arr, col);
         private _getRunningTotal(arr, row, col, showAs);
@@ -1916,6 +1929,7 @@ declare module wijmo.olap {
         refresh(fullUpdate?: boolean): void;
         onItemsSourceChanged(e?: EventArgs): void;
         onResizedColumn(e: grid.CellRangeEventArgs): void;
+        onDraggedColumn(e: grid.CellRangeEventArgs): void;
         _updatedView(): void;
         _viewDefinitionChanged(): void;
         onLoadedRows(e?: EventArgs): void;
@@ -2019,6 +2033,10 @@ declare module wijmo.olap {
         private _maxSeries;
         private _maxPoints;
         private _stacking;
+        private _header;
+        private _headerStyle;
+        private _footer;
+        private _footerStyle;
         private _itemsSource;
         private _flexChart;
         private _flexPie;
@@ -2091,11 +2109,47 @@ declare module wijmo.olap {
          */
         readonly flexPie: chart.FlexPie;
         /**
+         * Gets or sets the text displayed in the chart header.
+         */
+        header: string;
+        /**
+         * Gets or sets the text displayed in the chart footer.
+         */
+        footer: string;
+        /**
+         * Gets or sets the style of the chart header.
+         */
+        headerStyle: any;
+        /**
+         * Gets or sets the style of the chart footer.
+         */
+        footerStyle: any;
+        /**
          * Refreshes the control.
          *
          * @param fullUpdate Whether to update the control layout as well as the content.
          */
         refresh(fullUpdate?: boolean): void;
+        /**
+         * Saves the chart to an image data url.
+         *
+         * NOTE: This method does not work in IE browsers. If you require IE support,
+         * add the <code>wijmo.chart.render</code> module to the page.
+         *
+         * @param format The @see:wijmo.chart.ImageFormat for the exported image.
+         * @param done A function to be called after data url is generated. The function gets passed the data url as its argument.
+         */
+        saveImageToDataUrl(format: wijmo.chart.ImageFormat, done: Function): void;
+        /**
+         * Saves the chart to an image file.
+         *
+         * NOTE: This method does not work in IE browsers. If you require IE support,
+         * add the <code>wijmo.chart.render</code> module to the page.
+         *
+         * @param filename The filename for the exported image file including extension.
+         * Supported types are PNG, JPEG and SVG.
+         */
+        saveImageToFile(filename: string): void;
         private _onItemsSourceChanged(oldItemsSource?);
         private _createFlexChart();
         private _createFlexPie();

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -2068,6 +2068,7 @@ declare module wijmo.input {
     class InputDateTime extends InputDate {
         _btnTm: HTMLElement;
         _inputTime: InputTime;
+        _hadFocus: boolean;
         /**
          * Gets or sets the template used to instantiate @see:InputDateTime controls.
          */
@@ -2330,14 +2331,14 @@ declare module wijmo.input {
      *      <dt>&gt;</dt>   <dd>Converts characters that follow to uppercase.</dd>
      *      <dt>|</dt>      <dd>Disables case conversion.</dd>
      *      <dt>\</dt>      <dd>Escapes any character, turning it into a literal.</dd>
-     *      <dt>９</dt>      <dd>DBCS Digit.</dd>
-     *      <dt>Ｊ</dt>      <dd>DBCS Hiragana.</dd>
-     *      <dt>Ｇ</dt>      <dd>DBCS big Hiragana.</dd>
-     *      <dt>Ｋ</dt>      <dd>DBCS Katakana. </dd>
-     *      <dt>Ｎ</dt>      <dd>DBCS big Katakana.</dd>
+     *      <dt>９</dt>     <dd>DBCS Digit.</dd>
+     *      <dt>Ｊ</dt>     <dd>DBCS Hiragana.</dd>
+     *      <dt>Ｇ</dt>     <dd>DBCS big Hiragana.</dd>
+     *      <dt>Ｋ</dt>     <dd>DBCS Katakana. </dd>
+     *      <dt>Ｎ</dt>     <dd>DBCS big Katakana.</dd>
      *      <dt>K</dt>      <dd>SBCS Katakana.</dd>
      *      <dt>N</dt>      <dd>SBCS big Katakana.</dd>
-     *      <dt>Ｚ</dt>      <dd>Any DBCS character.</dd>
+     *      <dt>Ｚ</dt>     <dd>Any DBCS character.</dd>
      *      <dt>H</dt>      <dd>Any SBCS character.</dd>
      *      <dt>All others</dt><dd>Literals.</dd>
      *  </dl>

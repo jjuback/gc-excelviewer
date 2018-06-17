@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -232,6 +232,15 @@ declare module wijmo.chart.finance {
          */
         chartType: FinancialChartType;
         _getChartType(): chart.ChartType;
+        /**
+         * Returns the series bounding rectangle in data coordinates.
+         *
+         * If getDataRect() returns null, the limits are calculated automatically based on the data values.
+         *
+         * @param currentRect The current rectangle of chart. This parameter is optional.
+         * @param calculatedRect The calculated rectangle of chart. This parameter is optional.
+         */
+        getDataRect(currentRect?: Rect, calculatedRect?: Rect): Rect;
     }
 }
 

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -1134,10 +1134,12 @@ declare module wijmo {
          *
          * @param value String to convert to a Date.
          * @param format Format string used to parse the date.
+         * @param defaultDate Date to use as a reference in case date parts are
+         * missing form the input (e.g. when format = 'MM/dd').
          * @return The date represented by the given string, or null if the string
          * cannot be parsed into a Date.
          */
-        static parseDate(value: string, format: string): Date;
+        static parseDate(value: string, format: string, defaultDate?: Date): Date;
         static _CJK: string;
         /**
          * Gets the first day of the week according to the current culture.
@@ -1370,6 +1372,10 @@ declare module wijmo {
 }
 
 declare module wijmo {
+    var controlBaseClass: ObjectConstructor;
+    class ControlBase extends controlBaseClass {
+        constructor();
+    }
     /**
      * Base class for all Wijmo controls.
      *
@@ -1382,7 +1388,7 @@ declare module wijmo {
      * refreshing controls, for updating the control layout when its size changes,
      * and for handling the HTML templates that define the control structure.
      */
-    class Control {
+    class Control extends ControlBase {
         static _licKey: string;
         static _wme: HTMLElement;
         static _touching: boolean;
@@ -2445,6 +2451,7 @@ declare module wijmo.collections {
         _srtCvt: Function;
         _srtCmp: Function;
         _getError: Function;
+        static _collator: Intl.Collator;
         /**
          * Initializes a new instance of the @see:CollectionView class.
          *
@@ -2513,8 +2520,21 @@ declare module wijmo.collections {
          * var dataCustomSort = new wijmo.collections.CollectionView(data, {
          *   sortComparer: function (a, b) {
          *     return wijmo.isString(a) && wijmo.isString(b)
-         *       ? alphanum(a, b) // custom comparer used for strings
-         *       : null; // use default comparer used for everything else
+         *       ? alphanum(a, b) // use custom comparer for strings
+         *       : null; // use default comparer for everything else
+         *   }
+         * });</pre>
+         *
+         * The example below shows how you can use an
+         * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator">Intl.Collator</a>
+         * to control the sort order:
+         * <pre>// create a CollectionView that uses an Intl.Collator to sort
+         * var collator = window.Intl ? new Intl.Collator() : null;
+         * var dataCollator = new wijmo.collections.CollectionView(data, {
+         *   sortComparer: function (a, b) {
+         *     return wijmo.isString(a) && wijmo.isString(b) && collator
+         *       ? collator.compare(a, b) // use collator for strings
+         *       : null; // use default comparer for everything else
          *   }
          * });</pre>
          */

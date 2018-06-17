@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -112,6 +112,10 @@ declare module wijmo.chart.hierarchical {
         constructor(element: any, options?: any);
         _rollUp(): void;
         private _toogleTooltip(evt);
+        /**
+         * The selectionMode doesn't work in TreeMap control.
+         */
+        selectionMode: SelectionMode;
         readonly _treeMapItems: any[];
         /**
          * Gets the chart's @see:Tooltip.

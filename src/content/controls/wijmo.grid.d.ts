@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -822,6 +822,11 @@ declare module wijmo.grid {
         /**
          * Resizes a column to fit its content.
          *
+         * This method only works if the grid is visible. If its host element
+         * has not been added to the DOM, or if any of the grid's ancestor
+         * elements is hidden, the grid will not be able to measure the cells
+         * and therefore will not be able to auto-size the columns.
+         *
          * @param c Index of the column to resize.
          * @param header Whether the column index refers to a regular or a header row.
          * @param extra Extra spacing, in pixels.
@@ -834,6 +839,11 @@ declare module wijmo.grid {
          * not currently in view. If the grid contains a large amount of data (say 50,000 rows),
          * then not all rows will be measured since that could potentially take a long time.
          *
+         * This method only works if the grid is visible. If its host element
+         * has not been added to the DOM, or if any of the grid's ancestor
+         * elements is hidden, the grid will not be able to measure the cells
+         * and therefore will not be able to auto-size the columns.
+         *
          * @param firstColumn Index of the first column to resize (defaults to the first column).
          * @param lastColumn Index of the last column to resize (defaults to the last column).
          * @param header Whether the column indices refer to regular or header columns.
@@ -843,6 +853,11 @@ declare module wijmo.grid {
         /**
          * Resizes a row to fit its content.
          *
+         * This method only works if the grid is visible. If its host element
+         * has not been added to the DOM, or if any of the grid's ancestor
+         * elements is hidden, the grid will not be able to measure the cells
+         * and therefore will not be able to auto-size the rows.
+         *
          * @param r Index of the row to resize.
          * @param header Whether the row index refers to a regular or a header row.
          * @param extra Extra spacing, in pixels.
@@ -850,6 +865,11 @@ declare module wijmo.grid {
         autoSizeRow(r: number, header?: boolean, extra?: number): void;
         /**
          * Resizes a range of rows to fit their content.
+         *
+         * This method only works if the grid is visible. If its host element
+         * has not been added to the DOM, or if any of the grid's ancestor
+         * elements is hidden, the grid will not be able to measure the cells
+         * and therefore will not be able to auto-size the rows.
          *
          * @param firstRow Index of the first row to resize.
          * @param lastRow Index of the last row to resize.
@@ -1547,7 +1567,7 @@ declare module wijmo.grid {
          * by pressing one of the clipboard shortcut keys
          * (see the @see:autoClipboard property).
          *
-         * The event handler may cancel the copy operation.
+         * The event handler may cancel the paste operation.
          */
         readonly pasting: Event;
         /**
@@ -1573,7 +1593,7 @@ declare module wijmo.grid {
          * Occurs when the user is pasting content from the clipboard
          * into a cell (see the @see:autoClipboard property).
          *
-         * The event handler may cancel the copy operation.
+         * The event handler may cancel the paste operation.
          */
         readonly pastingCell: Event;
         /**
@@ -1660,6 +1680,7 @@ declare module wijmo.grid {
         private _getWidestRow(p, rowRange, col, ctx);
         private _getDesiredWidth(p, r, c, e);
         private _getDesiredHeight(p, r, c, e);
+        _getDesiredRowHeight(panel: GridPanel, r: number, eMeasure: HTMLElement, cache: any): number;
         _getSortRowIndex(): number;
         _mappedColumns: any;
         private _sortConverter(sd, item, value, init);
@@ -3247,7 +3268,7 @@ declare module wijmo.grid {
          * @param text Tab and newline delimited text to parse into the grid.
          * @param rng @see:CellRange to copy. If omitted, the current selection is used.
          */
-        setClipString(text: string, rng?: CellRange): void;
+        setClipString(text: string, rng?: CellRange): boolean;
         _isNativeCheckbox(edt: any): boolean;
         _parseClipString(text: string): string[][];
         private _parseClipCell(rows, text, start, end, newRow);

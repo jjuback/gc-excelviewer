@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -165,7 +165,7 @@ declare module wijmo.grid.xlsx {
         private static _parseToTextRuns(value);
         private static _parseToTextRunFont(style);
         static _getMeasureCell(panel: GridPanel, colIndex: number, patternCell: HTMLDivElement, cellsCache: _CellsCache): HTMLDivElement;
-        private static _getColumnSetting(column, defaultWidth);
+        private static _getColumnSetting(column, colIndex, columns);
         private static _toExcelHAlign(value);
         private static _getColumnCount(sheetData);
         private static _getRowCount(sheetData, columnCnt);
@@ -178,6 +178,8 @@ declare module wijmo.grid.xlsx {
         private static _extend(dst, src);
         private static _checkParentCollapsed(groupCollapsedSettings, groupLevel);
         private static _getColSpan(p, mergedRange, includeColumns);
+        private static _getColumnRenderWidth(colIndex, columns);
+        private static _getMergedRange(row, col, mergeCells);
     }
     /**
      * Represents arguments of the IFlexGridXlsxOptions.formatItem callback.
@@ -229,7 +231,7 @@ declare module wijmo.grid.xlsx {
         /**
          * Merged ranges in the sheet
          */
-        mergedRanges: any;
+        mergedRanges: CellRange[];
         /**
          * Contains an array of font names used in the sheet.
          */
@@ -291,6 +293,9 @@ declare module wijmo.grid.xlsx {
          * An optional callback which is called for every exported cell and allows to perform transformations
          * of exported cell value and style.
          * The callback is called irrespectively of the 'includeCellStyles' property value.
+         * It has a single parameter of the @see:XlsxFormatItemEventArgs type that
+         * provides both information about the source grid cell and an @see:IWorkbookCell object
+         * defining its representation in the exported file, which can be customized in the callback.
          */
         formatItem?: (args: XlsxFormatItemEventArgs) => void;
     }

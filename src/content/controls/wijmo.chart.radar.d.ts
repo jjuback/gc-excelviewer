@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -147,10 +147,12 @@ declare module wijmo.chart.radar {
         private _drawMinorTickLength(engine, tover, angle, pt);
         _renderLabelsAndTicks(engine: any, index: any, val: any, sval: any, labelAngle: any, tickMarks: any, showLabel: any, t1: any, t2: any): boolean;
         private _renderXGridLine(engine, chart, x, cls);
+        private _renderXTick(engine, chart, x, cls, t1, t2);
         private _renderYGridLine(engine, chart, y, cls);
         private _getXLabelVAlign(angle);
         private _getXLabelAlign(angle);
         _createTimeLabels(start: number, len: number, vals: number[], lbls: string[]): void;
+        _niceNumber(x: number, exp: number, round: boolean): number;
     }
 }
 

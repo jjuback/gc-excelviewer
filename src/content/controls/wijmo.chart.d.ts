@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -1372,6 +1372,7 @@ declare module wijmo.chart {
          * data sets.
          */
         logBase: number;
+        _getLogBase(): number;
         /**
          * Gets or sets the plot area for the axis.
          */
@@ -1476,7 +1477,7 @@ declare module wijmo.chart {
         private _getAnnoNumber(isVert);
         private _nicePrecision(range);
         private _niceTickNumber(x);
-        private _niceNumber(x, exp, round);
+        _niceNumber(x: number, exp: number, round: boolean): number;
         readonly _uniqueId: number;
     }
     /**
@@ -1853,6 +1854,7 @@ declare module wijmo.chart {
          * @param index Index of legend item(for series with multiple legend items).
          */
         drawLegendItem(engine: IRenderEngine, rect: Rect, index: number): void;
+        private _getLegendStyle(style);
         /**
          * Measures height and width of the legend item.
          *
@@ -3058,7 +3060,8 @@ declare module wijmo.chart {
         private _neckHeight;
         private _offsetX;
         private _offsetY;
-        constructor(startPoint: Point, width: number, height: number, neckWidth: number, neckHeight: number);
+        private _rotated;
+        constructor(startPoint: Point, width: number, height: number, neckWidth: number, neckHeight: number, rotated?: boolean);
         contains(pt: Point): boolean;
         distance(pt: Point): number;
         readonly center: Point;

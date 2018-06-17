@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -626,18 +626,20 @@ declare module wijmo.viewer {
         static notFound: string;
     }
     interface _IParameter {
-        name: string;
-        dataType: _ParameterType;
-        nullable: boolean;
+        allowBlank: boolean;
         allowedValues: {
             key: string;
             value: any;
         }[];
-        value: any;
-        hidden: boolean;
-        multiValue: boolean;
-        prompt: string;
+        dataType: _ParameterType;
         error?: string;
+        hidden: boolean;
+        maxLength: number;
+        multiValue: boolean;
+        name: string;
+        nullable: boolean;
+        prompt: string;
+        value: any;
     }
     enum _ParameterType {
         Boolean = 0,

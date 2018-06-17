@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.436
+    * Wijmo Library 5.20181.462
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -340,7 +340,7 @@ declare module wijmo.odata {
         _storeItems(items: any[], append: boolean): void;
         _getReadUrl(nextLink?: string): string;
         _getReadParams(nextLink?: string): any;
-        _getData(nextLink?: string): void;
+        _getData(nextLink?: string, xhrCallback?: Function): void;
         private _convertToDbFormat(item);
         private _convertItem(dataTypes, item);
         private _getInferredDataTypes(arr);
@@ -395,6 +395,7 @@ declare module wijmo.odata {
         _refresh: boolean;
         _loadOffset: number;
         _toSetWindow: any;
+        _pendingRequest: XMLHttpRequest;
         /**
          * Initializes a new instance of the @see:ODataVirtualCollectionView class.
          *
