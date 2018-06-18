@@ -7,7 +7,7 @@ function loadFile(server, callback) {
         var storage = JSON.parse(this.response);
         processFile(storage, callback);
     });
-    xhr.open("GET", server + "/storage");
+    xhr.open("GET", server + "/state");
     xhr.send();
 }
 

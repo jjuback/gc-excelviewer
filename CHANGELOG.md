@@ -1,3 +1,26 @@
+## 2.1.22 (June 17, 2018)
+Upgraded to use Wijmo build 5.20181.462.
+
+The extension now uses the Webview API instead of the TextDocumentContentProvider model. For this reason, Visual Studio Code version 1.23.0 or later is required.
+
+Added the configuration option `csv-preview.formatValues` that specifies whether to format numeric values in CSV files (default: true). If set to true, the option `csv-preview.numberFormat` controls how numeric values are formatted. If set to false, all values are treated as strings, and no numeric formatting occurs.
+
+Added the configuration option `csv-preview.numberFormat` that specifies the .NET-style format string used to format numeric columns in CSV files (default: `g2`). For example, to display numbers with a thousands separator and four decimal places, use the value `n4`. Setting this option to an empty string reverts to the built-in behavior of the underlying FlexGrid control (`n` for integers, `n2` for floating point values).
+
+> Since format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing this option.
+
+The extension now respects the `CSV (semicolon)` and `CSV (pipe)` language ids contributed by the Rainbow CSV extension (`mechatroner.rainbow-csv`).
+
+Added custom file extension support for CSV files. Run the built-in command `Change Language Mode` and select the `Configure File Extension` option to create a user setting that maps the current file extension to CSV or TSV. Alternatively, you can select the CSV or TSV language mode directly for the active editor only.
+
+The command `CSV: Clear Preview State` now refreshes the preview immediately. Formerly, it was necessary to reopen the preview for the affected file to see the changes.
+
+Trailing newlines are now ignored in CSV previews.
+
+Command line programs that output CSV data can now be piped to Visual Studio Code, and the extension will automatically open a preview tab on the output. For example:
+
+`ps -fc | awk ‘$1=$1’ OFS=‘,’ | code -`
+
 ## 2.0.21 (May 2, 2018)
 Upgraded to use Wijmo build 5.20181.436.
 

@@ -1,9 +1,20 @@
 function processFile(storage, callback) {
+    const vscode = acquireVsCodeApi();
     var xhr = new XMLHttpRequest();    
     xhr.onload = function(e) {
-        callback(xhr.response, storage.options);
+        if (xhr.status == 200) {
+            callback(xhr.response, storage.options);
+        } else {
+            var reader = new FileReader();
+            reader.addEventListener("loadend", (e) => {
+                vcode.postMessage({
+                    error: e.srcElement.result
+                }, "*");
+            });
+            reader.readAsText(xhr.response);
+        }
     };
-    xhr.open("GET", storage.content);
+    xhr.open("GET", gcLocalServer + "/proxy?file=" + storage.content);
     xhr.responseType = "blob";
     xhr.send();
 }
@@ -29,7 +40,7 @@ function renderFile(data, options) {
             filterDefinition: sheet.filter.filterDefinition,
             sortDescriptions: JSON.stringify(sorts),
             scrollPosition: sheet.scrollPosition,
-            version: "2.0.21"
+            version: "2.1.22"
         };
         return state;
     }
@@ -108,5 +119,5 @@ function renderFile(data, options) {
 
 function resizeSheet() {
     var div = wijmo.getElement("#sheet");
-    div.style.height = window.frameElement.offsetHeight.toString() + "px";
+    div.style.height = window.innerHeight.toString() + "px";
 }

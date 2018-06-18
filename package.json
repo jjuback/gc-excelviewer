@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.0.21",
+    "version": "2.1.22",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -19,7 +19,7 @@
         "url": "https://github.com/jjuback/gc-excelviewer.git"
     },
     "engines": {
-        "vscode": "^1.9.1"
+        "vscode": "^1.23.0"
     },
     "categories": [
         "Other"
@@ -33,7 +33,8 @@
     ],
     "activationEvents": [
         "onCommand:csv.preview",
-        "onCommand:excel.preview"
+        "onCommand:excel.preview",
+        "onLanguage:plaintext"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -48,18 +49,9 @@
                 ]
             },
             {
-                "id": "tab",
-                "extensions": [
-                    ".tab"
-                ],
-                "aliases": [
-                    "TAB"
-                ]
-            },
-            {
                 "id": "tsv",
                 "extensions": [
-                    ".tsv"
+                    ".tsv", ".tab"
                 ],
                 "aliases": [
                     "TSV"
@@ -68,7 +60,8 @@
             {
                 "id": "excel",
                 "extensions": [
-                    ".xlsx", ".xlsm"
+                    ".xlsx",
+                    ".xlsm"
                 ],
                 "aliases": [
                     "Excel"
@@ -113,12 +106,27 @@
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tab",
+                    "when": "resourceLangId == tsv",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tsv",
+                    "when": "resourceLangId == CSV",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == TSV",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (semicolon)'",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (pipe)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
@@ -135,12 +143,27 @@
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tab && resourceScheme != csv-preview",
+                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
+                    "when": "resourceLangId == CSV && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == TSV && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
@@ -195,6 +218,16 @@
                     "default": false,
                     "description": "Specifies whether lines that begin with the comment character should be omitted from the CSV preview."
                 },
+                "csv-preview.formatValues": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies whether to format numeric values in CSV files, or treat all values as strings."
+                },
+                "csv-preview.numberFormat": {
+                    "type": "string",
+                    "default": "g2",
+                    "description": "Specifies a .NET-style format string used to format numeric columns in CSV files."
+                },
                 "csv-preview.theme": {
                     "type": "string",
                     "enum": [
@@ -235,16 +268,19 @@
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
-        "typescript": "^2.5.3",
-        "vscode": "^1.1.5",
+        "@types/mocha": "^2.2.48",
+        "@types/node": "^7.0.63",
         "mocha": "^2.3.3",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "typescript": "^2.8.3",
+        "vscode": "^1.1.17"
     },
     "dependencies": {
         "body-parser": "^1.18.2",
-        "express": "^4.13.3",        
+        "cors": "^2.8.4",
         "escape-string-regexp": ">= 1.0.5",
-        "js-base64": ">= 2.1.9"
+        "express": "^4.16.3",
+        "http-proxy-middleware": "^0.18.0",
+        "js-base64": "^2.4.3",
+        "request": "^2.85.0"
     }
 }

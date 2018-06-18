@@ -6,6 +6,8 @@ function processFile(storage, callback) {
     var hasHeaders = options.hasHeaders;
     var comment = options.commentCharacter;
     var skip = options.skipComments;
+    var doFormat = options.formatValues;
+    var format = options.numberFormat;
 
     var regexQuote = new RegExp(`^${quote}(.*)${quote}$`);
     var regexDoubleQuote = new RegExp(`${quote}${quote}`, 'g');
@@ -65,10 +67,16 @@ function processFile(storage, callback) {
                 var obj = {};
                 for (var j = 0; j < items.length; j++) {
                     var value = unquote(items[j]);
-                    var num = value.length ? Number(value) : NaN;
-                    obj[getBinding(j)] = isNaN(num) ? value : num;
+                    if (doFormat) {
+                        var num = value.length ? Number(value) : NaN;
+                        obj[getBinding(j)] = isNaN(num) ? value : num;
+                    } else {
+                        obj[getBinding(j)] = value;
+                    }
                 }
-                data.push(obj);
+                if (line.length > 0 || (i < lines.length - 1)) {
+                    data.push(obj);
+                }
             }
         }
     }
@@ -78,7 +86,8 @@ function processFile(storage, callback) {
         var header = (headers.length > i) ? headers[i] : hasHeaders ? "" : key;
         bindings.push({
             binding: key,
-            header: header
+            header: header,
+            format: format
         });
     }
 
@@ -86,13 +95,21 @@ function processFile(storage, callback) {
 }
 
 function renderFile(data, options, bindings) {
+    const vscode = acquireVsCodeApi();
     var flex = new wijmo.grid.FlexGrid("#flex", {
         autoGenerateColumns: false,
         columns: bindings,
         isReadOnly: true,
         stickyHeaders: true,
+        keyActionTab: wijmo.grid.KeyAction.Cycle,
         allowDragging: wijmo.grid.AllowDragging.None
     });
+
+    window.addEventListener("message", event => {
+        if (event.data.refresh) {
+            loadFile(gcLocalServer, refreshFile);
+        }
+    });    
 
     flex.itemsSourceChanged.addHandler(function(s, e) {
         var resize = options.resizeColumns;
@@ -155,7 +172,7 @@ function renderFile(data, options, bindings) {
                 }
             }),
             scrollPosition: flex.scrollPosition,
-            version: "2.0.21"
+            version: "2.1.22"
         };
         return state;
     }
@@ -208,6 +225,17 @@ function renderFile(data, options, bindings) {
         }    
     }
 
+    function refreshFile(data) {
+        var flex = wijmo.Control.getControl("#flex");
+        flex.beginUpdate();
+        flex.columns.clear();
+        bindings.forEach((b) => {
+            flex.columns.push(new wijmo.grid.Column(b));
+        });
+        flex.itemsSource = data;
+        flex.endUpdate();
+    }
+
     flex.collectionView.collectionChanged.addHandler(() => {
         preserveState();
     });
@@ -220,10 +248,19 @@ function renderFile(data, options, bindings) {
         preserveState();
     });
 
+    flex.rowEditEnded.addHandler((s,e) => {
+        let data = s.rows[e.row].dataItem;
+        vscode.postMessage({
+            event: "rowEditEnded",
+            row: e.row,
+            data: data
+        }, "*");
+    });
+
     applyState();
 }
 
 function resizeGrid() {
     var div = wijmo.getElement("#flex");
-    div.style.height = window.frameElement.offsetHeight.toString() + "px";
+    div.style.height = window.innerHeight.toString() + "px";
 }

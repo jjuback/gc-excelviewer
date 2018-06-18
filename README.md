@@ -1,7 +1,7 @@
 # Excel Viewer
 Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
 
-> This extension requires Visual Studio Code 1.9.1 Recovery Build or greater.
+> This extension requires Visual Studio Code 1.23.0 or greater.
 
 This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version fixes issues where changes to CSV file structure were not immediately reflected in the preview window. It also includes improvements for CSV file parsing, particularly for fields that span multiple lines. New features also include optional line numbers and the ability to comment out lines that begin with a specified character. See the changelog for details.
 
@@ -37,6 +37,8 @@ csv-preview.resizeColumns | string | none | Specifies whether columns are automa
 csv-preview.lineNumbers | boolean | false | Specifies whether to display line numbers for CSV files.
 csv-preview.commentCharacter | string | # | Specifies the character used to mark comment lines in CSV files.
 csv-preview.skipComments | boolean | false | Specifies whether lines that begin with the comment character should be omitted from the CSV preview.
+csv-preview.formatValues | boolean | true | Specifies whether to format numeric values in CSV files, or treat all values as strings.
+csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
 > Any open CSV/Excel previews will automatically update to reflect the modified settings.
