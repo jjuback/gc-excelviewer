@@ -1,3 +1,6 @@
+## 2.1.23 (June 20, 2018)
+Updated growl in package-lock.json.
+
 ## 2.1.22 (June 20, 2018)
 Upgraded to use Wijmo build 5.20181.462.
 
@@ -19,7 +22,7 @@ Trailing newlines are now ignored in CSV previews.
 
 Command line programs that output CSV data can now be piped to Visual Studio Code, and the extension will automatically open a preview tab on the output. For example:
 
-`ps -fc | awk ‘$1=$1’ OFS=‘,’ | code -`
+`ps -fc | awk '$1=$1' OFS=',' | code -`
 
 ## 2.0.21 (May 2, 2018)
 Upgraded to use Wijmo build 5.20181.436.
