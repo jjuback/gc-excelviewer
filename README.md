@@ -1,9 +1,9 @@
 # Excel Viewer
 Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
 
-> This extension requires Visual Studio Code 1.23.0 or greater.
+> This extension requires Visual Studio Code 1.23.0 or greater, as it now uses the new Webview API.
 
-This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version fixes issues where changes to CSV file structure were not immediately reflected in the preview window. It also includes improvements for CSV file parsing, particularly for fields that span multiple lines. New features also include optional line numbers and the ability to comment out lines that begin with a specified character. See the changelog for details.
+This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version adds settings for controlling the display format of numeric columns in CSV files. It also includes fixes for compatibility with other CSV file extensions. See the changelog for details.
 
 ## CSV Usage
 For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
@@ -18,11 +18,18 @@ For files with an .xlsx or .xlsm extension, use the explorer context menu or edi
 ![Image](./img/excel-preview-2.gif)
 
 ## Persistent Data
-The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. As of version 2.0.16, if the column structure of a CSV file changes, any persistent data is ignored for that file. This fixes issues where new columns were not displayed unless the file was moved or renamed.
+The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, data types, format strings, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. As of version 2.0.16, if the column structure of a CSV file changes, any persistent data is ignored for that file. This fixes issues where new columns were not displayed unless the file was moved or renamed.
 
-To discard persistent data for a CSV or Excel file, execute the command `CSV: Clear Preview State`, then reopen the preview for the affected file to see the changes.
+To discard persistent data for a CSV or Excel file, execute the command `CSV: Clear Preview State`. The preview will be refreshed automatically.
 
 > Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
+
+## Numeric Formatting
+Version 2.1.22 added new settings for controlling the display format of numeric columns. By default, numeric formatting is enabled, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
+
+Set `csv-preview.formatValues` to false to turn off numeric formatting and treat all values as strings.
+
+> Since data types and format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing the `csv-preview.formatValues` and `csv-preview.numberFormat` options.
 
 ## Configuration
 To change the default configuration settings for the Excel Viewer extension, edit the user or workspace settings as described [here](http://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings). The available settings are as follows:
@@ -37,7 +44,7 @@ csv-preview.resizeColumns | string | none | Specifies whether columns are automa
 csv-preview.lineNumbers | boolean | false | Specifies whether to display line numbers for CSV files.
 csv-preview.commentCharacter | string | # | Specifies the character used to mark comment lines in CSV files.
 csv-preview.skipComments | boolean | false | Specifies whether lines that begin with the comment character should be omitted from the CSV preview.
-csv-preview.formatValues | boolean | true | Specifies whether to format numeric values in CSV files, or treat all values as strings.
+csv-preview.formatValues | boolean | true | Specifies whether to format numeric values in CSV files, or to treat all values as strings.
 csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 

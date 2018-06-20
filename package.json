@@ -221,7 +221,7 @@
                 "csv-preview.formatValues": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Specifies whether to format numeric values in CSV files, or treat all values as strings."
+                    "description": "Specifies whether to format numeric values in CSV files, or to treat all values as strings."
                 },
                 "csv-preview.numberFormat": {
                     "type": "string",

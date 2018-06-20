@@ -1,4 +1,4 @@
-## 2.1.22 (June 17, 2018)
+## 2.1.22 (June 20, 2018)
 Upgraded to use Wijmo build 5.20181.462.
 
 The extension now uses the Webview API instead of the TextDocumentContentProvider model. For this reason, Visual Studio Code version 1.23.0 or later is required.
@@ -7,7 +7,7 @@ Added the configuration option `csv-preview.formatValues` that specifies whether
 
 Added the configuration option `csv-preview.numberFormat` that specifies the .NET-style format string used to format numeric columns in CSV files (default: `g2`). For example, to display numbers with a thousands separator and four decimal places, use the value `n4`. Setting this option to an empty string reverts to the built-in behavior of the underlying FlexGrid control (`n` for integers, `n2` for floating point values).
 
-> Since format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing this option.
+> Since data types and format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing the `csv-preview.formatValues` and `csv-preview.numberFormat` options.
 
 The extension now respects the `CSV (semicolon)` and `CSV (pipe)` language ids contributed by the Rainbow CSV extension (`mechatroner.rainbow-csv`).
 
