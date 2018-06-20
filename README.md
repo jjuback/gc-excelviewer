@@ -25,7 +25,7 @@ To discard persistent data for a CSV or Excel file, execute the command `CSV: Cl
 > Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
 
 ## Numeric Formatting
-Version 2.1.22 added new settings for controlling the display format of numeric columns. By default, numeric formatting is enabled, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
+Version 2.1.22 added new settings for controlling the display format of numeric columns. By default, numeric formatting is enabled for CSV files, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
 
 Set `csv-preview.formatValues` to false to turn off numeric formatting and treat all values as strings.
 
