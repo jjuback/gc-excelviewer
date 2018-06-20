@@ -48,7 +48,7 @@ csv-preview.formatValues | boolean | true | Specifies whether to format numeric 
 csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 
-> Any open CSV/Excel previews will automatically update to reflect the modified settings.
+> Any open CSV/Excel previews will automatically update to reflect the modified settings, except where noted in the previous section.
 
 ## References
 * [About Wijmo](http://www.wijmo.com/products/wijmo-5)
