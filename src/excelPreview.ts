@@ -15,6 +15,9 @@ export default class ExcelPreview extends BasePreview {
     }
     
     refresh(): void {
+        this.webview.postMessage({
+            refresh: true
+        });
     }
 
     get html(): string {

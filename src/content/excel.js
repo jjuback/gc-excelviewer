@@ -23,6 +23,13 @@ function renderFile(data, options) {
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
 
+    window.addEventListener("message", event => {
+        if (event.data.refresh) {
+            options.state = null;
+            sheet.load(data);
+        }
+    });
+
     var busy = false, pending = false;
     
     function getState() {
