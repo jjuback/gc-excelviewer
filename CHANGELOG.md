@@ -1,3 +1,6 @@
+## 2.1.24 (June 21, 2018)
+Fixed regression where the `CSV: Clear Preview State` command did not work in Excel previews.
+
 ## 2.1.23 (June 20, 2018)
 Updated growl in package-lock.json.
 
