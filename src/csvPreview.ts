@@ -2,6 +2,7 @@
 import { workspace, window, ExtensionContext, Uri, ViewColumn, Disposable, TextDocument, TextLine, TextEdit, WorkspaceEdit } from 'vscode';
 import BasePreview from './basePreview';
 var Base64 = require('js-base64').Base64;
+var Clipboard = require('copy-paste');
 
 export default class CsvPreview extends BasePreview {
     
@@ -17,7 +18,9 @@ export default class CsvPreview extends BasePreview {
     private handleEvents() {
         let self = this;
         this.webview.onDidReceiveMessage((e) => {
-            if (e.event === "rowEditEnded") {
+            if (e.event === "clipboardCopy") {
+                Clipboard.copy(e.text);
+            } else if (e.event === "rowEditEnded") {
                 let document = workspace.textDocuments.find(document => {
                     return document.uri.toString() === self.uri.toString();
                 });

@@ -1,17 +1,8 @@
 function processFile(storage, callback) {
-    const vscode = acquireVsCodeApi();
     var xhr = new XMLHttpRequest();    
     xhr.onload = function(e) {
         if (xhr.status == 200) {
             callback(xhr.response, storage.options);
-        } else {
-            var reader = new FileReader();
-            reader.addEventListener("loadend", (e) => {
-                vcode.postMessage({
-                    error: e.srcElement.result
-                }, "*");
-            });
-            reader.readAsText(xhr.response);
         }
     };
     xhr.open("GET", gcLocalServer + "/proxy?file=" + storage.content);
@@ -20,6 +11,7 @@ function processFile(storage, callback) {
 }
 
 function renderFile(data, options) {
+    const vscode = acquireVsCodeApi();
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
 
@@ -28,6 +20,14 @@ function renderFile(data, options) {
             options.state = null;
             sheet.load(data);
         }
+    });
+
+    sheet.copying.addHandler(function (s, e) {
+        e.cancel = true;
+        vscode.postMessage({
+            event: "clipboardCopy",
+            text: s.getClipString() + "\n"
+        }, "*");
     });
 
     var busy = false, pending = false;

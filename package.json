@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.1.24",
+    "version": "2.1.25",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -51,7 +51,8 @@
             {
                 "id": "tsv",
                 "extensions": [
-                    ".tsv", ".tab"
+                    ".tsv",
+                    ".tab"
                 ],
                 "aliases": [
                     "TSV"
@@ -132,6 +133,43 @@
                 }
             ],
             "editor/title": [
+                {
+                    "when": "resourceLangId == excel && resourceScheme != excel-preview",
+                    "command": "excel.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == CSV && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == TSV && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
+                    "command": "csv.preview",
+                    "group": "navigation"
+                }
+            ],
+            "editor/title/context": [
                 {
                     "when": "resourceLangId == excel && resourceScheme != excel-preview",
                     "command": "excel.preview",
@@ -276,6 +314,7 @@
     },
     "dependencies": {
         "body-parser": "^1.18.2",
+        "copy-paste": "^1.3.0",
         "cors": "^2.8.4",
         "escape-string-regexp": ">= 1.0.5",
         "express": "^4.16.3",

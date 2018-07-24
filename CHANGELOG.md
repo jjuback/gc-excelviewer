@@ -1,3 +1,10 @@
+## 2.1.25 (July 24, 2018)
+Fixed issue where CSV files with Windows line endings (CR-LF) sometimes resulted in a blank preview.
+
+Fixed issue where Ctrl+C (or Cmd+C) did not copy text to the clipboard on non-Windows platforms.
+
+Added `Open Preview` command to the editor title context menu for CSV/Excel file types.
+
 ## 2.1.24 (June 21, 2018)
 Fixed regression where the `CSV: Clear Preview State` command did not work in Excel previews.
 

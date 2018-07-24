@@ -9,10 +9,10 @@ function processFile(storage, callback) {
     var doFormat = options.formatValues;
     var format = options.numberFormat;
 
-    var regexQuote = new RegExp(`^${quote}(.*)${quote}$`);
+    var regexQuote = new RegExp(`^${quote}([\\S\\s]*)${quote}$`);
     var regexDoubleQuote = new RegExp(`${quote}${quote}`, 'g');
     var regexComment = new RegExp(String.raw`^\s*${comment}|^\s+$`);
-    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\r\n]+.*${quote})[\r\n]+`, 'm');
+    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\n]+.*${quote})[\n]+`, 'm');
     var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
 
     // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
@@ -110,6 +110,14 @@ function renderFile(data, options, bindings) {
             loadFile(gcLocalServer, refreshFile);
         }
     });    
+
+    flex.copying.addHandler(function (s, e) {
+        e.cancel = true;
+        vscode.postMessage({
+            event: "clipboardCopy",
+            text: s.getClipString() + "\n"
+        }, "*");
+    });
 
     flex.itemsSourceChanged.addHandler(function(s, e) {
         var resize = options.resizeColumns;
