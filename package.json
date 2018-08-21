@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.1.25",
+    "version": "2.1.26",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -295,6 +295,11 @@
                     ],
                     "default": "cleandark",
                     "description": "Specifies the Wijmo theme used to style the preview grid."
+                },
+                "csv-preview.openStdin": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Specifies whether text piped to stdin is automatically opened as a CSV preview."
                 }
             }
         }

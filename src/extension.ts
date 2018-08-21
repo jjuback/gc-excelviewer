@@ -117,7 +117,8 @@ function isCsvFile(document: TextDocument) {
 }
 
 function isStdinFile(document: TextDocument) {
-    return document ? path.basename(document.fileName).match("code-stdin-[^.]+.txt") : false;
+    let allowed = <boolean>workspace.getConfiguration('csv-preview').get("openStdin");
+    return (allowed && document) ? path.basename(document.fileName).match("code-stdin-[^.]+.txt") : false;
 }
 
 function getViewColumn(): ViewColumn {

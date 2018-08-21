@@ -47,6 +47,7 @@ csv-preview.skipComments | boolean | false | Specifies whether lines that begin 
 csv-preview.formatValues | boolean | true | Specifies whether to format numeric values in CSV files, or to treat all values as strings.
 csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
+csv-preview.openStdin | boolean | false | Specifies whether text piped to stdin is automatically opened as a CSV preview.
 
 > Any open CSV/Excel previews will automatically update to reflect the modified settings, except where noted in the previous section.
 
