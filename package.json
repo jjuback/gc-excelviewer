@@ -134,74 +134,74 @@
             ],
             "editor/title": [
                 {
-                    "when": "resourceLangId == excel && resourceScheme != excel-preview",
+                    "when": "editorLangId == excel && resourceScheme != excel-preview",
                     "command": "excel.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "when": "editorLangId == csv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
+                    "when": "editorLangId == tsv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == CSV && resourceScheme != csv-preview",
+                    "when": "editorLangId == CSV && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == TSV && resourceScheme != csv-preview",
+                    "when": "editorLangId == TSV && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
             ],
             "editor/title/context": [
                 {
-                    "when": "resourceLangId == excel && resourceScheme != excel-preview",
+                    "when": "editorLangId == excel && resourceScheme != excel-preview",
                     "command": "excel.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == csv && resourceScheme != csv-preview",
+                    "when": "editorLangId == csv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == tsv && resourceScheme != csv-preview",
+                    "when": "editorLangId == tsv && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == CSV && resourceScheme != csv-preview",
+                    "when": "editorLangId == CSV && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == TSV && resourceScheme != csv-preview",
+                    "when": "editorLangId == TSV && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
