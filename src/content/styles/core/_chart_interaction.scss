@@ -1,0 +1,238 @@
+// wijmo.chart.interaction
+.wj-flexchart {
+    // ranges
+    .wj-chart-rangeslider {
+        position: absolute;
+        @include prefix(touch-action, none, ms);
+
+        button {
+            position: absolute;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0;
+            line-height: 16px;
+            border-radius: 2px;
+        }
+
+        .wj-rangeslider-content {
+            background: #eaeaea;
+            height: 100%;
+            position: relative;
+        }
+
+        .wj-rangeslider-rangehandle {
+            position: absolute;
+            text-align: center;
+            vertical-align: middle;
+            background: #bdbdbd;
+            height: 100%;
+            width: 100%;
+        }
+
+        .wj-rangeslider-minhandle,
+        .wj-rangeslider-maxhandle {
+            border: 1px solid gray;
+            display: block;
+            position: absolute;
+            border-radius: 4px;
+        }
+
+        .wj-rangeslider-handle-active {
+            z-index: 2;
+        }
+
+        .wj-glyph-left {
+            border-top: 5px solid transparent;
+            border-right: 4px solid;
+            border-bottom: 4px solid transparent;
+            margin-right: 2px;
+        }
+
+        .wj-glyph-right {
+            border-bottom: 5px solid transparent;
+            border-left: 4px solid;
+            border-top: 4px solid transparent;
+            margin-left: 2px;
+        }
+
+        .wj-glyph-down {
+            border-top: 5px solid;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            margin-bottom: 3px;
+        }
+
+        .wj-glyph-up {
+            border-right: 4px solid transparent;
+            border-bottom: 5px solid;
+            border-left: 4px solid transparent;
+            margin-bottom: 4px;
+        }
+    }
+
+    .wj-chart-hrangeslider {
+        .wj-rangeslider-minhandle,
+        .wj-rangeslider-maxhandle {
+            background: #bdbdbd;
+            cursor: ew-resize;
+            height: 22px;
+            margin-top: -2px;
+            width: 14px;
+        }
+
+        .wj-rangeslider-decbtn {
+            left: 0;
+        }
+
+        .wj-rangeslider-incbtn {
+            right: 0;
+        }
+
+        button {
+            width: 16px;
+            height: 100%;
+        }
+    }
+
+    .wj-chart-vrangeslider {
+        .wj-rangeslider-minhandle,
+        .wj-rangeslider-maxhandle {
+            background: #bdbdbd;
+            cursor: ns-resize;
+            width: 22px;
+            margin-left: -2px;
+            height: 14px;
+        }
+
+        .wj-rangeslider-decbtn {
+            bottom: 0;
+        }
+
+        .wj-rangeslider-incbtn {
+            top: 0;
+        }
+
+        button {
+            height: 16px;
+            width: 100%;
+        }
+    }
+
+    .wj-chart-rangeselector-container {
+        position: relative;
+
+        .wj-chart-rangeslider,
+        .wj-rangeslider-content {
+            background: transparent;
+            border-color: transparent;
+        }
+
+        .wj-rangeslider-rangehandle {
+            opacity: 0.3;
+        }
+
+        .wj-rangeslider-minhandle, .wj-rangeslider-maxhandle {
+            background: transparent;
+            opacity: 0.6;
+            border: 2px solid Gray;
+            border-radius: 0.5em;
+        }
+
+        .wj-chart-hrangeslider {
+            .wj-rangeslider-minhandle, .wj-rangeslider-maxhandle {
+                height: 20px;
+                width: 20px;
+                border-radius: 50%;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                border: 1px solid hsla(0,0%,50.2%,0.75);
+                color: hsl(0,0%,50.2%);
+                background: #d3d3d3;
+                opacity: 1;
+            }
+        }
+
+        .wj-chart-hrangeslider {
+            .wj-rangeslider-minhandle:after, .wj-rangeslider-maxhandle:after {
+                content: "\2551";
+                text-align: center;
+                width: 100%;
+                display: inline-block;
+                position: absolute;
+                margin: 0;
+                top: 50%;
+                transform: translateY(-55%);
+                opacity: 0.75;
+                font-size: 10px;
+            }
+        }
+
+        .wj-chart-vrangeslider {
+            .wj-rangeslider-minhandle, .wj-rangeslider-maxhandle {
+                height: 20px;
+                width: 20px;
+                left: 50%;
+                border-radius: 50%;
+                border: 1px solid hsla(0,0%,50.2%,0.75);
+                top: 0;
+                bottom: 0;
+                color: hsl(0,0%,50.2%);
+                background: #d3d3d3;
+                opacity: 1;
+            }
+        }
+
+        .wj-chart-vrangeslider {
+            .wj-rangeslider-minhandle:after, .wj-rangeslider-maxhandle:after {
+                content: "\2550";
+                text-align: center;
+                height: 100%;
+                display: inline-block;
+                position: absolute;
+                margin: 0;
+                left: 50%;
+                transform: translate(-50%,15%);
+                opacity: 0.75;
+                font-size: 12px;
+            }
+        }
+
+        .wj-chart-rangeslider {
+            .wj-rangeslider-minhandle.wj-rangeslider-handle-active,
+            .wj-rangeslider-maxhandle.wj-rangeslider-handle-active {
+                background: rgba(136,189,230,0.7);
+            }
+        }
+    }
+
+    .wj-rangeselector {
+        .wj-scroller-center {
+            background: rgba(128,128,128,0.1);
+            position: absolute;
+            display: block;
+            @include prefix(touch-action, none, ms);
+        }
+    }
+    // gestures
+    &.wj-panable {
+        cursor: pointer;
+    }
+
+    .wj-zoom {
+        visibility: hidden;
+        position: relative;
+    }
+
+    .wj-zoom-overlay {
+        background: rgba(128,128,128,0.2);
+        position: absolute;
+        display: block;
+        @include prefix(touch-action, none, ms);
+    }
+
+    .wj-block-other-interaction {
+        display: none;
+    }
+}
+

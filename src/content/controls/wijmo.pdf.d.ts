@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -909,6 +909,14 @@ declare module wijmo.pdf {
 }
 
 declare module wijmo.pdf {
+    class _SafeColor extends Color {
+        constructor(color: string);
+        _parse(c: string): boolean;
+        static fromString(value: string): Color;
+    }
+}
+
+declare module wijmo.pdf {
     var _IE: boolean;
     /**
      * Saves the Blob object as a file.
@@ -1461,7 +1469,7 @@ declare module wijmo.pdf {
     * This class is not intended to be instantiated in your code.
     */
     class PdfPageArea {
-        _pdfdoc: PdfDocument;
+        private _pdfdoc;
         _offset: Point;
         private _graphics;
         private _drawingText;
@@ -1498,6 +1506,10 @@ declare module wijmo.pdf {
         * Gets an object that provides ability to draw paths.
         */
         readonly paths: PdfPaths;
+        /**
+        * Gets the document object.
+        */
+        readonly document: PdfDocument;
         /**
         * Draws a string with the given options and returns the measurement information.
         *

@@ -1,0 +1,41 @@
+////////////////////////////////////////////////////////////////
+// midnight theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #0d2c45;
+$wj-txt: #fff;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #000;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #19a26b;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #85cfb1;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #87acca;
+$wj-cell-grp-txt: #000;
+$wj-cell-alt: #113a5a;
+$wj-cell-frz: #295744;
+$wj-cell-frz-alt: #316852;
+$wj-cell-frz-bdr-clr: white;
+
+$wj-btn-bkg: #3b546b;
+$wj-btn-hvr: #4d6e8c;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #e6edf2;
+$wj-tooltip-txt: #000;
+
+$wj-btn-grd: true; // if 'true' will render buttons with gradient
+$wj-hdr-grd: true; // if 'true' will render grid headers with gradient
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

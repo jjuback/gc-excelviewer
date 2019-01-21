@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,31 +15,41 @@
  * @see:ODataCollectionView class.
  *
  * OData is a standardized protocol for creating and consuming data APIs.
- * OData builds on core protocols like HTTP and commonly accepted methodologies like REST.
- * The result is a uniform way to expose full-featured data APIs. (http://www.odata.org/)
+ * OData builds on core protocols like HTTP and commonly accepted
+ * methodologies like REST.
+ * The result is a uniform way to expose full-featured data APIs.
+ * (http://www.odata.org/)
  */
 declare module wijmo.odata {
     /**
-     * Extends the @see:CollectionView class to support loading and saving data
-     * to and from OData sources.
+     * Extends the @see:CollectionView class to support loading and
+     * saving data to and from OData sources.
      *
-     * You can use the @see:ODataCollectionView class to load data from OData services
-     * and use it as a data source for any Wijmo controls.
+     * You can use the @see:ODataCollectionView class to load data from
+     * OData services and use it as a data source for any Wijmo controls.
      *
-     * In addition to full CRUD support you get all the @see:CollectionView features
-     * including sorting, filtering, paging, and grouping. The sorting, filtering, and
-     * paging functions may be performed on the server or on the client.
+     * In addition to full CRUD support you get all the @see:CollectionView
+     * features including sorting, filtering, paging, and grouping.
+     * The sorting, filtering, and paging functions may be performed on the
+     * server or on the client.
      *
-     * The code below shows how you can instantiate an @see:ODataCollectionView that
-     * selects some fields from the data source and provides sorting on the client.
-     * Notice how the 'options' parameter is used to pass in initialization data,
-     * which is the same approach used when initializing controls:
+     * The code below shows how you can instantiate an @see:ODataCollectionView
+     * that selects some fields from the data source and provides sorting on the
+     * client.
+     * Notice how the 'options' parameter is used to pass in initialization
+     * data, which is the same approach used when initializing controls:
      *
      * <pre>var url = 'http://services.odata.org/Northwind/Northwind.svc';
      * var categories = new wijmo.odata.ODataCollectionView(url, 'Categories', {
      *   fields: ['CategoryID', 'CategoryName', 'Description'],
      *   sortOnServer: false
      * });</pre>
+     *
+     * The example below uses an @see:ODataCollectionView to load data from
+     * a NorthWind OData provider service, and shows the result in a
+     * @see:FlexGrid control:
+     *
+     * @fiddle:r5a21ysm
      */
     class ODataCollectionView extends collections.CollectionView {
         _url: string;
@@ -47,6 +57,7 @@ declare module wijmo.odata {
         _count: number;
         _fields: string[];
         _keys: string[];
+        _expand: string;
         _dataTypes: any;
         _sortOnServer: boolean;
         _pageOnServer: boolean;
@@ -54,6 +65,8 @@ declare module wijmo.odata {
         _showDatesAsGmt: boolean;
         _inferDataTypes: boolean;
         _dataTypesInferred: any;
+        _reviverBnd: any;
+        _jsonReviver: Function;
         _filterDef: string;
         _toGetData: any;
         _loading: boolean;
@@ -111,6 +124,35 @@ declare module wijmo.odata {
          */
         keys: string[];
         /**
+         * Gets or sets a string that specifies whether related entities should
+         * be included in the return data.
+         *
+         * This property maps directly to OData's $expand option.
+         *
+         * For example, the code below retrieves all the customers and their
+         * orders from the database. Each customer entity has an "Orders"
+         * field that contains an array of order objects:
+         *
+         * <pre>var url = 'http://services.odata.org/Northwind/Northwind.svc';
+         * var customersOrders = new wijmo.odata.ODataCollectionView(url, 'Customers', {
+         *   expand: 'Orders'
+         * });</pre>
+         */
+        expand: string;
+        /**
+         * Gets or sets a custom reviver function to use when parsing JSON
+         * values returned from the server.
+         *
+         * If provided, the function must take two parameters (key and value),
+         * and must return the parsed value (which can be the same as the
+         * original value).
+         *
+         * For details about reviver functions, please refer to the documentation
+         * for the
+         * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse" target="_blank">JSON.parse method</a>.
+         */
+        jsonReviver: Function;
+        /**
          * Gets or sets a JavaScript object to be used as a map for coercing data types
          * when loading the data.
          *
@@ -166,6 +208,8 @@ declare module wijmo.odata {
          *
          * Use the @see:sortDescriptions property to specify how the
          * data should be sorted.
+         *
+         * The default value for this property is <b>true</b>.
          */
         sortOnServer: boolean;
         /**
@@ -173,22 +217,27 @@ declare module wijmo.odata {
          * performed on the server or on the client.
          *
          * Use the @see:pageSize property to enable paging.
+         *
+         * The default value for this property is <b>true</b>.
          */
         pageOnServer: boolean;
         /**
-         * Gets or sets a value that determines whether filtering should be performed on
-         * the server or on the client.
+         * Gets or sets a value that determines whether filtering should be
+         * performed on the server or on the client.
          *
-         * Use the @see:filter property to perform filtering on the client, and use the
-         * @see:filterDefinition property to perform filtering on the server.
+         * Use the @see:filter property to perform filtering on the client,
+         * and use the  @see:filterDefinition property to perform filtering
+         * on the server.
          *
-         * In some cases it may be desirable to apply independent filters on the client
-         * <b>and</b> on the server.
+         * In some cases it may be desirable to apply independent filters
+         * on the client <b>and</b> on the server.
          *
-         * You can achieve this by setting (1) the @see:filterOnServer property to false
-         * and the @see:filter property to a filter function (to enable client-side filtering)
-         * and (2) the @see:filterDefinition property to a filter string (to enable server-side
-         * filtering).
+         * You can achieve this by setting (1) the @see:filterOnServer property
+         * to false and the @see:filter property to a filter function (to enable
+         * client-side filtering) and (2) the @see:filterDefinition property to
+         * a filter string (to enable server-side filtering).
+         *
+         * The default value for this property is <b>true</b>.
          */
         filterOnServer: boolean;
         /**
@@ -198,8 +247,8 @@ declare module wijmo.odata {
          * The filter definition syntax is described in the
          * <a href="http://www.odata.org/documentation/odata-version-2-0/uri-conventions/">OData documentation</a>.
          *
-         * For example, the code below causes the server to return records where the 'CompanyName'
-         * field starts with 'A' and ends with 'S':
+         * For example, the code below causes the server to return records
+         * where the 'CompanyName' field starts with 'A' and ends with 'S':
          *
          * <pre>view.filterDefinition = "startswith(CompanyName, 'A') and endswith(CompanyName, 'B')";</pre>
          *
@@ -209,14 +258,15 @@ declare module wijmo.odata {
          * @see:ODataCollectionView.filter and @see:ODataCollectionView.filterDefinition
          * properties.
          *
-         * Note that the @see:ODataCollectionView.filterDefinition property is applied even if the
-         * @see:ODataCollectionView.filterOnServer property is set to false. This allows you to apply
-         * server and client filters to the same collection, which can be useful in many scenarios.
+         * Note that the @see:ODataCollectionView.filterDefinition property is applied
+         * even if the @see:ODataCollectionView.filterOnServer property is set to false.
+         * This allows you to apply server and client filters to the same collection,
+         * which can be useful in many scenarios.
          *
-         * For example, the code below uses the @see:ODataCollectionView.filterDefinition property
-         * to filter on the server and the @see:ODataCollectionView.filter property to further
-         * filter on the client. The collection will show items with names that start with 'C'
-         * and have unit prices greater than 20:
+         * For example, the code below uses the @see:ODataCollectionView.filterDefinition
+         * property to filter on the server and the @see:ODataCollectionView.filter
+         * property to further filter on the client. The collection will show items with
+         * names that start with 'C' and have unit prices greater than 20:
          *
          * <pre>var url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
          * var data = new wijmo.odata.ODataCollectionView(url, 'Products', {
@@ -342,6 +392,7 @@ declare module wijmo.odata {
         _getReadParams(nextLink?: string): any;
         _getData(nextLink?: string, xhrCallback?: Function): void;
         private _convertToDbFormat(item);
+        private _reviver(key, value);
         private _convertItem(dataTypes, item);
         private _getInferredDataTypes(arr);
         private _getServiceUrl();
@@ -349,6 +400,7 @@ declare module wijmo.odata {
         private _getWriteUrl(item?);
         private _asODataFilter(filter);
         private _asODataValueFilter(vf);
+        private _asEquals(fld, value, type);
         private _asODataConditionFilter(cf);
         private _asODataCondition(cf, cond);
         private _asODataValue(val, dataType);
@@ -386,6 +438,12 @@ declare module wijmo.odata {
      * data sets, because it prevents the application from loading data until it is
      * required. But it does impose some limitation: sorting and filtering must be
      * done on the server; grouping and paging are not supported.
+     *
+     * The example below uses an @see:ODataVirtualCollectionView to load data from
+     * a NorthWind OData provider service. The collection loads data on-demant,
+     * as the user scrolls the grid:
+     *
+     * @fiddle:smh5p6xr
      */
     class ODataVirtualCollectionView extends ODataCollectionView {
         _data: any[];

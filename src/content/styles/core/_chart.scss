@@ -1,0 +1,116 @@
+// wijmo.chart
+.wj-flexchart {
+    height: 400px;
+    padding: 15px 10px;
+    margin-bottom: 12px;
+    background: $wj-bkg;
+    border: 1px solid #e4e4e4;
+    display: block;
+    background: transparent;
+
+    .wj-header .wj-title {
+        font-size: 16pt;
+        fill: #666;
+        font-weight: normal;
+    }
+
+    .wj-footer .wj-title {
+        fill: #666;
+        font-weight: normal;
+    }
+
+    .wj-label, .wj-data-label {
+        fill: #666;
+    }
+
+    .wj-data-label-border {
+        stroke: rgba(128,128,128,0.5);
+    }
+
+    .wj-data-label-line {
+        stroke: rgba(128,128,128,1);
+    }
+
+    .wj-axis-x .wj-title,
+    .wj-axis-y .wj-title,
+    .wj-legend .wj-title {
+        font-style: italic;
+    }
+
+    .wj-axis-x .wj-line {
+        stroke: #aaa;
+        stroke-width: 1px;
+    }
+
+    .wj-gridline {
+        stroke: #666;
+        stroke-width: 1px;
+        opacity: .75;
+    }
+
+    .wj-gridline-minor {
+        @extend .wj-gridline;
+        opacity: .25;
+    }
+
+    .wj-tick, .wj-tick-minor {
+        stroke: #aaa;
+        stroke-width: 1px;
+    }
+
+    .wj-state-selected {
+        stroke-width: 3px;
+        stroke-dasharray: 6;
+        stroke-linecap: square;
+    }
+    // markers
+    &.wj-flexchart-touch-disabled {
+        @include prefix(touch-action, none, ms);
+    }
+
+    .wj-chart-linemarker {
+        background: rgba(128,128,128,0.3);
+        position: absolute;
+        padding: 2px;
+
+        .wj-chart-linemarker-hline {
+            height: 2px;
+            background: rgba(128,128,128,1);
+            position: absolute;
+            @include prefix(touch-action, none, ms);
+        }
+
+        .wj-chart-linemarker-vline {
+            width: 2px;
+            background: rgba(128,128,128,1);
+            position: absolute;
+            @include prefix(touch-action, none, ms);
+        }
+    }
+
+    .wj-chart-linemarker-container {
+        position: relative;
+    }
+
+    &.wj-chart-linemarker-draggable,
+    .wj-chart-linemarker .wj-chart-linemarker-draggable {
+        //-khtml-user-drag: element;
+        cursor: move;
+    }
+}
+
+// selected items on the chart - smaller screens
+@media(max-width: 1025px) {
+    .wj-flexchart .wj-state-selected {
+        stroke-width: 2px;
+        stroke-dasharray: 4;
+    }
+}
+
+@media(max-width: 767px) {
+    wj-flexchart .wj-state-selected {
+        stroke-width: 1px;
+        stroke-dasharray: 3;
+    }
+}
+

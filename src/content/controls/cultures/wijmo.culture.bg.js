@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo лиценз в това приложение не е валиден за  <b> {control} </b> контрол.',
             ver: 'Wijmo лиценз в това приложение не е валиден за версия в употреба. Версията на лиценз е  <b> {licVer}</b>; версията на продукта е  <b> {version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} позиции избрани',
-            selectAll: 'Избери всички'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Календар',
+                monthView: 'Изглед за месеца',
+                yearView: 'Изглед на година',
+                prvMo: 'Предишния месец',
+                today: 'Днес',
+                nxtMo: 'Следващия месец',
+                prvYr: 'Предишната година',
+                currMo: 'Текущия месец',
+                nxtYr: 'Следващата година',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Падащото меню за превключване'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} елементи)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} елементи)',
+            ariaLabels: {
+                toggleDropDown: 'Падащото меню за превключване',
+                toggleGroup: 'Превключване група'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Превключване на ред подробности'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Редактиране на филтър за колона',
+                dialog: 'Редактор на филтър за колона',
+                asc: 'Колона за сортиране във възходящ ред',
+                dsc: 'Колона за сортиране в низходящ ред',
+                search: 'Търсене на елемент от списък',
+                op1: 'Първия условен оператор',
+                val1: 'Първото условие стойност',
+                and: 'Изисква и двете условия',
+                or: 'Изискват или условие',
+                op2: 'Второто условие оператор',
+                val2: 'Второто условие стойност'
+            },
             // filter
-            ariaLabel: 'Редактор на филтър за колона',
             ascending: '\u2191 Възходящо',
             descending: '\u2193 Низходящо',
             apply: 'Приложи',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Е равно на', op: 0 },
                 { name: 'Не е равно на', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Превключване календар',
+                tglTime: 'Превключване време списък'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Увеличаване стойност',
+                decVal: 'Намаляване на стойността'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} позиции избрани',
+            selectAll: 'Избери всички'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} елемент',
                 row: 'Ред',
                 col: 'Колона'
+            },
+            Slicer: {
+                multiSelect: 'Многократен избор',
+                clearFilter: 'Изчистване на филтъра'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(изберете стойност)',
             apply: 'Приложи',
             errorOccured: 'Възникна грешка.'
+        },
+        FlexSheet: {
+            insertRow: 'Вмъкване на ред',
+            deleteRow: 'Изтриване на ред',
+            insertCol: 'Вмъкване на колона',
+            deleteCol: 'Delete Column',
+            convertTable: 'Конвертиране на таблица',
+            copyCells: 'Копиране на клетки',
+            fillSeries: 'Попълване на серията',
+            fillFormat: 'Попълни само форматите',
+            fillWithoutFormat: 'Попълни без форматиране'
         }
     };
     var updc = window['wijmo']._updateCulture;

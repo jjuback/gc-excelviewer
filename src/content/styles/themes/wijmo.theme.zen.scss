@@ -1,0 +1,39 @@
+////////////////////////////////////////////////////////////////
+// zen theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #f0f0f0;
+$wj-txt: #777;
+$wj-bdr: none;
+$wj-bdr-rad: 0px;
+
+$wj-hdr-bkg: #ebebeb;
+$wj-hdr-txt: #777;
+
+$wj-sel-bkg: #7bb5ae;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #8fc0ba;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #a9a9a9;
+$wj-cell-grp-txt: #dddddd;
+$wj-cell-alt: #f2f2f2;
+$wj-cell-frz: #e6eef2;
+$wj-cell-frz-alt: #d5e3e9;
+$wj-cell-bdr: none;
+
+$wj-btn-bkg: #7bb5ae;
+$wj-btn-hvr: #8fc0ba;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #a9a9a9;
+$wj-tooltip-txt: #fff;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

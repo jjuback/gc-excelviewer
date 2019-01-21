@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -21,8 +21,8 @@ declare module wijmo.grid.grouppanel {
      *
      * It allows users to drag columns from the @see:FlexGrid into the
      * panel and to move groups within the panel. Users may click the
-     * group markers in the panel to sort based on the group column or to
-     * remove groups.
+     * group markers in the panel to sort based on the group column or
+     * to remove groups.
      *
      * In order to use a @see:GroupPanel, add it to a page that contains a
      * @see:FlexGrid control and set the panel's @see:grid property to the
@@ -35,9 +35,19 @@ declare module wijmo.grid.grouppanel {
      * var groupPanel = new wijmo.grid.grouppanel.GroupPanel('#group-panel');
      * groupPanel.placeholder = "Drag columns here to create groups.";
      * groupPanel.grid = flex;</pre>
+     *
+     * The example below shows how you can use a @see:GroupPanel control to
+     * add Outlook-style grouping to a @see:FlexGrid control:
+     *
+     * @fiddle:hf7ud7ge
+     *
+     * The @see:GroupPanel control relies on the grouping functionality
+     * provided by the @see:wijmo.collections.CollectionView class, and
+     * therefore can be used only with bound grids.
      */
     class GroupPanel extends Control {
         _g: any;
+        _view: collections.ICollectionView;
         _gds: collections.ObservableArray;
         _hideGroupedCols: boolean;
         _maxGroups: number;
@@ -46,6 +56,7 @@ declare module wijmo.grid.grouppanel {
         _divMarkers: HTMLElement;
         _divPH: HTMLElement;
         _hiddenCols: any[];
+        _filter: grid.filter.FlexGridFilter;
         /**
          * Gets or sets the template used to instantiate @see:GroupPanel controls.
          */
@@ -63,14 +74,23 @@ declare module wijmo.grid.grouppanel {
          * The @see:FlexGrid displays grouping information in row headers, so it is
          * usually a good idea to hide grouped columns since they display redundant
          * information.
+         *
+         * The default value for this property is <b>true</b>.
          */
         hideGroupedColumns: boolean;
         /**
          * Gets or sets the maximum number of groups allowed.
+         *
+         * Setting this property to -1 allows any number of groups
+         * to be created. Setting it to zero prevents any grouping.
+         *
+         * The default value for this property is <b>6</b>.
          */
         maxGroups: number;
         /**
          * Gets or sets a string to display in the control when it contains no groups.
+         *
+         * The default value for this property is <b>''</b> (empty string).
          */
         placeholder: string;
         /**
@@ -83,9 +103,20 @@ declare module wijmo.grid.grouppanel {
          */
         grid: FlexGrid;
         /**
+         * Gets or sets the @see:grid.filter.FlexGridFilter to use for filtering
+         * the grid data.
+         *
+         * If you set this property to a valid filter, the group descriptors will
+         * display filter icons that can be used to see and edit the filer conditions
+         * associated with the groups.
+         */
+        filter: grid.filter.FlexGridFilter;
+        /**
          * Updates the panel to show the current groups.
          */
         refresh(): void;
+        _getColumnFilter(col: Column): any;
+        _editFilter(marker: HTMLElement): void;
         _addGroup(col: Column, e: MouseEvent): void;
         _moveGroup(marker: HTMLElement, e: MouseEvent): void;
         _removeGroup(index: number, groups?: collections.ObservableArray): void;
@@ -94,7 +125,7 @@ declare module wijmo.grid.grouppanel {
         _draggingColumn(s: FlexGrid, e: CellRangeEventArgs): void;
         _itemsSourceChanging(s: FlexGrid, e: EventArgs): void;
         _itemsSourceChanged(s: FlexGrid, e: EventArgs): void;
-        _groupsChanged(s: any, e: EventArgs): void;
+        _collectionChanged(sender: any, e: collections.NotifyCollectionChangedEventArgs): void;
         _dragStart(e: any): void;
         _dragOver(e: any): void;
         _drop(e: MouseEvent): void;

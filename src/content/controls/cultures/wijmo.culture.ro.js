@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo de licenţă în această aplicație nu este validă pentru controlul <b>{control}</b>  .',
             ver: 'Wijmo de licenţă în această aplicație nu este validă pentru versiunea în uz. Versiunea de licenţă este <b>{licVer}</b>; versiunea produsului este <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} articole selectat',
-            selectAll: 'Selectare totală'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Calendar',
+                monthView: 'Vizualizare lună',
+                yearView: 'Vizualizarea An',
+                prvMo: 'Luna anterioară',
+                today: 'Azi',
+                nxtMo: 'Luna următoare',
+                prvYr: 'Anul precedent',
+                currMo: 'Luna curentă',
+                nxtYr: 'Anul următor',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Comutare vertical'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} articole)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} articole)',
+            ariaLabels: {
+                toggleDropDown: 'Comutare vertical',
+                toggleGroup: 'Grup de comutare'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Comutare rând detaliu'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Editare filtrul pentru coloană',
+                dialog: 'Editor filtrul pentru coloană',
+                asc: 'Coloana de sortare în ordine crescătoare',
+                dsc: 'Coloana de sortare în ordine descrescătoare',
+                search: 'Căutare element listă',
+                op1: 'Prima condiţie Operator',
+                val1: 'Prima condiţie valoare',
+                and: 'Necesită ambele condiţii',
+                or: 'Necesită fie starea',
+                op2: 'A doua condiţie Operator',
+                val2: 'A doua condiţie valoare'
+            },
             // filter
-            ariaLabel: 'Editor filtrul pentru coloană',
             ascending: '\u2191 Crescător',
             descending: '\u2193 Descrescător',
             apply: 'Aplicare',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Este egal cu', op: 0 },
                 { name: 'Nu este egal cu', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Calendar de comutare',
+                tglTime: 'Listă de timp comutare'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Creşterea valorii',
+                decVal: 'Scăderea valorii'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} articole selectat',
+            selectAll: 'Selectare totală'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'element {cnt}',
                 row: 'Rând',
                 col: 'Coloană'
+            },
+            Slicer: {
+                multiSelect: 'Selectare multiplă',
+                clearFilter: 'Golire filtru'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(selectaţi valoarea)',
             apply: 'Aplicare',
             errorOccured: 'A apărut o eroare.'
+        },
+        FlexSheet: {
+            insertRow: 'Inserare rând',
+            deleteRow: 'Ştergere rând',
+            insertCol: 'Inserare coloană',
+            deleteCol: 'Delete Column',
+            convertTable: 'Conversie tabel',
+            copyCells: 'Copia celule',
+            fillSeries: 'Completaţi seria',
+            fillFormat: 'Umple numai formatare',
+            fillWithoutFormat: 'Umple fără formatare'
         }
     };
     var updc = window['wijmo']._updateCulture;

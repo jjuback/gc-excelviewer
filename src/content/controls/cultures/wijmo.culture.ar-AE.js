@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'الترخيص ويجمو في هذا التطبيق غير صالح لعنصر التحكم  <b> {control} </b>  .',
             ver: 'الترخيص ويجمو في هذا التطبيق غير صالحة للإصدار قيد الاستخدام. يتم إصدار ترخيص  <b> {version}</b>؛ وهو إصدار المنتج  <b> {licVer}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: 'العناصر المحددة  {count:n0}',
-            selectAll: 'تحديد الكل'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'التقويم',
+                monthView: 'عرض الشهر',
+                yearView: 'الرأي العام',
+                prvMo: 'الشهر السابق',
+                today: 'اليوم',
+                nxtMo: 'الشهر القادم',
+                prvYr: 'السنة السابقة',
+                currMo: 'الشهر الحالي',
+                nxtYr: 'العام القادم',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'القائمة المنسدلة لتبديل'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '(العناصر {count:n0})<b>{value}</b> :{name}'
+            groupHeaderFormat: '(العناصر {count:n0})<b>{value}</b> :{name}',
+            ariaLabels: {
+                toggleDropDown: 'القائمة المنسدلة لتبديل',
+                toggleGroup: 'تبديل الفريق'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'تبديل صف التفاصيل'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'تحرير عامل تصفية لعمود',
+                dialog: 'تحرير عامل تصفية لعمود',
+                asc: 'فرز العمود بترتيب تصاعدي',
+                dsc: 'فرز العمود في ترتيب تنازلي',
+                search: 'البحث عن عنصر قائمة',
+                op1: 'أول شرط المشغل',
+                val1: 'أول شرط القيمة',
+                and: 'تتطلب كلا الشرطين',
+                or: 'تتطلب أما الشرط',
+                op2: 'عامل الشرط الثاني',
+                val2: 'قيمة الشرط الثاني'
+            },
             // filter
-            ariaLabel: 'تحرير عامل تصفية لعمود',
             ascending: '\u2191 تصاعديًا',
             descending: '\u2193 تنازليًا',
             apply: 'تطبيق',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'تساوي', op: 0 },
                 { name: 'لا تساوي', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'تبديل التقويم',
+                tglTime: 'قائمة وقت تبديل'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'زيادة قيمة',
+                decVal: 'إنقاص قيمة'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: 'العناصر المحددة  {count:n0}',
+            selectAll: 'تحديد الكل'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'البند {cnt}',
                 row: 'الصف',
                 col: 'العمود'
+            },
+            Slicer: {
+                multiSelect: 'تحديد متعدد',
+                clearFilter: 'مسح عامل التصفية'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(حدد قيمة)',
             apply: 'تطبيق',
             errorOccured: 'لقد حدث خطأ.'
+        },
+        FlexSheet: {
+            insertRow: 'إدراج صف',
+            deleteRow: 'حذف صف',
+            insertCol: 'إدراج عمود',
+            deleteCol: 'Delete Column',
+            convertTable: 'تحويل الجدول',
+            copyCells: 'نسخ الخلايا',
+            fillSeries: 'تعبئة سلسلة',
+            fillFormat: 'تعبئة التنسيقات فقط',
+            fillWithoutFormat: 'تعبئة بدون تنسيق'
         }
     };
     var updc = window['wijmo']._updateCulture;

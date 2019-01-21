@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -347,7 +347,7 @@ declare module wijmo.xlsx {
         _serialize(): IWorkbook;
         _deserialize(workbookOM: IWorkbook): void;
         _addWorkSheet(workSheet: WorkSheet, sheetIndex?: number): void;
-        private _saveToFile(base64, fileName);
+        static _saveToFile(base64: string, fileName: string, containMarcos: boolean): void;
         private _getBase64String(base64);
         /**
          * Converts the wijmo date format to Excel format.
@@ -387,9 +387,13 @@ declare module wijmo.xlsx {
          * for both, row and column (like $D$7). The <b>absoluteCol</b> parameter allows
          * to redefine this value for the column index.
          * @param absoluteCol True value indicates that column index is absolute.
+         * @param isWholeRow Indicates whether the Cell reference is whole row, whole column or specific cell range.
+         * If isWholeRow is true means the cell reference is whole row.
+         * If isWholeRow is false means the cell reference is whole column.
+         * If isWholeRow is null means the cell reference is specific cell range.
          * @return The alphanumeric Excel index representation.
         */
-        static xlsxAddress(row: number, col: number, absolute?: boolean, absoluteCol?: boolean): string;
+        static xlsxAddress(row: number, col: number, absolute?: boolean, absoluteCol?: boolean, isWholeRow?: boolean): string;
         /**
          * Convert Excel's alphanumeric cell, row or column index to the zero-based
          * row/column indices pair.

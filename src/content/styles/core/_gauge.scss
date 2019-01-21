@@ -1,0 +1,48 @@
+// wijmo.gauge
+.wj-gauge {
+    background: transparent;
+
+    &:not(.wj-state-readonly) {
+        touch-action: none;
+    }
+
+    .wj-face path {
+        fill: #f5f5f5;
+        stroke: #cbcbcb;
+        stroke-width: 1px;
+        stroke-linejoin: round;
+    }
+
+    .wj-pointer {
+        fill: $wj-sel-bkg;
+    }
+
+    .wj-ticks {
+        stroke-width: 2px;
+        stroke: $wj-bkg;
+    }
+
+    .wj-min,
+    .wj-max {
+        font-size: 60%;
+        opacity: .5;
+    }
+
+    text {
+        fill: currentColor;
+    }
+
+    svg {
+        overflow: visible;
+    }
+}
+
+.wj-radialgauge .wj-value {
+    font-size: 150%;
+}
+
+.wj-lineargauge {
+    height: 1.2em;
+}
+
+

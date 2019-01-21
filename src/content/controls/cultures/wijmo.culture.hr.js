@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo dozvola u ovaj program nije valjana za <b>{control}</b> kontrolu.',
             ver: 'Wijmo dozvola u ovaj program nije valjana za verziju u uporabi. Dozvola verzija je <b>{licVer}</b>; verziju proizvoda je  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} stavki odabrano',
-            selectAll: 'Odaberi sve'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendar',
+                monthView: 'Prikaz mjeseca',
+                yearView: 'Godišnji prikaz',
+                prvMo: 'Prethodni mjesec',
+                today: 'danas',
+                nxtMo: 'Sljedeći mjesec',
+                prvYr: 'Prethodna godina',
+                currMo: 'Tekući mjesec',
+                nxtYr: 'Sljedeća godina',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Padajući izbornik za uključivanje/isključivanje'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} stavke)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} stavke)',
+            ariaLabels: {
+                toggleDropDown: 'Padajući izbornik za uključivanje/isključivanje',
+                toggleGroup: 'Uključivanje/isključivanje grupa'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Uključi/isključi redak detalja'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Uređivanje filtra za stupac',
+                dialog: 'Filtar Editor za stupac',
+                asc: 'Stupac za sortiranje u uzlaznom redoslijedu',
+                dsc: 'Stupac za sortiranje silaznim redoslijedom',
+                search: 'Traži stavku popisa',
+                op1: 'Prvi Operator uvjeta',
+                val1: 'Prvi uvjet vrijednosti',
+                and: 'Zahtijevaju oba uvjeta',
+                or: 'Zahtijevati ili stanje',
+                op2: 'Drugi Operator uvjeta',
+                val2: 'Drugi uvjet vrijednosti'
+            },
             // filter
-            ariaLabel: 'Filtar Editor za stupac',
             ascending: '\u2191 Uzlazno',
             descending: '\u2193 Silazno',
             apply: 'Primijeni',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Jednako', op: 0 },
                 { name: 'Nije jednako', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Preklopni kalendar',
+                tglTime: 'Uključivanje/isključivanje vremena popisa'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Povećati vrijednost',
+                decVal: 'Smanjiti vrijednost'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} stavki odabrano',
+            selectAll: 'Odaberi sve'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} stavku',
                 row: 'Redak',
                 col: 'Stupac'
+            },
+            Slicer: {
+                multiSelect: 'Odabir više stavki',
+                clearFilter: 'Očisti filtar'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(odaberite vrijednost)',
             apply: 'Primijeni',
             errorOccured: 'Dogodila se pogreška.'
+        },
+        FlexSheet: {
+            insertRow: 'Umetni redak',
+            deleteRow: 'Izbriši redak',
+            insertCol: 'Umetni stupac',
+            deleteCol: 'Delete Column',
+            convertTable: 'Pretvori tablicu',
+            copyCells: 'Kopiranje ćelija',
+            fillSeries: 'Stvaranje niza',
+            fillFormat: 'Ispuniti samo oblikovanja',
+            fillWithoutFormat: 'Ispuna bez oblikovanja'
         }
     };
     var updc = window['wijmo']._updateCulture;

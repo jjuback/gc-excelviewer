@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo lisens i dette programmet er ikke gyldig for kontrollen <b>{control}</b>.',
             ver: 'Wijmo lisens i dette programmet er ikke gyldig for versjonen i bruk. Lisensen versjon er <b>{licVer}</b>, produktversjonen er  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} elementer valgt',
-            selectAll: 'Velg alle'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Månedsvisning',
+                yearView: 'Årsvisning',
+                prvMo: 'Forrige måned',
+                today: 'I dag',
+                nxtMo: 'Neste måned',
+                prvYr: 'I fjor',
+                currMo: 'Gjeldende måned',
+                nxtYr: 'Neste år',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Vis/Skjul rullegardinlisten'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} artikler)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} artikler)',
+            ariaLabels: {
+                toggleDropDown: 'Vis/Skjul rullegardinlisten',
+                toggleGroup: 'Vis/Skjul grupper'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Veksle rad detaljer'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Redigere filteret for kolonne',
+                dialog: 'Filtrer redaktøren for kolonne',
+                asc: 'Sorteringskolonnen i stigende rekkefølge',
+                dsc: 'Sorteringskolonnen i synkende rekkefølge',
+                search: 'Søk elementlisten',
+                op1: 'Første Betingelsesoperator',
+                val1: 'Første Betingelsesverdien',
+                and: 'Kreve begge betingelsene',
+                or: 'Kreve enten tilstand',
+                op2: 'Andre Betingelsesoperator',
+                val2: 'Andre Betingelsesverdien'
+            },
             // filter
-            ariaLabel: 'Filtrer redaktøren for kolonne',
             ascending: '\u2191 Stigende',
             descending: '\u2193 Synkende',
             apply: 'Bruk',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Tilsvarer', op: 0 },
                 { name: 'Tilsvarer ikke', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Vis/Skjul kalenderen',
+                tglTime: 'Aktiver/deaktiver tid liste'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Øk verdien',
+                decVal: 'Reduser verdien'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} elementer valgt',
+            selectAll: 'Velg alle'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} element',
                 row: 'Rad',
                 col: 'Kolonne'
+            },
+            Slicer: {
+                multiSelect: 'Merker',
+                clearFilter: 'Fjern Filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Velg verdi)',
             apply: 'Bruk',
             errorOccured: 'Det har oppstått en feil.'
+        },
+        FlexSheet: {
+            insertRow: 'Sett inn rad',
+            deleteRow: 'Slett rad',
+            insertCol: 'Sett inn kolonne',
+            deleteCol: 'Delete Column',
+            convertTable: 'Konvertere tabellen',
+            copyCells: 'Kopiere celler',
+            fillSeries: 'Fyllserier',
+            fillFormat: 'Fyll bare formatering',
+            fillWithoutFormat: 'Fylle uten formatering'
         }
     };
     var updc = window['wijmo']._updateCulture;

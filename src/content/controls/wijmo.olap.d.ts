@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -233,7 +233,9 @@ declare module wijmo.olap {
         private _srtCmp;
         private _descending;
         private _isContentHtml;
+        private _visible;
         private _parent;
+        private _getValueFn;
         static _props: string[];
         /**
          * Initializes a new instance of the @see:PivotField class.
@@ -249,7 +251,22 @@ declare module wijmo.olap {
          */
         binding: string;
         /**
-         * Gets or sets a string used to represent this field in the user interface.
+         * Gets or sets a function to be used for retrieving the field values.
+         *
+         * This property is set to null by default, causing the engine to
+         * use the field's @see:binding property to retrieve the value.
+         *
+         * If specified, the function should take a single parameter that
+         * represents the data item being evaluated and should return
+         * the calculated value for the item.
+         */
+        getValue: Function;
+        /**
+         * Gets or sets a string used to represent this field in the user
+         * interface.
+         *
+         * The default value for this property is a capitalized version of the
+         * @see:binding value.
          */
         header: string;
         /**
@@ -262,10 +279,26 @@ declare module wijmo.olap {
         readonly filter: PivotFilter;
         /**
          * Gets or sets how the field should be summarized.
+         *
+         * The default value for this property is <b>Aggregate.Sum</b>
+         * for numeric fields, and <b>Aggregate.Count</b> for other
+         * field types.
          */
         aggregate: Aggregate;
         /**
-         * Gets or sets how the field results should be formatted.
+         * Gets or sets a value that specifies how to display the aggregate
+         * value.
+         *
+         * Options for this property are defined by the @see:ShowAs enumeration
+         * and include differences between the value and the one in the previous
+         * row or column, percentages over the row, column, or grand total, and
+         * running totals.
+         *
+         * This property is similar to the
+         * <a href="https://support.office.com/en-us/article/show-different-calculations-in-pivottable-value-fields-014d2777-baaf-480b-a32b-98431f48bfec" target="_blank">Show Values As</a>
+         * feature in Excel.
+         *
+         * The default value for this property is <b>ShowAs.NoCalculation</b>.
          */
         showAs: ShowAs;
         /**
@@ -289,7 +322,8 @@ declare module wijmo.olap {
          * a dimension.
          *
          * Measures are also known as 'facts'. They are typically numeric
-         * values that can be aggregated to convey information about the field.
+         * values that can be aggregated into summary statistics that convey
+         * information about the field.
          *
          * Dimensions are typically strings, dates, or boolean values that
          * can be used to divide measures into categories.
@@ -301,28 +335,49 @@ declare module wijmo.olap {
         readonly subFields: PivotField[];
         /**
          * Gets or sets the format to use when displaying field values.
+         *
+         * The default value for this property is
+         * <b>'d'</b> for date fields, <b>'n0'</b> for numeric fields,
+         * and the empty string for other field types.
          */
         format: string;
         /**
-         * Gets or sets the preferred width to be used for showing this field in the
-         * user interface.
+         * Gets or sets the preferred width to be used for showing this
+         * field in user interface controls such as the @see:PivotGrid.
          */
         width: number;
         /**
-         * Gets or sets a value that indicates whether the content of this field should
-         * be allowed to wrap within cells.
+         * Gets or sets a value that indicates whether the content of this
+         * field should be allowed to wrap within cells.
+         *
+         * The default value for this property is <b>false</b>.
          */
         wordWrap: boolean;
         /**
          * Gets or sets a value that determines whether keys should be sorted
          * in descending order for this field.
+         *
+         * The default value for this property is <b>false</b>.
          */
         descending: boolean;
         /**
          * Gets or sets a value indicating whether items in this field
          * contain HTML content rather than plain text.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isContentHtml: boolean;
+        /**
+         * Gets or sets a value indicating whether this field should be
+         * displayed in instances of the @see:PivotPanel control.
+         *
+         * The default value for this property is <b>true</b>.
+         *
+         * Setting this property to false hides the field any @see:PivotPanel
+         * controls, preventing users from adding, removing, or changing the
+         * the field position in the engine's view definition.
+         */
+        visible: boolean;
         /**
          * Gets or sets a function used to compare values when sorting.
          *
@@ -396,6 +451,7 @@ declare module wijmo.olap {
          * name, old, and new values.
          */
         onPropertyChanged(e: PropertyChangedEventArgs): void;
+        _updateDataType(): void;
         _copy(key: string, value: any): boolean;
         _getIsActive(): boolean;
         _setIsActive(value: boolean): void;
@@ -509,6 +565,20 @@ declare module wijmo.olap {
 declare module wijmo.olap {
     /**
      * Represents a filter used to select values for a @see:PivotField.
+     *
+     * There are two types of filter: by value and by condition.
+     *
+     * Value filters allow users to select specific values they want
+     * to include in the analysis. This is done by checking specific
+     * values from a list.
+     *
+     * Condition filters include two conditions specified by an operator
+     * and a value (e.g. 'begins with' and 's'). The conditions may
+     * be combined with an 'and' or an 'or' operator.
+     *
+     * When the @see:PivotEngine is connected to server-based data
+     * sources, only condition filters can be used (value filters are
+     * automatically hidden).
      */
     class PivotFilter {
         private _fld;
@@ -770,6 +840,14 @@ declare module wijmo.olap {
          * Show values as percentage running totals.
          */
         RunTotPct = 9,
+        /**
+         * Show values for each item as a percentage of the value in the previous row.
+         */
+        PctPrevRow = 10,
+        /**
+         * Show values for each item as a percentage of the value in the previous column.
+         */
+        PctPrevCol = 11,
     }
     /**
      * Provides a user interface for interactively transforming regular data tables into Olap
@@ -799,6 +877,7 @@ declare module wijmo.olap {
         private _colBindings;
         private _pivotView;
         private _defaultFilterType;
+        private _xValueSearch;
         private _async;
         private _batchStart;
         private _toUpdateTallies;
@@ -864,6 +943,10 @@ declare module wijmo.olap {
          * });
          * </pre>
          *
+         * When connecting directly to OLAP SSAS cubes, users will not be able
+         * to filter fields by value. They will still be able to filter by
+         * condition.
+         *
          * The third option, ComponentOne data engine services, allows you to
          * analyze large datasets on a server without downloading the raw data
          * to the client. You can use our high-performance FlexPivot services
@@ -882,6 +965,10 @@ declare module wijmo.olap {
          *
          * The @see:PivotEngine sends view definitions to the server,
          * where summaries are calculated and returned to the client.
+         *
+         * When connecting ComponentOne DataEngine data sources, users
+         * will not be able to filter fields by value. They will still
+         * be able to filter by condition.
          *
          * For more information about the ComponentOne DataEngine
          * services please refer to the
@@ -907,11 +994,15 @@ declare module wijmo.olap {
         /**
          * Gets or sets a value that determines whether the output @see:pivotView
          * should include rows containing subtotals or grand totals.
+         *
+         * The default value for this property is <b>ShowTotals.GrandTotals</b>.
          */
         showRowTotals: ShowTotals;
         /**
          * Gets or sets a value that determines whether the output @see:pivotView
          * should include columns containing subtotals or grand totals.
+         *
+         * The default value for this property is <b>ShowTotals.GrandTotals</b>.
          */
         showColumnTotals: ShowTotals;
         /**
@@ -920,6 +1011,8 @@ declare module wijmo.olap {
          *
          * If this value is set to true, total rows appear above data rows
          * and total columns appear on the left of regular data columns.
+         *
+         * The default value for this property is <b>false</b>.
          */
         totalsBeforeData: boolean;
         /**
@@ -927,6 +1020,8 @@ declare module wijmo.olap {
          * sort groups when sorting the value fields (measures) or whether
          * it should keep the group order and the data only within each
          * group.
+         *
+         * The default value for this property is <b>true</b>.
          */
         sortableGroups: boolean;
         /**
@@ -939,17 +1034,38 @@ declare module wijmo.olap {
          * This property should be used only in conjunction with custom servers
          * that return the aggregated data properly sorted, typically using
          * custom logic not available in the standard @see:PivotEngine.
+         *
+         * The default value for this property is <b>false</b>.
          */
         sortOnServer: boolean;
         /**
          * Gets or sets a value that determines whether the Olap output table
          * should use zeros to indicate the missing values.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showZeros: boolean;
         /**
          * Gets or sets the default filter type (by value or by condition).
+         *
+         * The default value for this property is <b>null</b>, which causes
+         * the engine to use <b>FilterType.Both</b> on the client or
+         * <b>FilterType.Condition</b> on the server.
          */
         defaultFilterType: grid.filter.FilterType;
+        /**
+         * Gets or sets a value that determines whether the filter should
+         * include only values selected by the
+         * @see:wijmo.grid.filter.ValueFilter.filterText property.
+         *
+         * This property is set to true by default, which matches Excel's
+         * behavior.
+         *
+         * Set it to false to disable this behavior, so searching only affects
+         * which items are displayed on the list and not which items are
+         * included in the filter.
+         */
+        exclusiveValueSearch: boolean;
         /**
          * Gets or sets a value that determines whether the engine should generate fields
          * automatically based on the @see:itemsSource.
@@ -967,11 +1083,19 @@ declare module wijmo.olap {
          * When adding fields to one of the view lists using strings, you must specify
          * the @see:PivotField.header, not the @see:PivotField.binding (unlike bindings,
          * field headers must be unique).
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoGenerateFields: boolean;
         /**
          * Gets or sets a value that determines whether users should be allowed to edit
          * the properties of the @see:PivotField objects owned by this @see:PivotEngine.
+         *
+         * If you set this property to false, the context menus shown by controls
+         * such as the <b>PivotGrid</b> and <b>PivotPanel</b> will not include an
+         * option for changing the field settings.
+         *
+         * The default value for this property is <b>true</b>.
          */
         allowFieldEditing: boolean;
         /**
@@ -1010,21 +1134,26 @@ declare module wijmo.olap {
          */
         readonly fields: PivotFieldCollection;
         /**
-         * Gets the list of @see:PivotField objects that define the fields shown as rows in the output table.
+         * Gets the list of @see:PivotField objects that define the fields shown as
+         * rows in the output table.
          */
         readonly rowFields: PivotFieldCollection;
         /**
-         * Gets the list of @see:PivotField objects that define the fields shown as columns in the output table.
+         * Gets the list of @see:PivotField objects that define the fields shown as
+         * columns in the output table.
          */
         readonly columnFields: PivotFieldCollection;
         /**
-         * Gets the list of @see:PivotField objects that define the fields used as filters.
+         * Gets the list of @see:PivotField objects that define the fields
+         * used as filters.
          *
-         * Fields on this list do not appear in the output table, but are still used for filtering the input data.
+         * Fields on this list do not appear in the output table,
+         * but are still used for filtering the input data.
          */
         readonly filterFields: PivotFieldCollection;
         /**
-         * Gets the list of @see:PivotField objects that define the fields summarized in the output table.
+         * Gets the list of @see:PivotField objects that define the fields
+         * summarized in the output table.
          */
         readonly valueFields: PivotFieldCollection;
         /**
@@ -1085,10 +1214,14 @@ declare module wijmo.olap {
          */
         invalidate(): void;
         /**
-         * Gets or sets a value that determines whether view updates should be generated asynchronously.
+         * Gets or sets a value that determines whether view updates
+         * should be generated asynchronously.
          *
-         * This property is set to true by default, so summaries over large data sets are performed
-         * asynchronously to prevent stopping the UI thread.
+         * This property is set to true by default, so summaries over
+         * large data sets are performed asynchronously to prevent
+         * stopping the UI thread.
+         *
+         * The default value for this property is <b>true</b>.
          */
         async: boolean;
         /**
@@ -1096,9 +1229,9 @@ declare module wijmo.olap {
          * the engine should wait for the results to come back from the
          * server.
          *
-         * The default value for this property is 60000, equivalent to
-         * sixty seconds. If you expect server operations to take longer
-         * than that to complete, set the property to a higher value.
+         * The default value for this property is <b>60,000</b> milliseconds,
+         * or one minute. If you expect server operations  to take longer
+         * than that, set the property to a higher value.
          */
         serverTimeout: number;
         /**
@@ -1106,19 +1239,19 @@ declare module wijmo.olap {
          * engine should wait before polling the server for progress
          * status while retrieving results.
          *
-         * The default value for this property is 500, which causes the
-         * engine to poll the server for a status update every half
-         * second.
+         * The default value for this property is <b>500</b> milliseconds,
+         * which causes the engine to poll the server for a status update
+         * every half second.
          */
         serverPollInterval: number;
         /**
          * Gets or sets the maximum number of records the @see:getDetail
          * method should retrieve from the server.
          *
-         * The default value for this property is 1000, which provides
-         * a reasonable amount of detail in many scenarios. If you want
-         * to allow more detail records to be retrieved, increase the
-         * value of this property.
+         * The default value for this property is <b>1,000</b>, which
+         * is a reasonable amount of detail in many scenarios.
+         * If you want to allow more detail records to be retrieved,
+         * increase the value of this property.
          */
         serverMaxDetail: number;
         /**
@@ -1628,6 +1761,8 @@ declare module wijmo.olap {
         /**
          * Gets or sets a value that determines whether the engine should populate
          * the @see:fields collection automatically based on the @see:itemsSource.
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoGenerateFields: boolean;
         /**
@@ -1678,6 +1813,8 @@ declare module wijmo.olap {
         /**
          * Gets or sets a value that determines whether the main field list should
          * include icons indicating whether fields are measure or dimension fields.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showFieldIcons: boolean;
         /**
@@ -1820,6 +1957,7 @@ declare module wijmo.olap {
         private _centerVert;
         private _docRange;
         private _collapsedKeys;
+        private _dlgDetail;
         static _WJA_COLLAPSE: string;
         /**
          * Initializes a new instance of the @see:PivotGrid class.
@@ -1836,16 +1974,32 @@ declare module wijmo.olap {
         /**
          * Gets or sets a value that determines whether the grid should show a popup containing
          * the detail records when the user double-clicks a cell.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showDetailOnDoubleClick: boolean;
         /**
+         * Gets a reference to the @see:DetailDialog used to display the detail records
+         * when the user double-clicks a cell.
+         *
+         * This property can be used to customize the content of the @see:DetailDialog.
+         *
+         * See also the @see:showDetailOnDoubleClick property and the @see:showDetail
+         * method.
+         */
+        readonly detailDialog: DetailDialog;
+        /**
          * Gets or sets a value that determines whether the grid should
          * display row field headers in its top-left panel.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showRowFieldHeaders: boolean;
         /**
          * Gets or sets a value that determines whether the grid should
          * display column field headers in its top-left panel.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showColumnFieldHeaders: boolean;
         /**
@@ -1855,6 +2009,8 @@ declare module wijmo.olap {
          * Unlike regular column headers, row fields are always sorted, either
          * in ascending or descending order. If you set this property to true,
          * sort icons will always be displayed over any row field headers.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showRowFieldSort: boolean;
         /**
@@ -1863,16 +2019,22 @@ declare module wijmo.olap {
          *
          * The custom context menu includes commands for changing field settings,
          * removing fields, or showing detail records for the grid cells.
+         *
+         * The default value for this property is <b>true</b>.
          */
         customContextMenu: boolean;
         /**
-         * Gets or sets a value that determines whether the grid should allow users to collapse
-         * and expand subtotal groups of rows and columns.
+         * Gets or sets a value that determines whether the grid should allow
+         * users to collapse and expand subtotal groups of rows and columns.
+         *
+         * The default value for this property is <b>true</b>.
          */
         collapsibleSubtotals: boolean;
         /**
-         * Gets or sets a value that determines whether the content of header cells should be
-         * vertically centered.
+         * Gets or sets a value that determines whether the content of
+         * header cells should be  vertically centered.
+         *
+         * The default value for this property is <b>true</b>.
          */
         centerHeadersVertically: boolean;
         /**
@@ -1929,6 +2091,8 @@ declare module wijmo.olap {
         refresh(fullUpdate?: boolean): void;
         onItemsSourceChanged(e?: EventArgs): void;
         onResizedColumn(e: grid.CellRangeEventArgs): void;
+        onSortingColumn(e: grid.CellRangeEventArgs): boolean;
+        onDraggingColumn(e: grid.CellRangeEventArgs): boolean;
         onDraggedColumn(e: grid.CellRangeEventArgs): void;
         _updatedView(): void;
         _viewDefinitionChanged(): void;
@@ -1960,13 +2124,18 @@ declare module wijmo.olap {
     /**
      * Represents a dialog used to display details for a grid cell.
      */
-    class DetailDialog extends Control {
+    class DetailDialog extends wijmo.input.Popup {
         private _g;
         private _sCnt;
         private _dSummary;
         private _dGrid;
         private _btnOK;
         private _gHdr;
+        private _rowHdr;
+        private _colHdr;
+        private _cellHdr;
+        private _cellValue;
+        private _detailCount;
         /**
          * Gets or sets the template used to instantiate @see:PivotFieldEditor controls.
          */
@@ -1979,6 +2148,41 @@ declare module wijmo.olap {
          */
         constructor(element: any, options?: any);
         showDetail(ownerGrid: PivotGrid, cell: wijmo.grid.CellRange): void;
+        /**
+         * Gets the row header for the value being shown.
+         *
+         * This information is updated before the dialog is shown and
+         * is displayed above the detail grid.
+         */
+        readonly rowHeader: string;
+        /**
+         * Gets the column header for the value being shown.
+         *
+         * This information is updated before the dialog is shown and
+         * is displayed above the detail grid.
+         */
+        readonly columnHeader: string;
+        /**
+         * Gets the cell header for the value being shown.
+         *
+         * This information is updated before the dialog is shown and
+         * is displayed above the detail grid.
+         */
+        readonly cellHeader: string;
+        /**
+         * Gets the formatted cell value for the value being shown.
+         *
+         * This information is updated before the dialog is shown and
+         * is displayed above the detail grid.
+         */
+        readonly cellValue: string;
+        /**
+         * Gets the number of items shown in the detail dialog.
+         *
+         * This information is updated before the dialog is shown and
+         * is in the dialog header.
+         */
+        readonly detailCount: number;
         _updateDetailCount(cnt: number): void;
         _getHeader(key: _PivotKey): string;
     }
@@ -2064,40 +2268,66 @@ declare module wijmo.olap {
         itemsSource: any;
         /**
          * Gets or sets the type of chart to create.
+         *
+         * The default value for this property is <b>PivotChartType.Column</b>.
          */
         chartType: PivotChartType;
         /**
          * Gets or sets a value that determines whether the chart should group axis
          * annotations for grouped data.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showHierarchicalAxes: boolean;
         /**
-         * Gets or sets a value that determines whether the chart should include only totals.
+         * Gets or sets a value that determines whether the chart should
+         * include only totals.
+         *
+         * If showTotals is true and the view has Column Fields, then the
+         * chart will show column totals instead of individual values.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showTotals: boolean;
         /**
-         * Gets or sets a value that determines whether the chart should include a title.
+         * Gets or sets a value that determines whether the chart
+         * should include a title.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showTitle: boolean;
         /**
-         * Gets or sets a value that determines whether the chart should include a legend.
+         * Gets or sets a value that determines whether the chart
+         * should include a legend.
+         *
+         * The default value for this property is <b>LegendVisibility.Always</b>.
          */
         showLegend: LegendVisibility;
         /**
          * Gets or sets a value that determines whether and where the legend
          * appears in relation to the plot area.
+         *
+         * The default value for this property is <b>Position.Right</b>.
          */
         legendPosition: chart.Position;
         /**
-         * Gets or sets a value that determines whether and how the series objects are stacked.
+         * Gets or sets a value that determines whether and how the
+         * series objects are stacked.
+         *
+         * The default value for this property is <b>Stacking.None</b>.
          */
         stacking: chart.Stacking;
         /**
-         * Gets or sets the maximum number of data series to be shown in the chart.
+         * Gets or sets the maximum number of data series to be
+         * shown in the chart.
+         *
+         * The default value for this property is <b>100</b> series.
          */
         maxSeries: number;
         /**
          * Gets or sets the maximum number of points to be shown in each series.
+         *
+         * The default value for this property is <b>100</b> points.
          */
         maxPoints: number;
         /**
@@ -2169,12 +2399,98 @@ declare module wijmo.olap {
         private _getValue(ht);
         private _getChartTitle();
         private _getTitle(fields);
-        private _isTotalColumn(colKey);
+        private _isValidColumn(colKey);
         private _isTotalRow(rowKey);
         private _isPieChart();
-        private _isBarChart();
+        private _isRotatedChart();
         private _getMergeIndex(key1, key2);
         private _getOffsetWidth(labels);
+    }
+}
+
+declare module wijmo.olap {
+    /**
+     * The @see:Slicer control provides a quick way to edit filters
+     * applied to @see:PivotField objects.
+     *
+     * It provides buttons the user can click to filter data based on
+     * values and indicates the current filtering state, which makes
+     * it easy to understand what is shown in filtered @see:PivotGrid
+     * and @see:PivotChart controls.
+     *
+     * For example, when the user selects 'Smith' in a 'Salespersons'
+     * field, only data that includes 'Smith' in that field will be
+     * included in the output summary.
+     */
+    class Slicer extends Control {
+        _root: HTMLDivElement;
+        _divHdr: HTMLDivElement;
+        _divHdrText: HTMLDivElement;
+        _btnMSel: HTMLButtonElement;
+        _btnClear: HTMLButtonElement;
+        _divListBox: HTMLDivElement;
+        _fld: PivotField;
+        _edt: grid.filter.ValueFilterEditor;
+        _lbx: input.ListBox;
+        _hdr: string;
+        _mSel: boolean;
+        _fldPropChangeBnd: any;
+        /**
+         * Gets or sets the template used to instantiate @see:Slicer controls.
+         */
+        static controlTemplate: string;
+        /**
+         * Initializes a new instance of the @see:Slicer class.
+         *
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
+         * @param options The JavaScript object containing initialization data for the control.
+         */
+        constructor(element: any, options?: any);
+        /**
+         * Gets or sets the @see:PivotField being filtered by this @see:Slicer.
+         *
+         * If the @see:PivotField is not included in the current view definition,
+         * the @see:Slicer will automatically add the field to the engine's
+         * @see:PivotEngine.filterFields collection.
+         *
+         * If you want to remove the field from any @see:PivotPanel controls so
+         * users cannot remove the field from the view definition, set the
+         * fields @see:PivotField.visible property to false. The field will
+         * remain active, but will not be shown in any @see:PivotPanel controls.
+         */
+        field: PivotField;
+        /**
+         * Gets or sets the header string shown at the top of the @see:Slicer.
+         *
+         * The default value for this property is null, which causes the @see:Slicer
+         * to display the @see:field header at the top of the @see:Slicer.
+         */
+        header: string;
+        /**
+         * Gets or sets a value indicating whether the control displays the
+         * header area with the header string and multi-select/clear buttons.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        showHeader: boolean;
+        /**
+         * Gets or sets a value indicating whether the control displays
+         * checkboxes next to each item.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        showCheckboxes: boolean;
+        /**
+         * Gets or sets a value that determines whether users should be allowed to
+         * select multiple values from the list.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        multiSelect: boolean;
+        refresh(fullUpdate?: boolean): void;
+        _fldPropChange(s: PivotField, e: PropertyChangedEventArgs): void;
+        _updateHeader(): void;
+        _clear(): void;
     }
 }
 

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -376,5 +376,9 @@ declare module wijmo.vue {
      * Vue component that encapsulates the @see:wijmo.olap.PivotChart control.
      */
     var WjPivotChart: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.olap.Slicer control.
+     */
+    var WjSlicer: any;
 }
 

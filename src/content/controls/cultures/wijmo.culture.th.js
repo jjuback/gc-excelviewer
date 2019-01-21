@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -68,16 +68,52 @@ var wijmo;
             prd: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้องสำหรับตัวควบคุม <b>{control}</b>',
             ver: 'ใบอนุญาต Wijmo ในโปรแกรมประยุกต์นี้ไม่ถูกต้องสำหรับรุ่นที่ใช้ รุ่นใบอนุญาตคือ <b>{licVer}</b>รุ่นผลิตภัณฑ์เป็น <b>{version}</b>'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} รายการที่เลือก',
-            selectAll: 'เลือกทั้งหมด'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'ปฏิทิน',
+                monthView: 'มุมมองเดือน',
+                yearView: 'มุมมองปี',
+                prvMo: 'เดือนก่อนหน้า',
+                today: 'วันนี้',
+                nxtMo: 'เดือนถัดไป',
+                prvYr: 'ปีก่อนหน้า',
+                currMo: 'เดือนปัจจุบัน',
+                nxtYr: 'ปีหน้า',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'สลับแบบหล่นลง'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} รายการ)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} รายการ)',
+            ariaLabels: {
+                toggleDropDown: 'สลับแบบหล่นลง',
+                toggleGroup: 'กลุ่มสลับ'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'สลับแถวรายละเอียด'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'แก้ไขตัวกรองสำหรับคอลัมน์',
+                dialog: 'แก้ไขตัวกรองสำหรับคอลัมน์',
+                asc: 'คอลัมน์เรียงลำดับในใบสั่ง',
+                dsc: 'คอลัมน์เรียงลำดับเรียงลำดับ',
+                search: 'ค้นหารายการสินค้า',
+                op1: 'ตัวดำเนินการเงื่อนไขแรก',
+                val1: 'ค่าเงื่อนไขแรก',
+                and: 'ต้องใช้เงื่อนไขทั้งสอง',
+                or: 'ต้องมีเงื่อนไขอย่างใดอย่างหนึ่ง',
+                op2: 'ตัวดำเนินการเงื่อนไขสอง',
+                val2: 'ค่าเงื่อนไขสอง'
+            },
             // filter
-            ariaLabel: 'แก้ไขตัวกรองสำหรับคอลัมน์',
             ascending: '\u2191 เรียงขึ้น',
             descending: '\u2193 เรียงลง',
             apply: 'ใช้',
@@ -122,6 +158,22 @@ var wijmo;
                 { name: 'เท่ากับ', op: 0 },
                 { name: 'ไม่เท่ากับ', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'ปฏิทินสลับ',
+                tglTime: 'สลับเวลารายการ'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'เพิ่มค่า',
+                decVal: 'ลดค่า'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} รายการที่เลือก',
+            selectAll: 'เลือกทั้งหมด'
         },
         olap: {
             PivotFieldEditor: {
@@ -227,6 +279,10 @@ var wijmo;
                 item: 'สินค้า {cnt}',
                 row: 'แถว',
                 col: 'คอลัมน์'
+            },
+            Slicer: {
+                multiSelect: 'เลือกหลาย',
+                clearFilter: 'ล้างตัวกรอง'
             }
         },
         Viewer: {
@@ -358,6 +414,17 @@ var wijmo;
             selectParameterValue: '(เลือกค่า)',
             apply: 'ใช้',
             errorOccured: 'มีข้อผิดพลาดเกิดขึ้น'
+        },
+        FlexSheet: {
+            insertRow: 'แทรกแถว',
+            deleteRow: 'ลบแถว',
+            insertCol: 'แทรกคอลัมน์',
+            deleteCol: 'Delete Column',
+            convertTable: 'แปลงตาราง',
+            copyCells: 'คัดลอกเซลล์',
+            fillSeries: 'กรอกข้อมูลชุดข้อมูล',
+            fillFormat: 'เติมรูปแบบเท่านั้น',
+            fillWithoutFormat: 'กรอกข้อมูลโดยไม่ต้องจัดรูปแบบ'
         }
     };
     var updc = window['wijmo']._updateCulture;

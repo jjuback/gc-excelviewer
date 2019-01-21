@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -115,6 +115,12 @@ export declare class WjReportViewer extends wijmo.viewer.ReportViewer implements
      * In template bindings use the conventional <b>queryLoadingData</b> Wijmo event name.
      */
     queryLoadingDataNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>beforeSendRequest</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>beforeSendRequest</b> Wijmo event name.
+     */
+    beforeSendRequestNg: EventEmitter<any>;
     constructor(elRef: ElementRef, injector: Injector, parentCmp: any);
     /**
      * If you create a custom component inherited from a Wijmo component, you can override this
@@ -211,6 +217,12 @@ export declare class WjPdfViewer extends wijmo.viewer.PdfViewer implements OnIni
      * In template bindings use the conventional <b>queryLoadingData</b> Wijmo event name.
      */
     queryLoadingDataNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>beforeSendRequest</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>beforeSendRequest</b> Wijmo event name.
+     */
+    beforeSendRequestNg: EventEmitter<any>;
     constructor(elRef: ElementRef, injector: Injector, parentCmp: any);
     /**
      * If you create a custom component inherited from a Wijmo component, you can override this

@@ -1,0 +1,47 @@
+// wijmo.grid.grouppanel
+.wj-grouppanel {
+    display: block;
+    background: $wj-cell-grp-bkg;
+    padding: 15px;
+
+    .wj-groupmarker {
+        margin-right: 10px;
+        padding: 6px 16px;
+        border: $wj-cell-bdr;
+        cursor: pointer;
+
+        &:hover {
+            background: $wj-hdr-hvr;
+        }
+
+        .wj-remove {
+            cursor: pointer;
+            opacity: .5;
+            padding: 12px 0 12px 12px;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .wj-filter {
+            cursor: pointer;
+            opacity: .5;
+            margin-left: 10px;
+
+            &:hover, &.wj-filter-on {
+                opacity: 1;
+            }
+        }
+
+        span {
+            opacity: .5;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+

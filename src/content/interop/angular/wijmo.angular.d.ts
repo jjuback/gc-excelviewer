@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -538,6 +538,37 @@ declare module wijmo.angular {
     class WjPivotPanel extends WjDirective {
         constructor();
         readonly _controlConstructor: typeof olap.PivotPanel;
+    }
+    /**
+     * AngularJS directive for the @see:Slicer control.
+     *
+     * Use the <b>wj-slicer</b> directive provides a quick way to edit filters
+     * applied to @see:PivotField objects.
+     *
+     * Directive and parameter names must be formatted as lower-case with dashes
+     * instead of camel-case. For example:
+     *
+     * <pre>&lt;wj-slicer
+     *     field="theField"
+     *     header="theHeader"
+     *     show-header="true"&gt;
+     * &lt;/wj-slicer&gt;</pre>
+     *
+     * The <b>wj-slicer</b> directive supports the following attributes:
+     *
+     * <dl class="dl-horizontal">
+     *   <dt>field</dt>           <dd>Gets or sets the PivotField being filtered by the Slicer.</dd>
+     *   <dt>header</dt>          <dd>Gets or sets the header string shown at the top of the @see:Slicer.</dd>
+     *   <dt>showHeader</dt>      <dd>Gets or sets a value indicating whether the control displays the
+     *                                header area with the header string and multi-select/clear buttons.</dd>
+     *   <dt>showCheckboxes</dt>  <dd>Gets or sets a value indicating whether the control displays
+     *                                checkboxes next to each item.</dd>
+     *   <dt>multiSelect</dt>     <dd>Gets or sets a value that determines whether users should be allowed to
+     *                                select multiple values from the list.</dd>
+     * </dl>
+     */
+    class WjSlicer extends WjDirective {
+        readonly _controlConstructor: typeof olap.Slicer;
     }
 }
 

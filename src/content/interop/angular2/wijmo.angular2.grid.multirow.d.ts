@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -264,6 +264,12 @@ export declare class WjMultiRow extends wijmo.grid.multirow.MultiRow implements 
      * In template bindings use the conventional <b>groupCollapsedChanging</b> Wijmo event name.
      */
     groupCollapsedChangingNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanging</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanging</b> Wijmo event name.
+     */
+    itemsSourceChangingNg: EventEmitter<any>;
     /**
      * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.

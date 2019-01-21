@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'הרשיון Wijmo ביישום זה אינו חוקי עבור הפקד  <b> {control} </b>  .',
             ver: 'הרשיון Wijmo ביישום זה אינו חוקי עבור הגירסה בשימוש. גירסת רשיון <b>{version}</b>; גירסת המוצר הוא <b> {licVer}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: 'פריטים שנבחרו  {count:n0}',
-            selectAll: 'בחר הכל'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'לוח שנה',
+                monthView: 'תצוגת חודש',
+                yearView: 'תצוגת שנה',
+                prvMo: 'החודש הקודם',
+                today: 'היום',
+                nxtMo: '‏‏החודש הבא',
+                prvYr: 'השנה הקודמת',
+                currMo: 'החודש הנוכחי',
+                nxtYr: '‏‏השנה הבאה',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'רשימה נפתחת של דו-מצבי'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '(פריטים {count:n0}) <b>{value}</b> :{name}'
+            groupHeaderFormat: '(פריטים {count:n0}) <b>{value}</b> :{name}',
+            ariaLabels: {
+                toggleDropDown: 'רשימה נפתחת של דו-מצבי',
+                toggleGroup: 'החלף מצב קבוצה'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'החלף מצב שורת פירוט'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'ערוך מסנן עבור עמודה',
+                dialog: 'עורך מסנן עבור עמודה',
+                asc: 'כעמודת המיון לפי סדר עולה',
+                dsc: 'מיון העמודות יורד',
+                search: 'חפש פריט רשימה',
+                op1: 'אופרטור תנאי הראשון',
+                val1: 'הערך במצב הראשון',
+                and: 'דורשים שני התנאים',
+                or: 'דורשים גם תנאי',
+                op2: 'אופרטור תנאי השני',
+                val2: 'ערך התנאי השני'
+            },
             // filter
-            ariaLabel: 'עורך מסנן עבור עמודה',
             ascending: '\u2191 ‏‏סדר עולה',
             descending: '\u2193 ‏‏סדר יורד',
             apply: 'החל',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'שווה ל-', op: 0 },
                 { name: 'לא שווה ל-', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'לוח שנה דו-מצבי',
+                tglTime: 'רשימת הזמן דו-מצבי'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'הגדלת ערך',
+                decVal: 'הקטנת ערך'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: 'פריטים שנבחרו  {count:n0}',
+            selectAll: 'בחר הכל'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'הפריט {cnt}',
                 row: 'Row',
                 col: 'Column'
+            },
+            Slicer: {
+                multiSelect: 'בחירה מרובה',
+                clearFilter: 'נקה מסנן'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(בחר ערך)',
             apply: 'החל',
             errorOccured: 'אירעה שגיאה.'
+        },
+        FlexSheet: {
+            insertRow: 'הוסף שורה',
+            deleteRow: 'למחוק שורה',
+            insertCol: 'הוסף עמודה',
+            deleteCol: 'Delete Column',
+            convertTable: 'המר טבלה',
+            copyCells: 'העתקת תאים',
+            fillSeries: 'מילוי סדרות',
+            fillFormat: 'מילוי עיצוב בלבד',
+            fillWithoutFormat: 'מילוי ללא עיצוב'
         }
     };
     var updc = window['wijmo']._updateCulture;

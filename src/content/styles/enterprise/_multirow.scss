@@ -1,0 +1,40 @@
+// multirow
+.wj-multirow {
+
+    .wj-cell {
+        &.wj-record-end:not(.wj-header) {
+            border-bottom-color: #787878;
+        }
+
+        &.wj-group-end {
+            border-right-color: #787878;
+        }
+
+        &.wj-center-vert {
+            display: table;
+            table-layout: fixed;
+            padding-top: 0; /* remove top/bottom padding to work around Safari bug */
+            padding-bottom: 0;
+
+            div {
+                display: table-cell;
+                vertical-align: middle;
+                overflow: inherit;
+                text-overflow: inherit
+            }
+        }
+    }
+
+    .wj-hdr-collapse {
+        position: absolute;
+        padding: 6px;
+        right: 0;
+        top: 0;
+        color: $wj-sel-bkg;
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

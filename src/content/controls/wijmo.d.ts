@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -22,8 +22,6 @@ declare module wijmo {
     /**
      * Sets the license key that identifies licensed Wijmo applications.
      *
-     * @param licenseKey String containing the license key to use in this application.
-     *
      * If you do not set the license key, Wijmo will run in evaluation mode,
      * adding a watermark element to the page.
      *
@@ -33,6 +31,8 @@ declare module wijmo {
      *
      * Note that Wijmo does not send keys or any licensing information to any servers.
      * It only checks the internal consistency of the key provided.
+     *
+     * @param licenseKey String containing the license key to use in this application.
      */
     function setLicenseKey(licenseKey: string): void;
     /**
@@ -438,16 +438,23 @@ declare module wijmo {
      */
     function toHeaderCase(text: string): string;
     /**
-     * Escapes a string by replacing HTML characters as text entities.
+     * Escapes a string by replacing HTML characters with text entities.
      *
-     * Strings entered by uses should always be escaped before they are displayed
-     * in HTML pages. This ensures page integrity and prevents HTML/javascript
+     * Strings entered by users should always be escaped before they are displayed
+     * in HTML pages. This helps ensure page integrity and prevent HTML/javascript
      * injection attacks.
      *
      * @param text Text to escape.
      * @return An HTML-escaped version of the original string.
      */
     function escapeHtml(text: string): string;
+    /**
+     * Converts an HTML string into plain text.
+     *
+     * @param html HTML string to convert to plain text.
+     * @return A plain-text version of the string.
+     */
+    function toPlainText(html: string): string;
     /**
      * Checks whether an element has a class.
      *
@@ -456,26 +463,25 @@ declare module wijmo {
      */
     function hasClass(e: Element, className: string): boolean;
     /**
-     * Removes a class from an element.
-     *
-     * @param e Element that will have the class removed.
-     * @param className Class to remove from the element.
-     */
-    function removeClass(e: Element, className: string): void;
-    /**
      * Adds a class to an element.
      *
      * @param e Element that will have the class added.
-     * @param className Class to add to the element.
+     * @param className Class (or space-separated list of classes) to add to the element.
      */
     function addClass(e: Element, className: string): void;
+    /**
+     * Removes a class from an element.
+     *
+     * @param e Element that will have the class removed.
+     * @param className Class (or space-separated list of classes) to remove from the element.
+     */
+    function removeClass(e: Element, className: string): void;
     /**
      * Adds or removes a class to or from an element.
      *
      * @param e Element that will have the class added.
      * @param className Class to add or remove.
-     * @param addOrRemove Whether to add or remove the class. If not provided, the class is toggled.
-     * Use true to add class to element and false to remove class from element.
+     * @param addOrRemove Whether to add or remove the class. If not provided, toggle the class.
      */
     function toggleClass(e: Element, className: string, addOrRemove?: boolean): void;
     /**
@@ -488,6 +494,14 @@ declare module wijmo {
      * @param keep Whether to keep original attribute if present.
      */
     function setAttribute(e: Element, name: string, value?: any, keep?: boolean): void;
+    /**
+     * Sets or clears an element's <b>aria-label</b> attribute.
+     *
+     * @param e Element that will be updated.
+     * @param value Value of the aria label, or null to remove the label
+     * from the element.
+     */
+    function setAriaLabel(e: Element, value?: string): void;
     /**
      * Sets the start and end positions of a selection in a text field.
      *
@@ -524,10 +538,11 @@ declare module wijmo {
      *
      * @param parent Parent element.
      * @param offset Offset to use when moving the focus (use zero to focus on the first focusable child).
+     * @return True if the focus was set, false if a focusable element was not found.
      */
-    function moveFocus(parent: HTMLElement, offset: number): void;
+    function moveFocus(parent: HTMLElement, offset: number): boolean;
     /**
-     * Gets an element from a jQuery-style selector.
+     * Gets an element from a query selector.
      *
      * @param selector An element, a query selector string, or a jQuery object.
      */
@@ -552,9 +567,10 @@ declare module wijmo {
      *
      * @param parent Parent element.
      * @param child Child element.
+     * @param popup Whether to take Wijmo popups into account.
      * @return True if the parent element contains the child element.
      */
-    function contains(parent: any, child: any): boolean;
+    function contains(parent: any, child: any, popup?: boolean): boolean;
     /**
      * Finds the closest ancestor (including the original element) that satisfies a selector.
      *
@@ -883,10 +899,7 @@ declare module wijmo {
     /**
      * Performs HTTP requests.
      *
-     * @param url String containing the URL to which the request is sent.
-     * @param settings An optional object used to configure the request.
-     *
-     * The <b>settings</b> object may contain the following:
+     * The <b>settings</b> parameter may contain the following:
      *
      * <table>
      * <tr>
@@ -897,7 +910,7 @@ declare module wijmo {
      * <tr>
      *   <td><b>data</b></td>
      *   <td>Data to be sent to the server. It is appended to the url for GET requests,
-     *       and converted to a string for other requests.</td>
+     *       and converted to a JSON string for other requests.</td>
      * </tr>
      * <tr>
      *   <td><b>async</b></td>
@@ -947,12 +960,14 @@ declare module wijmo {
      *
      * <pre>wijmo.httpRequest('http://services.odata.org/Northwind/Northwind.svc/Customers?$format=json', {
      *   success: function (xhr) {
-     *     var response = JSON.parse(xhr.response),
+     *     var response = JSON.parse(xhr.responseText),
      *         customers = response.value;
      *     // do something with the customers...
      *   }
      * });</pre>
      *
+     * @param url String containing the URL to which the request is sent.
+     * @param settings An optional object used to configure the request.
      * @return The <b>XMLHttpRequest</b> object used to perform the request.
      */
     function httpRequest(url: string, settings?: any): XMLHttpRequest;
@@ -972,6 +987,11 @@ declare module wijmo {
      * By default, @see:Globalize uses the American English culture.
      * To switch cultures, include the appropriate <b>wijmo.culture.*.js</b>
      * file after the wijmo files.
+     *
+     * The example below shows how you can use the @see:Globalize class
+     * to format dates, times, and numbers in different cultures:
+     *
+     * @fiddle:u9fo3ynp
      */
     class Globalize {
         /**
@@ -1087,6 +1107,17 @@ declare module wijmo {
          * &gt; FY2016Q1 (US culture)
          * </pre>
          *
+         * Another addition is available for dealing with complex eras such
+         * as those defined in the Japanese culture:
+         *
+         * <ul>
+         *  <li><i>ggg</i> Era name (e.g. '平成', '昭和', '大正', or '明治').</li>
+         *  <li><i>gg</i> Era initial (e.g. '平', '昭', '大', or '明').</li>
+         *  <li><i>g</i> Era symbol (e.g. 'H', 'S', 'T', or 'M').</li>
+         * </ul>
+         *
+         * @fiddle:vw6en3sa
+         *
          * @param value Number or Date to format.
          * @param format .NET-style Date format string.
          * @return A string representation of the given date.
@@ -1160,9 +1191,10 @@ declare module wijmo {
         private static _expandFormat(format);
         private static _zeroPad(num, places);
         private static _h12(d);
-        private static _mul100(n);
+        private static _shiftDecimal(val, shift);
     }
     function _updateCulture(): void;
+    function _addCultureInfo(member: string, info: any): void;
 }
 
 declare module wijmo {
@@ -1222,6 +1254,10 @@ declare module wijmo {
      *   <li><b>sender</b> is the object that raised the event, and</li>
      *   <li><b>args</b> is an optional object that contains the event parameters.</li>
      * </ul>
+     *
+     * The example below shows how you can add event handlers to Wijmo events:
+     *
+     * @fiddle:9tkuuf5t
      */
     interface IEventHandler {
         (sender: any, args: EventArgs): void;
@@ -1392,6 +1428,7 @@ declare module wijmo {
         static _licKey: string;
         static _wme: HTMLElement;
         static _touching: boolean;
+        static _toTouch: any;
         static _REFRESH_INTERVAL: number;
         static _FOCUS_INTERVAL: number;
         static _ANIM_DEF_DURATION: number;
@@ -1399,6 +1436,9 @@ declare module wijmo {
         static _CLICK_DELAY: number;
         static _CLICK_REPEAT: number;
         static _CLIPBOARD_DELAY: number;
+        static _POPUP_ZINDEX: number;
+        static _SEARCH_DELAY: number;
+        static _HOVER_DELAY: number;
         static _DRAG_SCROLL_EDGE: number;
         static _DRAG_SCROLL_STEP: number;
         static _CTRL_KEY: string;
@@ -1406,15 +1446,17 @@ declare module wijmo {
         static _SCRL_KEY: string;
         static _rxInputAtts: RegExp;
         protected _e: HTMLElement;
+        protected _orgTabIndex: number;
         protected _orgOuter: string;
         protected _orgTag: string;
         protected _orgAtts: NamedNodeMap;
+        protected _listeners: any[];
         protected _pristine: boolean;
-        protected _listeners: any;
         protected _focus: boolean;
         protected _updating: number;
         protected _fullUpdate: boolean;
         protected _toInv: any;
+        protected _toFocus: any;
         protected _szCtl: Size;
         protected _rtlDir: boolean;
         /**
@@ -1428,10 +1470,12 @@ declare module wijmo {
         /**
          * Gets the HTML template used to create instances of the control.
          *
-         * This method traverses up the class hierarchy to find the nearest ancestor that
-         * specifies a control template. For example, if you specify a prototype for the
-         * @see:ComboBox control, it will override the template defined by the @see:DropDown
-         * base class.
+         * This method traverses up the class hierarchy to find the nearest
+         * ancestor that specifies a control template. For example, if you
+         * specify a prototype for the @see:ComboBox control, which does
+         * not specify a template, it will override the template defined
+         * by the @see:DropDown base class (the nearest ancestor that does
+         * specify a template).
          */
         getTemplate(): string;
         /**
@@ -1609,12 +1653,21 @@ declare module wijmo {
          *
          * Failing to remove event listeners may cause memory leaks.
          *
+         * The <b>passive</b> parameter is set to false by default, which means
+         * the event handler may call <b>event.preventDefault()</b>.
+         * If you are adding passive handlers to touch or wheel events, setting
+         * this parameter to true will improve application performance.
+         *
+         * For details on passive event listeners, please see
+         * <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Improving_scrolling_performance_with_passive_listeners">Improving scrolling performance with passive listeners</a>.
+         *
          * @param target Target element for the event.
          * @param type String that specifies the event.
          * @param fn Function to execute when the event occurs.
-         * @param capture Whether the listener is capturing.
+         * @param capture Whether the listener should be handled by the control before it is handled by the target element.
+         * @param passive Indicates that the handler will never call <b>preventDefault()</b>.
          */
-        addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean): void;
+        addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean, passive?: boolean): void;
         /**
          * Removes one or more event listeners attached to elements owned by this @see:Control.
          *
@@ -1661,6 +1714,7 @@ declare module wijmo {
         private _updateWme();
         _hasPendingUpdates(): boolean;
         protected _handleResize(): void;
+        _handleFocusBlur(): void;
         protected _updateFocusState(): void;
         protected _updateState(): void;
         protected _handleTouchStart(e: any): void;
@@ -1668,6 +1722,7 @@ declare module wijmo {
         private _handleDisabled(e);
         private _replaceWithDiv(element);
         private _copyAttributes(e, atts, names);
+        _getKeyCode(e: KeyboardEvent): number;
     }
 }
 
@@ -2085,7 +2140,7 @@ declare module wijmo.collections {
          */
         pageIndex: number;
         /**
-         * Gets or sets the number of items to display on a page.
+         * Gets or sets the number of items to display on each page.
          */
         pageSize: number;
         /**
@@ -2413,6 +2468,11 @@ declare module wijmo.collections {
      *   var item = cv.items[i];
      *   console.log(i + ': ' + item.name + ' ' + item.amount);
      * }</pre>
+     *
+     * The example below shows how you can use a @see:CollectionView
+     * to provide sorted views of some raw data:
+     *
+     * @fiddle:2g70rkct
      */
     class CollectionView implements IEditableCollectionView, IPagedCollectionView {
         _src: any[];
@@ -2437,6 +2497,7 @@ declare module wijmo.collections {
         _updating: number;
         _itemCreator: Function;
         _stableSort: boolean;
+        _nullsFirst: boolean;
         _canFilter: boolean;
         _canGroup: boolean;
         _canSort: boolean;
@@ -2547,12 +2608,20 @@ declare module wijmo.collections {
          * If you sort the collection by "Amount", a stable sort will keep the original
          * order of records with the same Amount value.
          *
-         * This property is false by default, which causes the @see:CollectionView to use
-         * JavaScript's built-in sort method, which is very fast but not stable. Setting
-         * the @see:useStableSort property to true increases sort times by 30% to 50%, which
-         * can be significant for large collections.
+         * This property is set to false by default, which causes the @see:CollectionView
+         * to use JavaScript's built-in sort method, which is very fast but not stable.
+         * Setting the @see:useStableSort property to true increases sort times by 30% to
+         * 50%, which can be significant for large collections.
          */
         useStableSort: boolean;
+        /**
+         * Gets or sets a value that determines whether null values should appear
+         * first or last when the collection is sorted (regardless of sort direction).
+         *
+         * This property is set to false by default, which causes null values to appear
+         * last on the sorted collection. This is  also the default behavior in Excel.
+         */
+        sortNullsFirst: boolean;
         /**
          * Calculates an aggregate value for the items in this collection.
          *
@@ -2941,7 +3010,7 @@ declare module wijmo.collections {
          */
         readonly pageIndex: number;
         /**
-         * Gets or sets the number of items to display on a page.
+         * Gets or sets the number of items to display on each page.
          */
         pageSize: number;
         /**
@@ -3050,13 +3119,15 @@ declare module wijmo.collections {
 
 declare module wijmo {
     /**
-     * Provides a pop-up window that displays additional information about elements on the page.
+     * Provides a pop-up window that displays additional information about
+     * elements on the page.
      *
      * The @see:Tooltip class can be used in two modes:
      *
-     * <b>Automatic Mode:</b> Use the @see:setTooltip method to connect the @see:Tooltip to
-     * one or more elements on the page. The @see:Tooltip will automatically monitor events
-     * and display the tooltips when the user performs actions that trigger the tooltip.
+     * <b>Automatic Mode:</b> Use the @see:setTooltip method to connect
+     * the @see:Tooltip to one or more elements on the page. The @see:Tooltip
+     * will automatically monitor events and display the tooltips when the
+     * user performs actions that trigger the tooltip.
      * For example:
      *
      * <pre>var tt = new wijmo.Tooltip();
@@ -3064,8 +3135,8 @@ declare module wijmo {
      * tt.setTooltip('#tree', 'Explore the hierarchy.');
      * tt.setTooltip('#chart', '#idChartTooltip');</pre>
      *
-     * <b>Manual Mode:</b> The caller is responsible for showing and hiding the tooltip
-     * using the @see:show and @see:hide methods. For example:
+     * <b>Manual Mode:</b> The caller is responsible for showing and hiding
+     * the tooltip using the @see:show and @see:hide methods. For example:
      *
      * <pre>var tt = new wijmo.Tooltip();
      * element.addEventListener('click', function () {
@@ -3075,14 +3146,20 @@ declare module wijmo {
      *     tt.show(element, 'This is an important element!');
      *   }
      * });</pre>
+     *
+     * The example below shows how you can use the @see:Tooltip class
+     * to add Excel-style notes to cells in a @see:FlexGrid control:
+     *
+     * @fiddle:2d0jhd6r
      */
     class Tooltip {
-        private static _eTip;
+        static _eTip: HTMLElement;
         private _toShow;
         private _toHide;
         private _showAutoTipBnd;
         private _hideAutoTipBnd;
         private _html;
+        private _cssClass;
         private _gap;
         private _showAtMouse;
         private _showDelay;
@@ -3100,6 +3177,8 @@ declare module wijmo {
          * The same tooltip may be used to display information for any number
          * of elements on the page. To remove the tooltip from an element,
          * call @see:setTooltip and specify null for the content.
+         *
+         * To remove the tooltips for all elements, call the @see:dispose method.
          *
          * @param element Element, element ID, or control that the tooltip explains.
          * @param content Tooltip content or ID of the element that contains the tooltip content.
@@ -3137,33 +3216,49 @@ declare module wijmo {
         /**
          * Gets or sets a value that determines whether the tooltip contents
          * should be displayed as plain text or as HTML.
+         *
+         * The default value for the property is <b>true</b>.
          */
         isContentHtml: boolean;
         /**
+         * Gets or sets a CSS class name to use when showing the tooltip.
+         */
+        cssClass: string;
+        /**
          * Gets or sets the distance between the tooltip and the target element.
+         *
+         * The default value for the property is <b>6</b> pixels.
          */
         gap: number;
         /**
          * Gets or sets a value that determines whether the tooltip should be
          * positioned with respect to the mouse position rather than the
          * target element.
+         *
+         * The default value for the property is <b>false</b>.
          */
         showAtMouse: boolean;
         /**
-         * Gets or sets the delay, in milliseconds, before showing the tooltip after the
-         * mouse enters the target element.
+         * Gets or sets the delay, in milliseconds, before showing the tooltip
+         * after the mouse enters the target element.
+         *
+         * The default value for the property is <b>500</b> milliseconds.
          */
         showDelay: number;
         /**
-         * Gets or sets the delay, in milliseconds, before hiding the tooltip after the
-         * mouse leaves the target element.
+         * Gets or sets the delay, in milliseconds, before hiding the tooltip
+         * if the mouse remains over the element.
+         *
+         * The default value for the property is <b>zero</b> milliseconds,
+         * which causes the tip to remain visible until the mouse moves
+         * away from the element.
          */
         hideDelay: number;
         /**
          * Occurs before the tooltip content is displayed.
          *
-         * The event handler may customize the tooltip content or suppress the
-         * tooltip display by changing the event parameters.
+         * The event handler may customize the tooltip content or suppress
+         * the tooltip display by changing the event parameters.
          */
         readonly popup: Event;
         /**
@@ -3176,7 +3271,7 @@ declare module wijmo {
         private _attach(e);
         private _detach(e);
         private _showAutoTip(e);
-        private _hideAutoTip();
+        private _hideAutoTip(e);
         private _clearTimeouts();
         private _getContent(content);
         private _setContent(content);
@@ -3186,12 +3281,22 @@ declare module wijmo {
      */
     class TooltipEventArgs extends CancelEventArgs {
         private _content;
+        private _e;
         /**
          * Initializes a new instance of the @see:TooltipEventArgs class.
          *
          * @param content String to show in the tooltip.
+         * @param element HTMLElement that the tip refers to.
          */
-        constructor(content: string);
+        constructor(content: string, element?: HTMLElement);
+        /**
+         * Gets a reference to the tooltip element.
+         */
+        readonly tip: HTMLElement;
+        /**
+         * Gets a reference to the element that the tooltip refers to.
+         */
+        readonly element: HTMLElement;
         /**
          * Gets or sets the content to show in the tooltip.
          *
@@ -3218,6 +3323,10 @@ declare module wijmo {
      * creates colors by interpolating between two colors using the HSL model.
      * This method is especially useful for creating color animations with the
      * @see:animate method.
+     *
+     * The example below shows how this works:
+     *
+     * @fiddle:xjo09z48
      */
     class Color {
         _r: number;
@@ -3406,6 +3515,11 @@ declare module wijmo {
      *     return;
      *   }
      * });</pre>
+     *
+     * The example below shows how you can customize the behavior of the clipboard
+     * paste command when the target is a @see:FlexGrid control:
+     *
+     * @fiddle:64vr06dd
      */
     class Clipboard {
         /**
@@ -3459,10 +3573,10 @@ declare module wijmo {
      * @param ref Reference element or rectangle used to position the popup.
      * @param above Position popup above the reference rectangle if possible.
      * @param fadeIn Use a fade-in animation to make the popup appear gradually.
-     * @param copyStyles Copy font and color styles from reference element.
+     * @param copyStyles Whether to copy font and color styles from the reference element, or an element to use as the style source.
      * @return An interval id that you can use to suspend the fade-in animation.
      */
-    function showPopup(popup: HTMLElement, ref?: any, above?: boolean, fadeIn?: boolean, copyStyles?: boolean): any;
+    function showPopup(popup: HTMLElement, ref?: any, above?: boolean, fadeIn?: boolean, copyStyles?: any): any;
     /**
      * Hides a popup element previously displayed with the @see:showPopup
      * method.
@@ -3500,6 +3614,12 @@ declare module wijmo {
      * doc.append(document.getElementById('gaugeControl'));
      * // print the document (or export it to PDF)
      * doc.print();</pre>
+     *
+     * The example below shows how you can create a printer-friendly version of
+     * a document which can be printed or exported to PDF and other formats
+     * directly from the browser:
+     *
+     * @fiddle:c75xjs11
      */
     class PrintDocument {
         _iframe: HTMLIFrameElement;
@@ -3520,8 +3640,10 @@ declare module wijmo {
          */
         title: string;
         /**
-         * Gets or sets a value that determines whether the @see:PrintDocument should include the CSS
-         * style sheets defined in the main document.
+         * Gets or sets a value that determines whether the @see:PrintDocument
+         * should include the CSS style sheets defined in the main document.
+         *
+         * The default value for the property is <b>true</b>.
          */
         copyCss: boolean;
         /**
@@ -3547,7 +3669,6 @@ declare module wijmo {
     }
 }
 
-declare var theLic: string;
 declare module wijmo {
     function _updateWme(ctl: Control, key: string): void;
 }
@@ -3660,7 +3781,7 @@ declare module wijmo {
         private _toRepeat;
         private _mousedownBnd;
         private _mouseupBnd;
-        private _onClickBnd;
+        private _clickBnd;
         /**
          * Initializes a new instance of the @see:_ClickRepeater class.
          *
@@ -3679,7 +3800,7 @@ declare module wijmo {
         _clearTimeouts(): void;
         _mousedown(e: MouseEvent): void;
         _mouseup(e: MouseEvent): void;
-        _onClick(): void;
+        _click(): void;
     }
 }
 
@@ -3690,6 +3811,7 @@ declare module wijmo {
     function isEdge(): boolean;
     function isIE(): boolean;
     function isIE9(): boolean;
+    function isIE10(): boolean;
     function getEventOptions(capture: boolean, passive: boolean): any;
     function supportsFocusOptions(): boolean;
     function _startDrag(dataTransfer: any, effectAllowed: string): void;

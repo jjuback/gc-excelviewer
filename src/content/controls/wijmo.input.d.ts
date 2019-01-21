@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -31,6 +31,8 @@ declare module wijmo.input {
         _cssClass: string;
         _oldText: string;
         _altDown: boolean;
+        _minWidthDropdown: string;
+        _setFocus: boolean;
         /**
          * Gets or sets the template used to instantiate @see:DropDown controls.
          */
@@ -54,14 +56,27 @@ declare module wijmo.input {
          */
         readonly inputElement: HTMLInputElement;
         /**
+         * Gets or sets the "type" attribute of the HTML input element hosted
+         * by the control.
+         *
+         * The default value for this property is <b>text</b>.
+         */
+        inputType: string;
+        /**
          * Gets or sets a value that indicates whether the user can modify
          * the control value using the mouse and keyboard.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isReadOnly: boolean;
         /**
-         * Gets or sets a value that determines whether the control value must be set to
-         * a non-null value or whether it can be set to null
+         * Gets or sets a value that determines whether the control value must be
+         * set to a non-null value or whether it can be set to null
          * (by deleting the content of the control).
+         *
+         * This property defaults to true for most controls, including @see:ComboBox,
+         * @see:InputDate, @see:InputTime, @see:InputDateTime, and @see:InputColor.
+         * It defaults to false for the @see:AutoComplete control.
          */
         isRequired: boolean;
         /**
@@ -69,7 +84,10 @@ declare module wijmo.input {
          */
         placeholder: string;
         /**
-         * Gets or sets a value that indicates whether the drop down is currently visible.
+         * Gets or sets a value that indicates whether the drop down is currently
+         * visible.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isDroppedDown: boolean;
         /**
@@ -86,17 +104,25 @@ declare module wijmo.input {
          */
         dropDownCssClass: string;
         /**
-         * Gets or sets a value that indicates whether the control should display a drop-down button.
+         * Gets or sets a value that indicates whether the control should
+         * display a drop-down button.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showDropDownButton: boolean;
         /**
-         * Gets or sets a value that indicates whether the control should automatically expand the
-         * selection to whole words/numbers when the control is clicked.
+         * Gets or sets a value that indicates whether the control should
+         * automatically expand the selection to whole words/numbers when
+         * the control is clicked.
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoExpandSelection: boolean;
         /**
          * Gets or sets a value that indicates whether the control should use a fade-in animation
          * when displaying the drop-down.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isAnimated: boolean;
         /**
@@ -133,6 +159,7 @@ declare module wijmo.input {
         dispose(): void;
         refresh(fullUpdate?: boolean): void;
         _handleResize(): void;
+        protected _dropDownClick(e: MouseEvent): void;
         private _expandSelection();
         private _getCharType(text, pos);
         protected _keydown(e: KeyboardEvent): void;
@@ -211,6 +238,7 @@ declare module wijmo.input {
         private _btnPrv;
         private _btnTdy;
         private _btnNxt;
+        private _lbYears;
         private _value;
         private _currMonth;
         private _firstDay;
@@ -221,6 +249,10 @@ declare module wijmo.input {
         private _itemValidator;
         private _readOnly;
         private _selMode;
+        private _rptUp;
+        private _rptDn;
+        private _yrPicker;
+        private _tmYrHidden;
         private _fmtYrMo;
         private _fmtYr;
         private _fmtDayHdr;
@@ -239,10 +271,15 @@ declare module wijmo.input {
         constructor(element: any, options?: any);
         /**
          * Gets or sets the currently selected date.
+         *
+         * The default value for this property is the current date.
          */
         value: Date;
         /**
          * Gets or sets the earliest date that the user can select in the calendar.
+         *
+         * The default value for this property is <b>null</b>, which means no earliest
+         * date is defined.
          *
          * For details about using the @see:min and @see:max properties, please see the
          * <a href="static/minMax.html">Using the min and max properties</a> topic.
@@ -251,6 +288,9 @@ declare module wijmo.input {
         /**
          * Gets or sets the latest date that the user can select in the calendar.
          *
+         * The default value for this property is <b>null</b>, which means no latest
+         * date is defined.
+         *
          * For details about using the @see:min and @see:max properties, please see the
          * <a href="static/minMax.html">Using the min and max properties</a> topic.
          */
@@ -258,13 +298,33 @@ declare module wijmo.input {
         /**
          * Gets or sets a value that indicates whether users can select
          * days, months, or no values at all.
+         *
+         * The default value for this property is <b>DateSelectionMode.Day</b>.
          */
         selectionMode: DateSelectionMode;
         /**
          * Gets or sets a value that indicates whether the user can modify
          * the control value using the mouse and keyboard.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isReadOnly: boolean;
+        /**
+         * Gets or sets a value that determines whether the calendar buttons
+         * should act as repeat buttons, firing repeatedly as the button
+         * remains pressed.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        repeatButtons: boolean;
+        /**
+         * Gets or sets a value that determines whether the calendar should
+         * display a list of years when the user clicks the header element
+         * on the year calendar.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        showYearPicker: boolean;
         /**
          * Gets or sets a value that represents the first day of the week,
          * the one displayed in the first column of the calendar.
@@ -283,14 +343,14 @@ declare module wijmo.input {
          * Gets or sets the format used to display the month and year
          * above the calendar in month view.
          *
-         * The default value for this property is 'y'.
+         * The default value for this property is <b>'y'</b>.
          */
         formatYearMonth: string;
         /**
          * Gets or sets the format used to display the headers
          * above the days in month view.
          *
-         * The default value for this property is 'ddd'.
+         * The default value for this property is <b>'ddd'</b>.
          */
         formatDayHeaders: string;
         /**
@@ -306,23 +366,28 @@ declare module wijmo.input {
          * Gets or sets the format used to display the year
          * above the months in year view.
          *
-         * The default value for this property is 'yyyy'.
+         * The default value for this property is <b>'yyyy'</b>.
          */
         formatYear: string;
         /**
          * Gets or sets the format used to display the months
          * in year view.
          *
-         * The default value for this property is 'MMM'.
+         * The default value for this property is <b>'MMM'</b>.
          */
         formatMonths: string;
         /**
          * Gets or sets a value indicating whether the control displays the header
          * area with the current month and navigation buttons.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showHeader: boolean;
         /**
-         * Gets or sets a value indicating whether the calendar displays a month or a year.
+         * Gets or sets a value indicating whether the calendar displays
+         * a month or a year.
+         *
+         * The default value for this property is <b>true</b>.
          */
         monthView: boolean;
         /**
@@ -405,11 +470,8 @@ declare module wijmo.input {
          * @param e @see:FormatItemEventArgs that contains the event data.
          */
         onFormatItem(e: FormatItemEventArgs): void;
-        /**
-         * Refreshes the control.
-         *
-         * @param fullUpdate Indicates whether to update the control layout as well as the content.
-         */
+        containsFocus(): boolean;
+        dispose(): void;
         refresh(fullUpdate?: boolean): void;
         private _canChangeValue();
         private _valid(date);
@@ -420,6 +482,7 @@ declare module wijmo.input {
         private _getValidDate(month, first);
         _clamp(value: Date): Date;
         private _createChildren();
+        private _createYearPicker();
         private _createElement(tag, parent?, className?);
         private _click(e);
         private _getCellIndex(tbl, cell);
@@ -439,7 +502,7 @@ declare module wijmo.input {
      *
      * The control is used as a drop-down for the @see:InputColor control.
      *
-     * @fiddle:84xvsz90
+     * @fiddle:z84ebpec
      */
     class ColorPicker extends Control {
         _hsb: number[];
@@ -471,15 +534,21 @@ declare module wijmo.input {
         /**
          * Gets or sets a value indicating whether the @see:ColorPicker allows users
          * to edit the color's alpha channel (transparency).
+         *
+         * The default value for this property is <b>true</b>.
          */
         showAlphaChannel: boolean;
         /**
          * Gets or sets a value indicating whether the @see:ColorPicker shows a string representation
          * of the current color.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showColorString: boolean;
         /**
          * Gets or sets the currently selected color.
+         *
+         * This property defaults to 'white'.
          */
         value: string;
         /**
@@ -512,18 +581,33 @@ declare module wijmo.input {
 declare module wijmo.input {
     /**
      * The @see:ListBox control displays a list of items which may contain
-     * plain text or HTML, and allows users to select items with the mouse or
-     * the keyboard.
+     * plain text or HTML, and allows users to select items with the mouse
+     * or the keyboard.
      *
-     * Use the @see:ListBox.selectedIndex property to determine which item is
-     * currently selected.
+     * Use the @see:ListBox.selectedIndex property to determine which item
+     * is currently selected.
      *
-     * You can populate a @see:ListBox using an array of strings or you can use
-     * an array of objects, in which case the @see:ListBox.displayMemberPath
+     * You can populate a @see:ListBox using an array of strings or you can
+     * use an array of objects, in which case the @see:ListBox.displayMemberPath
      * property determines which object property is displayed on the list.
      *
      * To display items that contain HTML rather than plain text, set the
      * @see:ListBox.isContentHtml property to true.
+     *
+     * The @see:ListBox control supports the following keyboard commands:
+     *
+     * <table>
+     *   <thead>
+     *     <tr><th>Key Combination</th><th>Action</th></tr>
+     *   </thead>
+     *   <tbody>
+     *     <tr><td>Up/Down</td><td>Select the previous/next item</td></tr>
+     *     <tr><td>PageUp/Down</td><td>Select the item one page above or below the selection</td></tr>
+     *     <tr><td>Home/End</td><td>Select the first/last items</td></tr>
+     *     <tr><td>Space</td><td>Toggle the checkbox in the current item (see the @see:checkedMemberPath property)</td></tr>
+     *     <tr><td>Other characters</td><td>Search for items that contain the text typed (multi-character auto-search)</td></tr>
+     *   </tbody>
+     * </table>
      *
      * The example below creates a @see:ListBox control and populates it using
      * a 'countries' array. The control updates its @see:ListBox.selectedIndex
@@ -532,7 +616,6 @@ declare module wijmo.input {
      * @fiddle:8HnLx
      */
     class ListBox extends Control {
-        private static _AUTOSEARCH_DELAY;
         _items: any;
         _cv: collections.ICollectionView;
         _itemFormatter: Function;
@@ -540,13 +623,15 @@ declare module wijmo.input {
         _pathValue: Binding;
         _pathChecked: Binding;
         _html: boolean;
+        _shGroups: boolean;
         _checkedItems: any[];
         _itemRole: string;
         _checking: boolean;
         _search: string;
         _toSearch: any;
         _bndDisplay: Binding;
-        _tabIndex: number;
+        _fmtItemHandlers: number;
+        _itemCount: number;
         /**
          * Initializes a new instance of the @see:ListBox class.
          *
@@ -555,13 +640,8 @@ declare module wijmo.input {
          */
         constructor(element: any, options?: any);
         /**
-         * Refreshes the list.
-         *
-         * @param fullUpdate Indicates whether to update the control layout as well as the content.
-         */
-        refresh(fullUpdate?: boolean): void;
-        /**
-         * Gets or sets the array or @see:ICollectionView object that contains the list items.
+         * Gets or sets the array or @see:ICollectionView object that contains
+         * the list items.
          */
         itemsSource: any;
         /**
@@ -569,17 +649,33 @@ declare module wijmo.input {
          */
         readonly collectionView: collections.ICollectionView;
         /**
-         * Gets or sets a value indicating whether items contain plain text or HTML.
+         * Gets or sets a value that determines whether the @see:ListBox should
+         * include group header items to delimit data groups.
+         *
+         * Data groups are created by modifying the @see:ICollectionView.groupDescriptions
+         * property of the @see:ICollectionView object used as an @see:itemsSource.
+         *
+         * The @see:ListBox only shows the first level of grouping.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        showGroups: boolean;
+        /**
+         * Gets or sets a value indicating whether items contain plain
+         * text or HTML.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isContentHtml: boolean;
         /**
-         * Gets or sets a function used to customize the values shown on the list.
-         * The function takes two arguments, the item index and the default text or html, and
-         * returns the new text or html to display.
+         * Gets or sets a function used to customize the values shown on
+         * the list.
+         * The function takes two arguments, the item index and the default
+         * text or html, and returns the new text or html to display.
          *
-         * If the formatting function needs a scope (i.e. a meaningful 'this'
-         * value), then remember to set the filter using the 'bind' function to
-         * specify the 'this' object. For example:
+         * If the formatting function needs a scope (i.e. a meaningful
+         * 'this' value), then remember to set the filter using the 'bind'
+         * function to specify the 'this' object. For example:
          *
          * <pre>
          *   listBox.itemFormatter = customItemFormatter.bind(this);
@@ -593,23 +689,27 @@ declare module wijmo.input {
          */
         itemFormatter: Function;
         /**
-         * Gets or sets the name of the property to use as the visual representation of the items.
+         * Gets or sets the name of the property to use as the visual
+         * representation of the items.
          */
         displayMemberPath: string;
         /**
-         * Gets or sets the name of the property used to get the @see:selectedValue
-         * from the @see:selectedItem.
+         * Gets or sets the name of the property used to get the
+         * @see:selectedValue from the @see:selectedItem.
          */
         selectedValuePath: string;
         /**
-         * Gets or sets the name of the property used to control the CheckBoxes
-         * placed next to each item.
+         * Gets or sets the name of the property used to control
+         * check boxes placed next to each item.
          *
          * Use this property to create multi-select LisBoxes.
-         * When an item is checked or unchecked, the control raises the @see:itemChecked event.
-         * Use the @see:selectedItem property to retrieve the item that was checked or unchecked,
-         * or use the @see:checkedItems property to retrieve the list of items that are currently
-         * checked.
+         *
+         * When an item is checked or unchecked, the control raises the
+         * @see:itemChecked event.
+         *
+         * Use the @see:selectedItem property to retrieve the item that
+         * was checked or unchecked, or use the @see:checkedItems property
+         * to retrieve the list of items that are currently checked.
          */
         checkedMemberPath: string;
         /**
@@ -623,19 +723,19 @@ declare module wijmo.input {
          * The string may be plain text or HTML, depending on the setting
          * of the @see:isContentHtml property.
          *
-         * @param index The index of the item.
+         * @param index The index of the item in the @see:itemsSource.
          */
         getDisplayValue(index: number): string;
         /**
          * Gets the text displayed for the item at a given index (as plain text).
          *
-         * @param index The index of the item.
+         * @param index The index of the item in the @see:itemsSource.
          */
         getDisplayText(index: number): string;
         /**
          * Gets a value that determines whether the item at a given index is enabled.
          *
-         * @param index The index of the item.
+         * @param index The index of the item in the @see:itemsSource.
          */
         isItemEnabled(index: number): boolean;
         /**
@@ -647,7 +747,8 @@ declare module wijmo.input {
          */
         selectedItem: any;
         /**
-         * Gets or sets the value of the @see:selectedItem obtained using the @see:selectedValuePath.
+         * Gets or sets the value of the @see:selectedItem obtained using
+         * the @see:selectedValuePath.
          */
         selectedValue: any;
         /**
@@ -656,8 +757,15 @@ declare module wijmo.input {
         maxHeight: number;
         /**
          * Highlights the selected item and scrolls it into view.
+         *
+         * @param setFocus Whether to set the focus to the list after scrolling
+         * the selected item into view.
          */
-        showSelection(): void;
+        showSelection(setFocus?: boolean): void;
+        /**
+         * Loads the list with items from the current @see:itemsSource.
+         */
+        loadList(): void;
         /**
          * Gets the checked state of an item on the list.
          *
@@ -689,6 +797,14 @@ declare module wijmo.input {
          * Gets or sets an array containing the items that are currently checked.
          */
         checkedItems: any[];
+        /**
+         * Gets the data index of an element within the list.
+         *
+         * @param e Element to search for.
+         * @return The index of the element in the list, or -1 if
+         * the element is not a member of the list.
+         */
+        indexOf(e: HTMLElement): number;
         /**
          * Occurs when the value of the @see:selectedIndex property changes.
          */
@@ -724,11 +840,11 @@ declare module wijmo.input {
         /**
          * Occurs when the current item is checked or unchecked by the user.
          *
-         * This event is raised when the @see:checkedMemberPath is set to the name of a
-         * property to add CheckBoxes to each item in the control.
+         * This event is raised when the @see:checkedMemberPath is set to
+         * the name of a property to add check boxes to each item in the control.
          *
-         * Use the @see:selectedItem property to retrieve the item that was checked or
-         * unchecked.
+         * Use the @see:selectedItem property to retrieve the item that was
+         * checked or unchecked.
          */
         readonly itemChecked: Event;
         /**
@@ -757,10 +873,20 @@ declare module wijmo.input {
          * @param e @see:FormatItemEventArgs that contains the event data.
          */
         onFormatItem(e: FormatItemEventArgs): void;
+        /**
+         * Refreshes the control.
+         *
+         * @param fullUpdate Whether to update the control layout as well as the content.
+         */
+        refresh(fullUpdate?: boolean): void;
+        _getChild(index: number): HTMLElement;
+        _getElementIndex(index: number): number;
         private _setItemChecked(index, checked, notify?);
         private _cvCollectionChanged(sender, e);
         private _cvCurrentChanged(sender, e);
         private _populateList();
+        _createItem(i: number): string;
+        _createHeaderItem(group: wijmo.collections.CollectionViewGroup): string;
         private _click(e);
         private _keydown(e);
         private _keypress(e);
@@ -784,8 +910,8 @@ declare module wijmo.input {
         /**
          * Initializes a new instance of the @see:FormatItemEventArgs class.
          *
-         * @param index Index of the item being formatted.
-         * @param data Data item being formatted.
+         * @param index Index of the item being formatted in the source @see:ICollectionView, or -1 if the item is a group header.
+         * @param data Data item being formatted, or a @see:CollectionViewGroup object if the item is a group header.
          * @param item Element that represents the list item to be formatted.
          */
         constructor(index: number, data: any, item: HTMLElement);
@@ -808,25 +934,32 @@ declare module wijmo.input {
     /**
      * The @see:ComboBox control allows users to pick strings from lists.
      *
-     * The control automatically completes entries as the user types, and allows users
-     * to show a drop-down list with the items available.
+     * The control automatically completes entries as the user types, and
+     * allows users to show a drop-down list with the items available.
      *
-     * Use the @see:ComboBox.itemsSource property to populate the list of options.
-     * The items may be strings or objects. If the items are objects, use the
-     * @see:ComboBox.displayMemberPath to define which property of the items will be
-     * displayed in the list and use the @see:ComboBox.selectedValuePath property to
-     * define which property of the items will be used to set the combo's
-     * @see:ComboBox.selectedValue property.
+     * Use the @see:ComboBox.itemsSource property to populate the list of
+     * options.
+     * The items may be strings or objects. If the items are objects, use
+     * the @see:ComboBox.displayMemberPath to define which property of the
+     * items will be displayed in the list and use the @see:ComboBox.selectedValuePath
+     * property to define which property of the items will be used to set the
+     * combo's @see:ComboBox.selectedValue property.
      *
-     * Use the @see:ComboBox.selectedIndex or the @see:ComboBox.text properties to
-     * determine which item is currently selected.
+     * Use the @see:ComboBox.selectedIndex or the @see:ComboBox.text properties
+     * to determine which item is currently selected.
      *
-     * The @see:ComboBox.isEditable property determines whether users can enter values
-     * that are not present in the list.
+     * The @see:ComboBox.isRequired property determines whether the control
+     * must have a non-null value or whether it can be set to null
+     * (by deleting the content of the control). If the value is set to null,
+     * the @see:ComboBox.selectedIndex is set to -1.
      *
-     * The example below creates a @see:ComboBox control and populates it with a list
-     * of countries. The @see:ComboBox searches for the country as the user types.
-     * The @see:ComboBox.isEditable property is set to false, so the user is forced to
+     * The @see:ComboBox.isEditable property determines whether users can enter
+     * values that are not present in the list.
+     *
+     * The example below creates a @see:ComboBox control and populates it with
+     * a list of countries. The @see:ComboBox searches for the country as the
+     * user types.
+     * The @see:ComboBox.isEditable property is set to false, so the user must
      * select one of the items in the list.
      *
      * The example also shows how to create and populate a @see:ComboBox using
@@ -842,7 +975,6 @@ declare module wijmo.input {
         _composing: boolean;
         _settingText: boolean;
         _pathHdr: Binding;
-        _cvt: HTMLElement;
         _bsCollapse: boolean;
         /**
          * Initializes a new instance of the @see:ComboBox class.
@@ -852,7 +984,18 @@ declare module wijmo.input {
          */
         constructor(element: any, options?: any);
         /**
-         * Gets or sets the array or @see:ICollectionView object that contains the items to select from.
+         * Gets or sets the array or @see:ICollectionView object that contains
+         * the items to select from.
+         *
+         * Setting this property to an array causes the @see:ComboBox to create
+         * an internal @see:ICollectionView object that is exposed by the
+         * @see:ComboBox.collectionView property.
+         *
+         * The @see:ComboBox selection is determined by the current item in its
+         * @see:ComboBox.collectionView. By default, this is the first item in
+         * the collection. You may change this behavior by setting the
+         * @see:wijmo.collections.CollectionView.currentItem property of the
+         * @see:ComboBox.collectionView to null.
          */
         itemsSource: any;
         /**
@@ -860,19 +1003,32 @@ declare module wijmo.input {
          */
         readonly collectionView: collections.ICollectionView;
         /**
-         * Gets or sets the name of the property to use as the visual representation of the items.
+         * Gets or sets a value that determines whether the drop-down @see:ListBox
+         * should include group header items to delimit data groups.
+         *
+         * Data groups are created by modifying the @see:ICollectionView.groupDescriptions
+         * property of the @see:ICollectionView object used as an @see:itemsSource.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        showGroups: boolean;
+        /**
+         * Gets or sets the name of the property to use as the visual
+         * representation of the items.
          */
         displayMemberPath: string;
         /**
-         * Gets or sets the name of a property to use for getting the value displayed in the
-         * control's input element.
+         * Gets or sets the name of a property to use for getting the value
+         * displayed in the control's input element.
          *
-         * The default value for this property is null, which causes the control to display
-         * the same content in the input element as in the selected item of the drop-down list.
+         * The default value for this property is null, which causes the control
+         * to display the same content in the input element as in the selected
+         * item of the drop-down list.
          *
-         * Use this property if you want to de-couple the value shown in the input element
-         * from the values shown in the drop-down list. For example, the input element could
-         * show an item's name and the drop-down list could show additional detail.
+         * Use this property if you want to de-couple the value shown in the
+         * input element from the values shown in the drop-down list. For example,
+         * the input element could show an item's name and the drop-down list
+         * could show additional detail.
          */
         headerPath: string;
         /**
@@ -883,17 +1039,19 @@ declare module wijmo.input {
         /**
          * Gets or sets a value indicating whether the drop-down list displays
          * items as plain text or as HTML.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isContentHtml: boolean;
         /**
-         * Gets or sets a function used to customize the values shown in the
-         * drop-down list.
+         * Gets or sets a function used to customize the values shown in
+         * the drop-down list.
          * The function takes two arguments, the item index and the default
          * text or html, and returns the new text or html to display.
          *
          * If the formatting function needs a scope (i.e. a meaningful 'this'
-         * value), then remember to set the filter using the 'bind' function to
-         * specify the 'this' object. For example:
+         * value), then remember to set the filter using the 'bind' function
+         * to specify the 'this' object. For example:
          *
          * <pre>
          *   comboBox.itemFormatter = customItemFormatter.bind(this);
@@ -914,21 +1072,33 @@ declare module wijmo.input {
          */
         readonly formatItem: Event;
         /**
-         * Gets or sets the index of the currently selected item in the drop-down list.
+         * Gets or sets the index of the currently selected item in
+         * the drop-down list.
          */
         selectedIndex: number;
         /**
-         * Gets or sets the item that is currently selected in the drop-down list.
+         * Gets or sets the item that is currently selected in
+         * the drop-down list.
          */
         selectedItem: any;
         /**
-         * Gets or sets the value of the @see:selectedItem, obtained using the @see:selectedValuePath.
+         * Gets or sets the value of the @see:selectedItem, obtained
+         * using the @see:selectedValuePath.
+         *
+         * If the @see:selectedValuePath property is not set, gets or
+         * sets the value of the control's @see:selectedItem property.
+         *
+         * If the @see:itemsSource property is not set, gets or sets
+         * the value of the control's @see:text property.
          */
         selectedValue: any;
         /**
          * Gets or sets a value that determines whether the content of the
          * input element should be restricted to items in the @see:itemsSource
          * collection.
+         *
+         * This property defaults to false on the @see:ComboBox control, and
+         * to true on the @see:AutoComplete and @see:InputTime controls.
          */
         isEditable: boolean;
         /**
@@ -939,7 +1109,8 @@ declare module wijmo.input {
          * Gets or sets the maximum width of the drop-down list.
          *
          * The width of the drop-down list is also limited by the width of
-         * the control itself (that value represents the drop-down's minimum width).
+         * the control itself (that value represents the drop-down's
+         * minimum width).
          */
         maxDropDownWidth: number;
         /**
@@ -982,8 +1153,8 @@ declare module wijmo.input {
         onIsDroppedDownChanging(e: CancelEventArgs): boolean;
         onIsDroppedDownChanged(e?: EventArgs): void;
         protected _updateBtn(): void;
-        protected _btnclick(e: MouseEvent): void;
         protected _createDropDown(): void;
+        protected _wheel(e: WheelEvent): void;
         protected _dropDownClick(e: MouseEvent): void;
         protected _setText(text: string, fullMatch: boolean): void;
         protected _findNext(text: string, step: number): number;
@@ -1037,15 +1208,21 @@ declare module wijmo.input {
         constructor(element: any, options?: any);
         /**
          * Gets or sets the minimum input length to trigger auto-complete suggestions.
+         *
+         * The default value for this property is <b>2</b>.
          */
         minLength: number;
         /**
          * Gets or sets the maximum number of items to display in the drop-down list.
+         *
+         * The default value for this property is <b>6</b>.
          */
         maxItems: number;
         /**
          * Gets or sets the delay, in milliseconds, between when a keystroke occurs
          * and when the search is performed.
+         *
+         * The default value for this property is <b>500</b> milliseconds.
          */
         delay: number;
         /**
@@ -1053,11 +1230,12 @@ declare module wijmo.input {
          * when searching for items.
          *
          * By default, the @see:AutoComplete control searches for matches against the
-         * property specified by the @see:displayMemberPath property. The @see:searchMemberPath
-         * property allows you to search using additional properties.
+         * property specified by the @see:displayMemberPath property.
+         * The @see:searchMemberPath property allows you to search using additional
+         * properties.
          *
-         * For example, the code below would cause the control to display the company name
-         * and search by company name, symbol, and country:
+         * For example, the code below would cause the control to display the company
+         * name and search by company name, symbol, and country:
          *
          * <pre>var ac = new wijmo.input.AutoComplete('#autoComplete', {
          *   itemsSource: companies,
@@ -1121,26 +1299,32 @@ declare module wijmo.input {
      * menu.header = 'Main Menu';
      * menu.itemsSource = ['option 1', 'option 2', 'option 3'];
      * menu.itemClicked.addHandler(function(sender, args) {
-     * var menu = sender;
+     *   var menu = sender;
      *   alert('Thanks for selecting item ' + menu.selectedIndex + ' from menu ' + menu.header + '!');
      * });
      * </pre>
      *
-     * The example below illustrates how you can create value pickers, command-based menus, and
-     * menus that respond to the @see:Menu.itemClicked event. The menus in this example are based
-     * on HTML <b>&lt;select;&gt</b> and <b>&lt;option;&gt</b> elements.
+     * The example below shows how you can create menus that handle the
+     * @see:itemClicked event.
      *
-     * @fiddle:BX853
+     * @fiddle:5fe93pm8
      */
     class Menu extends ComboBox {
         _hdr: HTMLElement;
         _closing: boolean;
-        _command: any;
+        _cmd: any;
         _cmdPath: string;
         _cmdParamPath: string;
-        _isButton: boolean;
+        _subPath: string;
         _defaultItem: any;
         _owner: HTMLElement;
+        _isButton: boolean;
+        _openOnHover: boolean;
+        _toHover: any;
+        _subMenu: Menu;
+        _hoverEnterBnd: any;
+        _hoverLeaveBnd: any;
+        _hoverOverBnd: any;
         /**
          * Initializes a new instance of the @see:Menu class.
          *
@@ -1162,6 +1346,11 @@ declare module wijmo.input {
          *      that determines whether the controller can execute the command.
          *      If this method returns false, the menu option is disabled.</li>
          * </ul>
+         *
+         * The parameter passed to the command is defined by the value of the
+         * @see:commandParameterPath property of the current item. If the
+         * @see:commandParameterPath property is not specified, the parameter
+         * passed is the item itself.
          *
          * You can also set commands on individual items using the @see:commandPath
          * property.
@@ -1186,8 +1375,22 @@ declare module wijmo.input {
          */
         commandParameterPath: string;
         /**
+         * Gets or sets the name of the property that contains an array with items
+         * to be displayed in a sub-menu.
+         */
+        subItemsPath: string;
+        /**
+         * Gets or sets a value that determines whether the menu (and any sub-menus)
+         * should open and close automatically when the mouse hovers over the items.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        openOnHover: boolean;
+        /**
          * Gets or sets a value that determines whether this @see:Menu should act
          * as a split button instead of a regular menu.
+         *
+         * The default value for this property is <b>false</b>.
          *
          * The difference between regular menus and split buttons is what happens
          * when the user clicks the menu header.
@@ -1279,13 +1482,21 @@ declare module wijmo.input {
         onItemClicked(e?: EventArgs): void;
         refresh(fullUpdate?: boolean): void;
         onIsDroppedDownChanged(e?: EventArgs): void;
+        _getSubItems(item: any): any[];
+        _formatMenuItem(s: ListBox, e: FormatItemEventArgs): void;
         protected _keydown(e: KeyboardEvent): void;
         protected _dropDownClick(e: MouseEvent): void;
+        private _showSubMenu();
         private _raiseCommand(e?);
         private _getCommand(item);
+        private _getCommandParm(item);
         private _executeCommand(cmd, parm);
         private _canExecuteCommand(cmd, parm);
         private _enableDisableItems();
+        private _clearHover();
+        private _hoverEnter(e);
+        private _hoverLeave(e);
+        private _hoverOver(e);
     }
 }
 
@@ -1313,6 +1524,11 @@ declare module wijmo.input {
      *
      * Alternatively, you can provide a function to generate the header content based
      * on whatever criteria your application requires (@see:MultiSelect.headerFormatter).
+     *
+     * The example below shows how you can use a @see:MultiSelect control to select
+     * multiple items from a drop-down list:
+     *
+     * @fiddle:44w7fob2
      */
     class MultiSelect extends ComboBox {
         private _maxHdrItems;
@@ -1334,6 +1550,8 @@ declare module wijmo.input {
         /**
          * Gets or sets whether the control should display a "Select All" checkbox
          * above the items to select or de-select all items.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showSelectAllCheckbox: boolean;
         /**
@@ -1374,7 +1592,8 @@ declare module wijmo.input {
          */
         headerFormat: string;
         /**
-         * Gets or sets a function that gets the HTML in the control header.
+         * Gets or sets a function that gets the text displayed in the control
+         * header.
          *
          * By default, the control header content is determined based on the
          * @see:placeholder, @see:maxHeaderItems, and on the current selection.
@@ -1396,10 +1615,10 @@ declare module wijmo.input {
          * Raises the @see:checkedItemsChanged event.
          */
         onCheckedItemsChanged(e?: EventArgs): void;
+        onIsDroppedDownChanged(e?: EventArgs): void;
         protected _createDropDown(): void;
         isReadOnly: boolean;
         refresh(fullUpdate?: boolean): void;
-        onIsDroppedDownChanged(e?: EventArgs): void;
         protected _setText(text: string, fullMatch: boolean): void;
         protected _keydown(e: KeyboardEvent): void;
         private _updateHeader();
@@ -1410,13 +1629,18 @@ declare module wijmo.input {
     /**
      * The @see:MultiAutoComplete control allows users to pick items from lists
      * that contain custom objects or simple strings.
+     *
+     * The example below shows how you can use a @see:MultiAutoComplete to
+     * enter multiple items picked from a single list:
+     *
+     * @fiddle:94c6wb77
      */
     class MultiAutoComplete extends AutoComplete {
         private _wjTpl;
         private _wjInput;
         private _helperInput;
         private _selItems;
-        private _maxtems;
+        private _maxSelItems;
         private _lastInputValue;
         private _selPath;
         private _notAddItm;
@@ -1429,7 +1653,7 @@ declare module wijmo.input {
          */
         constructor(element: any, options?: any);
         /**
-         * Override the value for indicating control should not display a drop-down button.
+         * Overridden to prevent the control from showing the drop-down button.
          */
         showDropDownButton: boolean;
         /**
@@ -1527,28 +1751,34 @@ declare module wijmo.input {
      *   &lt;button class="wj-hide-ok" ng-click="handleOK()"&gt;OK&lt;/button&gt;
      *   &lt;button class="wj-hide-cancel"&gt;Cancel&lt;/button&gt;
      * &lt;/wj-popup&gt;</pre>
+     *
+     * The example below shows how you can use the @see:Popup control to implement
+     * popups attached to owner elements and dialogs:
+     *
+     * @fiddle:j9t6s1xp
      */
     class Popup extends Control {
-        _owner: HTMLElement;
-        _modal: boolean;
-        _showTrigger: PopupTrigger;
-        _hideTrigger: PopupTrigger;
-        _hideAnim: any;
-        _fadeIn: boolean;
-        _fadeOut: boolean;
-        _removeOnHide: boolean;
-        _draggable: boolean;
-        _dragged: boolean;
-        _bkdrop: HTMLDivElement;
-        _result: any;
-        _resultEnter: any;
-        _callback: Function;
-        _refreshing: boolean;
-        _visible: boolean;
-        _wasVisible: boolean;
-        _composing: boolean;
-        _ownerClickBnd: any;
-        _ownerMousedownBnd: any;
+        static _DRAG_THRESHOLD: number;
+        protected _owner: HTMLElement;
+        protected _modal: boolean;
+        protected _showTrigger: PopupTrigger;
+        protected _hideTrigger: PopupTrigger;
+        protected _hideAnim: any;
+        protected _fadeIn: boolean;
+        protected _fadeOut: boolean;
+        protected _removeOnHide: boolean;
+        protected _draggable: boolean;
+        protected _dragged: boolean;
+        protected _bkdrop: HTMLDivElement;
+        protected _result: any;
+        protected _resultEnter: any;
+        protected _callback: Function;
+        protected _refreshing: boolean;
+        protected _visible: boolean;
+        protected _wasVisible: boolean;
+        protected _composing: boolean;
+        protected _ownerClickBnd: any;
+        protected _ownerMousedownBnd: any;
         /**
          * Initializes a new instance of the @see:Popup class.
          *
@@ -1593,12 +1823,16 @@ declare module wijmo.input {
         hideTrigger: PopupTrigger;
         /**
          * Gets or sets a value that determines whether the @see:Popup should
-         * use a fade-out animation when it is shown.
+         * use a fade-in animation when it is shown.
+         *
+         * The default value for this property is <b>true</b>.
          */
         fadeIn: boolean;
         /**
          * Gets or sets a value that determines whether the @see:Popup should
          * use a fade-out animation when it is hidden.
+         *
+         * The default value for this property is <b>true</b>.
          */
         fadeOut: boolean;
         /**
@@ -1606,7 +1840,7 @@ declare module wijmo.input {
          * should be removed from the DOM when the @see:Popup is hidden, as
          * opposed to being hidden.
          *
-         * This property is set to true by default.
+         * The default value for this property is <b>true</b>.
          */
         removeOnHide: boolean;
         /**
@@ -1621,6 +1855,8 @@ declare module wijmo.input {
          * backdrop to dismiss the dialog. In this case, the dialog will close only
          * if the @see:Popup.hide method is called or if the user presses the Escape
          * key.
+         *
+         * The default value for this property is <b>false</b>.
          */
         modal: boolean;
         /**
@@ -1644,14 +1880,17 @@ declare module wijmo.input {
          *   }
          * &lt;/style&gt;
          * </pre>
+         *
+         * The default value for this property is <b>false</b>.
          */
         isDraggable: boolean;
         /**
-         * Gets or sets a value that can be used for handling the content of the @see:Popup
-         * after it is hidden.
+         * Gets or sets a value used as a return value for the @see:Popup after
+         * it is hidden.
          *
-         * This property is set to null when the @see:Popup is displayed, and it can be
-         * set in response to button click events or in the call to the @see:hide method.
+         * This property is set to null when the @see:Popup is displayed. It can be
+         * set in response to button click events or in the call to the @see:hide
+         * method to provide a result value to callers.
          */
         dialogResult: any;
         /**
@@ -1696,6 +1935,7 @@ declare module wijmo.input {
         show(modal?: boolean, handleResult?: Function): void;
         /**
          * Hides the @see:Popup.
+         *
          * @param dialogResult Optional value assigned to the @see:dialogResult property
          * before closing the @see:Popup.
          */
@@ -1767,11 +2007,12 @@ declare module wijmo.input {
      * @fiddle:vgc3Y
      */
     class InputDate extends DropDown {
-        _calendar: Calendar;
-        _value: Date;
-        _format: string;
-        _calChanged: boolean;
-        _msk: _MaskProvider;
+        private _calendar;
+        private _value;
+        private _format;
+        private _calChanged;
+        private _calChanging;
+        private _msk;
         /**
          * Initializes a new instance of the @see:InputDate class.
          *
@@ -1781,6 +2022,8 @@ declare module wijmo.input {
         constructor(element: any, options?: any);
         /**
          * Gets or sets the current date.
+         *
+         * The default value for this property is the current date.
          */
         value: Date;
         /**
@@ -1801,10 +2044,15 @@ declare module wijmo.input {
          *   selectionMode: 'Month',
          *   format: 'MMM yyyy'
          * });</pre>
+         *
+         * The default value for this property is <b>DateSelectionMode.Day</b>.
          */
         selectionMode: DateSelectionMode;
         /**
          * Gets or sets the earliest date that the user can enter.
+         *
+         * The default value for this property is <b>null</b>, which means no earliest
+         * date is defined.
          *
          * For details about using the @see:min and @see:max properties, please see the
          * <a href="static/minMax.html">Using the min and max properties</a> topic.
@@ -1813,16 +2061,39 @@ declare module wijmo.input {
         /**
          * Gets or sets the latest date that the user can enter.
          *
+         * The default value for this property is <b>null</b>, which means no latest
+         * date is defined.
+         *
          * For details about using the @see:min and @see:max properties, please see the
          * <a href="static/minMax.html">Using the min and max properties</a> topic.
          */
         max: Date;
+        /**
+         * Gets or sets a value that determines whether the calendar buttons
+         * should act as repeat buttons, firing repeatedly as the button
+         * remains pressed.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        repeatButtons: boolean;
+        /**
+         * Gets or sets a value that determines whether the drop-down
+         * calendar should display a list of years when the user clicks
+         * the header element on the year calendar.
+         *
+         * The default value for this property is <b>true</b>.
+         */
+        showYearPicker: boolean;
         /**
          * Gets or sets the format used to display the selected date.
          *
          * The format string is expressed as a .NET-style
          * <a href="http://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx" target="_blank">
          * Date format string</a>.
+         *
+         * The default value for this property is <b>d</b>, the culture-dependent
+         * short date pattern (e.g. 6/15/2020 in the US, 15/6/2020 in France, or
+         * 2020/6/15 in Japan).
          */
         format: string;
         /**
@@ -1850,8 +2121,8 @@ declare module wijmo.input {
         /**
          * Gets or sets the "type" attribute of the HTML input element hosted by the control.
          *
-         * By default, this property is set to "tel", a value that causes mobile devices to
-         * show a numeric keypad that includes a negative sign and a decimal separator.
+         * By default, this property is set to <b>"tel"</b>, a value that causes mobile  devices
+         * to show a numeric keypad that includes a negative sign and a decimal separator.
          *
          * Use this property to change the default setting if the default does not work well
          * for the current culture, device, or application. In those cases, try changing
@@ -2039,9 +2310,11 @@ declare module wijmo.input {
          */
         onValueChanged(e?: EventArgs): void;
         onItemsSourceChanged(e?: EventArgs): void;
-        protected _updateInputSelection(start: number): void;
         refresh(fullUpdate?: boolean): void;
         onSelectedIndexChanged(e?: EventArgs): void;
+        _clamp(value: Date): Date;
+        protected _wheel(e: WheelEvent): void;
+        protected _updateInputSelection(start: number): void;
         protected _updateItems(): void;
         private _getTime(value);
         protected _keydown(e: KeyboardEvent): void;
@@ -2064,11 +2337,16 @@ declare module wijmo.input {
      *
      * Use the @see:InputDateTime.value property to gets or set the currently selected
      * date/time.
+     *
+     * The example below shows how you can use an @see:InputDateTime control to edit
+     * dates and times using a single control:
+     *
+     * @fiddle:465gmuL2
      */
     class InputDateTime extends InputDate {
-        _btnTm: HTMLElement;
-        _inputTime: InputTime;
-        _hadFocus: boolean;
+        private _btnTm;
+        private _inputTime;
+        private _hadFocus;
         /**
          * Gets or sets the template used to instantiate @see:InputDateTime controls.
          */
@@ -2113,7 +2391,7 @@ declare module wijmo.input {
         protected _updateBtn(): void;
         protected _clamp(value: Date): Date;
         protected _commitText(): void;
-        protected _setDropdown(e: HTMLElement): void;
+        protected _setDropdown(e: HTMLElement): boolean;
         protected _updateDropDown(): void;
     }
 }
@@ -2160,6 +2438,7 @@ declare module wijmo.input {
         _chrNeg: string;
         _chrPls: string;
         _chrPct: string;
+        _chrTho: string;
         _fmtSpc: string;
         _fmtPrc: number;
         _rxSym: RegExp;
@@ -2195,8 +2474,8 @@ declare module wijmo.input {
          * for the current culture, device, or application. In those cases, try changing
          * the value to "number" or "text."
          *
-         * Note that input elements with type "number" prevent selection in Chrome and therefore
-         * is not recommended. For more details, see this link:
+         * Note that input elements with type "number" prevent selection in Chrome and
+         * therefore that type is not recommended. For more details, see this link:
          * http://stackoverflow.com/questions/21177489/selectionstart-selectionend-on-input-type-number-no-longer-allowed-in-chrome
          */
         inputType: string;
@@ -2205,13 +2484,18 @@ declare module wijmo.input {
          */
         value: number;
         /**
-         * Gets or sets a value indicating whether the control value must be a number or whether it
-         * can be set to null (by deleting the content of the control).
+         * Gets or sets a value indicating whether the control value must be
+         * a number or whether it can be set to null (by deleting the content
+         * of the control).
+         *
+         * The default value for this property is <b>true</b>.
          */
         isRequired: boolean;
         /**
          * Gets or sets a value that indicates whether the user can modify
          * the control value using the mouse and keyboard.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isReadOnly: boolean;
         /**
@@ -2253,18 +2537,29 @@ declare module wijmo.input {
          * Gets or sets a value indicating whether the control displays spinner buttons
          * to increment or decrement the value (the step property must be set to a
          * value other than zero).
+         *
+         * The default value for this property is <b>true</b>.
          */
         showSpinner: boolean;
         /**
          * Gets or sets a value that determines whether the spinner buttons
          * should act as repeat buttons, firing repeatedly as the button
          * remains pressed.
+         *
+         * The default value for this property is <b>true</b>.
          */
         repeatButtons: boolean;
         /**
          * Sets the focus to the control and selects all its content.
          */
         selectAll(): void;
+        /**
+         * Returns a value within the range defined by the @see:min and @see:max
+         * properties.
+         *
+         * @param value Value to clamp.
+         */
+        clamp(value: number): number;
         /**
          * Occurs when the value of the @see:text property changes.
          */
@@ -2287,7 +2582,6 @@ declare module wijmo.input {
         onLostFocus(e?: EventArgs): void;
         refresh(fullUpdate?: boolean): void;
         private _updateSymbols();
-        private _clamp(value);
         private _isNumeric(chr, digitsOnly);
         private _getInputRange(digitsOnly);
         private _flipSign();
@@ -2298,7 +2592,7 @@ declare module wijmo.input {
         protected _setText(text: string): void;
         protected _keypress(e: KeyboardEvent): void;
         protected _keydown(e: KeyboardEvent): void;
-        protected _input(e: any): void;
+        protected _input(): void;
         protected _clickSpinner(e: MouseEvent): void;
         protected _updateAria(): void;
     }
@@ -2306,13 +2600,16 @@ declare module wijmo.input {
 
 declare module wijmo.input {
     /**
-     * The @see:InputMask control provides a way to govern what a user is allowed to input.
+     * The @see:InputMask control provides a way to govern what a user is allowed
+     * to enter.
      *
      * The control prevents users from accidentally entering invalid data and
-     * saves time by skipping over literals (such as slashes in dates) as the user types.
+     * saves time by skipping over literals (such as slashes in dates) as the
+     * user types.
      *
-     * The mask used to validate the input is defined by the @see:InputMask.mask property,
-     * which may contain one or more of the following special characters:
+     * The mask used to validate the input is defined by the @see:InputMask.mask
+     * property, which may contain one or more of the following special
+     * characters:
      *
      *  <dl class="dl-horizontal">
      *      <dt>0</dt>      <dd>Digit.</dd>
@@ -2342,6 +2639,11 @@ declare module wijmo.input {
      *      <dt>H</dt>      <dd>Any SBCS character.</dd>
      *      <dt>All others</dt><dd>Literals.</dd>
      *  </dl>
+     *
+     * The example below shows how you can use the @see:InputMask control to
+     * edit strings with custom formats:
+     *
+     * @fiddle:j6er01bx
      */
     class InputMask extends Control {
         _tbx: HTMLInputElement;
@@ -2365,6 +2667,13 @@ declare module wijmo.input {
          * attributes of the input element.
          */
         readonly inputElement: HTMLInputElement;
+        /**
+         * Gets or sets the "type" attribute of the HTML input element hosted
+         * by the control.
+         *
+         * The default value for this property is <b>text</b>.
+         */
+        inputType: string;
         /**
          * Gets or sets the text currently shown in the control.
          */
@@ -2400,11 +2709,15 @@ declare module wijmo.input {
         /**
          * Gets or sets a value indicating whether the control value
          * must be a non-empty string.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isRequired: boolean;
         /**
          * Gets or sets a value that indicates whether the user can modify
          * the control value using the mouse and keyboard.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isReadOnly: boolean;
         /**
@@ -2435,12 +2748,12 @@ declare module wijmo.input {
      *
      * Use the @see:value property to get or set the currently selected color.
      *
-     * @fiddle:84xvsz90
+     * @fiddle:z84ebpec
      */
     class InputColor extends DropDown {
-        _ePreview: HTMLElement;
-        _colorPicker: ColorPicker;
-        _value: string;
+        private _ePreview;
+        private _colorPicker;
+        private _value;
         /**
          * Initializes a new instance of the @see:InputColor class.
          *
@@ -2459,6 +2772,8 @@ declare module wijmo.input {
         /**
          * Gets or sets a value indicating whether the @see:ColorPicker allows users
          * to edit the color's alpha channel (transparency).
+         *
+         * The default value for this property is <b>true</b>.
          */
         showAlphaChannel: boolean;
         /**
@@ -2481,6 +2796,7 @@ declare module wijmo.input {
          * Raises the @see:valueChanged event.
          */
         onValueChanged(e?: EventArgs): void;
+        onIsDroppedDownChanged(e?: EventArgs): void;
         protected _createDropDown(): void;
         protected _keydown(e: KeyboardEvent): void;
         protected _commitText(): void;

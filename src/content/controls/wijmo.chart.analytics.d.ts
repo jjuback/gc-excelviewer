@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -608,6 +608,7 @@ declare module wijmo.chart.analytics {
         private _paddings;
         private _plusBindingValues;
         private _minusBindingValues;
+        private _errorBarEles;
         /**
          * Initializes a new instance of the @see:ErrorBar class.
          *
@@ -647,6 +648,12 @@ declare module wijmo.chart.analytics {
         readonly _showPlus: boolean;
         readonly _showMinus: boolean;
         private _rendering(sender, args);
+        /**
+         * Gets the plot element that corresponds to the specified point index.
+         *
+         * @param pointIndex The index of the data point.
+         */
+        getPlotElement(pointIndex: number): any;
     }
 }
 

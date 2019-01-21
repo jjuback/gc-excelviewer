@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'The Wijmo license in this application is not valid for the <b>{control}</b> control.',
             ver: 'The Wijmo license in this application is not valid for the version in use. The license version is <b>{licVer}</b>; the product version is <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} элементтер таңдалған',
-            selectAll: 'Бәрін бөлектеу'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Күнтізбе',
+                monthView: 'Ай көрінісі',
+                yearView: '"Жыл" көрінісі',
+                prvMo: 'Алдыңғы ай',
+                today: 'Бүгін',
+                nxtMo: 'Келесі ай',
+                prvYr: 'Алдыңғы жылда',
+                currMo: 'Current Month',
+                nxtYr: 'Кeлесі жыл',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} элемент)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} элемент)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Group'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle Row Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Edit Filter for Column',
+                dialog: 'Filter Editor for Column',
+                asc: 'Sort Column in Ascending Order',
+                dsc: 'Sort Column in Descending Order',
+                search: 'Search Item List',
+                op1: 'First Condition Operator',
+                val1: 'First Condition Value',
+                and: 'Require both Conditions',
+                or: 'Require either Condition',
+                op2: 'Second Condition Operator',
+                val2: 'Second Condition Value'
+            },
             // filter
-            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 Артуы бойынша',
             descending: '\u2193 Кемуі бойынша',
             apply: 'Қолдану',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Тең', op: 0 },
                 { name: 'Тең емес', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle Calendar',
+                tglTime: 'Toggle Time List'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Increase Value',
+                decVal: 'Decrease Value'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} элементтер таңдалған',
+            selectAll: 'Бәрін бөлектеу'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} item',
                 row: 'Жол',
                 col: 'БАҒАН'
+            },
+            Slicer: {
+                multiSelect: 'Multi-Select',
+                clearFilter: 'Сүзгіні жою'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Мәнді таңдау)',
             apply: 'Қолдану',
             errorOccured: 'Қате туындады.'
+        },
+        FlexSheet: {
+            insertRow: 'Жол кірістіру',
+            deleteRow: 'Delete Row',
+            insertCol: 'Бағанды кірістіру',
+            deleteCol: 'Delete Column',
+            convertTable: 'Convert Table',
+            copyCells: 'Copy Cells',
+            fillSeries: 'Fill Series',
+            fillFormat: 'Fill Formatting Only',
+            fillWithoutFormat: 'Fill Without Formatting'
         }
     };
     var updc = window['wijmo']._updateCulture;

@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////////
+// cyborg theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #424242;
+$wj-txt: #fff;
+$wj-bdr-rad: 4px;
+
+$wj-hdr-bkg: #222222;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #2a9fd6;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #77afc9;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #777777;
+$wj-cell-grp-txt: #dddddd;
+$wj-cell-frz: #66b308;
+$wj-cell-bdr: none;
+
+$wj-btn-bkg: #424242;
+$wj-btn-hvr: #282828;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #202020;
+$wj-tooltip-txt: #bbbbbb;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

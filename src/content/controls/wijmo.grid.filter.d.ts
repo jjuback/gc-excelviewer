@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -34,9 +34,9 @@ declare module wijmo.grid.filter {
      */
     class ValueFilter implements IColumnFilter {
         private _col;
-        private _bnd;
         private _values;
         private _filterText;
+        private _xValueSearch;
         private _maxValues;
         private _uniqueValues;
         private _sortValues;
@@ -56,6 +56,18 @@ declare module wijmo.grid.filter {
          * Gets or sets a string used to filter the list of display values.
          */
         filterText: string;
+        /**
+         * Gets or sets a value that determines whether the filter should
+         * include only values selected by the @see:filterText property.
+         *
+         * This property is set to true by default, which matches Excel's
+         * behavior.
+         *
+         * Set it to false to disable this behavior, so searching only affects
+         * which items are displayed on the list and not which items are
+         * included in the filter.
+         */
+        exclusiveValueSearch: boolean;
         /**
          * Gets or sets the maximum number of elements on the list of display values.
          *
@@ -150,16 +162,16 @@ declare module wijmo.grid.filter {
      * rarely use it directly.
      */
     class ValueFilterEditor extends Control {
+        private _filter;
+        private _toText;
+        private _filterText;
+        private _view;
         private _divFilter;
         private _cmbFilter;
         private _cbSelectAll;
         private _spSelectAll;
         private _divValues;
         private _lbValues;
-        private _filter;
-        private _toText;
-        private _filterText;
-        private _view;
         /**
          * Gets or sets the template used to instantiate @see:ColumnFilterEditor controls.
          */
@@ -188,6 +200,7 @@ declare module wijmo.grid.filter {
          * Updates filter to reflect the current editor values.
          */
         updateFilter(): void;
+        private _getItems();
         private _filterTextChanged();
         private _filterValues(value);
         private _cbSelectAllClicked();
@@ -207,7 +220,6 @@ declare module wijmo.grid.filter {
      */
     class ConditionFilter implements IColumnFilter {
         private _col;
-        private _bnd;
         private _c1;
         private _c2;
         private _and;
@@ -229,6 +241,8 @@ declare module wijmo.grid.filter {
         /**
          * Gets a value that indicates whether to combine the two conditions
          * with an AND or an OR operator.
+         *
+         * The default value for this property is <b>true</b>.
          */
         and: boolean;
         /**
@@ -316,8 +330,8 @@ declare module wijmo.grid.filter {
          * Updates filter to reflect the current editor values.
          */
         updateFilter(): void;
-        private _createOperatorCombo(element);
-        private _createValueInput(e);
+        private _createOperatorCombo(element, label);
+        private _createValueInput(e, label);
         private _hasDatePart(fmt);
         private _hasTimePart(fmt);
         private _btnAndOrChanged(e);
@@ -330,7 +344,8 @@ declare module wijmo.grid.filter {
     /**
      * Defines a filter condition.
      *
-     * This class is used by the @see:FlexGridFilter class; you will rarely have to use it directly.
+     * This class is used by the @see:FlexGridFilter class;
+     * you will rarely have to use it directly.
      */
     class FilterCondition {
         private _op;
@@ -590,10 +605,18 @@ declare module wijmo.grid.filter {
      *
      * The @see:FlexGridFilter class depends on the <b>wijmo.grid</b> and
      * <b>wijmo.input</b> modules.
+     *
+     * The example below shows how you can use a @see:FlexGridFilter to add
+     * filtering to a @see:FlexGrid control:
+     *
+     * @fiddle:1ttsyag4
+     *
+     * The @see:FlexGridFilter class relies on the filtering functionality
+     * provided by the @see:wijmo.collections.CollectionView class, and
+     * therefore can be used only with bound grids.
      */
     class FlexGridFilter {
         static _WJC_FILTER: string;
-        static _filterGlyph: HTMLElement;
         private _g;
         private _filters;
         private _filterColumns;
@@ -602,6 +625,7 @@ declare module wijmo.grid.filter {
         private _showIcons;
         private _showSort;
         private _defFilterType;
+        private _xValueSearch;
         private _tmd;
         /**
          * Initializes a new instance of the @see:FlexGridFilter class.
@@ -628,6 +652,8 @@ declare module wijmo.grid.filter {
          *
          * If you set this property to false, then you are responsible for providing
          * a way for users to edit, clear, and apply the filters.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showFilterIcons: boolean;
         /**
@@ -637,6 +663,8 @@ declare module wijmo.grid.filter {
          * By default, the editor shows sort buttons like Excel does. But since users
          * can sort columns by clicking their headers, sort buttons in the filter editor
          * may not be desirable in some circumstances.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showSortButtons: boolean;
         /**
@@ -660,10 +688,29 @@ declare module wijmo.grid.filter {
          *     cf = f.getColumnFilter(col);
          * cf.filterType = wijmo.grid.filter.FilterType.Value;
          * </pre>
+         *
+         * The default value for this property is <b>FilterType.Both</b>.
          */
         defaultFilterType: FilterType;
         /**
+         * Gets or sets a value that determines whether the filter should
+         * include only values selected by the @see:ValueFilter.filterText
+         * property.
+         *
+         * This property is set to true by default, which matches Excel's
+         * behavior.
+         *
+         * Set it to false to disable this behavior, so searching only affects
+         * which items are displayed on the list and not which items are
+         * included in the filter.
+         */
+        exclusiveValueSearch: boolean;
+        /**
          * Gets or sets the current filter definition as a JSON string.
+         *
+         * The @see:filterDefinition includes information about all
+         * currently active column filters. It does not include data maps
+         * because data maps are not serializable.
          */
         filterDefinition: string;
         /**
@@ -680,8 +727,10 @@ declare module wijmo.grid.filter {
          * @param col The @see:Column that contains the filter to edit.
          * @param ht A @see:wijmo.grid.HitTestInfo object containing the range of the cell
          * that triggered the filter display.
+         * @param refElem An HTMLElement to use as a reference for positioning the editor.
          */
-        editColumnFilter(col: any, ht?: HitTestInfo): void;
+        editColumnFilter(col: any, ht?: HitTestInfo, refElem?: HTMLElement): void;
+        _setAriaExpanded(cell: HTMLElement, value: boolean): void;
         /**
          * Closes the filter editor.
          */
@@ -741,6 +790,7 @@ declare module wijmo.grid.filter {
         _asColumn(col: any): Column;
         private _filter(item);
         private _formatItem(s, e);
+        _addFilterButton(col: Column, cf: ColumnFilter, cell: HTMLElement): void;
         _mousedown(e: MouseEvent): void;
         _click(e: MouseEvent): void;
         private _toggleEditor(e);

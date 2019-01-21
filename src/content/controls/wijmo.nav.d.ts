@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -39,6 +39,21 @@ declare module wijmo.nav {
      *      node's child items (defaults to 'items').</li>
      * </ol>
      *
+     * The @see:TreeView control supports the following keyboard commands:
+     *
+     * <table>
+     *   <thead>
+     *     <tr><th>Key Combination</th><th>Action</th></tr>
+     *   </thead>
+     *   <tbody>
+     *     <tr><td>Up/Down</td><td>Select the previous/next visible node</td></tr>
+     *     <tr><td>Left</td><td>Collapse the selected node if it has child nodes, select the parent node otherwise</td></tr>
+     *     <tr><td>Right</td><td>Expand the selected node if it has child nodes</td></tr>
+     *     <tr><td>Home/End</td><td>Select the first/last visible nodes</td></tr>
+     *     <tr><td>Space</td><td>Toggle the checkbox in the current node (see the @see:showCheckboxes property)</td></tr>
+     *     <tr><td>Other characters</td><td>Search for nodes that contain the text typed (multi-character auto-search)</td></tr>
+     *   </tbody>
+     * </table>
      *
      * The example below builds a simple tree and allows you to see the effect
      * of the TreeView's main properties:
@@ -167,6 +182,8 @@ declare module wijmo.nav {
         imageMemberPath: any;
         /**
          * Gets or sets a value indicating whether items are bound to plain text or HTML.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isContentHtml: boolean;
         /**
@@ -178,19 +195,23 @@ declare module wijmo.nav {
          *
          * See also the @see:checkedItems property and @see:checkedItemsChanged
          * event.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showCheckboxes: boolean;
         /**
          * Gets or sets a value that determines if sibling nodes should be collapsed
          * when a node is expanded.
          *
-         * This property is set to true by default, because in most cases collapsing
-         * nodes that are not in use helps keep the UI clearer.
+         * The default value for this property is <b>true</b>, because in most cases
+         * collapsing nodes that are not in use helps keep the UI clear.
          */
         autoCollapse: boolean;
         /**
          * Gets or sets a value that indicates whether to use animations when expanding
          * or collapsing nodes.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isAnimated: boolean;
         /**
@@ -207,6 +228,8 @@ declare module wijmo.nav {
          *
          * Events: @see:nodeEditStarting, @see:nodeEditStarted, @see:nodeEditEnding,
          * @see:nodeEditEnded.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isReadOnly: boolean;
         /**
@@ -378,6 +401,7 @@ declare module wijmo.nav {
         collapseToLevel(level: number): void;
         /**
          * Loads the tree using data from the current @see:itemsSource.
+         *
          * @param preserveOutlineState Whether to preserve the outline state when loading the
          * tree data. Defaults to false.
          */
@@ -604,6 +628,7 @@ declare module wijmo.nav {
          * @param fullUpdate Indicates whether to update the control layout as well as the content.
          */
         refresh(fullUpdate?: boolean): void;
+        _updateFocus(oldNode: TreeNode): void;
         _raiseCheckedItemsChanged(): void;
         _reload(): void;
         _createNode(dataItem: any): TreeNode;
@@ -976,6 +1001,11 @@ declare module wijmo.nav {
      *
      * Tabs can be selected with the mouse or keyboard, and automatically
      * update the content to reflect the current selection.
+     *
+     * The example below shows how you can use a @see:TabPanel to organize
+     * content into pages:
+     *
+     * @fiddle:17tmuomr
      */
     class TabPanel extends Control {
         private _tabs;
@@ -983,7 +1013,6 @@ declare module wijmo.nav {
         private _toAnim;
         private _animated;
         private _autoSwitch;
-        private _tabIndex;
         private _dRoot;
         private _dTabHeaders;
         private _dTabPanes;
@@ -1017,6 +1046,8 @@ declare module wijmo.nav {
         /**
          * Gets or sets a value that determines whether tab changes should be animated
          * with a fade-in effect.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isAnimated: boolean;
         /**

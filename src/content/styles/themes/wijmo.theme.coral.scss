@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////
+// coral theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #fff;
+$wj-txt: #1b5c74;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #f7f4df;
+$wj-hdr-txt: #1b5c74;
+
+$wj-sel-bkg: #137ba3;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #7dbbd2;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #ede9d0;
+$wj-cell-grp-txt: #1b5c74;
+$wj-cell-frz: #e4f0f5;
+$wj-cell-frz-alt: #d1e6ee;
+
+$wj-btn-bkg: #137ba3;
+$wj-btn-hvr: #189dd1;
+$wj-btn-txt: #fff;
+
+$wj-tooltip: #f7f4df;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licensen i dette program er ikke gyldig for kontrolelementet <b>{control}</b>  .',
             ver: 'Wijmo licensen i dette program er ikke gyldig for versionen i brug. En licensversion er <b>{licVer}</b>, fabrikat gengivelse er  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} varer valgt',
-            selectAll: 'Markér alt'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Månedsvisning',
+                yearView: 'Årsvisning',
+                prvMo: 'Forrige måned',
+                today: 'I dag',
+                nxtMo: 'Næste måned',
+                prvYr: 'Forrige år',
+                currMo: 'Indeværende måned',
+                nxtYr: 'Næste år',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Åbn dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} emner)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} emner)',
+            ariaLabels: {
+                toggleDropDown: 'Åbn Dropdown',
+                toggleGroup: 'Skifte gruppe'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Skift række detaljer'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Rediger Filter for kolonne',
+                dialog: 'Filter Editor for kolonne',
+                asc: 'Sorteringskolonne i stigende rækkefølge',
+                dsc: 'Sorteringskolonne i faldende rækkefølge',
+                search: 'Søg elementlisten',
+                op1: 'Første betingelse operatør',
+                val1: 'Første betingelse værdi',
+                and: 'Kræve begge betingelser',
+                or: 'Kræve enten betingelse',
+                op2: 'Anden betingelse operatør',
+                val2: 'Anden betingelse værdi'
+            },
             // filter
-            ariaLabel: 'Filter Editor for kolonne',
             ascending: '\u2191 Stigende',
             descending: '\u2193 Faldende',
             apply: 'Anvend',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Lig med', op: 0 },
                 { name: 'Ikke lig med', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Skift kalender',
+                tglTime: 'Skift tid liste'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Øge værdi',
+                decVal: 'Formindsk værdien'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} varer valgt',
+            selectAll: 'Markér alt'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} vare',
                 row: 'Række',
                 col: 'Kolonne'
+            },
+            Slicer: {
+                multiSelect: 'Vælg flere',
+                clearFilter: 'Ryd filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Vælg værdi)',
             apply: 'Anvend',
             errorOccured: 'Der opstod en fejl.'
+        },
+        FlexSheet: {
+            insertRow: 'Indsæt række',
+            deleteRow: 'Slet række',
+            insertCol: 'Indsæt kolonne',
+            deleteCol: 'Delete Column',
+            convertTable: 'Konverter tabel',
+            copyCells: 'Kopiere celler',
+            fillSeries: 'Fyld serie',
+            fillFormat: 'Fyld kun formatering',
+            fillWithoutFormat: 'Fyld uden formatering'
         }
     };
     var updc = window['wijmo']._updateCulture;

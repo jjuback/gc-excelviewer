@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,12 +15,14 @@ declare module wijmo.vue2 {
     var WjVueBase: any;
     class WjComponentBehavior {
         static tag: string;
-        static template: string;
+        static render: (createElement: () => any) => any;
         static className: string;
         static classCtor: () => any;
         static parentProp: string;
         static parentInCtor: boolean;
         static siblingId: string;
+        static data: any;
+        static extraProps: string[];
         private static readonly _typeSiblingIdAttr;
         static readonly _behClassProp: string;
         static readonly _behProp: string;
@@ -40,6 +42,7 @@ declare module wijmo.vue2 {
         lhDestroyed(): void;
         protected _createControl(): any;
         protected _initParent(): void;
+        protected _updateControl(property: string, newValue: any): void;
         private _prepareControl();
         private _isChild();
         private _isParentInCtor();
@@ -221,6 +224,10 @@ declare var Vue: any;
  */
 declare module wijmo.vue2 {
     /**
+     * Vue component that encapsulates the @see:wijmo.input.ListBox control.
+     */
+    var WjListBox: any;
+    /**
      * Vue component that encapsulates the @see:wijmo.input.ComboBox control.
      */
     var WjComboBox: any;
@@ -268,10 +275,6 @@ declare module wijmo.vue2 {
      * Vue component that encapsulates the @see:wijmo.input.InputDateTime control.
      */
     var WjInputDateTime: any;
-    /**
-     * Vue component that encapsulates the @see:wijmo.input.ListBox control.
-     */
-    var WjListBox: any;
     /**
      * Vue component that encapsulates the @see:wijmo.input.Menu control.
      */
@@ -640,6 +643,160 @@ declare var Vue: any;
  */
 declare module wijmo.vue2 {
     /**
+     * Vue component that represents a @see:wijmo.grid.detail.FlexGridDetailProvider in a @see:wijmo.vue2.WjFlexGrid.
+     */
+    var WjFlexGridDetail: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.grid.multirow.MultiRow control.
+     */
+    var WjMultiRow: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
      * Vue component that encapsulates the @see:wijmo.chart.FlexChart control.
      *
      * The example below shows how to instantiate and initialize a
@@ -679,6 +836,10 @@ declare module wijmo.vue2 {
      */
     var WjFlexChart: any;
     /**
+     * Vue component that encapsulates the @see:wijmo.chart.FlexPie control.
+     */
+    var WjFlexPie: any;
+    /**
      * Vue component that represents a @see:wijmo.chart.Axis in one of the following components:
      * @see:wijmo.vue2.WjFlexChart
      * , @see:wijmo.vue2.WjFlexChartSeries
@@ -696,9 +857,211 @@ declare module wijmo.vue2 {
      */
     var WjFlexChartLegend: any;
     /**
+     * Vue component that represents a @see:wijmo.chart.DataLabel in a @see:wijmo.vue2.WjFlexChart.
+     */
+    var WjFlexChartDataLabel: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.PieDataLabel in a @see:wijmo.vue2.WjFlexPie.
+     */
+    var WjFlexPieDataLabel: any;
+    /**
      * Vue component that represents a @see:wijmo.chart.Series in a @see:wijmo.vue2.WjFlexChart.
      */
     var WjFlexChartSeries: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.LineMarker in one of the following components:
+     * @see:wijmo.vue2.WjFlexChart
+     *  or @see:wijmo.vue2.WjFinancialChart.
+     */
+    var WjFlexChartLineMarker: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.DataPoint in one of the following components:
+     * @see:wijmo.vue2.WjFlexChartAnnotationText
+     * , @see:wijmo.vue2.WjFlexChartAnnotationEllipse
+     * , @see:wijmo.vue2.WjFlexChartAnnotationRectangle
+     * , @see:wijmo.vue2.WjFlexChartAnnotationLine
+     * , @see:wijmo.vue2.WjFlexChartAnnotationPolygon
+     * , @see:wijmo.vue2.WjFlexChartAnnotationCircle
+     * , @see:wijmo.vue2.WjFlexChartAnnotationSquare
+     *  or @see:wijmo.vue2.WjFlexChartAnnotationImage.
+     */
+    var WjFlexChartDataPoint: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.PlotArea in one of the following components:
+     * @see:wijmo.vue2.WjFlexChart
+     *  or @see:wijmo.vue2.WjFinancialChart.
+     */
+    var WjFlexChartPlotArea: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.olap.PivotGrid control.
+     */
+    var WjPivotGrid: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.olap.PivotChart control.
+     */
+    var WjPivotChart: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.olap.PivotPanel control.
+     */
+    var WjPivotPanel: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.olap.Slicer control.
+     */
+    var WjSlicer: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.viewer.ReportViewer control.
+     */
+    var WjReportViewer: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.viewer.PdfViewer control.
+     */
+    var WjPdfViewer: any;
 }
 
 declare var Vue: any;
@@ -929,174 +1292,338 @@ declare var Vue: any;
  */
 declare module wijmo.vue2 {
     /**
-     * Vue component that encapsulates the @see:wijmo.olap.PivotGrid control.
-     */
-    var WjPivotGrid: any;
-    /**
-     * Vue component that encapsulates the @see:wijmo.olap.PivotChart control.
-     */
-    var WjPivotChart: any;
-    /**
-     * Vue component that encapsulates the @see:wijmo.olap.PivotPanel control.
-     */
-    var WjPivotPanel: any;
-}
-
-declare var Vue: any;
-/**
- * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
- *
- * This module provides Vue 2 components that encapsulate Wijmo controls.
- *
- * To use it, your application must include references to the Vue 2
- * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
- *
- * To add Wijmo controls to Vue pages, include the appropriate
- * tags in your HTML files. For example, the code below adds
- * an @see:InputNumber control to a Vue page:
- *
- * <pre>&lt;wj-input-number
- *   format="c2"
- *   placeholder="Sales"
- *   :value="sales"
- *   :value-changed="salesChanged"
- *   :min="0"
- *   :max="10000"
- *   :step="100"
- *   :is-required="false"&gt;
- * &lt;/wj-input-number&gt;</pre>
- *
- * <pre>// Wijmo event handler
- * // update "sales" value to match the InputNumber value
- * function salesChanged(sender, eventArgs) {
- *   this.sales = sender.value;
- * }</pre>
- *
- * The example illustrates the following important points:
- *
- * <ol>
- *   <li>
- *      Wijmo controls have tag names that start with the "wj" prefix, followed by
- *      the control name using lower-case and hyphen separators.</li>
- *   <li>
- *      The tag attribute names match the control's properties and events.</li>
- *   <li>
- *      Colons before attribute names indicate the attribute value should be
- *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
- *   <li>
- *      Event handlers are specified the same way as regular properties
- *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
- *   <li>
- *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
- *      event handler is responsible for updating the value of the "sales"
- *      property in the model. This is a change from Vue 1, where two-way bindings
- *      could be created by adding the ".sync" suffix to any attribute.</li>
- * </ol>
- *
- * All Wijmo Vue components include an "initialized" event that is
- * raised after the control has been added to the page and initialized.
- * You can use this event to perform additional initialization in addition
- * to setting properties in markup. For example:
- *
- * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
- * &lt;/wj-flex-grid&gt;</pre>
-
- * <pre>// Vue application
- * var app = new Vue({
- *   el: '#app',
- *   methods: {
- *     initGrid: function(s, e) {
- *       // assign a custom MergeManager to the grid
- *       s.mergeManager = new CustomMergeManager(s);
- *     }
- *   }
- * });</pre>
- */
-declare module wijmo.vue2 {
-    /**
-     * Vue component that encapsulates the @see:wijmo.viewer.ReportViewer control.
-     */
-    var WjReportViewer: any;
-    /**
-     * Vue component that encapsulates the @see:wijmo.viewer.PdfViewer control.
-     */
-    var WjPdfViewer: any;
-}
-
-declare var Vue: any;
-/**
- * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
- *
- * This module provides Vue 2 components that encapsulate Wijmo controls.
- *
- * To use it, your application must include references to the Vue 2
- * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
- *
- * To add Wijmo controls to Vue pages, include the appropriate
- * tags in your HTML files. For example, the code below adds
- * an @see:InputNumber control to a Vue page:
- *
- * <pre>&lt;wj-input-number
- *   format="c2"
- *   placeholder="Sales"
- *   :value="sales"
- *   :value-changed="salesChanged"
- *   :min="0"
- *   :max="10000"
- *   :step="100"
- *   :is-required="false"&gt;
- * &lt;/wj-input-number&gt;</pre>
- *
- * <pre>// Wijmo event handler
- * // update "sales" value to match the InputNumber value
- * function salesChanged(sender, eventArgs) {
- *   this.sales = sender.value;
- * }</pre>
- *
- * The example illustrates the following important points:
- *
- * <ol>
- *   <li>
- *      Wijmo controls have tag names that start with the "wj" prefix, followed by
- *      the control name using lower-case and hyphen separators.</li>
- *   <li>
- *      The tag attribute names match the control's properties and events.</li>
- *   <li>
- *      Colons before attribute names indicate the attribute value should be
- *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
- *   <li>
- *      Event handlers are specified the same way as regular properties
- *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
- *   <li>
- *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
- *      event handler is responsible for updating the value of the "sales"
- *      property in the model. This is a change from Vue 1, where two-way bindings
- *      could be created by adding the ".sync" suffix to any attribute.</li>
- * </ol>
- *
- * All Wijmo Vue components include an "initialized" event that is
- * raised after the control has been added to the page and initialized.
- * You can use this event to perform additional initialization in addition
- * to setting properties in markup. For example:
- *
- * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
- * &lt;/wj-flex-grid&gt;</pre>
-
- * <pre>// Vue application
- * var app = new Vue({
- *   el: '#app',
- *   methods: {
- *     initGrid: function(s, e) {
- *       // assign a custom MergeManager to the grid
- *       s.mergeManager = new CustomMergeManager(s);
- *     }
- *   }
- * });</pre>
- */
-declare module wijmo.vue2 {
-    /**
      * Vue component that encapsulates the @see:wijmo.nav.TreeView control.
      */
     var WjTreeView: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.chart.finance.FinancialChart control.
+     */
+    var WjFinancialChart: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.finance.FinancialSeries in a @see:wijmo.vue2.WjFinancialChart.
+     */
+    var WjFinancialChartSeries: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.chart.hierarchical.Sunburst control.
+     */
+    var WjSunburst: any;
+    /**
+     * Vue component that encapsulates the @see:wijmo.chart.hierarchical.TreeMap control.
+     */
+    var WjTreeMap: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.chart.radar.FlexRadar control.
+     */
+    var WjFlexRadar: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.radar.FlexRadarAxis in one of the following components:
+     * @see:wijmo.vue2.WjFlexRadar
+     *  or @see:wijmo.vue2.WjFlexRadarSeries.
+     */
+    var WjFlexRadarAxis: any;
+    /**
+     * Vue component that represents a @see:wijmo.chart.radar.FlexRadarSeries in a @see:wijmo.vue2.WjFlexRadar.
+     */
+    var WjFlexRadarSeries: any;
+}
+
+declare var Vue: any;
+/**
+ * Wijmo interop module for <a href="https://vuejs.org/2016/04/27/announcing-2.0/">Vue 2</a>.
+ *
+ * This module provides Vue 2 components that encapsulate Wijmo controls.
+ *
+ * To use it, your application must include references to the Vue 2
+ * framework (RC6 or later), as well as the regular Wijmo CSS and js files.
+ *
+ * To add Wijmo controls to Vue pages, include the appropriate
+ * tags in your HTML files. For example, the code below adds
+ * an @see:InputNumber control to a Vue page:
+ *
+ * <pre>&lt;wj-input-number
+ *   format="c2"
+ *   placeholder="Sales"
+ *   :value="sales"
+ *   :value-changed="salesChanged"
+ *   :min="0"
+ *   :max="10000"
+ *   :step="100"
+ *   :is-required="false"&gt;
+ * &lt;/wj-input-number&gt;</pre>
+ *
+ * <pre>// Wijmo event handler
+ * // update "sales" value to match the InputNumber value
+ * function salesChanged(sender, eventArgs) {
+ *   this.sales = sender.value;
+ * }</pre>
+ *
+ * The example illustrates the following important points:
+ *
+ * <ol>
+ *   <li>
+ *      Wijmo controls have tag names that start with the "wj" prefix, followed by
+ *      the control name using lower-case and hyphen separators.</li>
+ *   <li>
+ *      The tag attribute names match the control's properties and events.</li>
+ *   <li>
+ *      Colons before attribute names indicate the attribute value should be
+ *      interpreted as JavaScript expressions (e.g. <code>:min="0"</code>).</li>
+ *   <li>
+ *      Event handlers are specified the same way as regular properties
+ *      (e.g. <code>:value-changed="salesChanged"</code>).</li>
+ *   <li>
+ *      In Vue2, all bindings are one-way. In the example above, the "salesChanged"
+ *      event handler is responsible for updating the value of the "sales"
+ *      property in the model. This is a change from Vue 1, where two-way bindings
+ *      could be created by adding the ".sync" suffix to any attribute.</li>
+ * </ol>
+ *
+ * All Wijmo Vue components include an "initialized" event that is
+ * raised after the control has been added to the page and initialized.
+ * You can use this event to perform additional initialization in addition
+ * to setting properties in markup. For example:
+ *
+ * <pre>&lt;wj-flex-grid :initialized="initGrid"&gt;
+ * &lt;/wj-flex-grid&gt;</pre>
+
+ * <pre>// Vue application
+ * var app = new Vue({
+ *   el: '#app',
+ *   methods: {
+ *     initGrid: function(s, e) {
+ *       // assign a custom MergeManager to the grid
+ *       s.mergeManager = new CustomMergeManager(s);
+ *     }
+ *   }
+ * });</pre>
+ */
+declare module wijmo.vue2 {
+    /**
+     * Vue component that encapsulates the @see:wijmo.grid.sheet.FlexSheet control.
+     */
+    var WjFlexSheet: any;
+    /**
+     * Vue component that represents a @see:wijmo.grid.sheet.Sheet in a @see:wijmo.vue2.WjFlexSheet.
+     */
+    var WjSheet: any;
 }
 

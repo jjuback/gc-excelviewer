@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -45,8 +45,8 @@ var wijmo;
                 pm: ['PM', 'P'],
                 eras: ['po Kr.'],
                 patterns: {
-                    d: 'd. M. yyyy', D: 'dddd, d. MMMM yyyy',
-                    f: 'dddd, d. MMMM yyyy H:mm', F: 'dddd, d. MMMM yyyy H:mm:ss',
+                    d: 'd. M. yyyy', D: 'dddd d. MMMM yyyy',
+                    f: 'dddd d. MMMM yyyy H:mm', F: 'dddd d. MMMM yyyy H:mm:ss',
                     t: 'H:mm', T: 'H:mm:ss',
                     m: 'd. MMMM', M: 'd. MMMM',
                     y: 'MMMM yyyy', Y: 'MMMM yyyy',
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licencie v tejto aplikácie nie je platný pre kontrolu <b>{control}</b>  .',
             ver: 'Wijmo licencie v tejto aplikácie nie je platný pre verzie v použití. Licencia verzia je <b>{licVer}</b>; verzia produktu je  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} položiek vybraného',
-            selectAll: 'Vybrať všetko'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendár',
+                monthView: 'Zobrazenie mesiaca',
+                yearView: 'Zobrazenie roka',
+                prvMo: 'Predchádzajúci mesiac',
+                today: 'Dnes',
+                nxtMo: 'Budúci mesiac',
+                prvYr: 'Predchádzajúci rok',
+                currMo: 'Aktuálny mesiac',
+                nxtYr: 'Nasledujúci rok',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Prepnúť rozbaľovací zoznam'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} položky)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} položky)',
+            ariaLabels: {
+                toggleDropDown: 'Prepnúť rozbaľovací zoznam',
+                toggleGroup: 'Prepínač skupina'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Prepnúť riadok podrobností'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Upraviť Filter pre stĺpec',
+                dialog: 'Editor filtrov pre stĺpec',
+                asc: 'Zoradiť stĺpec vzostupne',
+                dsc: 'Zoradiť stĺpec zostupne',
+                search: 'Hľadať položky zoznamu',
+                op1: 'Prvý operátor podmienky',
+                val1: 'Prvá podmienka hodnota',
+                and: 'Vyžadovať splnenie oboch podmienok',
+                or: 'Vyžadujú buď stav',
+                op2: 'Druhý operátor podmienky',
+                val2: 'Druhá podmienka hodnota'
+            },
             // filter
-            ariaLabel: 'Editor filtrov pre stĺpec',
             ascending: '\u2191 Vzostupne',
             descending: '\u2193 Zostupne',
             apply: 'Použiť',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Rovná sa', op: 0 },
                 { name: 'Nerovná sa', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Prepnúť kalendár',
+                tglTime: 'Prepínanie času zoznam'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Zvýšenie hodnoty',
+                decVal: 'Zníženie hodnoty'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} položiek vybraného',
+            selectAll: 'Vybrať všetko'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} položka',
                 row: 'Riadok',
                 col: 'Stĺpec'
+            },
+            Slicer: {
+                multiSelect: 'Viacnásobný výber',
+                clearFilter: 'Vymazať filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(vyberte hodnotu)',
             apply: 'Použiť',
             errorOccured: 'Vyskytla sa chyba.'
+        },
+        FlexSheet: {
+            insertRow: 'Vložiť riadok',
+            deleteRow: 'Odstrániť riadok',
+            insertCol: 'Vložiť stĺpec',
+            deleteCol: 'Delete Column',
+            convertTable: 'Konvertovať tabuľku',
+            copyCells: 'Kopírovať bunky',
+            fillSeries: 'Vyplniť rad',
+            fillFormat: 'Iba formátovanie výplne',
+            fillWithoutFormat: 'Výplň bez formátovania'
         }
     };
     var updc = window['wijmo']._updateCulture;

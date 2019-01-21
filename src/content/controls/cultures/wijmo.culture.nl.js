@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'De licentie van de Wijmo in deze toepassing is niet geldig voor het besturingselement <b>{control}</b>  .',
             ver: 'De licentie van de Wijmo in deze toepassing is niet geldig voor de versie in gebruik. De licentieversie is <b>{licVer}</b>; de productversie is <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} geselecteerde artikelen',
-            selectAll: 'Alles selecteren'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Agenda',
+                monthView: 'Maandweergave',
+                yearView: 'Jaarweergave',
+                prvMo: 'Vorige maand',
+                today: 'Vandaag',
+                nxtMo: 'Volgende maand',
+                prvYr: 'Vorig jaar',
+                currMo: 'Lopende maand',
+                nxtYr: 'Volgend jaar',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} items)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} items)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle groep'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle rij Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Filter voor kolom bewerken',
+                dialog: 'Editor voor kolom filteren',
+                asc: 'De kolom sorteren in oplopende volgorde',
+                dsc: 'De kolom sorteren in aflopende volgorde',
+                search: 'Zoek itemlijst',
+                op1: 'Eerste voorwaarde Operator',
+                val1: 'Eerste voorwaarde waarde',
+                and: 'Beide voorwaarden vereisen',
+                or: 'Beide voorwaarden vereisen',
+                op2: 'Tweede voorwaarde Operator',
+                val2: 'Tweede voorwaarde waarde'
+            },
             // filter
-            ariaLabel: 'Editor voor kolom filteren',
             ascending: '\u2191 Oplopend',
             descending: '\u2193 Aflopend',
             apply: 'Toepassen',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Gelijk aan', op: 0 },
                 { name: 'Niet gelijk aan', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle kalender',
+                tglTime: 'Toggle tijd lijst'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Waarde verhogen',
+                decVal: 'Daling van de waarde'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} geselecteerde artikelen',
+            selectAll: 'Alles selecteren'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} object',
                 row: 'Rij',
                 col: 'Kolom'
+            },
+            Slicer: {
+                multiSelect: 'Meervoudige selectie',
+                clearFilter: 'Filter wissen'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(waarde selecteren)',
             apply: 'Toepassen',
             errorOccured: 'Er is een fout opgetreden.'
+        },
+        FlexSheet: {
+            insertRow: 'Rij invoegen',
+            deleteRow: 'Rij verwijderen',
+            insertCol: 'Kolom invoegen',
+            deleteCol: 'Delete Column',
+            convertTable: 'Tabel converteren',
+            copyCells: 'Cellen kopiëren',
+            fillSeries: 'Vul reeks',
+            fillFormat: 'Alleen opmaak van de opvulling',
+            fillWithoutFormat: 'Vullen zonder opmaak'
         }
     };
     var updc = window['wijmo']._updateCulture;

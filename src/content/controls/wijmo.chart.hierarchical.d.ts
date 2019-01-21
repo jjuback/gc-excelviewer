@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -23,6 +23,7 @@ declare module wijmo.chart.hierarchical {
         private _legendLabels;
         private _level;
         private _sliceIndex;
+        private _parentRef;
         private _childItemsPath;
         private _processedItem;
         constructor(element: any, options?: any);
@@ -52,6 +53,11 @@ declare module wijmo.chart.hierarchical {
         _getLabelsForLegend(): string[];
         _highlightCurrent(): void;
         hitTest(pt: any, y?: number): wijmo.chart.HitTestInfo;
+        _getSelectedItemOffset(index: any, angle: any): {
+            x: number;
+            y: number;
+        };
+        private _getSelectedParentIndex(index);
     }
 }
 

@@ -1,0 +1,35 @@
+////////////////////////////////////////////////////////////////
+// cocoa theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #f3f3f3;
+$wj-txt: #26211f;
+$wj-bdr-rad: 4px;
+
+$wj-hdr-bkg: #54443b;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #2780ec;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #97b2d2;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #c8c7c6;
+$wj-cell-grp-txt: #000;
+$wj-cell-frz: #dfe8f2;
+
+$wj-btn-bkg: #5f534c;
+$wj-btn-hvr: #7b6c63;
+$wj-btn-txt: #fff;
+
+$wj-tooltip: #e5d9cf;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////////
+// slate theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #f4f4f4;
+$wj-txt: #4b5860;
+$wj-bdr-rad: 4px;
+
+$wj-hdr-bkg: #4b5860;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #f7941d;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #b87729;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #aaa;
+$wj-cell-grp-txt: #444;
+$wj-cell-bdr: none;
+$wj-cell-alt: #e7e7e7;
+$wj-cell-frz: #e6eef2;
+$wj-cell-frz-alt: #d5e3e9;
+
+$wj-btn-bkg: #4b5860;
+$wj-btn-hvr: #61727d;
+$wj-btn-txt: #fff;
+
+$wj-tooltip: #e6eef2;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

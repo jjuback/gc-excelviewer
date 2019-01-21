@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -118,7 +118,7 @@ declare module wijmo.webcomponents {
         ['constructor']: typeof WjComponentBehavior;
         static _attach(component: HTMLElement): WjComponentBehavior;
         constructor(component: any);
-        static register(name: string, componentType: any, isImplemented?: boolean): void;
+        static register(name: string, componentType: any): void;
         static getProps(componentType: any): IPropsMeta;
         static ensureNs(ns: string, ...symbolNames: string[]): boolean;
         readonly isWrapper: boolean;
@@ -498,6 +498,15 @@ declare module wijmo.webcomponents {
         disconnectedCallback(): void;
         addEventListener(...args: any[]): void;
     }
+    class WjcSlicer extends wijmo.olap.Slicer {
+        _wjBehaviour: WjComponentBehavior;
+        constructor();
+        static readonly observedAttributes: IPropsMeta;
+        connectedCallback(): void;
+        attributeChangedCallback(name: string, oldValue: string, newValue: string): void;
+        disconnectedCallback(): void;
+        addEventListener(...args: any[]): void;
+    }
 }
 
 declare let _wj_ns_exists_18: boolean;
@@ -561,7 +570,7 @@ declare module wijmo.webcomponents {
     }
     class WjcSheet extends HTMLElement {
         static wrappedClass: () => typeof grid.sheet.Sheet;
-        static parentInCtor: boolean;
+        static parentProp: string;
         _wjBehaviour: WjComponentBehavior;
         constructor();
         static readonly observedAttributes: IPropsMeta;

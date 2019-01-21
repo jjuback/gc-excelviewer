@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -150,6 +150,11 @@ declare module wijmo.knockout {
  * Wijmo binding for KnockoutJS supports binding to any read-write properties on the control. You can assign any
  * valid KnockoutJS expressions (e.g. constants, view model observable properties, or complex expressions) to the
  * property.
+ *
+ * Note that binding expression should resolve (after calling <b>ko.unwrap(expression)</b> on it) to a pure
+ * JavaScript value understandable by the corresponding Wijmo JavaScript control. This in particular means
+ * that you can’t bind the <b>itemsSource</b> property of Wijmo controls to a Knockout <b>observableArray</b>,
+ * or to array whose items’ properties are Knockout <b>observable</b>(s).
  *
  * Most of the properties provide one-way binding, which means that changes in the bound observable view model
  * property cause changes in the control property that the observable is bound to, but not vice versa.
@@ -2054,6 +2059,24 @@ declare module wijmo.knockout {
        *
        */
     class wjPivotPanel extends WjBinding {
+        _getControlConstructor(): any;
+    }
+    /**
+   * KnockoutJS binding for the @see:Slicer object.
+   * Use the @see:wjSlicer binding to add @see:Slicer controls to your
+   * KnockoutJS applications. For example:
+   *  &lt;div data-bind="wjSlicer:
+   *      {
+   *           field: theField,
+   *           showHeader: true
+   *      }"&gt;
+   *  &lt;/div&gt;
+   *
+   * The <b>wjSlicer</b> binding supports all read-write properties and events of
+   * the @see:Slicer class.
+   *
+   */
+    class wjSlicer extends WjBinding {
         _getControlConstructor(): any;
     }
 }

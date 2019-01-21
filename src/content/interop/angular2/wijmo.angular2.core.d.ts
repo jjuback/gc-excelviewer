@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -83,8 +83,71 @@ export declare class WjTooltip implements OnInit, OnDestroy, AfterViewInit {
     wjTooltip: string;
 }
 /**
-    * TBD
-    */
+ * Angular component to dynamically load other components.
+ *
+ * Use the <b>wj-component-loader</b> component to create and load an instance of an arbitrary component class
+ * in place of wj-component-loader. You can also pass a set of property values to the instantiated component.
+ *
+ * Note that any component class which is expected to be instantiated using the <b>wj-component-loader</b>
+ * component must be declared in the <b>entryComponents</b> array of the application @NgModule decorator.
+ *
+ * The example below demonstrates FlexGrid with columns dynamically generated form the column definitions
+ * array in the data model. Column definition can optionally contain a reference to a component class
+ * that should be used as a cell template. The <b>wj-component-loader</b> component is used to
+ * instantiate such a component in the cell template.
+ * <pre><b>HTML</b>
+ * &nbsp;
+ * &lt;wj-flex-grid #flex [itemsSource]="data"&gt;
+ *  &lt;wj-flex-grid-column *ngFor="let col of columns"
+ * 	        [header]="col.header"
+ * 	        [binding]="col.binding"
+ * 	        [format]="col.format"
+ * 	        [width]="col.width"&gt;
+ * 	    &lt;ng-template *ngIf="col.cellTemplate"
+ *               wjFlexGridCellTemplate [cellType]="'Cell'"
+ *               let-cell="cell"&gt;
+ *          &lt;wj-component-loader [component]="col.cellTemplate"
+ *                  [properties]="{item: cell.item}"&gt;
+ *          &lt;/wj-component-loader&gt;
+ * 	    &lt;/ng-template&gt;
+ * 	&lt;/wj-flex-grid-column&gt;
+ * &lt;/wj-flex-grid&gt;
+ * &nbsp;
+ * &nbsp;
+ * <b>TypeScript</b>
+ * &nbsp;
+ * &#64;Component({
+ * ...
+ * })
+ * export class AppCmp {
+ *     columns: any[];
+ *
+ *     constructor() {
+ *         this.columns = [
+ *             { header: 'Product', binding: 'product' },
+ *             { header: 'Revenue', binding: 'amount', format: 'n0' },
+ *             {
+ *                 header: 'Expense',
+                   binding: 'amount2',
+                   cellTemplate: ExpenceCellCmp
+ *             }
+ *         ];
+ *     }
+ * }
+ *
+ * &#64;Component({
+ * ...
+ * })
+ * export class ExpenceCellCmp {
+ *     item: any;
+ * }
+ * &nbsp;
+ * &#64;NgModule({
+ *     imports: [CommonModule, WjGridModule],
+ *     declarations: [AppCmp],
+ *     entryComponents: [ExpenceCellCmp]
+ * })</pre>
+  */
 export declare class WjComponentLoader implements OnInit {
     private _cmpResolver;
     private _elementRef;
@@ -95,7 +158,18 @@ export declare class WjComponentLoader implements OnInit {
     private _anchor;
     propertiesChange: EventEmitter<{}>;
     constructor(_cmpResolver: ComponentFactoryResolver, _elementRef: ElementRef);
+    /**
+     * Gets or sets a component class reference that should be instantiated by the
+     * <b>wj-component-loader</b> component.
+     *
+     * Note that any component class which is expected to be instantiated using the <b>wj-component-loader</b>
+     * component must be declared in the <b>entryComponents</b> array of the application @NgModule decorator.
+     */
     component: any;
+    /**
+     * Gets or sets an object with property name-value pairs which is used to initialize the
+     * instantiated component.
+     */
     properties: Object;
     ngOnInit(): void;
     private _createComponent();

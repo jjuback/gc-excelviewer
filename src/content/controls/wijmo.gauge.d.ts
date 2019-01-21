@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -70,6 +70,7 @@ declare module wijmo.gauge {
         private _format;
         private _getText;
         private _showRanges;
+        private _stackRanges;
         private _shadow;
         private _animated;
         private _animInterval;
@@ -142,6 +143,8 @@ declare module wijmo.gauge {
         /**
          * Gets or sets a value that indicates whether the user can edit the value
          * using the mouse and keyboard.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isReadOnly: boolean;
         /**
@@ -202,11 +205,14 @@ declare module wijmo.gauge {
         pointer: Range;
         /**
          * Gets or sets the @see:ShowText values to display as text in the gauge.
+         *
+         * The default value for this property is <b>ShowText.All</b> for @see:RadialGauge
+         * controls, and to <b>ShowText.None</b> for @see:LinearGauge controls.
          */
         showText: ShowText;
         /**
-         * Gets or sets a property that determines whether the gauge should display
-         * tickmarks at each @see:step value.
+         * Gets or sets a property that determines whether the gauge should
+         * display tickmarks at each @see:step value.
          *
          * The tickmarks can be formatted in CSS using the <b>wj-gauge</b> and
          * <b>wj-ticks</b> class names. For example:
@@ -215,6 +221,8 @@ declare module wijmo.gauge {
          *     stroke-width: 2px;
          *     stroke: white;
          * }</pre>
+         *
+         * The default value for this property is <b>false</b>.
          */
         showTicks: boolean;
         /**
@@ -232,25 +240,45 @@ declare module wijmo.gauge {
          */
         tickSpacing: number;
         /**
-         * Gets or sets the size of the element that shows the gauge's current value, in pixels.
+         * Gets or sets the size of the element that shows the gauge's current value,
+         * in pixels.
          */
         thumbSize: number;
         /**
-         * Gets or sets a value that indicates whether the gauge displays the ranges contained in
-         * the @see:ranges property.
+         * Gets or sets a value that indicates whether the gauge displays the ranges
+         * contained in  the @see:ranges property.
          *
-         * If this property is set to false, the ranges contained in the @see:ranges property are not
-         * displayed in the gauge. Instead, they are used to interpolate the color of the @see:pointer
-         * range while animating value changes.
+         * If this property is set to false, the ranges contained in the @see:ranges
+         * property are not displayed in the gauge. Instead, they are used to
+         * interpolate the color of the @see:pointer range while animating value changes.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showRanges: boolean;
         /**
-         * Gets or sets a value that indicates whether the gauge displays a shadow effect.
+         * Gets or sets a value that determines whether the ranges contained in
+         * the @see:ranges collection should be stacked within the gauge.
+         *
+         * By default, @see:stackRanges is set to false, and the ranges in the
+         * @see:ranges collection are displayed with the same thickness as the
+         * gauge's face.
+         *
+         * Setting @see:stackRanges to true causes the ranges to become narrower,
+         * and to be displayed side-by-side.
+         */
+        stackRanges: boolean;
+        /**
+         * Gets or sets a value that indicates whether the gauge displays
+         * a shadow effect.
+         *
+         * The default value for this property is <b>true</b>.
          */
         hasShadow: boolean;
         /**
          * Gets or sets a value that determines whether the @see:Gauge
          * should use animation to show value changes.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isAnimated: boolean;
         /**
@@ -292,7 +320,7 @@ declare module wijmo.gauge {
          * @return Value of the gauge at the point, or null if the point is not on the gauge's face.
          */
         hitTest(pt: any, y?: number): number;
-        static _getBBox(e: any): SVGRect;
+        static _getBBox(e: any): any;
         protected _getFilterUrl(): string;
         protected _getRangeElement(rng: Range): SVGPathElement;
         protected _rangeChanged(rng: Range, e: PropertyChangedEventArgs): void;
@@ -353,6 +381,8 @@ declare module wijmo.gauge {
         constructor(element: any, options?: any);
         /**
          * Gets or sets the direction in which the gauge is filled.
+         *
+         * The default value for this property is <b>GaugeDirection.Right</b>.
          */
         direction: GaugeDirection;
         _updateRangeElement(e: SVGPathElement, rng: Range, value: number): void;
@@ -394,20 +424,28 @@ declare module wijmo.gauge {
          */
         constructor(element: any, options?: any);
         /**
-         * Gets or sets the starting angle for the gauge, in degrees.
+         * Gets or sets the starting angle for the gauge.
          *
-         * Angles are measured in degrees, clockwise, starting from the 9 o'clock position.
+         * Angles are measured in degrees, clockwise, starting from the
+         * 9 o'clock position.
+         *
+         * The default value for this property is <b>0</b>.
          */
         startAngle: number;
         /**
-         * Gets or sets the sweeping angle for the gauge, in degrees.
+         * Gets or sets the sweep angle for the gauge.
          *
-         * Angles are measured in degrees, clockwise, starting from the 9 o'clock position.
+         * Angles are measured in degrees, clockwise,
+         * starting from the 9 o'clock position.
+         *
+         * The default value for this property is <b>180</b>.
          */
         sweepAngle: number;
         /**
          * Gets or sets a value that indicates whether the gauge automatically
          * scales to fill the host element.
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoScale: boolean;
         /**

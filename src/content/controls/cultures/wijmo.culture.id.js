@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Lisensi Wijmo dalam aplikasi ini ini tidak berlaku untuk kontrol <b>{control}</b>  .',
             ver: 'Lisensi Wijmo dalam aplikasi ini ini tidak berlaku untuk versi digunakan. Versi lisensi <b>{licVer}</b>; versi produk adalah  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} item yang dipilih',
-            selectAll: 'Pilih Semua'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Tampilan Bulan',
+                yearView: 'Tampilan Tahun',
+                prvMo: 'Bulan Sebelumnya',
+                today: 'Hari Ini',
+                nxtMo: 'Bulan Depan',
+                prvYr: 'Tahun Sebelumnya',
+                currMo: 'Bulan ini',
+                nxtYr: 'Tahun Berikutnya',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}:  <b> {value} </b>  ({count:n0} item)'
+            groupHeaderFormat: '{name}:  <b> {value} </b>  ({count:n0} item)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Group'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle baris Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Mengedit Filter untuk kolom',
+                dialog: 'Filter Editor untuk kolom',
+                asc: 'Kolom semacam dalam urutan menaik',
+                dsc: 'Kolom semacam dalam urutan',
+                search: 'Cari daftar Item',
+                op1: 'Operator kondisi pertama',
+                val1: 'Pertama nilai kondisi',
+                and: 'Memerlukan kondisi kedua',
+                or: 'Memerlukan kondisi baik',
+                op2: 'Kedua kondisi Operator',
+                val2: 'Kedua kondisi nilai'
+            },
             // filter
-            ariaLabel: 'Filter Editor untuk kolom',
             ascending: '\u2191 Menaik',
             descending: '\u2193 Menurun',
             apply: 'Terapkan',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Sama dengan', op: 0 },
                 { name: 'Tidak sama dengan', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle kalender',
+                tglTime: 'Toggle waktu daftar'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Meningkatkan nilai',
+                decVal: 'Penurunan nilai'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} item yang dipilih',
+            selectAll: 'Pilih Semua'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} item',
                 row: 'Baris',
                 col: 'Kolom'
+            },
+            Slicer: {
+                multiSelect: 'Pilih multi',
+                clearFilter: 'Hapus Filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(pilih nilai)',
             apply: 'Terapkan',
             errorOccured: 'Sebuah kesalahan telah terjadi.'
+        },
+        FlexSheet: {
+            insertRow: 'Sisipkan Baris',
+            deleteRow: 'Hapus baris',
+            insertCol: 'Sisipkan Kolom',
+            deleteCol: 'Delete Column',
+            convertTable: 'Mengkonversi tabel',
+            copyCells: 'Menyalin sel',
+            fillSeries: 'Mengisi seri',
+            fillFormat: 'Mengisi format hanya',
+            fillWithoutFormat: 'Mengisi tanpa format'
         }
     };
     var updc = window['wijmo']._updateCulture;

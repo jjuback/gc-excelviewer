@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -535,6 +535,7 @@ declare module wijmo.chart.finance.analytics {
          * }</pre>
          */
         styles: any;
+        legendItemLength(): number;
         getDataRect(currentRect?: Rect, calculatedRect?: Rect): Rect;
         private _rendering(sender, args);
         getCalculatedValues(key: string): any[];

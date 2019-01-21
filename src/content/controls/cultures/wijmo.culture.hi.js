@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -68,16 +68,52 @@ var wijmo;
             prd: 'इस अनुप्रयोग में Wijmo लायसेंस  <b>{control}</b> नियंत्रण के लिए मांय नहीं है ।',
             ver: 'इस अनुप्रयोग में Wijmo लायसेंस उपयोग में संस्करण के लिए मांय नहीं है । लायसेंस संस्करण <b>{licVer}है</b>; उत्पाद संस्करण <b> {version} है</b>।'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} आइटम चयनित',
-            selectAll: 'सभी का चयन करे'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'कैलेंडर',
+                monthView: 'मासिक दृश्य',
+                yearView: 'वर्ष दृश्य',
+                prvMo: 'पिछला माह',
+                today: 'आज',
+                nxtMo: 'अगले माह',
+                prvYr: 'पिछला वर्ष',
+                currMo: 'वर्तमान माह',
+                nxtYr: 'अगला वर्ष',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'ड्रॉपडाउन टॉगल करें'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} आइटम)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} आइटम)',
+            ariaLabels: {
+                toggleDropDown: 'ड्रॉपडाउन टॉगल करें',
+                toggleGroup: 'टॉगल समूह'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'पंक्ति विवरण टॉगल करें'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'स्तंभ के लिए फ़िल्टर संपादित करें',
+                dialog: 'स्तंभ के लिए फ़िल्टर संपादक',
+                asc: 'स्तंभ आरोही क्रम में सॉर्ट करें',
+                dsc: 'अवरोही क्रम में स्तंभ सॉर्ट करें',
+                search: 'खोज आइटम सूची',
+                op1: 'प्रथम शर्त ऑपरेटर',
+                val1: 'पहली शर्त मान',
+                and: 'दोनों शर्तों की आवश्यकता',
+                or: 'या तो शर्त की आवश्यकता',
+                op2: 'दूसरी शर्त ऑपरेटर',
+                val2: 'दूसरी शर्त मान'
+            },
             // filter
-            ariaLabel: 'स्तंभ के लिए फ़िल्टर संपादक',
             ascending: '\u2191 आरोही',
             descending: '\u2193 अवरोही',
             apply: 'लागू करें',
@@ -122,6 +158,22 @@ var wijmo;
                 { name: 'बराबर है', op: 0 },
                 { name: 'बराबर नहीं है', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'कैलेंडर टॉगल करें',
+                tglTime: 'टॉगल समय सूची'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'मान बढ़ाएँ',
+                decVal: 'मान घटाएं'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} आइटम चयनित',
+            selectAll: 'सभी का चयन करे'
         },
         olap: {
             PivotFieldEditor: {
@@ -227,6 +279,10 @@ var wijmo;
                 item: '{cnt} आइटम',
                 row: 'पंक्ति',
                 col: 'COLUMN'
+            },
+            Slicer: {
+                multiSelect: 'बहु चयन',
+                clearFilter: 'फ़िल्टर साफ़ करें'
             }
         },
         Viewer: {
@@ -358,6 +414,17 @@ var wijmo;
             selectParameterValue: '(मान का चयन करें)',
             apply: 'लागू करें',
             errorOccured: 'कोई त्रुटि हो गई है.'
+        },
+        FlexSheet: {
+            insertRow: 'पंक्ति सम्मिलित करें',
+            deleteRow: 'पंक्ति हटाएं',
+            insertCol: 'स्तंभ सम्मिलित करें',
+            deleteCol: 'Delete Column',
+            convertTable: 'तालिका कनवर्ट करें',
+            copyCells: 'कक्षों की प्रतिलिपि बनाएं',
+            fillSeries: 'श्रृंखला भरें',
+            fillFormat: 'केवल स्वरूपण भरें',
+            fillWithoutFormat: 'स्वरूपण के बिना भरण'
         }
     };
     var updc = window['wijmo']._updateCulture;

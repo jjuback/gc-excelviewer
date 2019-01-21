@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Tämän sovelluksen Wijmo-lisenssi ei kelpaa <b>{control}</b> valvontaa.',
             ver: 'Tämän sovelluksen Wijmo-lisenssi ei ole kelvollinen versio käytössä. Anniskeluoikeudet käännös on <b>{licVer}</b>, tuoteversio ei <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} kohdetta valittu',
-            selectAll: 'Valitse kaikki'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalenteri',
+                monthView: 'Kuukausinäkymä',
+                yearView: 'Vuosinäkymä',
+                prvMo: 'Edellinen kuukausi',
+                today: 'Tänään',
+                nxtMo: 'Seuraava kuukausi',
+                prvYr: 'Viime vuonna',
+                currMo: 'Nykyinen kuukausi',
+                nxtYr: 'Seuraava vuosi',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Vaihda avattavasta'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} tuotteet)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} tuotteet)',
+            ariaLabels: {
+                toggleDropDown: 'Vaihda avattavasta',
+                toggleGroup: 'Vaihda ryhmä'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Vaihda rivin tiedot'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Muokkaa suodatinta sarakkeessa',
+                dialog: 'Suodattaa sarake-editori',
+                asc: 'Lajitella sarakkeen nousevaan järjestykseen',
+                dsc: 'Lajitella sarakkeen laskevaan järjestykseen',
+                search: 'Etsi kohde-luettelosta',
+                op1: 'Ensimmäinen ehto-operaattori',
+                val1: 'Ensimmäisen ehdon arvoa',
+                and: 'Edellyttää kummankin ehdon',
+                or: 'Edellyttää jompikumpi ehto',
+                op2: 'Toinen ehto-operaattori',
+                val2: 'Toinen ehto arvo'
+            },
             // filter
-            ariaLabel: 'Suodattaa sarake-editori',
             ascending: '\u2191 Nouseva',
             descending: '\u2193 Laskeva',
             apply: 'Käytä',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'On yhtä kuin', op: 0 },
                 { name: 'On eri suuri kuin', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Näytä tai Piilota kalenteri',
+                tglTime: 'Vaihda kerta lista'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Arvon kasvattamista',
+                decVal: 'Pienentää arvoa'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} kohdetta valittu',
+            selectAll: 'Valitse kaikki'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} kohdetta',
                 row: 'Rivi',
                 col: 'Sarake'
+            },
+            Slicer: {
+                multiSelect: 'Usean kohteen valinta',
+                clearFilter: 'Tyhjennä suodatin'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Valitse arvo)',
             apply: 'Käytä',
             errorOccured: 'Järjestelmässä on ilmennyt virhe.'
+        },
+        FlexSheet: {
+            insertRow: 'Lisää rivi',
+            deleteRow: 'Poista rivi',
+            insertCol: 'Lisää sarake',
+            deleteCol: 'Delete Column',
+            convertTable: 'Muunna taulukko',
+            copyCells: 'Solujen kopioiminen',
+            fillSeries: 'Täytä sarjat',
+            fillFormat: 'Täytä vain muotoilu',
+            fillWithoutFormat: 'Täytä ilman muotoilua'
         }
     };
     var updc = window['wijmo']._updateCulture;

@@ -1,0 +1,42 @@
+////////////////////////////////////////////////////////////////
+// dark theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #444;
+$wj-txt: #e6e6e6;
+$wj-bdr-rad: 4px;
+
+$wj-hdr-bkg: #444;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #ff6a00;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #ad5a1f;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #c3c3c3;
+$wj-cell-grp-txt: #000;
+$wj-cell-frz: #3a4d59;
+$wj-cell-frz-txt: #ddd;
+$wj-cell-frz-bdr-clr: #e6e6e6;
+
+$wj-btn-bkg: #555555;
+$wj-btn-hvr: #6f6f6f;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #e5d8cf;
+$wj-tooltip-txt: #000;
+
+$wj-bkg-grd: true;
+$wj-btn-grd: true;
+$wj-hdr-grd: true;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

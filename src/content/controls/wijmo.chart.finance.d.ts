@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -432,6 +432,8 @@ declare module wijmo.chart.finance {
         private _actualBoxSize;
         private _pfdata;
         private _xlbls;
+        private axisYMajorGrid;
+        private axisXItemsSource;
         constructor();
         clear(): void;
         unload(): void;

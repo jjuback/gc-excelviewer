@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -19,6 +19,11 @@ declare module wijmo.grid.xlsx {
     /**
      * This class provides static <b>load</b> and <b>save</b> methods for loading
      * and saving @see:FlexGrid controls from and to Excel xlsx files.
+     *
+     * The example below shows how you can use the @see:FlexGridXlsxConverter to
+     * export the content of a @see:FlexGrid control to XLSX:
+     *
+     * @fiddle:yzcefvLy
      */
     class FlexGridXlsxConverter {
         private static hasCssText;
@@ -240,6 +245,10 @@ declare module wijmo.grid.xlsx {
          * The tables in this worksheet.
          */
         tables: wijmo.xlsx.WorkbookTable[];
+        /**
+         * A function that evaluates the formula of cell.
+         */
+        evaluateFormula?: Function;
     }
     /**
      * FlexGrid Xlsx conversion options

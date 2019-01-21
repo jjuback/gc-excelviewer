@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -120,6 +120,12 @@ declare module wijmo.react {
  */
 declare module wijmo.react {
     /**
+     * React component that encapsulates the @see:wijmo.input.ListBox control.
+     */
+    class ListBox extends ComponentBase {
+        constructor(props: any);
+    }
+    /**
      * React component that encapsulates the @see:wijmo.input.ComboBox control.
      */
     class ComboBox extends ComponentBase {
@@ -189,12 +195,6 @@ declare module wijmo.react {
      * React component that encapsulates the @see:wijmo.input.InputDateTime control.
      */
     class InputDateTime extends ComponentBase {
-        constructor(props: any);
-    }
-    /**
-     * React component that encapsulates the @see:wijmo.input.ListBox control.
-     */
-    class ListBox extends ComponentBase {
         constructor(props: any);
     }
     /**
@@ -831,6 +831,12 @@ declare module wijmo.react {
     class PivotPanel extends ComponentBase {
         constructor(props: any);
     }
+    /**
+     * React component that encapsulates the @see:wijmo.olap.Slicer control.
+     */
+    class Slicer extends ComponentBase {
+        constructor(props: any);
+    }
 }
 declare var Wj: typeof wijmo.react;
 
@@ -1141,7 +1147,7 @@ declare module wijmo.react {
      * React component that represents a @see:wijmo.grid.sheet.Sheet in a @see:wijmo.react.FlexSheet.
      */
     class Sheet extends ComponentBase {
-        _parentInCtor: boolean;
+        _parentProp: string;
         constructor(props: any);
     }
 }

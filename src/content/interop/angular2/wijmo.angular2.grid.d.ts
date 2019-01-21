@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -305,6 +305,12 @@ export declare class WjFlexGrid extends wijmo.grid.FlexGrid implements OnInit, O
      */
     groupCollapsedChangingNg: EventEmitter<any>;
     /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanging</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanging</b> Wijmo event name.
+     */
+    itemsSourceChangingNg: EventEmitter<any>;
+    /**
      * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
      * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
@@ -401,6 +407,9 @@ export declare class WjFlexGrid extends wijmo.grid.FlexGrid implements OnInit, O
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
     addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean): void;
+    _edtFocus: boolean;
+    startEditing(fullEdit?: boolean, r?: number, c?: number, focus?: boolean): boolean;
+    onCellEditEnding(e: wijmo.grid.CellEditEndingEventArgs): boolean;
 }
 export declare var wjFlexGridColumnMeta: IWjComponentMeta;
 /**

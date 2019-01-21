@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -68,7 +68,7 @@ declare module wijmo.chart {
          */
         readonly index: number;
         /**
-         * Gets total number of series to render.
+         * Gets the total number of series to render.
          */
         readonly count: number;
     }
@@ -192,6 +192,8 @@ declare module wijmo.chart {
         /**
          * Gets or sets an enumerated value indicating whether or what is
          * selected when the user clicks the chart.
+         *
+         * The default value for this property is <b>SelectionMode.None</b>.
          */
         selectionMode: SelectionMode;
         /**
@@ -358,6 +360,7 @@ declare module wijmo.chart {
         contains(pt: Point): boolean;
         distance(pt: Point): number;
         tag: any;
+        ignoreLabel: boolean;
     }
     class _KeyWords {
         private _keys;
@@ -391,9 +394,9 @@ declare module wijmo.chart {
         private _selectedItemPosition;
         private _selectedItemOffset;
         private _pieGroup;
-        private _rotationAngle;
+        _rotationAngle: number;
         private _center;
-        private _radius;
+        _radius: number;
         private _selectedOffset;
         private _selectedIndex;
         private _angles;
@@ -423,12 +426,16 @@ declare module wijmo.chart {
          * Gets or sets the starting angle for the pie slices, in degrees.
          *
          * Angles are measured clockwise, starting at the 9 o'clock position.
+         *
+         * The default value for this property is <b>0</b>.
          */
         startAngle: number;
         /**
          * Gets or sets the offset of the slices from the pie center.
          *
          * The offset is measured as a fraction of the pie radius.
+         *
+         * The default value for this property is <b>0</b>.
          */
         offset: number;
         /**
@@ -440,6 +447,8 @@ declare module wijmo.chart {
          * a pie. Setting this property to values greater than zero
          * creates pies with a hole in the middle, also known as
          * doughnut charts.
+         *
+         * The default value for this property is <b>0</b>.
          */
         innerRadius: number;
         /**
@@ -448,6 +457,8 @@ declare module wijmo.chart {
          *
          * The default value is false, which causes angles to be measured in
          * the clockwise direction.
+         *
+         * The default value for this property is <b>false</b>.
          */
         reversed: boolean;
         /**
@@ -457,13 +468,17 @@ declare module wijmo.chart {
          * the pie to rotate when an item is selected.
          *
          * Note that in order to select slices by clicking the chart,
-         * you must set the @see:selectionMode property to "Point".
+         * you must set the @see:selectionMode property to 'Point'.
+         *
+         * The default value for this property is <b>Position.None</b>.
          */
         selectedItemPosition: wijmo.chart.Position;
         /**
          * Gets or sets the offset of the selected slice from the pie center.
          *
          * Offsets are measured as a fraction of the pie radius.
+         *
+         * The default value for this property is <b>0</b>.
          */
         selectedItemOffset: number;
         /**
@@ -471,6 +486,8 @@ declare module wijmo.chart {
          *
          * See also the @see:selectedItemPosition and @see:selectionMode
          * properties.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isAnimated: boolean;
         /**
@@ -507,6 +524,10 @@ declare module wijmo.chart {
         _getCenter(): Point;
         _renderSlices(engine: any, values: any, sum: any, radius: any, innerRadius: any, startAngle: any, totalSweep: any, offset: any): void;
         _renderSlice(engine: any, cx: any, cy: any, currentAngle: any, idx: any, radius: any, innerRadius: any, startAngle: any, sweep: any, totalSweep: any): void;
+        _getSelectedItemOffset(index: any, angle: any): {
+            x: number;
+            y: number;
+        };
         _renderLabels(engine: IRenderEngine): void;
         _drawSlice(engine: IRenderEngine, i: number, reversed: boolean, cx: number, cy: number, r: number, irad: number, angle: number, sweep: number): void;
         _measureLegendItem(engine: IRenderEngine, name: string): Size;
@@ -546,6 +567,7 @@ declare module wijmo.chart {
         readonly angle: number;
         readonly sweep: number;
         tag: any;
+        ignoreLabel: boolean;
     }
     class _DonutSegment implements _IHitArea, _ISegment {
         private _center;
@@ -569,6 +591,7 @@ declare module wijmo.chart {
         readonly sweep: number;
         readonly innerRadius: number;
         tag: any;
+        ignoreLabel: boolean;
     }
 }
 
@@ -688,9 +711,13 @@ declare module wijmo.chart {
          */
         bindingX: string;
         /**
-         * Gets or sets the size of the symbols used for all Series objects in this @see:FlexChart.
+         * Gets or sets the size of the symbols used for all Series objects
+         * in this @see:FlexChart.
          *
-         * This property may be overridden by the symbolSize property on each @see:Series object.
+         * This property may be overridden by the symbolSize property on
+         * each @see:Series object.
+         *
+         * The default value for this property is <b>10</b> pixels.
          */
         symbolSize: number;
         /**
@@ -700,11 +727,15 @@ declare module wijmo.chart {
          * If true, the chart interpolates the value of any missing data
          * based on neighboring points. If false, it leaves a break in
          * lines and areas at the points with null values.
+         *
+         * The default value for this property is <b>false</b>.
          */
         interpolateNulls: boolean;
         /**
          * Gets or sets a value indicating whether clicking legend items toggles the
          * series visibility in the chart.
+         *
+         * The default value for this property is <b>false</b>.
          */
         legendToggle: boolean;
         /**
@@ -1016,15 +1047,21 @@ declare module wijmo.chart {
         _getChartType(): ChartType;
         /**
          * Gets or sets the type of chart to create.
+         *
+         * The default value for this property is <b>ChartType.Column</b>.
          */
         chartType: ChartType;
         /**
          * Gets or sets a value indicating whether to flip the axes so that
          * X becomes vertical and Y becomes horizontal.
+         *
+         * The default value for this property is <b>false</b>.
          */
         rotated: boolean;
         /**
          * Gets or sets a value that determines whether and how the series objects are stacked.
+         *
+         * The default value for this property is <b>Stacking.None</b>.
          */
         stacking: Stacking;
         /**
@@ -1216,20 +1253,26 @@ declare module wijmo.chart {
         /**
          * Gets or sets the minimum value shown on the axis.
          *
-         * If not set, the minimum is calculated automatically.
          * The value can be a number or a Date object (for time-based data).
+         *
+         * The default value for this property is <b>null</b>, which causes
+         * the chart to calculate the minimum value based on the data.
          */
         min: any;
         /**
          * Gets or sets the maximum value shown on the axis.
          *
-         * If not set, the maximum is calculated automatically.
          * The value can be a number or a Date object (for time-based data).
+         *
+         * The default value for this property is <b>null</b>, which causes
+         * the chart to calculate the maximum value based on the data.
          */
         max: any;
         /**
          * Gets or sets a value indicating whether the axis is
          * reversed (top to bottom or right to left).
+         *
+         * The default value for this property is <b>false</b>.
          */
         reversed: boolean;
         /**
@@ -1281,17 +1324,21 @@ declare module wijmo.chart {
         minorTickMarks: TickMark;
         /**
          * Gets or sets a value indicating whether the axis line is visible.
+         *
+         * The default value for this property is <b>true</b>.
          */
         axisLine: boolean;
         /**
          * Gets or sets a value indicating whether the axis labels are visible.
+         *
+         * The default value for this property is <b>true</b>.
          */
         labels: boolean;
         /**
          * Gets or sets the label alignment.
          *
-         * By default the labels are centered. The supported values are 'left' and 'right
-         * for x-axis and 'top' and 'bottom' for y-axis.
+         * By default the labels are centered. The supported values are
+         * 'left' and 'right for the X-axis, 'top' and 'bottom' for the Y-axis.
          */
         labelAlign: string;
         /**
@@ -1306,7 +1353,9 @@ declare module wijmo.chart {
          **/
         origin: number;
         /**
-         * Gets or sets a value indicating how to handle the overlapping axis labels.
+         * Gets or sets a value indicating how to handle overlapping axis labels.
+         *
+         * The default value for this property is <b>OverlappingLabels.Auto</b>.
          */
         overlappingLabels: OverlappingLabels;
         /**
@@ -1373,12 +1422,15 @@ declare module wijmo.chart {
          */
         logBase: number;
         _getLogBase(): number;
+        _isLogAxis(): boolean;
         /**
          * Gets or sets the plot area for the axis.
          */
         plotArea: PlotArea;
         /**
-         * Gets or sets the label padding.
+         * Gets or sets the label padding, in pixels.
+         *
+         * The default value for this property is <b>5</b> pixels.
          */
         labelPadding: number;
         readonly _groupClass: string;
@@ -1401,6 +1453,7 @@ declare module wijmo.chart {
          */
         _getHeight(engine: IRenderEngine, maxw: number): number;
         _updateAutoFormat(delta: number): number;
+        _getActualRange(): number;
         _updateActualLimitsByChartType(labels: any, min: any, max: any): {
             min: any;
             max: any;
@@ -1467,6 +1520,14 @@ declare module wijmo.chart {
         readonly axisType: AxisType;
         _getMinNum(): number;
         _getMaxNum(): number;
+        private _updating;
+        _beginUpdate(): void;
+        _endUpdate(): void;
+        _cancelUpdate(): void;
+        /**
+         * Gets a value that indicates whether the control is currently being updated.
+         */
+        readonly _isUpdating: boolean;
         private _invalidate();
         private _cvCollectionChanged(sender, e);
         private _createLabels(start, len, delta, vals, lbls);
@@ -1698,6 +1759,7 @@ declare module wijmo.chart {
         private _axisX;
         private _axisY;
         private __plotter;
+        private _interpolateNulls;
         _legendElement: SVGAElement;
         _hostElement: SVGGElement;
         _pointIndexes: number[];
@@ -1708,31 +1770,49 @@ declare module wijmo.chart {
          */
         constructor(options?: any);
         /**
+         * Gets or sets a value that determines whether to interpolate
+         * null values in the data.
+         *
+         * If true, the series interpolates the value of any missing data
+         * based on neighboring points. If false, it leaves a break in
+         * lines and areas at the points with null values.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        interpolateNulls: boolean;
+        /**
          * Gets or sets the series style.
          */
         style: any;
         /**
-         * Gets or sets the alternative style for the series. The values from
-         * this property will be used for negative values in Bar, Column,
+         * Gets or sets the alternate style for the series.
+         *
+         * The alternate style is used for negative values in Bar, Column,
          * and Scatter charts; and for rising values in financial chart types
          * like Candlestick, LineBreak, EquiVolume etc.
          *
-         * If no value is provided, the default styles will be used.
+         * The default value for this property is <b>null</b>, which causes the
+         * series to use the default style.
          */
         altStyle: any;
         /**
          * Gets or sets the series symbol style.
+         *
          * Applies to Scatter, LineSymbols, and SplineSymbols chart types.
          */
         symbolStyle: any;
         /**
          * Gets or sets the size (in pixels) of the symbols used to render this @see:Series.
          * Applies to Scatter, LineSymbols, and SplineSymbols chart types.
+         *
+         * The default value for this property is <b>10</b> pixels.
          */
         symbolSize: number;
         /**
          * Gets or sets the shape of marker to use for each data point in the series.
          * Applies to Scatter, LineSymbols, and SplineSymbols chart types.
+         *
+         * The default value for this property is <b>Marker.Dot</b>.
          */
         symbolMarker: Marker;
         /**
@@ -1776,6 +1856,8 @@ declare module wijmo.chart {
         cssClass: string;
         /**
          * Gets or sets an enumerated value indicating whether and where the series appears.
+         *
+         * The default value for this property is <b>SeriesVisibility.Visible</b>.
          */
         visibility: SeriesVisibility;
         /**
@@ -1792,11 +1874,11 @@ declare module wijmo.chart {
          */
         getPlotElement(pointIndex: number): any;
         /**
-         * Gets or sets the x-axis for the series.
+         * Gets or sets the X-axis for the series.
          */
         axisX: Axis;
         /**
-         * Gets or sets the y-axis for the series.
+         * Gets or sets the Y-axis for the series.
          */
         axisY: Axis;
         /**
@@ -1921,6 +2003,9 @@ declare module wijmo.chart {
         /**
          * Gets or sets the chart type for a specific series, overriding the chart type
          * set on the overall chart.
+         *
+         * The default value for this property is <b>null</b>, which causes the
+         * series to use chart type defined by the parent chart.
          */
         chartType: ChartType;
     }
@@ -2792,6 +2877,7 @@ declare module wijmo.chart {
         private _onMousedown(e);
         private _onMouseup(e);
         _moveMarker(e: any): void;
+        private _getElementPaddingValuee(ele, key);
         private _show(ele?);
         private _hide(ele?);
         private _toggleVisibility();
@@ -2837,6 +2923,7 @@ declare module wijmo.chart {
         constructor(rect: Rect);
         readonly rect: Rect;
         tag: any;
+        ignoreLabel: boolean;
         contains(pt: Point): boolean;
         pointDistance(pt1: Point, pt2: Point, option: _MeasureOption): number;
         distance(pt: Point): number;
@@ -2846,6 +2933,7 @@ declare module wijmo.chart {
         private _rad;
         private _rad2;
         tag: any;
+        ignoreLabel: boolean;
         constructor(center: Point, radius: number);
         setRadius(radius: number): void;
         readonly center: Point;
@@ -2856,6 +2944,7 @@ declare module wijmo.chart {
         private _x;
         private _y;
         tag: any;
+        ignoreLabel: boolean;
         constructor(x: any, y: any);
         contains(pt: Point): boolean;
         distance(pt: Point): number;
@@ -3066,6 +3155,7 @@ declare module wijmo.chart {
         distance(pt: Point): number;
         readonly center: Point;
         tag: any;
+        ignoreLabel: boolean;
     }
 }
 

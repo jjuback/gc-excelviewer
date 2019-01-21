@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licensen i denna ansökan är inte giltig för <b>{control}</b> kontroll.',
             ver: 'Wijmo licensen i denna ansökan är inte giltigt för versionen som används. Licensversionen är <b>{licVer}</b>; produktversionen är <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} objekt utvalda',
-            selectAll: 'Välj alla'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Månadsvy',
+                yearView: 'Årsvy',
+                prvMo: 'Föregående månad',
+                today: 'I dag',
+                nxtMo: 'Nästa månad',
+                prvYr: 'Föregående år',
+                currMo: 'Aktuell månad',
+                nxtYr: 'Nästa år',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} objekt)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} objekt)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Växla gruppen'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Växla rad detalj'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Redigera Filter för kolumn',
+                dialog: 'Filtrera redaktör för kolumn',
+                asc: 'Sorteringskolumnen i stigande ordning',
+                dsc: 'Sorteringskolumnen i fallande ordning',
+                search: 'Sök objektlista',
+                op1: 'Första villkoret operatör',
+                val1: 'Första villkoret värdet',
+                and: 'Kräver både förhållanden',
+                or: 'Kräver antingen skick',
+                op2: 'Andra villkoret operatör',
+                val2: 'Andra villkor värdet'
+            },
             // filter
-            ariaLabel: 'Filtrera redaktör för kolumn',
             ascending: '\u2191 Stigande',
             descending: '\u2193 Fallande',
             apply: 'Använd',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Är lika med', op: 0 },
                 { name: 'Inte är lika med', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Växla kalendern',
+                tglTime: 'Växla tid lista'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Öka värdet',
+                decVal: 'Minska värde'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} objekt utvalda',
+            selectAll: 'Välj alla'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} objekt',
                 row: 'Rad',
                 col: 'Kolumn'
+            },
+            Slicer: {
+                multiSelect: 'Flerval',
+                clearFilter: 'Rensa Filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Välj värde)',
             apply: 'Använd',
             errorOccured: 'Ett fel uppstod.'
+        },
+        FlexSheet: {
+            insertRow: 'Infoga nu',
+            deleteRow: 'Ta bort rad',
+            insertCol: 'Infoga kolumn',
+            deleteCol: 'Delete Column',
+            convertTable: 'Omvandla tabell',
+            copyCells: 'Kopiera celler',
+            fillSeries: 'Fyllningsserier',
+            fillFormat: 'Fyll endast formatering',
+            fillWithoutFormat: 'Fyll utan formatering'
         }
     };
     var updc = window['wijmo']._updateCulture;

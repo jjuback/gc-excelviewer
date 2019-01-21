@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: '이 응용 프로그램에서 Wijmo 라이센스  <b> {control} </b>  컨트롤에 대 한 유효 하지 않습니다.',
             ver: '이 응용 프로그램에서 Wijmo 라이센스 사용 중인 버전에 대 한 유효 하지 않습니다. 라이센스 버전  <b> {licVer}</b>이며 제품 버전은  <b> {version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} 항목 선택',
-            selectAll: '모두 선택'
+        Calendar: {
+            ariaLabels: {
+                calendar: '일정',
+                monthView: '월 보기',
+                yearView: '년 보기',
+                prvMo: '이전 달',
+                today: '오늘',
+                nxtMo: '다음 달',
+                prvYr: '이전 연도',
+                currMo: '현재 달',
+                nxtYr: '내년',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: '토글 메뉴'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 항목)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 항목)',
+            ariaLabels: {
+                toggleDropDown: '토글 메뉴',
+                toggleGroup: '전환 그룹'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: '전환 행 세부 사항'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: '열에 대 한 필터를 편집',
+                dialog: '열에 대 한 필터 편집기',
+                asc: '오름차순 정렬 열',
+                dsc: '내림차순 정렬 열',
+                search: '검색 항목 목록',
+                op1: '첫 번째 조건 연산자',
+                val1: '첫 번째 조건 값',
+                and: '두 조건 필요',
+                or: '필요 조건 중 하나가',
+                op2: '두 번째 조건 연산자',
+                val2: '두 번째 조건 값'
+            },
             // filter
-            ariaLabel: '열에 대 한 필터 편집기',
             ascending: '\u2191 상승',
             descending: '\u2193 하락',
             apply: '적용',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: '다음과 같을 경우', op: 0 },
                 { name: '다음과 같지 않을 경우', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: '토글 일정',
+                tglTime: '전환 시간 목록'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: '증가 값',
+                decVal: '값을 감소'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} 항목 선택',
+            selectAll: '모두 선택'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} 항목',
                 row: 'Row',
                 col: '세로 막대형'
+            },
+            Slicer: {
+                multiSelect: '다중 선택',
+                clearFilter: '필터 지우기'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(값을 선택)',
             apply: '적용',
             errorOccured: '오류가 발생했습니다.'
+        },
+        FlexSheet: {
+            insertRow: '행 삽입',
+            deleteRow: '행 삭제',
+            insertCol: '열 삽입',
+            deleteCol: 'Delete Column',
+            convertTable: '표 변환',
+            copyCells: '셀 복사',
+            fillSeries: '연속 데이터 채우기',
+            fillFormat: '서식만 채우기',
+            fillWithoutFormat: '서식 없이 채우기'
         }
     };
     var updc = window['wijmo']._updateCulture;

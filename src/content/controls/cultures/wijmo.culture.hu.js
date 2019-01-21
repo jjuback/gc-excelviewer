@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'A Wijmo licenc ebben az alkalmazásban nem érvényes a <b>{control}</b> ellenőrzés.',
             ver: 'Ez az alkalmazás a Wijmo licenc érvénytelen a verziót használja. A licenc változat <b>{licVer}</b>; a termék változat <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} kiválasztott tételek',
-            selectAll: 'Az összes kiválasztása'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Naptár',
+                monthView: 'Hónap nézet',
+                yearView: 'Év nézet',
+                prvMo: 'Előző hónap',
+                today: 'Ma',
+                nxtMo: 'Következő hónap',
+                prvYr: 'Előző év',
+                currMo: 'Aktuális hónapban',
+                nxtYr: 'Következő év',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle legördülő'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elemek)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elemek)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle legördülő',
+                toggleGroup: 'Toggle csoport'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Váltó sor részletei'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Oszlop szűrőjének szerkesztése',
+                dialog: 'Szűrőt szerkesztő oszlop',
+                asc: 'Rendezési oszlop növekvő sorrendbe',
+                dsc: 'Oszlop csökkenő sorrendbe rendezés',
+                search: 'Keresés cikklista',
+                op1: 'Első feltétel üzemeltető',
+                val1: 'Első feltétel-érték',
+                and: 'Mindkét feltétel szükséges',
+                or: 'Mindkét feltétel szükséges',
+                op2: 'Második feltétel üzemeltető',
+                val2: 'Második feltétel értéke'
+            },
             // filter
-            ariaLabel: 'Szűrőt szerkesztő oszlop',
             ascending: '\u2191 Növekvő',
             descending: '\u2193 Csökkenő',
             apply: 'Alkalmaz',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'egyenlő', op: 0 },
                 { name: 'Nem egyenlő', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Váltás a naptár',
+                tglTime: 'Váltás ideje lista'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Érték növelése',
+                decVal: 'Csökkentse az értéket'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} kiválasztott tételek',
+            selectAll: 'Az összes kiválasztása'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'cikk {cnt}',
                 row: 'Sor',
                 col: 'Oszlop'
+            },
+            Slicer: {
+                multiSelect: 'Többszörös kijelölés',
+                clearFilter: 'Szűrő törlése'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(válassza ki az értéket)',
             apply: 'Alkalmaz',
             errorOccured: 'Hiba történt.'
+        },
+        FlexSheet: {
+            insertRow: 'Sor beszúrása',
+            deleteRow: 'Sor törlése',
+            insertCol: 'Oszlop beszúrása',
+            deleteCol: 'Delete Column',
+            convertTable: 'Táblázatból',
+            copyCells: 'Cellák másolása',
+            fillSeries: 'Kitöltés sorozatokkal',
+            fillFormat: 'Töltse ki, csak formátum',
+            fillWithoutFormat: 'Töltse ki a formázás nélkül'
         }
     };
     var updc = window['wijmo']._updateCulture;

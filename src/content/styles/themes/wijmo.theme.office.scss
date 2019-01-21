@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////
+// office theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #fff;
+$wj-txt: #222;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #eaeaea;
+$wj-hdr-txt: #222;
+
+$wj-sel-bkg: #217346;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #e6e6e6;
+$wj-msel-txt: $wj-txt;
+$wj-cell-grp-bkg: #d9d9d9;
+$wj-cell-grp-txt: #000;
+$wj-cell-frz: #e7eef1;
+$wj-cell-frz-alt: #d7e3e8;
+$wj-cell-frz-bdr-clr: #222;
+
+$wj-btn-bkg: #fff;
+$wj-btn-hvr: #e8e8e8;
+$wj-btn-txt: #666666;
+
+$wj-tooltip: #fff;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

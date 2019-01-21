@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -126,8 +126,11 @@ declare module wijmo.chart.radar {
         private _points;
         private _axisLabels;
         _height: number;
+        private __actualMin;
+        private __actualMax;
         _render(engine: IRenderEngine): void;
         _getHeight(engine: IRenderEngine, maxw: number): number;
+        _getActualRange(): number;
         _updateActualLimits(dataType: DataType, dataMin: number, dataMax: number, labels?: string[], values?: number[]): void;
         _updateActualLimitsByChartType(labels: any, min: any, max: any): {
             min: any;

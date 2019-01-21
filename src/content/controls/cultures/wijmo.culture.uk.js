@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Ліцензія Wijmo у цій програмі недійсна для <b>{control}</b> контроль',
             ver: 'Цей застосунок, ліцензія Wijmo неприпустимий для версії використовується. Версія, ліцензія, <b></b>{licVer}; версію продукту є <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} пунктів обраний',
-            selectAll: 'Шукати все'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Календар',
+                monthView: 'Подання місяця',
+                yearView: 'Подання року',
+                prvMo: 'Попередній місяць',
+                today: 'Сьогодні',
+                nxtMo: 'Наступного місяця',
+                prvYr: 'Попередній рік',
+                currMo: 'Поточний місяць',
+                nxtYr: 'Наступного року',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Переключити випадає'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} елементи)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} елементи)',
+            ariaLabels: {
+                toggleDropDown: 'Переключити випадає',
+                toggleGroup: 'Група перемикання'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Відкрити або закрити рядок деталей'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Редагувати фільтр для стовпця',
+                dialog: 'Фільтр редактор для стовпця',
+                asc: 'Сортувати стовпці за зростанням',
+                dsc: 'Сортувати стовпці за спаданням',
+                search: 'Пошук елемента списку',
+                op1: 'Перший оператор умови',
+                val1: 'Перше значення умова',
+                and: 'Вимагають обидві умови',
+                or: 'Вимагають будь-якому стані',
+                op2: 'Другий оператор умови',
+                val2: 'Друга умова значення'
+            },
             // filter
-            ariaLabel: 'Фільтр редактор для стовпця',
             ascending: '\u2191 У порядку зростання',
             descending: '\u2193 У порядку спадання',
             apply: 'Застосувати',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Дорівнює', op: 0 },
                 { name: 'Не дорівнює', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Переключити календар',
+                tglTime: 'Відкрити або закрити список час'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Збільшення значення',
+                decVal: 'Зменшення значення'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} пунктів обраний',
+            selectAll: 'Шукати все'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} елемент',
                 row: 'Рядок',
                 col: 'Стовпець'
+            },
+            Slicer: {
+                multiSelect: 'Із множинним вибором',
+                clearFilter: 'Очистити фільтр'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(виберіть значення)',
             apply: 'Застосувати',
             errorOccured: 'Сталася помилка.'
+        },
+        FlexSheet: {
+            insertRow: 'Вставити рядок',
+            deleteRow: 'Видалити рядок',
+            insertCol: 'Вставити стовпець',
+            deleteCol: 'Delete Column',
+            convertTable: 'Перетворити таблицю',
+            copyCells: 'Копіювання клітинок',
+            fillSeries: 'Заповнити серія',
+            fillFormat: 'Заповнити лише форматування',
+            fillWithoutFormat: 'Заповнити без форматування'
         }
     };
     var updc = window['wijmo']._updateCulture;

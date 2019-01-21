@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Bu uygulamada Wijmo lisans <b>{control}</b> denetimi için geçerli değil.',
             ver: 'Wijmo lisans bu uygulamada kullanılan sürümü için geçerli değildir. Lisans sürümüne <b>{licVer}</b>; <b>{version}</b>ürün sürümüdür.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} ürün seçilen',
-            selectAll: 'Tümünü Seç'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Takvim',
+                monthView: 'Ay Görünümü',
+                yearView: 'Yıl Görünümü',
+                prvMo: 'Önceki Ay',
+                today: 'Bugün',
+                nxtMo: 'Gelecek Ay',
+                prvYr: 'Önceki Yıl',
+                currMo: 'Geçerli ay',
+                nxtYr: 'Sonraki Yıl',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Değiştir açılır'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} öğe)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} öğe)',
+            ariaLabels: {
+                toggleDropDown: 'Değiştir açılır',
+                toggleGroup: 'İki durumlu Grup'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Geçiş satır ayrıntı'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Sütun için Filtre Düzenle',
+                dialog: 'Filtre Düzenleyicisi sütun için',
+                asc: 'Artan düzende sıralama sütunu',
+                dsc: 'Azalan düzende sıralama sütunu',
+                search: 'Arama öğe listesi',
+                op1: 'İlk koşul işleci',
+                val1: 'İlk koşul değer',
+                and: 'Her iki koşul gerektirir',
+                or: 'Her iki koşul gerektirir',
+                op2: 'İkinci koşul işleci',
+                val2: 'İkinci koşul değer'
+            },
             // filter
-            ariaLabel: 'Filtre Düzenleyicisi sütun için',
             ascending: '\u2191 Artan',
             descending: '\u2193 Azalan',
             apply: 'Uygula',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Eşittir', op: 0 },
                 { name: 'Eşit değildir', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Geçiş takvimi',
+                tglTime: 'Geçiş zamanı listesi'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Artış değeri',
+                decVal: 'Değerini azaltın'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} ürün seçilen',
+            selectAll: 'Tümünü Seç'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} öğesi',
                 row: 'Satır',
                 col: 'Sütun'
+            },
+            Slicer: {
+                multiSelect: 'Çoklu seçim',
+                clearFilter: 'Filtreyi temizle'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(değer seçin)',
             apply: 'Uygula',
             errorOccured: 'Hata oluştu.'
+        },
+        FlexSheet: {
+            insertRow: 'Satır Ekle',
+            deleteRow: 'Satır Sil',
+            insertCol: 'Sütun ekle',
+            deleteCol: 'Delete Column',
+            convertTable: 'Tabloyu Dönüştür',
+            copyCells: 'Hücreleri Kopyala',
+            fillSeries: 'Serileri Doldur',
+            fillFormat: 'Yalnızca Biçimlendirmeyi Doldur',
+            fillWithoutFormat: 'Biçimlendirmeden Doldur'
         }
     };
     var updc = window['wijmo']._updateCulture;

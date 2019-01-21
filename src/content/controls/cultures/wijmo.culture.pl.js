@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licencji w tej aplikacji nie jest prawidłowa dla formantu <b>{control}</b>  .',
             ver: 'Wijmo licencji w tej aplikacji nie jest prawidłowa dla używanej wersji. Wersja licencji jest <b>{licVer}</b>; <b>{version}</b>wersję produktu.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} pozycji wybrano',
-            selectAll: 'Zaznacz wszystko'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendarz',
+                monthView: 'Widok miesiąca',
+                yearView: 'Widok roku',
+                prvMo: 'Poprzedni miesiąc',
+                today: 'Dzisiaj',
+                nxtMo: 'Następny miesiąc',
+                prvYr: 'Poprzedni rok',
+                currMo: 'Bieżący miesiąc',
+                nxtYr: 'Następny rok',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Przełączanie menu rozwijane'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elem.)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elem.)',
+            ariaLabels: {
+                toggleDropDown: 'Przełączanie menu rozwijane',
+                toggleGroup: 'Przełącz grupę'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Przełącz wiersz szczegółów'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Edytuj filtr dla kolumny',
+                dialog: 'Edytor filtru do kolumny',
+                asc: 'Kolumna sortowania w kolejności rosnącej',
+                dsc: 'Kolumna sortowania w kolejności malejącej',
+                search: 'Wyszukiwanie elementu listy',
+                op1: 'Pierwszy Operator warunku',
+                val1: 'Pierwszy warunek wartość',
+                and: 'Wymagają obu warunków',
+                or: 'Wymagają albo warunek',
+                op2: 'Drugi Operator warunku',
+                val2: 'Druga wartość warunku'
+            },
             // filter
-            ariaLabel: 'Edytor filtru do kolumny',
             ascending: '\u2191 Rosnąco',
             descending: '\u2193 Malejąco',
             apply: 'Zastosuj',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Równa się', op: 0 },
                 { name: 'Nie równa się', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Przełącz kalendarz',
+                tglTime: 'Listy czas przełączania'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Zwiększenia wartości',
+                decVal: 'Zmniejsz wartość'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} pozycji wybrano',
+            selectAll: 'Zaznacz wszystko'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'element {cnt}',
                 row: 'Wiersz',
                 col: 'Kolumna'
+            },
+            Slicer: {
+                multiSelect: 'Wybór wielokrotny',
+                clearFilter: 'Wyczyść filtr'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(wybierz wartość)',
             apply: 'Zastosuj',
             errorOccured: 'Wystąpił błąd.'
+        },
+        FlexSheet: {
+            insertRow: 'Wstaw wiersz',
+            deleteRow: 'Usuń wiersz',
+            insertCol: 'Wstaw kolumnę',
+            deleteCol: 'Delete Column',
+            convertTable: 'Konwertuj tabelę',
+            copyCells: 'Kopiuj komórki',
+            fillSeries: 'Wypełnij serią',
+            fillFormat: 'Wypełnij tylko formatami',
+            fillWithoutFormat: 'Wypełnij bez formatowania'
         }
     };
     var updc = window['wijmo']._updateCulture;

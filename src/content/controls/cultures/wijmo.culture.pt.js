@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -31,7 +31,7 @@ var wijmo;
                 '+': '+',
                 '%': '%',
                 percent: { pattern: ['-n%', 'n%'] },
-                currency: { decimals: 2, symbol: 'R$', pattern: ['-$n', '$n'] }
+                currency: { decimals: 2, symbol: 'R$', pattern: ['-$ n', '$ n'] }
             },
             calendar: {
                 '/': '/',
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'A licença Wijmo neste aplicativo não é válida para o controle <b>{control}</b>.',
             ver: 'A licença Wijmo neste aplicativo não é válida para a versão em uso. A versão da licença é <b>{licVer}</b>; a versão do produto é <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} itens selecionados',
-            selectAll: 'Selecionar Todos'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Calendário',
+                monthView: 'Modo de Exibição Mês',
+                yearView: 'Modo de Exibição Ano',
+                prvMo: 'Mês Anterior',
+                today: 'Hoje',
+                nxtMo: 'Próximo Mês',
+                prvYr: 'Ano Anterior',
+                currMo: 'Mês atual',
+                nxtYr: 'Próximo Ano',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Mostra lista'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} itens)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} itens)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Grupo'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Mostar detalhe de linha'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Editar filtro para Coluna',
+                dialog: 'Editor de filtro para coluna',
+                asc: 'Ordenar a coluna em ordem crescente',
+                dsc: 'Ordenar a coluna em ordem decrescente',
+                search: 'Lista de Item de busca',
+                op1: 'Operador da primeira condição',
+                val1: 'Valor da primeira condição',
+                and: 'Exigir ambas as condições',
+                or: 'Exigir qualquer condição',
+                op2: 'Operador da segunda condição',
+                val2: 'Valor da segunda condição'
+            },
             // filter
-            ariaLabel: 'Editor de filtro para coluna',
             ascending: '\u2191 Crescente',
             descending: '\u2193 Decrescente',
             apply: 'Aplicar',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Igual a', op: 0 },
                 { name: 'Diferente de', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Mostrar Calendário',
+                tglTime: 'Mostrar Lista de Horários'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Aumentar o valor',
+                decVal: 'Diminuir o valor'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} itens selecionados',
+            selectAll: 'Selecionar Todos'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} item',
                 row: 'Linha',
                 col: 'Coluna'
+            },
+            Slicer: {
+                multiSelect: 'Seleção múltipla',
+                clearFilter: 'Limpar filtro'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(selecione o valor)',
             apply: 'Aplicar',
             errorOccured: 'Erro.'
+        },
+        FlexSheet: {
+            insertRow: 'Inserir linha',
+            deleteRow: 'Excluir linha',
+            insertCol: 'Inserir coluna',
+            deleteCol: 'Delete Column',
+            convertTable: 'Converter tabela',
+            copyCells: 'Copiar células',
+            fillSeries: 'Preencher Série',
+            fillFormat: 'Preencher formatação somente',
+            fillWithoutFormat: 'Preencher sem formatação'
         }
     };
     var updc = window['wijmo']._updateCulture;

@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -90,16 +90,16 @@ declare module wijmo.grid {
         _eBL: HTMLDivElement;
         _eFocus: HTMLDivElement;
         _activeCell: HTMLElement;
-        private _eCHdr;
-        private _eCFtr;
-        private _eRHdr;
-        private _eCHdrCt;
-        private _eCFtrCt;
-        private _eRHdrCt;
-        private _eTLCt;
-        private _eBLCt;
-        private _eSz;
-        private _eMarquee;
+        _eCHdr: HTMLDivElement;
+        _eCFtr: HTMLDivElement;
+        _eRHdr: HTMLDivElement;
+        _eCHdrCt: HTMLDivElement;
+        _eCFtrCt: HTMLDivElement;
+        _eRHdrCt: HTMLDivElement;
+        _eTLCt: HTMLDivElement;
+        _eBLCt: HTMLDivElement;
+        _eSz: HTMLDivElement;
+        _eMarquee: HTMLDivElement;
         private _gpTL;
         private _gpCHdr;
         private _gpRHdr;
@@ -108,7 +108,6 @@ declare module wijmo.grid {
         private _gpCFtr;
         private _maxOffsetY;
         private _heightBrowser;
-        private _tabIndex;
         _szClient: Size;
         _offsetY: number;
         _lastCount: number;
@@ -126,6 +125,7 @@ declare module wijmo.grid {
         private _autoGenCols;
         private _autoClipboard;
         private _autoScroll;
+        private _autoSearch;
         private _readOnly;
         private _indent;
         private _autoSizeMode;
@@ -161,7 +161,6 @@ declare module wijmo.grid {
         private _sortRowIndex;
         private _deferResizing;
         private _bndSortConverter;
-        private _bndScroll;
         private _stickyHdr;
         private _afScrl;
         private _afSticky;
@@ -171,6 +170,8 @@ declare module wijmo.grid {
         private _scrollHandlerAttached;
         private _itemValidator;
         private _fzClone;
+        _vtRows: number;
+        _vtCols: number;
         /**
          * Gets or sets the template used to instantiate @see:FlexGrid controls.
          */
@@ -207,7 +208,8 @@ declare module wijmo.grid {
          */
         preserveOutlineState: boolean;
         /**
-         * Gets or sets the minimum number of rows required to enable virtualization.
+         * Gets or sets the minimum number of rows and/or columns required to enable
+         * virtualization.
          *
          * This property is set to zero by default, meaning virtualization is always
          * enabled. This improves binding performance and memory requirements, at the
@@ -216,17 +218,32 @@ declare module wijmo.grid {
          * If your grid has a small number of rows (about 50 to 100), you may be able to
          * improve scrolling performance by setting this property to a slightly higher
          * value (like 150). This will disable virtualization and will slow down binding,
-         * but may improve perceived scroll performance.
+         * but may improve perceived scroll performance. For example, the code below sets
+         * causes the grid to virtualize cells when the data source has more than 150 items:
+         *
+         * <pre>// virtualize grid when there are more than 150 items
+         * theGrid.virtualizationThreshold = 150;
+         * </pre>
          *
          * Setting this property to values higher than 200 is not recommended. Loading
          * times will become too long; the grid will freeze for a few seconds while
          * creating cells for all rows, and the browser will become slow because of
          * the large number of elements on the page.
+         *
+         * If you want to set separate virtualization thresholds for rows and columns,
+         * you may set the @see:virtualizationThreshold property to an array with two
+         * numbers. In this case, the first number will be used as the row threshold
+         * and the second as the column threshold. For example, the code below sets
+         * causes the grid to virtualize rows but not columns:
+         *
+         * <pre>// virtualize rows (threshold 0) but not columns (threshold 10,000)
+         * theGrid.virtualizationThreshold = [0, 10000];
+         * </pre>
          */
-        virtualizationThreshold: number;
+        virtualizationThreshold: any;
         /**
-         * Gets or sets a value that determines whether the grid should generate columns
-         * automatically based on the @see:itemsSource.
+         * Gets or sets a value that determines whether the grid should generate
+         * columns automatically based on the @see:itemsSource.
          *
          * The column generation depends on the @see:itemsSource property containing
          * at least one item. This data item is inspected and a column is created and
@@ -241,13 +258,15 @@ declare module wijmo.grid {
          * <pre>var grid = new wijmo.grid.FlexGrid('#theGrid', {
          *   autoGenerateColumns: false, // data items may contain null values
          *   columns: [                  // so define columns explicitly
-         *     { binding: 'name', header: 'Name', type: 'String' },
-         *     { binding: 'amount', header: 'Amount', type: 'Number' },
-         *     { binding: 'date', header: 'Date', type: 'Date' },
-         *     { binding: 'active', header: 'Active', type: 'Boolean' }
+         *     { binding: 'name', header: 'Name', dataType: 'String' },
+         *     { binding: 'amount', header: 'Amount', dataType: 'Number' },
+         *     { binding: 'date', header: 'Date', dataType: 'Date' },
+         *     { binding: 'active', header: 'Active', dataType: 'Boolean' }
          *   ],
          *   itemsSource: customers
          * });</pre>
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoGenerateColumns: boolean;
         /**
@@ -264,6 +283,8 @@ declare module wijmo.grid {
          * Only visible rows and columns are included in clipboard operations.
          *
          * Read-only cells are not affected by paste operations.
+         *
+         * The default value for this property is <b>true</b>.
          */
         autoClipboard: boolean;
         /**
@@ -272,9 +293,20 @@ declare module wijmo.grid {
          *
          * Row and column dragging are controlled by the @see:allowDragging property.
          *
-         * This property is set to true by default.
+         * The default value for this property is <b>true</b>.
          */
         autoScroll: boolean;
+        /**
+         * Gets or sets a value that determines whether the grid should search for
+         * cells as the users types into read-only cells.
+         *
+         * The search happens on the column that is currently selected, if it is
+         * not editable. The search starts at the currently selected row and is
+         * case-insensitive.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        autoSearch: boolean;
         /**
          * Gets or sets a JSON string that defines the current column layout.
          *
@@ -283,13 +315,15 @@ declare module wijmo.grid {
          * they are preserved across sessions, and can also be used to implement undo/redo
          * functionality in applications that allow users to modify the column layout.
          *
-         * The column layout string does not include <b>dataMap</b> properties, because
+         * The column layout string does not include <b>dataMap</b> properties because
          * data maps are not serializable.
          */
         columnLayout: string;
         /**
          * Gets or sets a value that determines whether the user can modify
          * cell values using the mouse and keyboard.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isReadOnly: boolean;
         /**
@@ -298,6 +332,8 @@ declare module wijmo.grid {
          *
          * This property is relevant only for sites/applications in Japanese,
          * Chinese, Korean, and other languages that require IME support.
+         *
+         * The default value for this property is <b>false</b>.
          */
         imeEnabled: boolean;
         /**
@@ -312,6 +348,8 @@ declare module wijmo.grid {
          * automatically resize rows and columns to fit their content.
          * The auto-size behavior can be customized using the @see:autoSizeMode
          * property.
+         *
+         * The default value for this property is <b>AllowResizing.Columns</b>.
          */
         allowResizing: AllowResizing;
         /**
@@ -322,6 +360,8 @@ declare module wijmo.grid {
          * to be resized as the user drags the mouse. Setting this property to true
          * causes the grid to show a resizing marker and to resize the row or column
          * only when the user releases the mouse button.
+         *
+         * The default value for this property is <b>false</b>.
          */
         deferResizing: boolean;
         /**
@@ -334,6 +374,8 @@ declare module wijmo.grid {
          * By default, the grid will automatically set the column width based on the
          * content of the header and data cells in the column. This property allows
          * you to change that to include only the headers or only the data.
+         *
+         * The default value for this property is <b>AutoSizeMode.Both</b>.
          */
         autoSizeMode: AutoSizeMode;
         /**
@@ -352,6 +394,8 @@ declare module wijmo.grid {
         /**
          * Gets or sets a value that determines whether users are allowed to sort columns
          * by clicking the column header cells.
+         *
+         * The default value for this property is <b>true</b>.
          */
         allowSorting: boolean;
         /**
@@ -360,6 +404,8 @@ declare module wijmo.grid {
          *
          * The new row template will not be displayed if the @see:isReadOnly property
          * is set to true.
+         *
+         * The default value for this property is <b>false</b>.
          */
         allowAddNew: boolean;
         /**
@@ -373,6 +419,8 @@ declare module wijmo.grid {
          *
          * The new row template will be displayed only if the @see:allowAddNew property
          * is set to true and if the @see:itemsSource object supports adding new items.
+         *
+         * The default value for this property is <b>false</b>.
          */
         newRowAtTop: boolean;
         /**
@@ -381,20 +429,28 @@ declare module wijmo.grid {
          *
          * Selected rows will not be deleted if the @see:isReadOnly property
          * is set to true.
+         *
+         * The default value for this property is <b>false</b>.
          */
         allowDelete: boolean;
         /**
          * Gets or sets which parts of the grid provide cell merging.
+         *
+         * The default value for this property is <b>AllowMerging.None</b>.
          */
         allowMerging: AllowMerging;
         /**
          * Gets or sets a value that indicates whether the grid should
          * add class names to indicate selected header cells.
+         *
+         * The default value for this property is <b>HeadersVisibility.None</b>.
          */
         showSelectedHeaders: HeadersVisibility;
         /**
          * Gets or sets a value that indicates whether the grid should
-         * display a marquee element around the current selection.
+         * display an Excel-style marquee around the current selection.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showMarquee: boolean;
         /**
@@ -404,14 +460,18 @@ declare module wijmo.grid {
          * Sorting is controlled by the @see:ICollectionView.sortDescriptions
          * property of the @see:ICollectionView object used as a the grid's
          * @see:itemsSource.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showSort: boolean;
         /**
-         * Gets or sets a value that determines whether the grid should insert group
-         * rows to delimit data groups.
+         * Gets or sets a value that determines whether the @see:FlexGrid should insert
+         * group rows to delimit data groups.
          *
          * Data groups are created by modifying the @see:ICollectionView.groupDescriptions
-         * property of the @see:ICollectionView object used as a the grid's @see:itemsSource.
+         * property of the @see:ICollectionView object used as an @see:itemsSource.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showGroups: boolean;
         /**
@@ -420,6 +480,8 @@ declare module wijmo.grid {
          *
          * Setting this property to false disables alternate row styles without any
          * changes to the CSS.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showAlternatingRows: boolean;
         /**
@@ -428,6 +490,8 @@ declare module wijmo.grid {
          *
          * The grid detects validation errors using the @see:itemValidator property or
          * the @see:CollectionView.getError property on the grid's @see:itemsSource.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showErrors: boolean;
         /**
@@ -463,6 +527,8 @@ declare module wijmo.grid {
          *
          * The grid detects validation errors by calling the @see:CollectionView.getError
          * method on the grid's @see:itemsSource.
+         *
+         * The default value for this property is <b>true</b>.
          */
         validateEdits: boolean;
         /**
@@ -513,14 +579,24 @@ declare module wijmo.grid {
          *
          * This fiddle demonstrates row dragging with a bound grid:
          * <a href="http://jsfiddle.net/Wijmo5/kyg0qsda/" target="_blank">Bound Row Dragging</a>.
+         *
+         * The default value for this property is <b>AllowDragging.Columns</b>.
          */
         allowDragging: AllowDragging;
         /**
-         * Gets or sets the array or @see:ICollectionView that contains items shown on the grid.
+         * Gets or sets the array or @see:ICollectionView that contains items
+         * shown on the grid.
          */
         itemsSource: any;
         /**
          * Gets the @see:ICollectionView that contains the grid data.
+         *
+         * If the @see:itemsSource property was set to an @see:ICollectionView,
+         * this property returns that value.
+         *
+         * If the @see:itemsSource property was set to an array of data items,
+         * this property returns the internal @see:CollectionView created
+         * by the grid to support currency, editing, and sorting.
          */
         readonly collectionView: collections.ICollectionView;
         /**
@@ -532,14 +608,15 @@ declare module wijmo.grid {
          * child rows in hierarchical grids.
          *
          * Set this property to a string to specify the name of the property that
-         * contains an item's child items (e.g. <code>'items'</code>).
+         * contains an item's child items
+         * (e.g. <code>childItemsPath = 'items';</code>).
          *
          * If items at different levels child items with different names, then
          * set this property to an array containing the names of the properties
          * that contain child items et each level
-         * (e.g. <code>[ 'accounts', 'checks', 'earnings' ]</code>).
+         * (e.g. <code>childItemsPath = ['checks','earnings'];</code>).
          *
-         * @fiddle:t0ncmjwp
+         * @fiddle:kk9j93bL
          */
         childItemsPath: any;
         /**
@@ -620,6 +697,8 @@ declare module wijmo.grid {
          *
          * Frozen rows do not scroll vertically, but the cells they contain
          * may be selected and edited.
+         *
+         * The default value for this property is <b>0</b>.
          */
         frozenRows: number;
         /**
@@ -627,6 +706,8 @@ declare module wijmo.grid {
          *
          * Frozen columns do not scroll horizontally, but the cells they contain
          * may be selected and edited.
+         *
+         * The default value for this property is <b>0</b>.
          */
         frozenColumns: number;
         /**
@@ -634,16 +715,19 @@ declare module wijmo.grid {
          * clone frozen cells and show then in a separate element to improve
          * perceived performance while scrolling.
          *
-         * This property is set to null by default, which causes the grid
-         * to select the best setting depending on the browser.
+         *
+         * The default value for this property is <b>null</b>,
+         * which causes the grid to select the best setting depending
+         * on the browser.
          */
         cloneFrozenCells: boolean;
         /**
          * Gets or sets the index of row in the column header panel that
          * shows and changes the current sort.
          *
-         * This property is set to null by default, causing the last row
-         * in the @see:columnHeaders panel to act as the sort row.
+         * The default value for this property is <b>null</b>,
+         * which causes the bottom row in the @see:columnHeaders
+         * panel to act as the sort row.
          */
         sortRowIndex: number;
         /**
@@ -785,8 +869,10 @@ declare module wijmo.grid {
          * Hidden rows and columns are not included in the clip string.
          *
          * @param rng @see:CellRange to copy. If omitted, the current selection is used.
+         * @param csv Whether to use the CSV format (comma-delimited cells).
+         * @param headers Whether to include the column headers.
          */
-        getClipString(rng?: CellRange): string;
+        getClipString(rng?: CellRange, csv?: boolean, headers?: boolean): string;
         /**
          * Parses a string into rows and columns and applies the content to a given range.
          *
@@ -835,14 +921,15 @@ declare module wijmo.grid {
         /**
          * Resizes a range of columns to fit their content.
          *
-         * The grid will always measure all rows in the current view range, plus up to 2,000 rows
-         * not currently in view. If the grid contains a large amount of data (say 50,000 rows),
-         * then not all rows will be measured since that could potentially take a long time.
+         * The grid will always measure all rows in the current view range, plus up
+         * to 2,000 rows not currently in view. If the grid contains a large amount
+         * of data (say 50,000 rows),  then not all rows will be measured since that
+         * could take a long time.
          *
-         * This method only works if the grid is visible. If its host element
-         * has not been added to the DOM, or if any of the grid's ancestor
-         * elements is hidden, the grid will not be able to measure the cells
-         * and therefore will not be able to auto-size the columns.
+         * This method only works if the grid is visible. If its host element has not
+         * been added to the DOM, or if any of the grid's ancestor elements is hidden,
+         * the grid will not be able to measure the cells and therefore will not be
+         * able to auto-size the columns.
          *
          * @param firstColumn Index of the first column to resize (defaults to the first column).
          * @param lastColumn Index of the last column to resize (defaults to the last column).
@@ -855,7 +942,7 @@ declare module wijmo.grid {
          *
          * This method only works if the grid is visible. If its host element
          * has not been added to the DOM, or if any of the grid's ancestor
-         * elements is hidden, the grid will not be able to measure the cells
+         * elements are hidden, the grid will not be able to measure the cells
          * and therefore will not be able to auto-size the rows.
          *
          * @param r Index of the row to resize.
@@ -897,6 +984,25 @@ declare module wijmo.grid {
         selection: CellRange;
         /**
          * Selects a cell range and optionally scrolls it into view.
+         *
+         * The @see:select method can be called by passing a @see:CellRange and
+         * an optional boolean parameter that indicates whether the new selection
+         * should be scrolled into view. For example:
+         *
+         * <pre>// select cell 1,1 and scroll it into view
+         * grid.select(new CellRange(1, 1), true);
+         *
+         * // select range (1,1)-(2,4) and do not scroll it into view
+         * grid.select(new CellRange(1, 1, 2, 4), false);
+         * </pre>
+         *
+         * You can also call the @see:select method passing the index or the
+         * row and column you want to select. In this case, the new selection
+         * always scrolls into view. For example:
+         *
+         * <pre>// select cell 1,1 and scroll it into view
+         * grid.select(1, 1);
+         * </pre>
          *
          * @param rng Range to select.
          * @param show Whether to scroll the new selection into view.
@@ -1698,7 +1804,6 @@ declare module wijmo.grid {
         private _scroll(e);
         private _updateScrollPosition();
         private _updateContent(recycle, state?);
-        private _fixScroll();
         private _clearCells();
         _useFrozenDiv(): boolean;
         private _updateFrozenCells(state);
@@ -1828,9 +1933,9 @@ declare module wijmo.grid {
         private _rows;
         private _cols;
         private _offsetY;
-        private _vrb;
-        private _vru;
         private _activeCell;
+        _vrb: CellRange;
+        _vru: CellRange;
         static readonly _INDEX_KEY: string;
         /**
          * Initializes a new instance of the @see:GridPanel class.
@@ -1948,7 +2053,7 @@ declare module wijmo.grid {
     class CellFactory {
         static _WJC_COLLAPSE: string;
         static _WJC_DROPDOWN: string;
-        static _ddIcon: HTMLElement;
+        static _ddBtn: HTMLElement;
         static _fmtRng: CellRange;
         /**
          * Creates or updates a cell in the grid.
@@ -1976,7 +2081,7 @@ declare module wijmo.grid {
          */
         getEditorValue(g: FlexGrid): any;
         private _isEditingCell(g, r, c);
-        private _getTreeIcon(gr);
+        private _getTreeBtn(gr);
         private _getSortIcon(col);
     }
 }
@@ -2160,6 +2265,7 @@ declare module wijmo.grid {
     class RowCol {
         _sz: number;
         _cssClass: string;
+        _cssClassAll: string;
         _szMin: number;
         _szMax: number;
         _list: any;
@@ -2172,7 +2278,8 @@ declare module wijmo.grid {
          */
         visible: boolean;
         /**
-         * Gets a value that indicates whether the row or column is visible and not collapsed.
+         * Gets a value that indicates whether the row or column is
+         * visible and not collapsed.
          *
          * This property is read-only. To change the visibility of a
          * row or column, use the @see:visible property instead.
@@ -2193,57 +2300,88 @@ declare module wijmo.grid {
         readonly visibleIndex: number;
         /**
          * Gets or sets the size of the row or column.
-         * Setting this property to null or negative values causes the element to use the
-         * parent collection's default size.
+         *
+         * Setting this property to null or negative values causes
+         * the element to use the parent collection's default size.
          */
         size: number;
         /**
          * Gets the render size of the row or column.
-         * This property accounts for visibility, default size, and min and max sizes.
+         *
+         * This property accounts for visibility, default size,
+         * and min and max sizes.
          */
         readonly renderSize: number;
         /**
-         * Gets or sets a value that indicates whether the user can resize the row or column with the mouse.
+         * Gets or sets a value that indicates whether the user can resize
+         * the row or column with the mouse.
+         *
+         * The default value for this property is <b>true</b>.
          */
         allowResizing: boolean;
         /**
          * Gets or sets a value that indicates whether the user can move the row or column to a new position with the mouse.
+         *
+         * The default value for this property is <b>true</b>.
          */
         allowDragging: boolean;
         /**
-         * Gets or sets a value that indicates whether cells in the row or column can be merged.
+         * Gets or sets a value that indicates whether cells in the
+         * row or column can be merged.
+         *
+         * The default value for this property is <b>false</b>.
          */
         allowMerging: boolean;
         /**
-         * Gets or sets a value that indicates whether the row or column is selected.
+         * Gets or sets a value that indicates whether the row or column
+         * is selected.
          */
         isSelected: boolean;
         /**
-         * Gets or sets a value that indicates whether cells in the row or column can be edited.
+         * Gets or sets a value that indicates whether cells in the
+         * row or column can be edited.
+         *
+         * The default value for this property is <b>true</b>.
          */
         isReadOnly: boolean;
         /**
          * Gets or sets a value that indicates whether cells in this row or column
          * contain HTML content rather than plain text.
+         *
+         * This property only applies to regular cells. Row and column header
+         * cells contain plain text by default. If you want to display HTML
+         * in row or column headers, you must use the @see:FlexGrid.formatItem
+         * event and set the cell's innerHTML content in code.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isContentHtml: boolean;
         /**
          * Gets or sets a value that indicates whether the content of cells in
          * this row or column should wrap to fit the available column width.
+         *
+         * The default value for this property is <b>false</b>.
          */
         wordWrap: boolean;
         /**
          * Gets or sets a value that indicates whether the content of cells in
          * this row or column should wrap at new line characters (\n).
+         *
+         * The default value for this property is <b>false</b>.
          */
         multiLine: boolean;
         /**
          * Gets or sets a CSS class name to use when rendering
-         * non-header cells in the row or column.
+         * data (non-header) cells in the row or column.
          */
         cssClass: string;
         /**
-         * Gets the @see:FlexGrid that owns the row or column.
+         * Gets or sets a CSS class name to use when rendering
+         * all cells (data and headers) in the row or column.
+         */
+        cssClassAll: string;
+        /**
+         * Gets the @see:FlexGrid that owns this row or column.
          */
         readonly grid: FlexGrid;
         /**
@@ -2276,6 +2414,7 @@ declare module wijmo.grid {
         private _showDropDown;
         private _ddCssClass;
         private _quickSize;
+        private _descById;
         _binding: Binding;
         _bindingSort: Binding;
         _szStar: string;
@@ -2322,6 +2461,8 @@ declare module wijmo.grid {
          * to show a list where users can select the value for the cell.
          *
          * Cell drop-downs require the wijmo.input module to be loaded.
+         *
+         * The default value for this property is <b>true</b>.
          */
         showDropDown: boolean;
         /**
@@ -2335,16 +2476,17 @@ declare module wijmo.grid {
          */
         dropDownCssClass: string;
         /**
-         * Gets or sets the "type" attribute of the HTML input element used to edit values
-         * in this column.
+         * Gets or sets the "type" attribute of the HTML input element used to
+         * edit values in this column.
          *
-         * By default, this property is set to "tel" for numeric columns, and to "text" for
-         * all other non-boolean column types. The "tel" input type causes mobile devices
-         * to show a numeric keyboard that includes a negative sign and a decimal separator.
+         * By default, this property is set to "tel" for numeric columns, and to
+         * "text" for all other non-boolean column types. The "tel" input type
+         * causes mobile devices to show a numeric keyboard that includes a negative
+         * sign and a decimal separator.
          *
-         * Use this property to change the default setting if the default does not work well
-         * for the current culture, device, or application. In these cases, try setting the
-         * property to "number" or simply "text."
+         * Use this property to change the default setting if the default does not
+         * work well for the current culture, device, or application.
+         * In these cases, try setting the property to "number" or simply "text."
          */
         inputType: string;
         /**
@@ -2362,8 +2504,8 @@ declare module wijmo.grid {
          * Gets or sets the maximum number of characters that the can
          * be entered into the cell.
          *
-         * Set this property to null to allow entry of any number of
-         * characters.
+         * This property is set to null by default, which allows entries
+         * with any number of characters.
          */
         maxLength: number;
         /**
@@ -2402,10 +2544,16 @@ declare module wijmo.grid {
         width: any;
         /**
          * Gets or sets the minimum width of the column.
+         *
+         * This property is set to null by default, which means there
+         * is the minimum width is zero.
          */
         minWidth: number;
         /**
-         * Gets or sets the maximum width of the column.
+         * Gets or sets the maximum width (in pixels) of the column.
+         *
+         * This property is set to null by default, which means there
+         * is no maximum width.
          */
         maxWidth: number;
         /**
@@ -2489,6 +2637,14 @@ declare module wijmo.grid {
          * for the column.
          */
         aggregate: Aggregate;
+        /**
+         * Gets or sets the ID of an element that contains a description
+         * of the column.
+         *
+         * The ID is used as the value of the <b>aria-describedby</b>
+         * attribute for the column header element.
+         */
+        describedById: string;
         _getBindingSort(): string;
         static _parseStarSize(value: any): number;
     }
@@ -2563,6 +2719,7 @@ declare module wijmo.grid {
         _vlen: number;
         _szDef: number;
         _szTot: number;
+        _szCustom: boolean;
         _dirty: boolean;
         _szMin: number;
         _szMax: number;
@@ -2573,6 +2730,10 @@ declare module wijmo.grid {
          * @param defaultSize The default size of the elements in the collection.
          */
         constructor(g: FlexGrid, defaultSize: number);
+        /**
+         * Gets the @see:FlexGrid that owns this collection.
+         */
+        readonly grid: FlexGrid;
         /**
          * Gets or sets the default size of elements in the collection.
          */
@@ -2657,6 +2818,7 @@ declare module wijmo.grid {
          * Suspends notifications until the next call to @see:endUpdate.
          */
         beginUpdate(): void;
+        _setDefaultSize(value: number): void;
         _update(): boolean;
     }
     /**
@@ -2664,6 +2826,7 @@ declare module wijmo.grid {
      */
     class ColumnCollection extends RowColCollection {
         _firstVisible: number;
+        _descById: string;
         /**
          * Gets a column by name or by binding.
          *
@@ -2685,6 +2848,15 @@ declare module wijmo.grid {
          */
         indexOf(name: any): number;
         /**
+         * Gets or sets the ID of an element that contains a description
+         * of the column headers.
+         *
+         * The ID is used as the value of the <b>aria-describedby</b>
+         * attribute for all column header elements. For column-specific
+         * descriptions, use the column's @see:Column.describedById instead.
+         */
+        describedById: string;
+        /**
          * Gets the index of the first visible column (where the outline tree is displayed).
          */
         readonly firstVisibleIndex: number;
@@ -2696,6 +2868,20 @@ declare module wijmo.grid {
      */
     class RowCollection extends RowColCollection {
         _maxLevel: number;
+        _ariaLabel: string;
+        /**
+         * Gets or sets a string used as an ARIA label for all rows in this
+         * collection.
+         *
+         * For example, the code below adds ARIA labels to the header and
+         * data rows:
+         *
+         * <pre>
+         * grid.rows.ariaLabel = 'data row';
+         * grid.columnHeaders.rows.ariaLabel = 'header row';
+         * </pre>
+         */
+        ariaLabel: string;
         /**
          * Gets the maximum group level in the grid.
          *
@@ -2823,7 +3009,7 @@ declare module wijmo.grid {
          * @return A @see:CellRange that specifies the merged range, or null if the cell is not merged.
          */
         getMergedRange(p: GridPanel, r: number, c: number, clip?: boolean): CellRange;
-        _mergeCell(p: GridPanel, r1: number, c1: number, r2: number, c2: number): boolean;
+        private _mergeCell(p, r1, c1, r2, c2);
     }
 }
 
@@ -3090,6 +3276,8 @@ declare module wijmo.grid {
         _altDown: boolean;
         _kaTab: KeyAction;
         _kaEnter: KeyAction;
+        _search: string;
+        _toSearch: any;
         /**
          * Initializes a new instance of the @see:_KeyboardHandler class.
          *
@@ -3099,6 +3287,7 @@ declare module wijmo.grid {
         _keydown(e: KeyboardEvent): void;
         _performKeyAction(action: KeyAction, shift: boolean): boolean;
         private _keypress(e);
+        private _findNext(row, col);
         private _moveSel(rowMove, colMove, extend);
         private _deleteSel(evt);
         private _startEditing(fullEdit, evt, r?, c?);
@@ -3157,6 +3346,7 @@ declare module wijmo.grid {
     class _MouseHandler {
         _g: FlexGrid;
         _htDown: HitTestInfo;
+        _htDrag: HitTestInfo;
         _selDown: CellRange;
         _tsLast: number;
         _isDown: boolean;
@@ -3166,7 +3356,7 @@ declare module wijmo.grid {
         _szRowCol: RowCol;
         _szStart: number;
         _szArgs: CellRangeEventArgs;
-        _dragSource: any;
+        _dragSrc: any;
         _dvMarker: HTMLElement;
         _rngTarget: CellRange;
         _updating: boolean;
@@ -3198,6 +3388,7 @@ declare module wijmo.grid {
         private _dragend(e);
         private _dragover(e);
         private _drop(e);
+        private _hitTest(e);
         private _showResizeMarker(sz);
         private _showDragMarker(ht);
         private _finishResizing(e);
@@ -3219,6 +3410,8 @@ declare module wijmo.grid {
         _fullEdit: boolean;
         _list: any;
         _evtInput: any;
+        _evtChange: any;
+        _edtValue: string;
         /**
          * Initializes a new instance of the @see:_EditHandler class.
          *
@@ -3258,8 +3451,11 @@ declare module wijmo.grid {
          * Hidden rows and columns are not included in the clip string.
          *
          * @param rng @see:CellRange to copy. If omitted, the current selection is used.
+         * @param csv Whether to use the CSV format (comma-delimited cells).
+         * @param headers Whether to include the column headers.
          */
-        getClipString(rng?: CellRange): string;
+        getClipString(rng?: CellRange, csv?: boolean, headers?: boolean): string;
+        protected _getCellClipString(cell: string, csv: boolean): string;
         /**
          * Parses a string into rows and columns and applies the content to a given range.
          *
@@ -3297,6 +3493,7 @@ declare module wijmo.grid {
         protected _nrt: _NewRowTemplate;
         protected _keydownBnd: any;
         protected _top: boolean;
+        protected _committing: boolean;
         /**
          * Initializes a new instance of the @see:_AddNewHandler class.
          *
@@ -3329,25 +3526,26 @@ declare module wijmo.grid {
 
 declare module wijmo.grid {
     /**
-     * Implements a hidden input element so users can choose IME modes when
-     * the FlexGrid has focus, and start composing before the grid enters
-     * edit mode.
+     * Implements a hidden input element so users can choose IME modes
+     * when the FlexGrid has focus and start composing before the grid
+     * enters edit mode.
      */
     class _ImeHandler {
         _g: FlexGrid;
         _tbx: HTMLInputElement;
         _isMouseDown: boolean;
-        _compStartBnd: any;
         _updateImeFocusBnd: any;
-        _mouseDownBnd: any;
-        _mouseUpBnd: any;
+        _cmpstartBnd: any;
+        _mousedownBnd: any;
+        _mouseupBnd: any;
+        _keydownBnd: any;
+        _ignoreKey: boolean;
         static _cssHidden: {
             position: string;
-            pointerEvents: string;
-            opacity: number;
             left: number;
             top: number;
-            width: number;
+            width: string;
+            overflow: string;
         };
         /**
          * Initializes a new instance of the @see:_ImeHandler class
@@ -3360,8 +3558,9 @@ declare module wijmo.grid {
          * Disposes of this @see:_ImeHandler.
          */
         dispose(): void;
-        _cellEditEnded(): void;
+        _keydown(e: KeyboardEvent): void;
         _compositionstart(): void;
+        _cellEditEnded(): void;
         _mousedown(e: any): void;
         _mouseup(e: any): void;
         _updateImeFocus(): void;

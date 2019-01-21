@@ -1,0 +1,235 @@
+// sheet
+.wj-flexsheet {
+    background: #a9a9a9;
+    width: 100%;
+    height: 100%;
+
+    .wj-content {
+        outline: none;
+        border-color: #ccc;
+        border-radius: 0;
+    }
+
+    .wj-header-row {
+        background: #96abb4 !important;
+        color: #fff !important;
+    }
+
+    .wj-state-multi-selected {
+        background: #e6e6e6;
+        color: #222;
+    }
+
+    .wj-cell.wj-state-multi-selected {
+        border-right: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+    }
+
+    .wj-state-selected .wj-flexsheet-formula-description {
+        color: #fff;
+    }
+    // area below the sheet, with nav buttons, sheet tabs, and scrollbar
+    .wj-tabholder {
+        width: 100%;
+        min-width: 100px;
+        background: #b8b8b8;
+
+        span.wj-sheet-icon {
+            margin: 0 14px;
+        }
+
+        div.wj-sheet-page.wj-btn-group {
+            border: none;
+
+            > button {
+                padding: 1px 0 0 0;
+                border: none;
+                background: #e4e5e8;
+                color: #727275;
+                min-height: 0;
+
+                &:hover {
+                    background: #d2d3d8;
+                }
+            }
+        }
+
+        .wj-sheet-tab ul {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            float: left;
+
+            li {
+                float: left;
+                display: block;
+                padding-right: 20px;
+                padding-left: 20px;
+                cursor: pointer;
+                margin-top: 1px;
+                border-left: 1px solid #b8b8b8;
+                min-height: 20px;
+                background: #d2d3d8;
+                text-align: center;
+                padding-top: 2px;
+                font-size: 11px;
+                color: #727275;
+
+                &.active {
+                    border-top-color: transparent;
+                    background: white;
+                    cursor: default;
+                    height: 100%;
+                    margin-top: 1px;
+                    border-left: 1px solid #b8b8b8;
+                    font-weight: bold;
+                }
+
+                &.hidden {
+                    display: none;
+                }
+
+                &:not(.active):hover {
+                    background: #aabcd6;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .wj-new-sheet:hover {
+                    background: $wj-sel-bkg;
+                }
+
+                .wj-sheet-name-editor {
+                    height: 100%;
+                    border: none;
+                    margin: 0;
+                    padding: 0;
+                    background: inherit;
+                    color: inherit;
+                    overflow: hidden;
+                    resize: none;
+                }
+            }
+        }
+
+        .wj-new-sheet {
+            padding: 0;
+            width: 32px;
+            height: 20px;
+            font-size: 11px;
+            text-align: center;
+            background: #668eb9;
+            color: #fff;
+
+            .wj-sheet-icon {
+                color: #727275;
+                margin-top: 5px;
+            }
+        }
+
+        .wj-sheet > div {
+            display: block;
+            float: left;
+        }
+    }
+    // embedded charts
+    .wj-flexchart {
+        background: $wj-cell;
+        border: $wj-bdr;
+    }
+
+    &.wj-rtl div.wj-sheet > div {
+        float: right;
+    }
+}
+
+.wj-flexsheet-formula-list {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.2);
+    font-family: arial,sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    position: absolute;
+    width: 300px;
+    z-index: 2001;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+
+    .wj-flexsheet-formula-name {
+        color: #222;
+        font-size: 13px;
+        font-family: inconsolata,monospace,arial,sans,sans-serif;
+        margin: -2px 0;
+    }
+
+    .wj-flexsheet-formula-description {
+        color: #666;
+        display: block;
+        font-size: 11px;
+        margin: -2px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .wj-listbox-item.wj-state-selected > * {
+        color: white;
+    }
+}
+
+.wj-flexsheet-context-menu {
+    background: #fff;
+    border: thin solid #808080;
+    cursor: default;
+    padding: 3px 0;
+
+    .wj-context-menu-item {
+        padding: 3px 10px;
+    }
+
+    .wj-context-menu-item:not(.wj-context-menu-item-selected):hover {
+        background: rgba(0,0,0,.1);
+    }
+	
+    .wj-context-menu-item-selected {
+        background: $wj-sel-bkg;
+        color: #fff;
+    }
+}
+
+.wj-flexsheet-smart-tag {
+    background: #FFFFFF;
+    border: 1px solid #ababab;
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    height: 18px;
+    outline: none;
+}
+
+.wj-flexsheet-smart-tag-active {
+    background: #9fd5b7;
+    border: 1px solid #ababab;
+}
+
+.wj-flexsheet-fill-menu {
+    background: #FFFFFF;
+    border: 1px solid #9fd5b7;
+    position: absolute;
+    width: 200px;
+    padding: 3px 0px;
+
+    .wj-flexsheet-fill-menu-item {
+        padding: 3px 10px;
+    }
+
+    .wj-flexsheet-fill-menu-item-active {
+        background: $wj-sel-bkg;
+        color: #fff;
+    }
+
+    .wj-flexsheet-fill-menu-item:not(.wj-flexsheet-fill-menu-item-active):hover {
+        background: rgba(0,0,0,.1);
+    }
+}

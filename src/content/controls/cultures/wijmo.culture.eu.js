@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'The Wijmo license in this application is not valid for the <b>{control}</b> control.',
             ver: 'The Wijmo license in this application is not valid for the version in use. The license version is <b>{licVer}</b>; the product version is <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} elementurik hautatu',
-            selectAll: 'Hautatu denak'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Egutegia',
+                monthView: 'Hilabete-ikuspegia',
+                yearView: 'Urte-ikuspegia',
+                prvMo: 'Aurreko hila',
+                today: 'Gaur',
+                nxtMo: 'Datorren Hilean',
+                prvYr: 'Aurreko urtea',
+                currMo: 'Current Month',
+                nxtYr: 'Hurrengo urtea',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} gaiak)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} gaiak)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Group'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle Row Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Edit Filter for Column',
+                dialog: 'Filter Editor for Column',
+                asc: 'Sort Column in Ascending Order',
+                dsc: 'Sort Column in Descending Order',
+                search: 'Search Item List',
+                op1: 'First Condition Operator',
+                val1: 'First Condition Value',
+                and: 'Require both Conditions',
+                or: 'Require either Condition',
+                op2: 'Second Condition Operator',
+                val2: 'Second Condition Value'
+            },
             // filter
-            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 Goranzkoa',
             descending: '\u2193 Beheranzkoa',
             apply: 'Aplikatu',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Berdina', op: 0 },
                 { name: 'Ezberdina', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle Calendar',
+                tglTime: 'Toggle Time List'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Increase Value',
+                decVal: 'Decrease Value'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} elementurik hautatu',
+            selectAll: 'Hautatu denak'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} item',
                 row: 'Errenkada',
                 col: 'Zutabea'
+            },
+            Slicer: {
+                multiSelect: 'Multi-Select',
+                clearFilter: 'Garbitu iragazkia'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Hautatu balioa)',
             apply: 'Aplikatu',
             errorOccured: 'Errorea gertatu da.'
+        },
+        FlexSheet: {
+            insertRow: 'Txertatu errenkada',
+            deleteRow: 'Delete Row',
+            insertCol: 'Sartu zutabea',
+            deleteCol: 'Delete Column',
+            convertTable: 'Convert Table',
+            copyCells: 'Copy Cells',
+            fillSeries: 'Fill Series',
+            fillFormat: 'Fill Formatting Only',
+            fillWithoutFormat: 'Fill Without Formatting'
         }
     };
     var updc = window['wijmo']._updateCulture;

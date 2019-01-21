@@ -1,0 +1,260 @@
+// olap
+
+// PivotPanel
+.wj-pivotpanel {
+    position: relative;
+    padding: 3px 6px;
+    overflow: auto;
+    min-height: 25em;
+    width: 100%;
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    div {
+        width: 100%;
+    }
+
+    tr, td {
+        border: 1px none #e0e0e0;
+        padding: 3px;
+    }
+
+    label {
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .wj-flexgrid {
+        border: none;
+        border-radius: 0;
+        min-height: 8em;
+        max-height: 20em;
+        margin-left: 6px;
+        background: inherit;
+    }
+
+    table .wj-flexgrid {
+        min-height: 5em;
+        height: 5em;
+        width: 95%;
+    }
+
+    .wj-marker {
+        position: absolute;
+        background: $wj-accent-bkg;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .wj-flexgrid {
+        .wj-cell {
+            border: none;
+            background: inherit;
+            color: inherit;
+
+            &.wj-group {
+                background: inherit;
+                color: inherit;
+
+                &:not(.wj-header):hover {
+                    background: $wj-item-hvr;
+                    border-radius: $wj-bdr-rad;
+                }
+            }
+        }
+
+        .wj-glyph-filter {
+            cursor: default;
+            opacity: 0.5;
+        }
+
+        .wj-glyph-dimension, .wj-glyph-measure {
+            cursor: default;
+        }
+
+        .wj-aggregate {
+            font-size: 80%;
+            opacity: 0.5;
+        }
+
+        label {
+            font-weight: normal;
+            margin: 0;
+        }
+    }
+}
+
+// PivotFieldEditor
+.wj-pivotfieldeditor {
+    min-width: 400px;
+
+    tr.wj-separator {
+        border-top: 10px solid transparent;
+    }
+
+    td:first-child {
+        text-align: right;
+        padding-right: .5em;
+    }
+}
+
+// PivotFilterEditor
+.wj-pivotfiltereditor {
+    padding: 10px;
+    min-width: 230px;
+
+    .wj-control {
+        margin-bottom: 6px;
+        width: 100%;
+    }
+
+    .wj-listbox {
+        max-height: 150px;
+
+        .wj-listbox-item label {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+// _ListContextMenu, _GridContextMenu
+.wj-olap-context-menu {
+    font-size: 90%;
+    padding: 6px;
+
+    .menu-icon {
+        display: inline-block;
+        width: 1em;
+        margin-right: 6px;
+        opacity: .75;
+        text-align: center;
+        //color: #0000C0; // doesn't look good on most custom themes
+    }
+
+    .menu-icon.menu-icon-remove {
+        color: #800000;
+        font-weight: bold;
+    }
+}
+
+// Detail Dialog
+.wj-detaildialog .wj-flexgrid {
+    width: 60vw;
+    height: 40vh;
+}
+
+// PivotGrid
+.wj-pivotgrid {
+    .wj-colheaders .wj-cell.wj-header {
+        text-align: center;
+    }
+
+    .wj-topleft .wj-cell.wj-col-field-hdr {
+        text-align: right;
+    }
+
+    .wj-cell.wj-aggregate {
+        font-weight: bold;
+    }
+
+    .wj-aggregate.wj-cell:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+        background: rgba(0,133,199,0.15); // slightly highlight scrollable totals cells
+    }
+}
+
+// PivotChart
+.wj-pivotchart {
+    position: relative;
+
+    .wj-dropdown {
+        position: absolute;
+        margin-right: 15px;
+        z-index: 999;
+    }
+
+    .wj-flexchart {
+        padding: 35px 15px 10px;
+    }
+}
+
+// Slicer
+.wj-slicer {
+    > div { /* slicer root */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        height: 100%;
+        max-height: inherit;
+    }
+
+    .wj-header {
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+
+        div:first-child {
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            padding: 6px;
+        }
+
+        .wj-btn.wj-state-active {
+            background: rgba(0, 0, 0, .2); // pressed buttons
+        }
+    }
+
+    .wj-listbox {
+        border: none;
+        border-radius: 0;
+
+        .wj-listbox-item label {
+            width: 100%;
+        }
+    }
+
+    &.wj-nocheck { // no checkboxes
+        .wj-listbox {
+            .wj-listbox-item {
+                border: 2px solid transparent;
+                padding: 6px;
+                margin: 4px;
+                border-radius: $wj-bdr-rad;
+
+                &.wj-state-checked:not(:hover) { // checked, not hovering
+                    background-color: $wj-sel-bkg;
+                    color: $wj-sel-txt;
+                }
+
+                &.wj-state-selected { // selected
+                    border-color: $wj-msel-bkg;
+
+                    &:not(.wj-state-checked) { // selected but not checked
+                        background-color: transparent;
+                        color: $wj-txt;
+                    }
+                }
+
+                input { // hide checkboxes
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+

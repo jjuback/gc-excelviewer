@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -272,6 +272,12 @@ export declare class WjFlexSheet extends wijmo.grid.sheet.FlexSheet implements O
      */
     groupCollapsedChangingNg: EventEmitter<any>;
     /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanging</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanging</b> Wijmo event name.
+     */
+    itemsSourceChangingNg: EventEmitter<any>;
+    /**
      * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
      * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
@@ -392,6 +398,30 @@ export declare class WjFlexSheet extends wijmo.grid.sheet.FlexSheet implements O
      * In template bindings use the conventional <b>sheetCleared</b> Wijmo event name.
      */
     sheetClearedNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>prepareChangingRow</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>prepareChangingRow</b> Wijmo event name.
+     */
+    prepareChangingRowNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>prepareChangingColumn</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>prepareChangingColumn</b> Wijmo event name.
+     */
+    prepareChangingColumnNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>rowChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>rowChanged</b> Wijmo event name.
+     */
+    rowChangedNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>columnChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>columnChanged</b> Wijmo event name.
+     */
+    columnChangedNg: EventEmitter<any>;
     constructor(elRef: ElementRef, injector: Injector, parentCmp: any);
     /**
      * If you create a custom component inherited from a Wijmo component, you can override this
@@ -438,7 +468,7 @@ export declare class WjSheet extends wijmo.grid.sheet.Sheet implements OnInit, O
     initialized: EventEmitter<any>;
     /**
      * Gets or sets a name of a property that this component is assigned to.
-     * Default value is ''.
+     * Default value is 'sheets'.
      */
     wjProperty: string;
     /**

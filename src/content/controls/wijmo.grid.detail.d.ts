@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -14,6 +14,16 @@
  * Extension that provides detail rows for @see:FlexGrid controls.
  */
 declare module wijmo.grid.detail {
+    /**
+     * Specifies constants that define the action to perform when the
+     * ENTER key is pressed.
+     */
+    enum KeyAction {
+        /** No special action (let the grid handle the key). */
+        None = 0,
+        /** Toggle the detail display. */
+        ToggleDetail = 1,
+    }
     /**
      * Specifies when and how the row details are displayed.
      */
@@ -64,8 +74,14 @@ declare module wijmo.grid.detail {
      * that determines when the detail rows should be displayed. The default value for
      * this property is <b>ExpandSingle</b>, which adds collapse/expand icons to the
      * row headers.
+     *
+     * The example below shows how you can use a @see:FlexGridDetailProvider to add
+     * different types of detail to the rows in a @see:FlexGrid:
+     *
+     * @fiddle:r9up8exz
      */
     class FlexGridDetailProvider {
+        static _WJC_DETAIL: string;
         _g: FlexGrid;
         _maxHeight: number;
         _mode: DetailVisibilityMode;
@@ -74,6 +90,7 @@ declare module wijmo.grid.detail {
         _createDetailCellFn: Function;
         _disposeDetailCellFn: Function;
         _rowHasDetailFn: Function;
+        _keyActionEnter: KeyAction;
         /**
          * Initializes a new instance of the @see:FlexGridDetailProvider class.
          *
@@ -87,17 +104,33 @@ declare module wijmo.grid.detail {
         readonly grid: FlexGrid;
         /**
          * Gets or sets a value that determines when row details are displayed.
+         *
+         * The default value for this property is <b>DetailVisibilityMode.ExpandSingle</b>.
          */
         detailVisibilityMode: DetailVisibilityMode;
         /**
          * Gets or sets the maximum height of the detail rows, in pixels.
+         *
+         * The default value for this property is <b>null</b>, which means
+         * there's no upper limit to the detail row height.
          */
         maxHeight: number;
         /**
          * Gets or sets a value that indicates whether to use animation when
          * showing row details.
+         *
+         * The default value for this property is <b>false</b>.
          */
         isAnimated: boolean;
+        /**
+         * Gets or sets the action to perform when the ENTER key is pressed.
+         *
+         * The default setting for this property is @see:KeyAction.None,
+         * which lets the grid handle the key.
+         * The other option is @see:KeyAction.ToggleDetail, which handles
+         * the Enter key to toggle the display of the row details.
+         */
+        keyActionEnter: KeyAction;
         /**
          * Gets or sets the callback function that creates detail cells.
          *
@@ -175,13 +208,15 @@ declare module wijmo.grid.detail {
          * @param hideOthers Whether to hide details for all other rows.
          */
         showDetail(row: any, hideOthers?: boolean): void;
+        _handleFixedCells(): void;
         _toIndex(row: any): number;
         _hdrClick(e: MouseEvent): void;
+        _toggleRowDetail(row: number): boolean;
         _selectionChanged(s: FlexGrid, e: EventArgs): void;
         _formatItem(s: any, e: FormatItemEventArgs): void;
-        _resizedRow(s: any, e: FormatItemEventArgs): void;
-        _hasVisibleDetail(row: Row): boolean;
+        _resizedRow(s: any, e: CellRangeEventArgs): void;
         _hasDetail(row: number): boolean;
+        _isRegularRow(row: Row): boolean;
         _createDetailCell(row: Row, col?: Column): HTMLElement;
     }
 }

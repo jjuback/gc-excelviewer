@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -68,16 +68,52 @@ var wijmo;
             prd: 'Wijmo litsentsi selles rakenduses ei sobi <b>{control}</b> kontrolli.',
             ver: 'Selles rakenduses Wijmo litsents ei ole kehtiv versioon kasutusel. Litsentsi versioon <b>{licVer}</b>; toote versioon on  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} üksust',
-            selectAll: 'Vali kõik'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Kuuvaade',
+                yearView: 'Aastavaade',
+                prvMo: 'Eelmine kuu',
+                today: 'Täna',
+                nxtMo: 'Järgmine kuu',
+                prvYr: 'Eelmine aasta',
+                currMo: 'Jooksev kuu',
+                nxtYr: 'Järgmine aasta',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Lülita avatavad'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}:  <b> {value} </b>  ({count:n0} kirjed)'
+            groupHeaderFormat: '{name}:  <b> {value} </b>  ({count:n0} kirjed)',
+            ariaLabels: {
+                toggleDropDown: 'Lülita avatavad',
+                toggleGroup: 'Lülita rühma'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Lülita rea Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Redigeeri filtrit veergu',
+                dialog: 'Filter toimetaja veerg',
+                asc: 'Veeru sortimine tõusvas järjestuses',
+                dsc: 'Veeru sortimine laskuvas järjestuses',
+                search: 'Otsi kaupade loend',
+                op1: 'Esimese tingimuse tehtemärk',
+                val1: 'Esimene tingimus väärtus',
+                and: 'Mõlemad tingimused nõuavad',
+                or: 'Nõuda nende tingimuste',
+                op2: 'Teise tingimuse tehtemärk',
+                val2: 'Teine tingimus väärtus'
+            },
             // filter
-            ariaLabel: 'Filter toimetaja veerg',
             ascending: '\u2191 Tõusev järjestus',
             descending: '\u2193 Laskuv järjestus',
             apply: 'Rakenda',
@@ -122,6 +158,22 @@ var wijmo;
                 { name: 'Võrdub', op: 0 },
                 { name: 'Ei võrdu', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Lülita kalender',
+                tglTime: 'Lülita aeg loend'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Suurendage väärtust',
+                decVal: 'Vähendage väärtust'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} üksust',
+            selectAll: 'Vali kõik'
         },
         olap: {
             PivotFieldEditor: {
@@ -227,6 +279,10 @@ var wijmo;
                 item: '{cnt} üksust',
                 row: 'Rida',
                 col: 'Veerg'
+            },
+            Slicer: {
+                multiSelect: 'Mitme valimine',
+                clearFilter: 'Puhasta filter'
             }
         },
         Viewer: {
@@ -358,6 +414,17 @@ var wijmo;
             selectParameterValue: '(valige väärtus)',
             apply: 'Rakenda',
             errorOccured: 'Ilmnes tõrge.'
+        },
+        FlexSheet: {
+            insertRow: 'Sisesta rida',
+            deleteRow: 'Kustuta rida',
+            insertCol: 'Lisa veerg',
+            deleteCol: 'Delete Column',
+            convertTable: 'Teisenda tabel',
+            copyCells: 'Lahtrite kopeerimine',
+            fillSeries: 'Täida sari',
+            fillFormat: 'Täida ainult vorminguga',
+            fillWithoutFormat: 'Täida vorminguta'
         }
     };
     var updc = window['wijmo']._updateCulture;

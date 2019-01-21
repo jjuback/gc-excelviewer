@@ -1,0 +1,39 @@
+////////////////////////////////////////////////////////////////
+// flatly theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #e9eef0;
+$wj-txt: #2c3e50;
+$wj-bdr: none;
+$wj-bdr-rad: 0px;
+
+$wj-hdr-bkg: #2c3e50;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #798d8f;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #95a5a6;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #76818d;
+$wj-cell-grp-txt: #dddfe2;
+$wj-cell-frz: #d6e6ed;
+$wj-cell-frz-alt: #c4dbe5;
+$wj-cell-bdr-clr: rgba(0,0,0,.2);
+
+$wj-btn-bkg: #18bc9c;
+$wj-btn-hvr: #128f76;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #95a5a6;
+$wj-tooltip-txt: #fff;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

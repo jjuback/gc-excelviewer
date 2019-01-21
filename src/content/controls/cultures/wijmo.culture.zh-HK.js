@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: '當前應用程式中的Wijmo許可對於<b>{control}</b>控制項無效。',
             ver: '當前應用程式中的Wijmo許可對正在使用的控制項版本無效。 許可版本是<b>{licVer}</b>；當前版本是<b>{version}</b>。'
         },
-        MultiSelect: {
-            itemsSelected: '選定{count:n0}個項目',
-            selectAll: '全部選擇'
+        Calendar: {
+            ariaLabels: {
+                calendar: '行事曆',
+                monthView: '月檢視表',
+                yearView: 'Year View',
+                prvMo: '上個月',
+                today: '今天',
+                nxtMo: '下個月',
+                prvYr: 'Previous Year',
+                currMo: 'Current Month',
+                nxtYr: '明年',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Group'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle Row Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Edit Filter for Column',
+                dialog: 'Filter Editor for Column',
+                asc: 'Sort Column in Ascending Order',
+                dsc: 'Sort Column in Descending Order',
+                search: 'Search Item List',
+                op1: 'First Condition Operator',
+                val1: 'First Condition Value',
+                and: 'Require both Conditions',
+                or: 'Require either Condition',
+                op2: 'Second Condition Operator',
+                val2: 'Second Condition Value'
+            },
             // filter
-            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 由小至大排列',
             descending: '\u2193 由大至小排列',
             apply: '套用',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: '相等於', op: 0 },
                 { name: '不等於', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle Calendar',
+                tglTime: 'Toggle Time List'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Increase Value',
+                decVal: 'Decrease Value'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '選定{count:n0}個項目',
+            selectAll: '全部選擇'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} 項目',
                 row: '列',
                 col: '直條圖​​'
+            },
+            Slicer: {
+                multiSelect: '多重選取',
+                clearFilter: '清除篩選器'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(選擇值)',
             apply: '套用',
             errorOccured: '發生錯誤。'
+        },
+        FlexSheet: {
+            insertRow: '插入行',
+            deleteRow: '刪除行',
+            insertCol: '插入列',
+            deleteCol: '刪除列',
+            convertTable: '表格轉換',
+            copyCells: '複製儲存格',
+            fillSeries: '以數列方式填滿',
+            fillFormat: '僅以格式填滿',
+            fillWithoutFormat: '填滿但不填入格式'
         }
     };
     var updc = window['wijmo']._updateCulture;

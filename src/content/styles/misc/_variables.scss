@@ -1,0 +1,59 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+$wj-bkg: white !default; // content background
+$wj-txt: black !default; // content foreground
+$wj-bdr-clr: rgba(0,0,0,.2) !default; // content border color
+$wj-bdr-wid: 1px !default; // content border width
+$wj-bdr: $wj-bdr-wid solid $wj-bdr-clr !default; // content border
+$wj-bdr-rad: 4px !default; // content border radius
+$wj-box-shadow: 0 6px 13px rgba(0,0,0,.2) !default; // box shadow for drop-downs/dialogs
+$wj-invalid: red !default; // invalid state markers
+$wj-item-pdg: 4px 6px 3px 6px !default; // item padding (listbox items, grid cells, etc)
+$wj-item-hvr: rgba(0,0,0,.05) !default; // item hover
+$wj-tdn-focus: .4s !default; // focus/hover transition duration
+$wj-disabled-opacity: .6 !default; // opacity for disabled controls/items
+
+$wj-hdr-bkg: #eee !default; // header element background
+$wj-hdr-hvr: safedarken($wj-hdr-bkg, 5%) !default; // header element hover background
+$wj-hdr-txt: #444 !default; // header element foreground
+
+$wj-btn-bkg: #eee !default; // button background
+$wj-btn-hvr: safedarken($wj-btn-bkg, 5%) !default; // button hover background
+$wj-btn-txt: $wj-txt !default; // button text
+$wj-btn-grp-bdr: $wj-bdr !default; // button group border
+
+$wj-sel-bkg: #0085c7 !default; // selected element background
+$wj-sel-txt: white !default; // selected element foreground
+$wj-msel-bkg: #80adbf !default; // extended selection background
+$wj-msel-txt: white !default; // extended selection foreground
+$wj-accent-bkg: $wj-sel-bkg !default; // accent background (like drag markers)
+$wj-accent-txt: $wj-sel-txt !default; // accent background (like drag markers)
+
+$wj-cell: $wj-bkg !default; // cell background
+$wj-cell-alt: safedarken($wj-cell, 3%) !default; // alternating cell background
+$wj-cell-frz: null !default; // frozen cell background
+$wj-cell-frz-alt: null !default; // alternating frozen cell background
+$wj-cell-frz-txt: $wj-txt !default; // frozen cell foreground
+$wj-cell-pdg: $wj-item-pdg !default; // cell padding
+$wj-cell-bdr-clr: rgba(0,0,0,.2) !default; // cell border color
+$wj-cell-bdr: 1px solid $wj-cell-bdr-clr !default; // cell border
+$wj-cell-bdr-vrt: $wj-cell-bdr !default; // cell vertical border
+$wj-cell-bdr-hrz: $wj-cell-bdr !default; // cell horizontal border
+$wj-cell-grp-bkg: safedarken($wj-hdr-bkg, 5%) !default; // group row background
+$wj-cell-grp-txt: $wj-hdr-txt !default; // group row foreground
+$wj-cell-frz-bdr-clr: safedarken($wj-hdr-bkg, 30%) !default; // frozen cell border color
+$wj-cell-frz-bdr: 1px solid $wj-cell-frz-bdr-clr !default; // frozen cell border
+$wj-cell-frz-bdr-vrt: $wj-cell-frz-bdr !default; // frozen area vertical border
+$wj-cell-frz-bdr-hrz: $wj-cell-frz-bdr !default; // frozen area horizontal border
+
+$wj-tooltip: $wj-bkg !default; // tooltip background
+$wj-tooltip-txt: $wj-txt !default; // tooltip text
+
+$wj-bkg-grd: false !default; // content background gradient
+$wj-btn-grd: false !default; // button background gradient
+$wj-hdr-grd: false !default; // header background gradient
+$wj-input-grd: false !default; // input element background gradient
+

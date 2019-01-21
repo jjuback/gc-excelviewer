@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: '当前应用程序中的Wijmo许可对于<b>{control}</b>控件无效。',
             ver: '当前应用程序中的Wijmo许可对正在使用的控件版本无效。 许可版本是<b>{licVer}</b>；当前版本是<b>{version}</b>。'
         },
-        MultiSelect: {
-            itemsSelected: '選定{count:n0}個項目',
-            selectAll: '選取全部'
+        Calendar: {
+            ariaLabels: {
+                calendar: '行事曆',
+                monthView: '月檢視',
+                yearView: '年檢視',
+                prvMo: '前一月',
+                today: '今天',
+                nxtMo: '下個月',
+                prvYr: '去年',
+                currMo: '當前月份',
+                nxtYr: '明年',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: '切換下拉清單'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)',
+            ariaLabels: {
+                toggleDropDown: '切換下拉清單',
+                toggleGroup: '切換組'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: '切換行詳細資訊'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: '編輯列的篩選器',
+                dialog: '列的濾鏡編輯器',
+                asc: '按昇冪排列列',
+                dsc: '按降冪排列列',
+                search: '搜索專案清單',
+                op1: '第一個條件運算子',
+                val1: '第一個條件值',
+                and: '要求兩種條件',
+                or: '要求任一條件',
+                op2: '第二條件運算子',
+                val2: '第二個條件值'
+            },
             // filter
-            ariaLabel: '列的濾鏡編輯器',
             ascending: '\u2191 遞增排序',
             descending: '\u2193 遞減排序',
             apply: '應用',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: '等於', op: 0 },
                 { name: '不等於', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: '切換日曆',
+                tglTime: '切換時間清單'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: '增加價值',
+                decVal: '減小值'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '選定{count:n0}個項目',
+            selectAll: '選取全部'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} 專案',
                 row: '資料列',
                 col: '直條圖'
+            },
+            Slicer: {
+                multiSelect: '多選',
+                clearFilter: '清除篩選器'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(選擇的值)',
             apply: '應用',
             errorOccured: '已發生錯誤。'
+        },
+        FlexSheet: {
+            insertRow: '插入資料行',
+            deleteRow: '刪除資料行',
+            insertCol: '插入資料列',
+            deleteCol: '刪除資料列',
+            convertTable: '表格轉換',
+            copyCells: '複製儲存格',
+            fillSeries: '以數列方式填滿',
+            fillFormat: '僅以格式填滿',
+            fillWithoutFormat: '填滿但不填入格式'
         }
     };
     var updc = window['wijmo']._updateCulture;

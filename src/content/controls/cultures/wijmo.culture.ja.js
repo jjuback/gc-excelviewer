@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -11,7 +11,7 @@
     *
     */
 /*
- * Wijmo culture file: ja (Japanese)
+ * Wijmo culture file: ja (日本語)
  */
 var wijmo;
 (function (wijmo) {
@@ -23,7 +23,7 @@ var wijmo;
     wijmo.culture = window['wijmo'].culture = {
         Globalize: {
             name: 'ja',
-            displayName: 'Japanese',
+            displayName: '日本語',
             numberFormat: {
                 '.': '.',
                 ',': ',',
@@ -73,16 +73,52 @@ var wijmo;
             prd: 'アプリケーションで使用しているWijmoのライセンスは<b>{control}</b>コントロールで無効です。',
             ver: 'アプリケーションで使用しているWijmoのライセンスはご利用中のバージョンで無効です。このライセンスのバージョンは<b>{licVer}</b>ですが、ご利用中のバージョンは<b>{version}</b>です。'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} 個の項目を選択中',
-            selectAll: 'すべて選択'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'カレンダー',
+                monthView: '月ビュー',
+                yearView: '年ビュー',
+                prvMo: '先月',
+                today: '今日',
+                nxtMo: '来月',
+                prvYr: '前の年',
+                currMo: '現在の月',
+                nxtYr: '来年',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'トグル ドロップダウン'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} 項目)',
+            ariaLabels: {
+                toggleDropDown: 'トグル ドロップダウン',
+                toggleGroup: 'グループを切り替える'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'トグル行詳細'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: '列のフィルターを編集します。',
+                dialog: '列のフィルター エディター',
+                asc: '昇順の並べ替え列',
+                dsc: '降順の並べ替え列',
+                search: '検索項目一覧',
+                op1: '最初の条件演算子',
+                val1: '最初の条件の値',
+                and: '両方の条件が必要',
+                or: 'いずれかの条件を必要とします。',
+                op2: '2 番目の条件演算子',
+                val2: '2 番目の条件値'
+            },
             // filter
-            ariaLabel: '列のフィルター エディター',
             ascending: '\u2191 昇順',
             descending: '\u2193 降順',
             apply: '適用',
@@ -127,6 +163,22 @@ var wijmo;
                 { name: '指定の値に等しい', op: 0 },
                 { name: '指定の値に等しくない', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'トグル カレンダー',
+                tglTime: '切り替えの時間のリスト'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: '値を増加させる',
+                decVal: '減少値'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} 個の項目を選択中',
+            selectAll: 'すべて選択'
         },
         olap: {
             PivotFieldEditor: {
@@ -232,6 +284,10 @@ var wijmo;
                 item: '{cnt} 項目',
                 row: '行',
                 col: '列'
+            },
+            Slicer: {
+                multiSelect: '複数選択',
+                clearFilter: 'フィルターをクリアします。'
             }
         },
         Viewer: {
@@ -363,6 +419,17 @@ var wijmo;
             selectParameterValue: '(値を選択)',
             apply: '適用',
             errorOccured: 'エラーが発生しました。'
+        },
+        FlexSheet: {
+            insertRow: '行を挿入',
+            deleteRow: '行を削除',
+            insertCol: '列を挿入',
+            deleteCol: '列を削除',
+            convertTable: 'テーブルに変換',
+            copyCells: 'セルのコピー',
+            fillSeries: '連続データ',
+            fillFormat: '書式のみコピー（フィル）',
+            fillWithoutFormat: '書式なしコピー（フィル）'
         }
     };
     var updc = window['wijmo']._updateCulture;

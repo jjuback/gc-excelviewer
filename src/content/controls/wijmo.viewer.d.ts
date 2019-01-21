@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -101,11 +101,13 @@ declare module wijmo.viewer {
         private _supportedExportDescriptions;
         private _pageSettings;
         private _isLoadCompleted;
+        private _isInstanceCreated;
         private _isDisposed;
         private _errors;
         private _expiredDateTime;
         private _executionDateTime;
         private _initialPosition;
+        private _httpHandler;
         pageCountChanged: Event;
         disposed: Event;
         pageSettingsChanged: Event;
@@ -113,7 +115,7 @@ declare module wijmo.viewer {
         loadCompleted: Event;
         queryLoadingData: Event;
         onQueryLoadingData(e: QueryLoadingDataEventArgs): void;
-        constructor(options: _IDocumentOptions);
+        constructor(options: _IDocumentOptions, httpHandler: IHttpRequestHandler);
         _updateIsLoadCompleted(value: boolean): void;
         _updateIsDisposed(value: boolean): void;
         _getIsDisposed(): boolean;
@@ -124,6 +126,7 @@ declare module wijmo.viewer {
         readonly expiredDateTime: Date;
         readonly errors: string[];
         readonly isLoadCompleted: boolean;
+        readonly isInstanceCreated: boolean;
         readonly isDisposed: boolean;
         readonly features: _IDocumentFeatures;
         readonly pageSettings: _IPageSettings;
@@ -156,12 +159,14 @@ declare module wijmo.viewer {
         getStatus(): IPromise;
         _createDocumentService(options: _IDocumentService): _DocumentService;
         onPageCountChanged(e?: EventArgs): void;
+        export(options: _IRenderOptions): void;
         print(rotations?: _RotateAngle[]): void;
+        protected readonly httpHandler: IHttpRequestHandler;
         private _removeScript(doc);
         private _rotate(doc, rotations);
         renderToFilter(options: _IRenderOptions): IPromise;
         getRenderToFilterUrl(options: _IRenderOptions): IPromise;
-        getExportedUrl(options: _IRenderOptions): IPromise;
+        getExportedUrl(options: _IRenderOptions, raiseEvent?: boolean): IPromise;
         search(searchOptions: _ISearchOptions): IPromise;
     }
     function _statusJsonReviver(k: string, v: any): any;
@@ -256,7 +261,8 @@ declare module wijmo.viewer {
     class _DocumentService implements _IDocumentService {
         private _url;
         private _documentPath;
-        constructor(options: _IDocumentService);
+        private _httpHandler;
+        constructor(options: _IDocumentService, httpHandler: IHttpRequestHandler);
         readonly serviceUrl: string;
         readonly filePath: string;
         getStatus(): IPromise;
@@ -273,14 +279,50 @@ declare module wijmo.viewer {
         getSupportedExportDescriptions(): IPromise;
         getFeatures(): IPromise;
         getPingTimeout(): number;
+        getFileName(): string;
+        downloadDataUrl(url: string): IPromise;
+        downloadBlob(url: string): IPromise;
+        httpRequest(url: string, settings?: _IHttpRequest): IPromise;
     }
     function _pageSettingsJsonReviver(k: string, v: any): any;
     function _appendQueryString(url: string, queries: Object): string;
     function _joinUrl(...data: (string | string[])[]): string;
     function _joinStringUrl(data: string[]): string[];
     function _prepareStringUrl(data: string): string[];
-    function _httpRequest(url: string, settings?: _IHttpRequest): XMLHttpRequest;
+    function _httpRequest(url: string, handler: IHttpRequestHandler, settings?: _IHttpRequest): XMLHttpRequest;
+    /**
+     * Saves the Blob object as a file.
+     * @param blob The Blob object to save.
+     * @param fileName The name with which the file is saved.
+    */
+    function _saveBlob(blob: Blob, fileName: string): void;
     function _objToParams(obj: Object): string;
+    /**
+     * Provides arguments for @see:wijmo.viewer.ViewerBase.beforeSendRequest event.
+     */
+    class RequestEventArgs extends EventArgs {
+        private _url;
+        private _settings;
+        /**
+         * Initializes a new instance of the @see:RequestEventArgs class.
+         *
+         * @param url String containing the URL to which the request is sent.
+         * @param settings An object used to configure the request. It has the
+         * same structure and semantics as the <b>settings</b> parameter of the
+         * @see:wijmo.httpRequest method.
+         */
+        constructor(url: string, settings: any);
+        /**
+         * Gets or sets the URL to which the request is sent.
+         */
+        url: string;
+        /**
+         * Gets or sets the object used to configure the request. It has the
+         * same structure and semantics as the <b>settings</b> parameter of the
+         * @see:wijmo.httpRequest method.
+         */
+        settings: any;
+    }
     interface _IHttpRequest {
         method?: string;
         urlEncode?: boolean;
@@ -293,7 +335,21 @@ declare module wijmo.viewer {
         requestHeaders?: any;
         beforeSend?: (xhr: XMLHttpRequest) => void;
         error?: (xhr: XMLHttpRequest) => void;
-        complete?: (xhr: XMLHttpRequest) => void;
+        responseType?: string;
+    }
+    /**
+    * Represents a routine for processing HTTP requests.
+    */
+    interface IHttpRequestHandler {
+        /**
+        * Occurs before the request is sent to the server.
+        * @param args Describes the current request.
+        */
+        beforeSend(args: RequestEventArgs): void;
+        /**
+        * Gets or sets an object containing request headers to be used when sending or requesting data.
+        */
+        requestHeaders: any;
     }
     function _disableCache(url: string): string;
     enum _UnitType {
@@ -514,47 +570,49 @@ declare module wijmo.viewer {
 }
 
 declare module wijmo.viewer {
-    class _ReportDocumentSourceBase extends _DocumentSource {
-        constructor(options: _IDocumentOptions);
+    class _ReportServiceBase extends _DocumentService {
+        render(): IPromise;
+    }
+    class _ReportSourceBase extends _DocumentSource {
+        private _status;
+        constructor(options: _IDocumentOptions, httpHandler: IHttpRequestHandler);
+        statusChanged: Event;
         readonly autoRun: boolean;
         readonly hasParameters: boolean;
+        status: string;
         getParameters(): IPromise;
         setParameters(parameters: Object): IPromise;
         render(): IPromise;
+        executeCustomAction(action: _IDocAction): IPromise;
+        onStatusChanged(e: EventArgs): void;
+        readonly _innerService: _ReportServiceBase;
+        _updateDocumentStatus(data: _IReportStatus): void;
     }
-    class _Report extends _ReportDocumentSourceBase {
+    class _Report extends _ReportSourceBase {
         private _hasParameters;
         private _parameters;
-        private _status;
-        constructor(options: _IReportOptions);
-        static getReportNames(serviceUrl: string, reportFilePath: string): IPromise;
-        static getReports(serviceUrl: string, path: string, data?: any): IPromise;
+        constructor(options: _IReportOptions, httpHandler: IHttpRequestHandler);
+        static getReportNames(serviceUrl: string, reportFilePath: string, httpHandler?: IHttpRequestHandler): IPromise;
+        static getReports(serviceUrl: string, path: string, data?: any, httpHandler?: IHttpRequestHandler): IPromise;
         readonly reportName: string;
-        statusChanged: Event;
         readonly hasParameters: boolean;
-        readonly status: string;
         load(): IPromise;
-        _updateStatus(newValue: string): void;
         cancel(): IPromise;
-        onStatusChanged(e?: EventArgs): void;
         dispose(): IPromise;
         setParameters(parameters: Object): IPromise;
         getParameters(): IPromise;
         _getIsDisposed(): boolean;
         _updateExecutionInfo(data: _IReportExecutionInfo): void;
-        _updateDocumentStatus(data: _IReportStatus): void;
         _checkIsLoadCompleted(data: _IReportStatus): boolean;
         _createDocumentService(options: _IReportService): _ReportService;
         readonly _innerService: _ReportService;
-        render(): IPromise;
-        executeCustomAction(action: _IDocAction): IPromise;
     }
     interface _IReportService extends _IDocumentService {
         reportName: string;
     }
     interface _IReportOptions extends _IDocumentOptions, _IReportService {
     }
-    class _ReportService extends _DocumentService implements _IReportService {
+    class _ReportService extends _ReportServiceBase implements _IReportService {
         private _reportName;
         private _instanceId;
         private _status;
@@ -577,10 +635,10 @@ declare module wijmo.viewer {
         private static _supportedFormatsAction;
         private static _invalidReportControllerError;
         private static _invalidReportCacheControllerError;
-        constructor(options: _IReportService);
+        constructor(options: _IReportService, httpHandler: IHttpRequestHandler);
         readonly isCleared: boolean;
-        static getReportNames(serviceUrl: string, reportFilePath: string): IPromise;
-        static getReports(serviceUrl: string, path: string, data?: any): IPromise;
+        static getReportNames(serviceUrl: string, reportFilePath: string, httpHandler?: IHttpRequestHandler): IPromise;
+        static getReports(serviceUrl: string, path: string, data?: any, httpHandler?: IHttpRequestHandler): IPromise;
         readonly reportName: string;
         getBookmark(name: string): IPromise;
         executeCustomAction(action: _IDocAction): IPromise;
@@ -693,7 +751,7 @@ declare module wijmo.viewer {
 declare module wijmo.viewer {
     class _PdfDocumentSource extends _DocumentSource {
         private _status;
-        constructor(options: _IDocumentService);
+        constructor(options: _IDocumentService, httpHandler: IHttpRequestHandler);
         readonly status: string;
         readonly _innerService: _PdfDocumentService;
         _createDocumentService(options: _IDocumentService): _PdfDocumentService;
@@ -728,6 +786,8 @@ declare module wijmo.viewer {
     function _parseExecutionInfo(json: string): _IExecutionInfo;
 }
 
+declare module wijmo.viewer {
+}
 
 declare module wijmo.viewer {
     class _SearchManager {
@@ -1237,6 +1297,9 @@ declare module wijmo.viewer {
         oldValue: number;
         newValue: number;
     }
+    interface IInnerDocumentPosition extends _IDocumentPosition {
+        samePage?: boolean;
+    }
     class _Page {
         private _documentSource;
         private _parent;
@@ -1440,7 +1503,7 @@ declare module wijmo.viewer {
         _innerMoveToPage(pageIndex: number, pagePercent: number): void;
         _innerMoveToPagePosition(pagePercent: number): void;
         moveToPosition(position: _IDocumentPosition): IPromise;
-        _moveToPagePosition(position: _IDocumentPosition): void;
+        _moveToPagePosition(position: IInnerDocumentPosition): void;
         protected _hitTestPageIndex(top: number): number;
         protected _pointInViewPanelClientArea(clientX: number, clientY: number): boolean;
         protected _panelViewPntToPageView(clientX: number, clientY: number): _IPageHitTestInfo;
@@ -1578,8 +1641,8 @@ declare module wijmo.viewer {
 }
 
 /**
-* Defines a series of classes, interfaces and functions related to the viewer controls.
-*/
+ * Defines a series of classes, interfaces and functions related to the viewer controls.
+ */
 declare module wijmo.viewer {
     /**
      * Specifies the mouse modes, which defines the mouse behavior of viewer.
@@ -1654,13 +1717,14 @@ declare module wijmo.viewer {
     /**
      * Base class for all the viewer controls.
      */
-    class ViewerBase extends Control {
+    class ViewerBase extends Control implements IHttpRequestHandler {
         private _leftPanel;
         _viewpanelContainer: HTMLElement;
         private _initialPosition;
         private _viewerContainer;
         private _pages;
         _documentEventKey: string;
+        private _requestHeaders;
         private _keepSerConnTimer;
         private _documentSource;
         private _pageIndex;
@@ -1759,6 +1823,30 @@ declare module wijmo.viewer {
          */
         queryLoadingData: Event;
         /**
+         * Occurs before every request sent to the server.
+         *
+         * The event allows you to modify request options like URL, headers,
+         * data and even the request method, before sending them to the server.
+         * The event passes an argument of the @see:RequestEventArgs type,
+         * whose properties have the same meaning and structure as the
+         * parameters of the @see:wijmo.httpRequest method, and can be
+         * modified to update the request attributes.
+         *
+         * For example, you can put an authentication token to the 'Authorization'
+         * header:
+         *
+         * <pre>viewer.beforeSendRequest.addHandler((s, e) =&gt; {
+         *     e.settings.requestHeaders.Authorization = 'Bearer ' + appAuthService.getToken();
+         * });
+         * </pre>
+         *
+         * If the URL is used to induce an HTTP request that is executed by the browser
+         * automatically (for example, if the URL is used as a parameter to the
+         * window.open() function, or as a HTML link), then the e.settings argument
+         * will be null.
+         */
+        beforeSendRequest: Event;
+        /**
          * Initializes a new instance of the @see:ViewerBase class.
          *
          * @param element The DOM element that will host the control, or a CSS selector for the host element (e.g. '#theCtrl').
@@ -1778,6 +1866,18 @@ declare module wijmo.viewer {
          * The path starts with the key of a provider which is registered at server for locating specified document.
          */
         filePath: string;
+        /**
+         * Gets or sets an object containing request headers to be used when sending
+         * or requesting data.
+         *
+         * The most typical use for this property is in scenarios where authentication
+         * is required. For example:
+         *
+         * <pre>viewer.requestHeaders = {
+         *     Authorization: 'Bearer ' + appAuthService.getToken();
+         * };</pre>
+         */
+        requestHeaders: any;
         /**
          * Gets or sets the threshold to switch between mobile and PC template.
          *
@@ -1870,7 +1970,6 @@ declare module wijmo.viewer {
         _updateUI(): void;
         private _updateViewContainerCursor();
         private _updateFullScreenStyle();
-        private _export(options);
         /**
          * Shows the page setup dialog.
          */
@@ -1894,7 +1993,7 @@ declare module wijmo.viewer {
         private _zoomBtnClicked(zoomIn, zoomValues);
         _getDocumentSource(): _DocumentSource;
         _setDocumentSource(value: _DocumentSource): void;
-        _loadDocument(value: _DocumentSource): IPromise;
+        _loadDocument(value: _DocumentSource, force?: boolean, disposeSource?: boolean): IPromise;
         protected _actionElementClicked(element: SVGElement): void;
         protected _getActionInfo(element: SVGElement): _IDocAction;
         private _onDocumentSourceLoadCompleted();
@@ -1902,7 +2001,7 @@ declare module wijmo.viewer {
         _clearKeepSerConnTimer(): void;
         _keepServiceConnection(): void;
         _getExpiredTime(): number;
-        _disposeDocument(): void;
+        _disposeDocument(disposeSource?: boolean): void;
         _resetDocument(): void;
         _setDocumentRendering(): void;
         /**
@@ -2006,6 +2105,13 @@ declare module wijmo.viewer {
          * @param e The @see:QueryLoadingDataEventArgs object that contains the loading data.
          */
         onQueryLoadingData(e: QueryLoadingDataEventArgs): void;
+        /**
+         * Raises the @see:beforeSendRequest event.
+         *
+         * @param e The @see:RequestEventArgs object.
+         */
+        onBeforeSendRequest(e: RequestEventArgs): void;
+        beforeSend(e: RequestEventArgs): void;
     }
     class _PageSetupDialog extends wijmo.input.Popup {
         private _pageSetupEditorElement;
@@ -2164,6 +2270,7 @@ declare module wijmo.viewer {
      */
     class ReportViewer extends ViewerBase {
         private _reportName;
+        private _clientParameters;
         private _paramsEditor;
         private _gParameterTitle;
         private _parametersPageId;
@@ -2190,13 +2297,25 @@ declare module wijmo.viewer {
         */
         paginated: boolean;
         /**
+        * Gets or sets a dictionary of {name: value} pairs that describe the parameters used to run the report.
+        *
+        * This property is useful if the report requires that certain parameters (for example, the hidden ones) to be passed during the initial stage.
+        *
+        * <pre>
+        * reportViewer.parameters = {
+        *    'CustomerID': 'ALFKI'
+        * };</pre>
+        */
+        parameters: any;
+        /**
          * Gets the report names defined in the specified FlexReport definition file.
          *
          * @param serviceUrl The address of C1 Web API service.
          * @param reportFilePath The full path to the FlexReport definition file.
+         * @param httpHandler The HTTP request handler. This parameter is optional.
          * @return An @see:wijmo.viewer.IPromise object with a string array which contains the report names.
          */
-        static getReportNames(serviceUrl: string, reportFilePath: string): IPromise;
+        static getReportNames(serviceUrl: string, reportFilePath: string, httpHandler?: IHttpRequestHandler): IPromise;
         /**
          * Gets the catalog items in the specified folder path.
          *
@@ -2207,20 +2326,23 @@ declare module wijmo.viewer {
          * @param serviceUrl The address of C1 Web API service.
          * @param path The folder path. The path to the FlexReport definition file will be treated as a folder path.
          * @param data The request data sent to the report service, or a boolean value indicates whether getting all items under the path.
+         * @param httpHandler The HTTP request handler. This parameter is optional.
          * @return An @see:IPromise object with an array of @see:wijmo.viewer.ICatalogItem.
          */
-        static getReports(serviceUrl: string, path: string, data?: any): IPromise;
+        static getReports(serviceUrl: string, path: string, data?: any, httpHandler?: IHttpRequestHandler): IPromise;
+        onQueryLoadingData(e: QueryLoadingDataEventArgs): void;
         _globalize(): void;
         _executeAction(action: _ViewerActionType): void;
+        _executeCustomAction(action: _IDocAction): void;
         _actionIsDisabled(action: _ViewerActionType): boolean;
         _initHamburgerMenu(owner: HTMLElement): void;
         private _initSidePanelParameters();
         readonly _innerDocumentSource: _Report;
-        _loadDocument(value: _Report): IPromise;
+        _loadDocument(value: _ReportSourceBase, force?: boolean, disposeSource?: boolean): IPromise;
         _reRenderDocument(): void;
         _onDocumentStatusChanged(): void;
         private _renderDocumentSource();
-        _disposeDocument(): void;
+        _disposeDocument(disposeSource?: boolean): void;
         _setDocumentRendering(): void;
         _getSource(): _DocumentSource;
         _supportsPageSettingActions(): boolean;
@@ -2433,7 +2555,10 @@ declare module wijmo.viewer {
         ReportName: string;
     }
     class _ArReportService extends _DocumentService {
+        static StateToStatus(state: _ArLoadState): _ExecutionStatus;
+        static ConvertFormat(format: string): _ArDocumentFormat;
         private _lifeTime;
+        private _drillthroughData;
         private _token;
         private _parameters;
         private _hasDelayedContent;
@@ -2443,8 +2568,6 @@ declare module wijmo.viewer {
         private _uid;
         private _isDisposed;
         private _hasOutlines;
-        static StateToStatus(state: _ArLoadState): _ExecutionStatus;
-        static ConvertFormat(format: string): _ArDocumentFormat;
         static IsError(data: _IArJsonResponse<_IArMethodResponse>): data is _IArJsonResponse<_IArMethodResponse>;
         readonly isDisposed: boolean;
         readonly autoRun: boolean;
@@ -2454,13 +2577,12 @@ declare module wijmo.viewer {
         setPageSettings(pageSettings: _IPageSettings): IPromise;
         getBookmark(name: string): IPromise;
         executeCustomAction(action: _IArDocAction): IPromise;
-        load(data?: {
-            parameters: IArClientParameter[];
-        }): IPromise;
+        load(data?: any): IPromise;
         loadDrillthroughReport(data: _IADrillthroughReportData): IPromise;
         processOnClick(actionData: string): IPromise;
         getReportProperty(name: string): IPromise;
         render(data?: any): IPromise;
+        setDrillthroughData(value: _IADrillthroughReportData): void;
         dispose(async?: boolean): IPromise;
         getOutlines(test?: boolean): IPromise;
         _getError(data: _IArJsonResponse<any> | XMLHttpRequest): string;
@@ -2474,7 +2596,7 @@ declare module wijmo.viewer {
         getPingTimeout(): number;
         getSupportedExportDescriptions(): IPromise;
         getFeatures(): IPromise;
-        private _ajax(url, settings?, data?);
+        private _ajax(url, settings?);
         private _convertFromServiceParameter(p);
         private _convertToServiceParameter(p);
         private _merge(src, dst);
@@ -2486,29 +2608,20 @@ declare module wijmo.viewer {
 declare module wijmo.viewer {
     interface _IArDocumentOptions extends _IDocumentOptions {
     }
-    class _ArReportSource extends _ReportDocumentSourceBase {
-        private _status;
-        statusChanged: Event;
-        constructor(options: _IArDocumentOptions);
+    class _ArReportSource extends _ReportSourceBase {
+        constructor(options: _IArDocumentOptions, httpRequest: IHttpRequestHandler);
         readonly autoRun: boolean;
         readonly encodeRequestParams: boolean;
         readonly hasParameters: boolean;
         readonly hasThumbnails: boolean;
         readonly _innerService: _ArReportService;
-        readonly status: string;
-        executeCustomAction(action: _IDocAction): IPromise;
-        load(): IPromise;
         getParameters(): IPromise;
         setParameters(value: Object): IPromise;
         print(rotations?: _RotateAngle[]): void;
-        render(): IPromise;
-        onStatusChanged(e?: EventArgs): void;
         _createDocumentService(options: _IDocumentService): _DocumentService;
         _getIsDisposed(): boolean;
         _updateExecutionInfo(data: _IArExecutionInfo): void;
-        _updateDocumentStatus(data: _IReportStatus): void;
         _checkIsLoadCompleted(data: _IReportStatus): boolean;
-        _updateStatus(data: _IReportStatus): void;
         _convertParameters(params: _IArParameter[]): _IParameter[];
     }
 }

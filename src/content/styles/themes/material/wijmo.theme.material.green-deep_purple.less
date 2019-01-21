@@ -1,0 +1,253 @@
+// ----------------------------------------------------------------------
+//  Theme variables
+// ----------------------------------------------------------------------
+
+@background: #ffffff;
+
+// Primary, accent, and grey colors
+@material-primary: rgb(76, 175, 80); // Green
+@material-accent: rgb(103, 58, 183); // Deep Purple
+@material-grey: #eeeeee; // Grey 200
+
+// Lighten/Darken color functions
+@material-primary-dark: darken(@material-primary, 15%);
+@material-primary-light: lighten(@material-primary, 15%);
+@material-accent-light: lighten(@material-accent, 15%);
+
+// Text colors
+@material-text-dark: #212121; // Grey 900
+@material-text-light: #ffffff;
+
+// Theme border settings
+@border-radius: 0;
+@cell-border: 1px;
+
+// ----------------------------------------------------------------------
+//  Text contrast mixins
+// ----------------------------------------------------------------------
+
+.mixin-text-contrast(@color-value) when ( lightness(@color-value) >= 70% ) {
+	color: @material-text-dark;
+}
+
+.mixin-text-contrast(@color-value) when ( lightness(@color-value) < 70% ) {
+	color: @material-text-light;
+}
+
+// ---------------------------------------------------------------------------
+//  Styles
+// ---------------------------------------------------------------------------
+
+/* Default MDL font size */
+
+.wj-control,
+.wj-control input {
+    font-size: 16px;
+}
+
+/* Extra padding in grids and listboxes */
+
+.wj-cell {
+    padding: 6px;
+}
+.wj-listbox-item {
+    padding: 6px 10px;
+}
+
+/* Drop-downs */
+
+.wj-dropdown-panel {
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Backgrounds */
+
+.wj-content, div[wj-part='cells'] {
+	background: @background;
+	.mixin-text-contrast(@background);
+}
+.wj-content .wj-input-group .wj-form-control {
+	background: @background;
+	.mixin-text-contrast(@background);
+}
+
+/* Headers */
+
+.wj-header {
+	background: #e8e8e8;
+    color: black;
+}
+
+/* FlexGrid */
+
+div[wj-part='root'] {
+	background: @background;
+}
+.wj-state-selected {
+	background: @material-primary;
+	.mixin-text-contrast(@material-primary);
+}
+.wj-state-multi-selected {
+	background: @material-primary-light;
+	.mixin-text-contrast(@material-accent);
+}
+.wj-input-group .wj-form-control, .wj-grid-editor {
+	background: @background;
+	.mixin-text-contrast(@background);
+}
+.wj-cell {
+	border-right: none;
+	border-bottom: @cell-border solid rgba(0, 0, 0, 0.1);
+}
+[dir="rtl"] .wj-cell {
+	border-left: @cell-border solid rgba(0, 0, 0, 0.1);
+}
+
+/* Default grid cell color */
+.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+	background: @background;
+}
+
+/* Alternate grid cell color */
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+	background: @background;
+}
+
+/* Group row background */
+.wj-flexgrid .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+	background: @material-primary-dark;
+	.mixin-text-contrast(@material-primary-dark);
+}
+
+/* Default frozen boundaries */
+.wj-cell.wj-frozen-row {
+	border-bottom-color: black;
+	border-width: @cell-border;
+}
+.wj-cell.wj-frozen-col {
+	border-right-color: black;
+	border-width: @cell-border;
+}
+
+/* Grid headers */
+.wj-flexgrid .wj-header.wj-state-multi-selected {
+	background: #d5d5d5;
+}
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+	border-bottom: 3px solid @material-primary;
+}
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+	border-right: 3px solid @material-primary;
+}
+
+/* Marquee */
+.wj-flexgrid .wj-marquee {
+	position: absolute;
+	box-sizing: border-box;
+	border: 2px solid @material-primary;
+}
+.wj-flexsheet .wj-marquee {
+	border: 2px solid @material-primary;
+}
+
+/* Drag marker */
+.wj-flexgrid .wj-marker {
+	background: @material-accent;
+}
+
+/* Input Controls */
+
+.wj-control.wj-content.wj-dropdown,
+.wj-inputnumber {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+}
+.wj-control.wj-content .wj-input-group input.wj-form-control {
+    background-color: transparent;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+.wj-content .wj-input-group-btn>.wj-btn:hover, 
+.wj-content .wj-btn-group>.wj-btn:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+.wj-content .wj-input-group-btn>.wj-btn, 
+.wj-content .wj-btn-group>.wj-btn {
+    border-style: none;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,0.02);
+    color: rgba(0,0,0,.8);
+    min-width: 32px;
+}
+
+/* Border Radii */
+
+.wj-content, 
+.wj-input-group, 
+.wj-btn-group, 
+.wj-btn-group-vertical,
+.wj-tooltip {
+	border-radius: @border-radius;
+}
+
+/* Tooltip */
+
+/* style tooltips like https://www.getmdl.io/customize/index.html */
+.wj-tooltip {
+    padding: 20px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(128, 128, 128, 0.85);
+    border: none;
+}
+
+/* Gauges */
+
+.wj-gauge .wj-pointer {
+	fill: @material-primary;
+}
+.wj-gauge.wj-state-focused circle.wj-pointer {
+	fill: @material-accent;
+    transition: fill .2s; /* delay used in MDL */
+}
+
+/* MultiAutoComplete */
+
+.wj-control.wj-multi-autocomplete {
+    border-radius: @border-radius;
+}
+
+.wj-multi-autocomplete .wj-token {
+    border-radius: @border-radius;
+    border: 1px solid @material-primary;
+	background: @material-primary;
+	.mixin-text-contrast(@material-primary);
+}
+
+.wj-multi-autocomplete .wj-token:hover {
+    border-color: @material-primary;
+}
+
+.wj-multi-autocomplete .wj-token.wj-token-active {
+    border-color: @material-primary;
+}
+
+.wj-multi-autocomplete .wj-token .wj-token-close,
+.wj-multi-autocomplete .wj-token .wj-token-close:hover,
+.wj-multi-autocomplete .wj-token .wj-token-close:focus {
+	.mixin-text-contrast(@material-primary);
+}
+
+/* TreeView */
+
+.wj-treeview .wj-node {
+	color: @material-text-dark;
+}
+
+.wj-treeview .wj-node.wj-state-selected {
+	background: @material-primary;
+	.mixin-text-contrast(@material-primary);
+}
+
+

@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licence v této aplikaci není platný pro kontrolu <b>{control}</b>  .',
             ver: 'Wijmo licence v této aplikaci není platné pro verzi v provozu. Verze licence je  <b> {licVer}</b>; <b>{version}</b>je verze produktu.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} položek vybraného',
-            selectAll: 'Vybrat vše'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendář',
+                monthView: 'Zobrazení měsíce',
+                yearView: 'Zobrazení roku',
+                prvMo: 'Předchozí měsíc',
+                today: 'Dnes',
+                nxtMo: 'Příští měsíc',
+                prvYr: 'Předchozí rok',
+                currMo: 'Aktuální měsíc',
+                nxtYr: 'Příští rok',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Rozevírací přepnout'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} položky)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} položky)',
+            ariaLabels: {
+                toggleDropDown: 'Rozevírací přepnout',
+                toggleGroup: 'Přepnout skupina'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Přepnout řádek Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Upravit filtr pro sloupec',
+                dialog: 'Editor filtrů pro sloupec',
+                asc: 'Seřadit sloupec vzestupně',
+                dsc: 'Sloupec řazení v sestupném pořadí',
+                search: 'Hledat položku seznamu',
+                op1: 'První operátor podmínky',
+                val1: 'První podmínka hodnota',
+                and: 'Vyžadují obě podmínky',
+                or: 'Vyžadovat některá podmínka',
+                op2: 'Druhá podmínka operátor',
+                val2: 'Druhá podmínka hodnota'
+            },
             // filter
-            ariaLabel: 'Editor filtrů pro sloupec',
             ascending: '\u2191 Vzestupně',
             descending: '\u2193 Sestupně',
             apply: 'Použít',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Rovná se', op: 0 },
                 { name: 'Nerovná se', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Přepnout kalendář',
+                tglTime: 'Přepínací čas seznam'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Zvýšit hodnotu',
+                decVal: 'Snížit hodnotu'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} položek vybraného',
+            selectAll: 'Vybrat vše'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'položka {cnt}',
                 row: 'Řádek',
                 col: 'Sloupec'
+            },
+            Slicer: {
+                multiSelect: 'Vícenásobný výběr',
+                clearFilter: 'Vymazat filtr'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(vyberte hodnotu)',
             apply: 'Použít',
             errorOccured: 'Došlo k chybě.'
+        },
+        FlexSheet: {
+            insertRow: 'Vložit řádek',
+            deleteRow: 'Odstranit řádek',
+            insertCol: 'Vložit sloupec',
+            deleteCol: 'Delete Column',
+            convertTable: 'Převést tabulku',
+            copyCells: 'Kopírovat buňky',
+            fillSeries: 'Vyplnit řady',
+            fillFormat: 'Pouze vyplnit formáty',
+            fillWithoutFormat: 'Vyplnit bez formátování'
         }
     };
     var updc = window['wijmo']._updateCulture;

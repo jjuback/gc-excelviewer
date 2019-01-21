@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη για το στοιχείο ελέγχου <b>{control}</b>  .',
             ver: 'Η άδεια Wijmo σε αυτή την εφαρμογή δεν είναι έγκυρη για την έκδοση σε χρήση. Την έκδοση άδειας <b>{licVer}</b>, την έκδοση του προϊόντος είναι  <b> {version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} αντικείμενα που επιλέγονται',
-            selectAll: 'Επιλογή όλων'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Ημερολόγιο',
+                monthView: 'Προβολή μήνα',
+                yearView: 'Προβολή έτους',
+                prvMo: 'Προηγούμενος μήνας',
+                today: 'Σήμερα',
+                nxtMo: 'Επόμενος μήνας',
+                prvYr: 'Προηγούμενο έτος',
+                currMo: 'Τρέχων μήνας',
+                nxtYr: 'Το επόμενο έτος',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Εναλλαγή αναπτυσσόμενο'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} στοιχεία)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} στοιχεία)',
+            ariaLabels: {
+                toggleDropDown: 'Εναλλαγή αναπτυσσόμενο',
+                toggleGroup: 'Εναλλαγή ομάδας'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Εναλλαγή γραμμής λεπτομέρεια'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Επεξεργαστείτε το φίλτρο για τη στήλη',
+                dialog: 'Φίλτρο επεξεργασίας στήλης',
+                asc: 'Στήλη ταξινόμησης με αύξουσα σειρά',
+                dsc: 'Στήλη ταξινόμησης κατά φθίνουσα σειρά',
+                search: 'Στοιχείο αναζήτησης λίστα',
+                op1: 'Πρώτη κατάσταση χειριστή',
+                val1: 'Πρώτη προϋπόθεση τιμή',
+                and: 'Απαιτούν και οι δύο συνθήκες',
+                or: 'Απαιτούσε είτε την προϋπόθεση',
+                op2: 'Δεύτερη προϋπόθεση χειριστή',
+                val2: 'Δεύτερη προϋπόθεση τιμή'
+            },
             // filter
-            ariaLabel: 'Φίλτρο επεξεργασίας στήλης',
             ascending: '\u2191 Με αύξουσα σειρά',
             descending: '\u2193 Με φθίνουσα σειρά',
             apply: 'Εφαρμογή',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Ισούται με', op: 0 },
                 { name: 'Δεν ισούται με', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Εναλλαγής ημερολογίου',
+                tglTime: 'Εναλλαγή των εποχών'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Αυξήσετε την τιμή',
+                decVal: 'Μείωση τιμής'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} αντικείμενα που επιλέγονται',
+            selectAll: 'Επιλογή όλων'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'το στοιχείο {cnt}',
                 row: 'Γραμμή',
                 col: 'Στήλη'
+            },
+            Slicer: {
+                multiSelect: 'Πολλαπλή επιλογή',
+                clearFilter: 'εκκαθάριση φίλτρου'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(επιλέξτε τιμή)',
             apply: 'Εφαρμογή',
             errorOccured: 'Παρουσιάστηκε σφάλμα.'
+        },
+        FlexSheet: {
+            insertRow: 'Εισαγωγή γραμμής',
+            deleteRow: 'Διαγραφή γραμμής',
+            insertCol: 'Εισαγωγή στήλης',
+            deleteCol: 'Delete Column',
+            convertTable: 'Μετατροπή πίνακα',
+            copyCells: 'Αντιγραφή κελιών',
+            fillSeries: 'Συμπλήρωση σειράς',
+            fillFormat: 'Μορφοποίηση γεμίσματος μόνο',
+            fillWithoutFormat: 'Γέμισμα χωρίς μορφοποίηση'
         }
     };
     var updc = window['wijmo']._updateCulture;

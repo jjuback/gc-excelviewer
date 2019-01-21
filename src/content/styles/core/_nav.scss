@@ -1,0 +1,186 @@
+// wijmo.nav
+
+// tabpanel
+.wj-tabpanel {
+    display: block;
+
+    > div { // root
+
+        > .wj-tabpanes {
+            overflow: auto;
+            border-top: 1px solid #ddd;
+            @include prefix(user-select, text, webkit moz ms);
+
+            > .wj-tabpane:not(.wj-state-active) { // hide inactive panes
+                display: none;
+            }
+        }
+
+        > .wj-tabheaders > .wj-tabheader {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            &.wj-state-active {
+                background: $wj-bkg;
+                color: $wj-sel-bkg;
+            }
+
+            &:not(.wj-state-active):not(.wj-state-disabled):focus {
+                background: rgba(0,0,0,.1);
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                background: $wj-sel-bkg;
+                height: 2.5px;
+                left: 45%;
+                width: 10%;
+                bottom: 0;
+                visibility: hidden;
+            }
+
+            &.wj-state-active:after {
+                left: 0;
+                width: 100%;
+                visibility: visible;
+                transition-duration: .2s;
+            }
+        }
+    }
+}
+
+// treeview
+.wj-treeview {
+    width: 100%;
+    overflow: auto;
+    //background: transparent;
+    border: none;
+
+    .wj-nodelist {
+        display: block;
+        position: relative;
+
+        .wj-nodelist {
+            padding-left: 1em;
+        }
+    }
+
+    .wj-node {
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 3px 10px; /* as in .wj-listbox-item */
+        &:before {
+            content: '';
+            position: relative;
+            display: inline-block;
+            border-top: .5em solid;
+            border-right: .45em solid transparent;
+            border-left: .45em solid transparent;
+            top: -1px;
+            margin-right: 4px;
+            opacity: 0.75;
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+        }
+
+        &.wj-state-selected {
+            color: inherit;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        &.wj-state-collapsed:before,
+        &.wj-state-collapsing:before {
+            transform: rotate(-90deg);
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+        }
+
+        &.wj-state-collapsed.wj-state-loading:before {
+            animation-name: wjLazyNodeLoading;
+            animation-duration: .6s;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+        }
+
+        &.wj-state-empty:before {
+            visibility: hidden;
+        }
+
+        &.wj-state-collapsed + .wj-nodelist {
+            display: none;
+        }
+
+        img {
+            padding-right: 4px;
+        }
+
+        .wj-node-check {
+            margin-right: 4px;
+        }
+
+        .wj-node-text { // TFS 280472: https://bugzilla.mozilla.org/show_bug.cgi?id=389348
+            display: inline-block;
+        }
+    }
+
+    .wj-marker {
+        position: absolute;
+        background: $wj-accent-bkg;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &.wj-state-loading * {
+        cursor: wait;
+    }
+
+    &.wj-rtl {
+        .wj-nodelist {
+            .wj-nodelist {
+                padding-left: unset;
+                padding-right: 1em;
+            }
+
+            .wj-node:before {
+                margin-right: unset;
+                margin-left: 4px;
+            }
+
+            .wj-node.wj-state-collapsed:before,
+            .wj-node.wj-state-collapsing:before {
+                transform: rotate(+90deg);
+            }
+        }
+
+        .wj-node {
+            img {
+                padding-right: unset;
+                padding-left: 4px;
+            }
+
+            .wj-node-check {
+                margin-right: unset;
+                margin-left: 4px;
+            }
+        }
+    }
+}
+
+@keyframes wjLazyNodeLoading {
+    from {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    to {
+        opacity: 0.5;
+        transform: scale(0.5);
+    }
+}
+

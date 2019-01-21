@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////
+// highcontrast theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #000;
+$wj-txt: #fff;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #890d3a;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #0021ab;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #617ae3;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #eea7c1;
+$wj-cell-grp-txt: #000;
+$wj-cell-frz: #56ae4c;
+$wj-cell-frz-alt: #65b85c;
+
+$wj-btn-bkg: #b8114e;
+$wj-btn-hvr: #e71562;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #f2e1e8;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

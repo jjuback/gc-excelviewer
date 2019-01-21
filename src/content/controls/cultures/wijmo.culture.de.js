@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Die Wijmo-Lizenz in dieser Anwendung ist nicht für das Steuerelement <b>{control}</b> gültig.',
             ver: 'Die Wijmo-Lizenz in dieser Anwendung ist nicht gültig für die verwendete Version. Die Lizenzversion ist <b>{licVer}</b>; Die Produktversion ist <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} Artikel ausgewählt',
-            selectAll: 'Alles auswählen'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalender',
+                monthView: 'Monatsansicht',
+                yearView: 'Jahresansicht',
+                prvMo: 'Vorheriger Monat',
+                today: 'Heute',
+                nxtMo: 'Nächster Monat',
+                prvYr: 'Letztes Jahr',
+                currMo: 'Aktueller Monat',
+                nxtYr: 'Nächstes Jahr',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Ein/aus Dropdown-Liste'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} Elemente)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} Elemente)',
+            ariaLabels: {
+                toggleDropDown: 'Ein/aus Dropdown-Liste',
+                toggleGroup: 'Knebel Gruppe'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Ein/aus Zeile Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Filter für die Spalte bearbeiten',
+                dialog: 'Filter-Editor für Spalte',
+                asc: 'Spalte in aufsteigender Reihenfolge sortieren',
+                dsc: 'Spalte in absteigender Reihenfolge sortieren',
+                search: 'Suche Objekt-Liste',
+                op1: 'Ersten Bedingungsoperator',
+                val1: 'Erste Bedingungswert',
+                and: 'Beide Bedingungen erfordern',
+                or: 'Beiden Bedingungen erfordern',
+                op2: 'Zweite Bedingungsoperator',
+                val2: 'Zweite Bedingungswert'
+            },
             // filter
-            ariaLabel: 'Filter-Editor für Spalte',
             ascending: '\u2191 Aufsteigend',
             descending: '\u2193 Absteigend',
             apply: 'Anwenden',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Ist gleich', op: 0 },
                 { name: 'Ist nicht gleich', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle-Kalender',
+                tglTime: 'Zeit-Liste umschalten'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Wert erhöhen',
+                decVal: 'Wert verringern'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} Artikel ausgewählt',
+            selectAll: 'Alles auswählen'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} Element',
                 row: 'ROW',
                 col: 'Spalte'
+            },
+            Slicer: {
+                multiSelect: 'Mehrfachauswahl',
+                clearFilter: 'Klare Filter'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(Wählen Sie Wert)',
             apply: 'Anwenden',
             errorOccured: 'Es ist ein Fehler aufgetreten.'
+        },
+        FlexSheet: {
+            insertRow: 'Zeile einfügen',
+            deleteRow: 'Zeile löschen',
+            insertCol: 'Spalte einfügen',
+            deleteCol: 'Delete Column',
+            convertTable: 'Tabelle konvertieren',
+            copyCells: 'Zellen kopieren',
+            fillSeries: 'Datenreihe ausfüllen',
+            fillFormat: 'Nur Formate ausfüllen',
+            fillWithoutFormat: 'Ohne Formatierung ausfüllen'
         }
     };
     var updc = window['wijmo']._updateCulture;

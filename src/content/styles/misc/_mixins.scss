@@ -1,0 +1,65 @@
+// darken a color or return an almost transparent black
+@function safedarken($color, $amount) {
+    @if type-of($color) == 'color' and $color != transparent {
+        @return darken($color, $amount);
+    } @else {
+        @return rgba(0, 0, 0, .08);
+    }
+}
+
+// lighten a color or return an almost transparent white
+@function safelighten($color, $amount) {
+    @if type-of($color) == 'color' and $color != transparent {
+        @return lighten($color, $amount);
+    }
+    @else {
+        @return rgba(255, 255, 255, 0.08);
+    }
+}
+
+// create a background with an optional gradient
+@mixin backgradient($color, $gradient, $transparentColor: null, $replacementColor: null) {
+    // if color is null, render nothing (e.g. backgradient($wj-cell-frz, true))
+    @if $color {
+        // is color is the same as the background, darken slightly
+        @if $transparentColor == transparent {
+            $color: $replacementColor;
+        }
+        // output the background
+        background: $color;
+        // output the optional gradient
+        @if $gradient {
+            @if type-of($color) == 'color' and lightness($color) > 50% {
+                $otherColor: safedarken($color, 12%);
+                background-image: linear-gradient($color, $otherColor);
+                //background-image: -ms-linear-gradient(bottom, $otherColor 0%, $color 100%);
+                //background-image: -moz-linear-gradient(bottom, $otherColor 0%, $color 100%);
+                //background-image: -o-linear-gradient(bottom, $otherColor 0%, $color 100%);
+                //background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, $otherColor), color-stop(1, $color));
+                //background-image: -webkit-linear-gradient(bottom, $otherColor 0%, $color 100%);
+                //background-image: linear-gradient(to top, $otherColor 0%, $color 100%);
+            }
+            @else {
+                $otherColor: safelighten($color, 12%);
+                background-image: linear-gradient($color, $otherColor);
+                //background-image: -ms-linear-gradient(bottom, $color 0%, $otherColor 100%);
+                //background-image: -moz-linear-gradient(bottom, $color 0%, $otherColor 100%);
+                //background-image: -o-linear-gradient(bottom, $color 0%, $otherColor 100%);
+                //background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, $color), color-stop(1, $otherColor));
+                //background-image: -webkit-linear-gradient(bottom, $color 0%, $otherColor 100%);
+                //background-image: linear-gradient(to top, $color 0%, $otherColor 100%);
+            }
+        }
+    }
+}
+
+// add prefixes to a property
+// https://css-tricks.com/snippets/sass/mixin-prefix-properties/
+@mixin prefix($property, $value, $prefixes: ()) {
+    #{$property}: $value;
+
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    }
+}
+

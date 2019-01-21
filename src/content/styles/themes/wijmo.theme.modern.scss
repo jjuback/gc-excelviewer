@@ -1,0 +1,38 @@
+////////////////////////////////////////////////////////////////
+// modern theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #fff;
+$wj-txt: #333333;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #8bc730;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #2a9fd6;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #b3d1db;
+$wj-msel-txt: #333333;
+$wj-cell-grp-bkg: #abcd77;
+$wj-cell-grp-txt: #333333;
+$wj-cell-frz: #e4eff2;
+$wj-cell-frz-alt: #d3e5ea;
+$wj-cell-alt: #f2f2f2;
+
+$wj-cell-bdr: none;
+
+$wj-btn-bkg: #29a3cc;
+$wj-btn-hvr: #4db7db;
+$wj-btn-txt: #fff;
+
+$wj-tooltip: #f6f6d4;
+$wj-tooltip-txt: #000;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

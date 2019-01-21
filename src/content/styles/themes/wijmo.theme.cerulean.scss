@@ -1,0 +1,42 @@
+////////////////////////////////////////////////////////////////
+// cerulean theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #fcfcfc;
+$wj-txt: #082d43;
+$wj-bdr: none;
+
+$wj-hdr-bkg: #033c73;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #2a9fd6;
+$wj-msel-bkg: #77afc9;
+
+$wj-cell-grp-bkg: #777777;
+$wj-cell-grp-txt: #dddddd;
+$wj-cell-bdr: none;
+$wj-cell-frz: #e4ecf2;
+$wj-cell-frz-alt: #d3e0ea;
+$wj-cell-frz-bdr: none;
+
+$wj-btn-bkg: #70a438;
+$wj-btn-hvr: #59822c;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #fff;
+$wj-tooltip-txt: #000;
+
+$wj-bkg-grd: true;
+$wj-btn-grd: true;
+$wj-input-grd: true;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+

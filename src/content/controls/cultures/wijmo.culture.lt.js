@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Wijmo licencijos šiai paskirčiai netinka <b>{control}</b> valdymo.',
             ver: 'Wijmo licencijos šiai paskirčiai netinka naudoti redakcijos. Licencijos versija yra <b>{licVer}</b>; produkto versija yra  <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} vnt pasirinktas',
-            selectAll: 'Pasirinkti viską'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendorius',
+                monthView: 'Mėnesio rodinys',
+                yearView: 'Metų rodinys',
+                prvMo: 'Ankstesnis mėnuo',
+                today: 'Šiandien',
+                nxtMo: 'Kitas mėnuo',
+                prvYr: 'Ankstesni metai',
+                currMo: 'Einamojo mėnesio',
+                nxtYr: 'Kiti metai',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Perjungti meniu'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elementai)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} elementai)',
+            ariaLabels: {
+                toggleDropDown: 'Perjungti meniu',
+                toggleGroup: 'Įjungti/išjungti grupės'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Kaitalioti eilučių išsamiai'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Redaguoti filtrą stulpelio',
+                dialog: 'Stulpelio redaktorius filtras',
+                asc: 'Rūšiuoti stulpelio didėjimo tvarka',
+                dsc: 'Stulpelio rūšiavimas mažėjančia tvarka',
+                search: 'Paieška elementų sąrašas',
+                op1: 'Pirmoji sąlyga operatorius',
+                val1: 'Pirmoji sąlyga reikšmė',
+                and: 'Abiejų sąlygų nereikia.',
+                or: 'Arba sąlygų nereikia',
+                op2: 'Antroji sąlyga operatorius',
+                val2: 'Antroji sąlyga reikšmė'
+            },
             // filter
-            ariaLabel: 'Stulpelio redaktorius filtras',
             ascending: '\u2191 Didėjimo tvarka',
             descending: '\u2193 Mažėjimo tvarka',
             apply: 'Taikyti',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Lygu', op: 0 },
                 { name: 'Nelygu', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Įjungti/išjungti kalendoriaus',
+                tglTime: 'Perjungimo laikų sąrašas'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Padidinti vertę',
+                decVal: 'Sumažinti reikšmę'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} vnt pasirinktas',
+            selectAll: 'Pasirinkti viską'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} elementas',
                 row: 'Eilutė',
                 col: 'Stulpelis'
+            },
+            Slicer: {
+                multiSelect: 'Kelių pasirinkčių',
+                clearFilter: 'Valyti filtrą'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(pasirinkite vertę)',
             apply: 'Taikyti',
             errorOccured: 'Įvyko klaida.'
+        },
+        FlexSheet: {
+            insertRow: 'Įterpti eilutę',
+            deleteRow: 'Naikinti eilutę',
+            insertCol: 'Įterpti stulpelį',
+            deleteCol: 'Delete Column',
+            convertTable: 'Konvertuoti lentelę',
+            copyCells: 'Kopijuoti langelius',
+            fillSeries: 'Užpildymo seka',
+            fillFormat: 'Tik formatavimo užpildymas',
+            fillWithoutFormat: 'Užpildyti be formatavimo'
         }
     };
     var updc = window['wijmo']._updateCulture;

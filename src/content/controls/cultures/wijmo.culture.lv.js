@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Šajā lietojumprogrammā Wijmo licence nav derīga <b>{control}</b> kontrole.',
             ver: 'Šajā lietojumprogrammā Wijmo licence nav derīga izmantotajai versijai. Licences versija ir <b>{licVer}</b>; produkta versija ir <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} priekšmeti izvēlēts',
-            selectAll: 'Atlasīt visu'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Kalendārs',
+                monthView: 'Mēneša skats',
+                yearView: 'Gada skats',
+                prvMo: 'Iepriekšējais mēnesis',
+                today: 'Šodien',
+                nxtMo: 'Nākamajā mēnesī',
+                prvYr: 'Iepriekšējais gads',
+                currMo: 'Pašreizējais mēnesis',
+                nxtYr: 'Nākamajā gadā',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Pārslēgšanas nolaižamajā sarakstā'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} vienumi)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} vienumi)',
+            ariaLabels: {
+                toggleDropDown: 'Pārslēgšanas nolaižamajā sarakstā',
+                toggleGroup: 'Rādīt grupas'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Pārslēgt rindu detalizācijas'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Labojiet filtru kolonnai',
+                dialog: 'Kolonnas filtra redaktors',
+                asc: 'Kolonnu kārtošana augošā secībā',
+                dsc: 'Kolonnu kārtošana dilstošā secībā',
+                search: 'Meklēt vienumu sarakstu',
+                op1: 'Pirmā nosacījuma operators',
+                val1: 'Pirmā nosacījuma vērtība',
+                and: 'Abi nosacījumi prasa',
+                or: 'Nepieciešama vai nu nosacījums',
+                op2: 'Otrā nosacījuma operators',
+                val2: 'Otrā nosacījuma vērtība'
+            },
             // filter
-            ariaLabel: 'Kolonnas filtra redaktors',
             ascending: '\u2191 Augošā secībā',
             descending: '\u2193 Dilstošā secībā',
             apply: 'Lietot',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'ir vienāda ar', op: 0 },
                 { name: 'nav vienāda ar', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Pārslēgt kalendāra',
+                tglTime: 'Pārslēgšanas laiks saraksts'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Palielinātu vērtību',
+                decVal: 'Samazinātu vērtību'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} priekšmeti izvēlēts',
+            selectAll: 'Atlasīt visu'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'vienuma {cnt}',
                 row: 'Rinda',
                 col: 'Kolonna'
+            },
+            Slicer: {
+                multiSelect: 'Multi-izvēlēties',
+                clearFilter: 'Notīrīt filtru'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(atlasiet vērtību)',
             apply: 'Lietot',
             errorOccured: 'Radās kļūda.'
+        },
+        FlexSheet: {
+            insertRow: 'Ievietot rindu',
+            deleteRow: 'Dzēst rindu',
+            insertCol: 'Ievietot kolonnu',
+            deleteCol: 'Delete Column',
+            convertTable: 'Šīs tabulas pārvērst',
+            copyCells: 'Kopēt šūnas, kas',
+            fillSeries: 'Aizpildīt sēriju',
+            fillFormat: 'Aizpildīt tikai formatējumu',
+            fillWithoutFormat: 'Aizpildīt bez formatējuma'
         }
     };
     var updc = window['wijmo']._updateCulture;

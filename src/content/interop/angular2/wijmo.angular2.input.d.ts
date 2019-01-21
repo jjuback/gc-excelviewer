@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -33,6 +33,102 @@ import { ElementRef, Injector, ViewContainerRef, TemplateRef, Renderer } from '@
 import { OnInit, OnChanges, OnDestroy, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import * as ngCore from '@angular/core';
 import { IWjComponentMetadata, IWjComponentMeta, IWjDirectiveMeta } from 'wijmo/wijmo.angular2.directiveBase';
+export declare var wjListBoxMeta: IWjComponentMeta;
+/**
+ * Angular 2 component for the @see:wijmo.input.ListBox control.
+ *
+ * Use the <b>wj-list-box</b> component to add <b>ListBox</b> controls to your
+ * Angular 2 applications. For details about Angular 2 markup syntax, see
+ * <a href="static/angular2Markup.html">Angular 2 Markup</a>.
+ *
+* The <b>WjListBox</b> component is derived from the <b>ListBox</b> control and
+ * inherits all its properties, events and methods.
+ *
+ * The <b>wj-list-box</b> component may contain a @see:wijmo/wijmo.angular2.input.WjItemTemplate child directive.
+*/
+export declare class WjListBox extends wijmo.input.ListBox implements OnInit, OnDestroy, AfterViewInit {
+    static readonly meta: IWjComponentMetadata;
+    private _wjBehaviour;
+    /**
+     * Indicates whether the component has been initialized by Angular.
+     * Changes its value from false to true right before triggering the <b>initialized</b> event.
+     */
+    isInitialized: boolean;
+    /**
+     * This event is triggered after the component has been initialized by Angular, that is
+     * all bound properties have been assigned and child components (if any) have been initialized.
+     */
+    initialized: EventEmitter<any>;
+    /**
+     * Defines a name of a property represented by [(ngModel)] directive (if specified).
+     * Default value is 'selectedValue'.
+     */
+    wjModelProperty: string;
+    /**
+     * Allows you to override the global <b>WjOptions.asyncBindings</b> setting for this specific component.
+     * See the <b>WjOptions.</b>@see:WjOptions.asyncBindings property description for details.
+     */
+    asyncBindings: boolean;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>gotFocus</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>gotFocus</b> Wijmo event name.
+     */
+    gotFocusNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>lostFocus</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>lostFocus</b> Wijmo event name.
+     */
+    lostFocusNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>formatItem</b> Wijmo event name.
+     */
+    formatItemNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsChanged</b> Wijmo event name.
+     */
+    itemsChangedNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemChecked</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemChecked</b> Wijmo event name.
+     */
+    itemCheckedNg: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>selectedIndexChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>selectedIndexChanged</b> Wijmo event name.
+     */
+    selectedIndexChangedNg: EventEmitter<any>;
+    selectedIndexChangePC: EventEmitter<any>;
+    selectedItemChangePC: EventEmitter<any>;
+    selectedValueChangePC: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>checkedItemsChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>checkedItemsChanged</b> Wijmo event name.
+     */
+    checkedItemsChangedNg: EventEmitter<any>;
+    checkedItemsChangePC: EventEmitter<any>;
+    constructor(elRef: ElementRef, injector: Injector, parentCmp: any);
+    /**
+     * If you create a custom component inherited from a Wijmo component, you can override this
+     * method and perform necessary initializations that you usually do in a class constructor.
+     * This method is called in the last line of a Wijmo component constructor and allows you
+     * to not declare your custom component's constructor at all, thus preventing you from a necessity
+     * to maintain constructor parameters and keep them in synch with Wijmo component's constructor parameters.
+     */
+    created(): void;
+    ngOnInit(): void;
+    ngAfterViewInit(): void;
+    ngOnDestroy(): void;
+    addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean): void;
+}
 export declare var wjComboBoxMeta: IWjComponentMeta;
 /**
  * Angular 2 component for the @see:wijmo.input.ComboBox control.
@@ -101,6 +197,12 @@ export declare class WjComboBox extends wijmo.input.ComboBox implements OnInit, 
      */
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
     /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
@@ -196,6 +298,12 @@ export declare class WjAutoComplete extends wijmo.input.AutoComplete implements 
      */
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
     /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
@@ -596,6 +704,12 @@ export declare class WjMultiSelect extends wijmo.input.MultiSelect implements On
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
     /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
+    /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
      * In template bindings use the conventional <b>formatItem</b> Wijmo event name.
@@ -697,6 +811,12 @@ export declare class WjMultiAutoComplete extends wijmo.input.MultiAutoComplete i
      */
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
     /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
@@ -961,6 +1081,12 @@ export declare class WjInputTime extends wijmo.input.InputTime implements OnInit
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
     /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
+    /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.
      * In template bindings use the conventional <b>formatItem</b> Wijmo event name.
@@ -1083,102 +1209,6 @@ export declare class WjInputDateTime extends wijmo.input.InputDateTime implement
     ngOnDestroy(): void;
     addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean): void;
 }
-export declare var wjListBoxMeta: IWjComponentMeta;
-/**
- * Angular 2 component for the @see:wijmo.input.ListBox control.
- *
- * Use the <b>wj-list-box</b> component to add <b>ListBox</b> controls to your
- * Angular 2 applications. For details about Angular 2 markup syntax, see
- * <a href="static/angular2Markup.html">Angular 2 Markup</a>.
- *
-* The <b>WjListBox</b> component is derived from the <b>ListBox</b> control and
- * inherits all its properties, events and methods.
- *
- * The <b>wj-list-box</b> component may contain a @see:wijmo/wijmo.angular2.input.WjItemTemplate child directive.
-*/
-export declare class WjListBox extends wijmo.input.ListBox implements OnInit, OnDestroy, AfterViewInit {
-    static readonly meta: IWjComponentMetadata;
-    private _wjBehaviour;
-    /**
-     * Indicates whether the component has been initialized by Angular.
-     * Changes its value from false to true right before triggering the <b>initialized</b> event.
-     */
-    isInitialized: boolean;
-    /**
-     * This event is triggered after the component has been initialized by Angular, that is
-     * all bound properties have been assigned and child components (if any) have been initialized.
-     */
-    initialized: EventEmitter<any>;
-    /**
-     * Defines a name of a property represented by [(ngModel)] directive (if specified).
-     * Default value is 'selectedValue'.
-     */
-    wjModelProperty: string;
-    /**
-     * Allows you to override the global <b>WjOptions.asyncBindings</b> setting for this specific component.
-     * See the <b>WjOptions.</b>@see:WjOptions.asyncBindings property description for details.
-     */
-    asyncBindings: boolean;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>gotFocus</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>gotFocus</b> Wijmo event name.
-     */
-    gotFocusNg: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>lostFocus</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>lostFocus</b> Wijmo event name.
-     */
-    lostFocusNg: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>formatItem</b> Wijmo event name.
-     */
-    formatItemNg: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>itemsChanged</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>itemsChanged</b> Wijmo event name.
-     */
-    itemsChangedNg: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>itemChecked</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>itemChecked</b> Wijmo event name.
-     */
-    itemCheckedNg: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>selectedIndexChanged</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>selectedIndexChanged</b> Wijmo event name.
-     */
-    selectedIndexChangedNg: EventEmitter<any>;
-    selectedIndexChangePC: EventEmitter<any>;
-    selectedItemChangePC: EventEmitter<any>;
-    selectedValueChangePC: EventEmitter<any>;
-    /**
-     * Angular (EventEmitter) version of the Wijmo <b>checkedItemsChanged</b> event for programmatic access.
-     * Use this event name if you want to subscribe to the Angular version of the event in code.
-     * In template bindings use the conventional <b>checkedItemsChanged</b> Wijmo event name.
-     */
-    checkedItemsChangedNg: EventEmitter<any>;
-    checkedItemsChangePC: EventEmitter<any>;
-    constructor(elRef: ElementRef, injector: Injector, parentCmp: any);
-    /**
-     * If you create a custom component inherited from a Wijmo component, you can override this
-     * method and perform necessary initializations that you usually do in a class constructor.
-     * This method is called in the last line of a Wijmo component constructor and allows you
-     * to not declare your custom component's constructor at all, thus preventing you from a necessity
-     * to maintain constructor parameters and keep them in synch with Wijmo component's constructor parameters.
-     */
-    created(): void;
-    ngOnInit(): void;
-    ngAfterViewInit(): void;
-    ngOnDestroy(): void;
-    addEventListener(target: EventTarget, type: string, fn: any, capture?: boolean): void;
-}
 export declare var wjMenuMeta: IWjComponentMeta;
 /**
  * Angular 2 component for the @see:wijmo.input.Menu control.
@@ -1252,6 +1282,12 @@ export declare class WjMenu extends wijmo.input.Menu implements OnInit, OnDestro
      */
     textChangedNg: EventEmitter<any>;
     textChangePC: EventEmitter<any>;
+    /**
+     * Angular (EventEmitter) version of the Wijmo <b>itemsSourceChanged</b> event for programmatic access.
+     * Use this event name if you want to subscribe to the Angular version of the event in code.
+     * In template bindings use the conventional <b>itemsSourceChanged</b> Wijmo event name.
+     */
+    itemsSourceChangedNg: EventEmitter<any>;
     /**
      * Angular (EventEmitter) version of the Wijmo <b>formatItem</b> event for programmatic access.
      * Use this event name if you want to subscribe to the Angular version of the event in code.

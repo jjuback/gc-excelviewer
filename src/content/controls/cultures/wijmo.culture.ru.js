@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'Лицензия Wijmo в этом приложении недействительна для элемента управления <b>{control}</b>.',
             ver: 'Лицензия Wijmo в этом приложении недействительна для используемой версии. Версия лицензии <b>{licVer}</b>; версия продукта <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} пунктов выбрано',
-            selectAll: 'Выбрать все'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Календарь',
+                monthView: 'По месяцам',
+                yearView: 'Представление "Год"',
+                prvMo: 'Предыдущий месяц',
+                today: 'Сегодня',
+                nxtMo: 'Следующий месяц',
+                prvYr: 'Предыдущий год',
+                currMo: 'Текущий месяц',
+                nxtYr: 'Следующий год',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Переключить раскрывающийся список'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} наименований)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} наименований)',
+            ariaLabels: {
+                toggleDropDown: 'Переключить раскрывающийся список',
+                toggleGroup: 'Переключение группы'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Переключить строку детализации'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Редактирование фильтра для столбца',
+                dialog: 'Редактор фильтров для столбца',
+                asc: 'Столбец для сортировки в порядке возрастания',
+                dsc: 'Столбец для сортировки в порядке убывания',
+                search: 'Поиск элемента списка',
+                op1: 'Первое условие оператора',
+                val1: 'Первое условие-значение',
+                and: 'Требуются оба условия',
+                or: 'Требуется либо условие',
+                op2: 'Второе условие-оператор',
+                val2: 'Второе условие-значение'
+            },
             // filter
-            ariaLabel: 'Редактор фильтров для столбца',
             ascending: '\u2191 По возрастанию',
             descending: '\u2193 По убыванию',
             apply: 'Применить',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Равно', op: 0 },
                 { name: 'не равно', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Переключить календарь',
+                tglTime: 'Список переключения времени'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Увеличить значение',
+                decVal: 'Уменьшение значения'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} пунктов выбрано',
+            selectAll: 'Выбрать все'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: '{cnt} строка',
                 row: 'Строка',
                 col: 'Колонка'
+            },
+            Slicer: {
+                multiSelect: 'Множественный выбор',
+                clearFilter: 'Очистить фильтр'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(выберите значение)',
             apply: 'Применить',
             errorOccured: 'Произошла ошибка.'
+        },
+        FlexSheet: {
+            insertRow: 'Вставить строку',
+            deleteRow: 'Удалить строку',
+            insertCol: 'Вставить столбец',
+            deleteCol: 'Delete Column',
+            convertTable: 'Преобразовать таблицу',
+            copyCells: 'Копировать ячейки',
+            fillSeries: 'Заполнить',
+            fillFormat: 'Заполнить только форматирования',
+            fillWithoutFormat: 'Заполнить только значения'
         }
     };
     var updc = window['wijmo']._updateCulture;

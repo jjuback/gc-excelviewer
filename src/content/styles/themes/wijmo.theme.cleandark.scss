@@ -1,0 +1,42 @@
+////////////////////////////////////////////////////////////////
+// cleandark theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #000;
+$wj-txt: #ababab;
+$wj-bdr-rad: 0px;
+
+$wj-hdr-bkg: #000;
+$wj-hdr-txt: #ababab;
+
+$wj-sel-bkg: #57728c;
+$wj-sel-txt: #d0d9e0;
+$wj-msel-bkg: #304253;
+$wj-msel-txt: #c2c7cb;
+$wj-cell-grp-bkg: #333;
+$wj-cell-grp-txt: #ababab;
+$wj-cell-frz: #333;
+$wj-cell-bdr: none;
+$wj-cell-alt: #404040;
+
+$wj-btn-bkg: #000;
+$wj-btn-hvr: #444;
+$wj-btn-txt: #ababab;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #a9a9a9;
+$wj-tooltip-txt: #fff;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
+// add border below column header cells
+.wj-colheaders .wj-header {
+    border-bottom: 1px solid #888;
+}
+

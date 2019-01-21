@@ -1,6 +1,6 @@
 /*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -254,6 +254,8 @@ declare module wijmo.grid.multirow {
         /**
          * Gets or sets a value that determines whether the content of cells
          * that span multiple rows should be vertically centered.
+         *
+         * The default value for this property is <b>true</b>.
          */
         centerHeadersVertically: boolean;
         /**
@@ -269,6 +271,8 @@ declare module wijmo.grid.multirow {
          * the grid to show all header information (groups and columns).
          * In this case, the first row will show the group headers and the
          * remaining rows will show the individual column headers.
+         *
+         * The default value for this property is <b>false</b>.
          */
         collapsedHeaders: boolean;
         /**
@@ -278,6 +282,8 @@ declare module wijmo.grid.multirow {
          *
          * If the button is visible, clicking on it will cause the grid to
          * toggle the value of the <b>collapsedHeaders</b> property.
+         *
+         * The default value for this property is <b>false</b>.
          */
         showHeaderCollapseButton: boolean;
         /**
@@ -309,6 +315,7 @@ declare module wijmo.grid.multirow {
         _parseCellGroups(groups: any[]): _CellGroup[];
         _formatItem(s: MultiRow, e: FormatItemEventArgs): void;
         _updateButtonGlyph(): void;
+        _getError(p: GridPanel, r: number, c: number): string;
     }
 }
 

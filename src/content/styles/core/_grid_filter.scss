@@ -1,0 +1,74 @@
+// wijmo.grid.filter
+.wj-flexgrid {
+    .wj-cell.wj-filter-on .wj-elem-filter { // show filter on
+        opacity: .9;
+    }
+
+    .wj-cell.wj-filter-off .wj-elem-filter { // hide filter off
+        opacity: .5;
+    }
+
+    .wj-cell.wj-filter-on, .wj-cell.wj-filter-off { // extra room to handle right-aligned cells
+        padding-right: 1.6em;
+    }
+
+    &.wj-rtl {
+        .wj-cell.wj-filter-on, .wj-cell.wj-filter-off { // switch extra room position in rtl grids
+            padding-left: 1.6em;
+            padding-right: 2px;
+        }
+    }
+}
+
+.wj-columnfiltereditor {
+    padding: 10px;
+    min-width: 230px;
+    max-width: 400px;
+
+    .wj-filtertype {
+        text-align: right;
+        margin: 14px 0px;
+        font-size: 12px;
+    }
+
+    .wj-control {
+        margin-bottom: 6px;
+        width: 100%;
+    }
+
+    .wj-valuefilter-editor,
+    .wj-conditionfilter-editor {
+        margin-top: 1em;
+    }
+
+    .wj-listbox {
+        height: 150px;
+
+        .wj-listbox-item {
+            max-width: 25em;
+
+            label {
+                white-space: nowrap;
+            }
+        }
+
+        &:not(.wj-state-focused) {
+            .wj-listbox-item.wj-state-selected {
+                color: inherit;
+                background: inherit;
+                transition: all 300ms;
+            }
+        }
+    }
+
+    a {
+        color: inherit;
+        font-size: inherit;
+        font-weight: bold;
+
+        &.wj-state-disabled {
+            text-decoration: none;
+        }
+    }
+}
+

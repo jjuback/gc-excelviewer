@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -68,16 +68,52 @@ var wijmo;
             prd: 'The Wijmo license in this application is not valid for the <b>{control}</b> control.',
             ver: 'The Wijmo license in this application is not valid for the version in use. The license version is <b>{licVer}</b>; the product version is <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} items selected',
-            selectAll: 'Select All'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Calendar',
+                monthView: 'Month View',
+                yearView: 'Year View',
+                prvMo: 'Previous Month',
+                today: 'Today',
+                nxtMo: 'Next Month',
+                prvYr: 'Previous Year',
+                currMo: 'Current Month',
+                nxtYr: 'Next Year',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Toggle dropdown'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} items)'
+            groupHeaderFormat: '{name}: <b>{value}</b> ({count:n0} items)',
+            ariaLabels: {
+                toggleDropDown: 'Toggle Dropdown',
+                toggleGroup: 'Toggle Group'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Toggle Row Detail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Edit Filter for Column',
+                dialog: 'Filter Editor for Column',
+                asc: 'Sort Column in Ascending Order',
+                dsc: 'Sort Column in Descending Order',
+                search: 'Search Item List',
+                op1: 'First Condition Operator',
+                val1: 'First Condition Value',
+                and: 'Require both Conditions',
+                or: 'Require either Condition',
+                op2: 'Second Condition Operator',
+                val2: 'Second Condition Value'
+            },
             // filter
-            ariaLabel: 'Filter Editor for Column',
             ascending: '\u2191 Ascending',
             descending: '\u2193 Descending',
             apply: 'Apply',
@@ -122,6 +158,22 @@ var wijmo;
                 { name: 'Equals', op: 0 },
                 { name: 'Does not equal', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Toggle Calendar',
+                tglTime: 'Toggle Time List'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Increase Value',
+                decVal: 'Decrease Value'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} items selected',
+            selectAll: 'Select All'
         },
         olap: {
             PivotFieldEditor: {
@@ -227,6 +279,10 @@ var wijmo;
                 item: '{cnt} item',
                 row: 'Row',
                 col: 'Column'
+            },
+            Slicer: {
+                multiSelect: 'Multi-Select',
+                clearFilter: 'Clear Filter'
             }
         },
         Viewer: {
@@ -358,6 +414,17 @@ var wijmo;
             selectParameterValue: '(select value)',
             apply: 'Apply',
             errorOccured: 'An error has occurred.'
+        },
+        FlexSheet: {
+            insertRow: 'Insert row',
+            deleteRow: 'Delete row',
+            insertCol: 'Insert column',
+            deleteCol: 'Delete Column',
+            convertTable: 'Convert Table',
+            copyCells: 'Copy Cells',
+            fillSeries: 'Fill Series',
+            fillFormat: 'Fill Formatting Only',
+            fillWithoutFormat: 'Fill Without Formatting'
         }
     };
     var updc = window['wijmo']._updateCulture;

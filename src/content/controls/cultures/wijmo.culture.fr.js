@@ -1,6 +1,6 @@
 ﻿/*
     *
-    * Wijmo Library 5.20181.462
+    * Wijmo Library 5.20183.567
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -67,16 +67,52 @@ var wijmo;
             prd: 'La licence Wijmo dans cette application n\'est pas valide pour le contrôle <b>{control}</b>.',
             ver: 'La licence Wijmo dans cette application n\'est pas valide pour la version utilisée. La version de la licence est <b>{licVer}</b>; la version du produit est <b>{version}</b>.'
         },
-        MultiSelect: {
-            itemsSelected: '{count:n0} articles sélectionnés',
-            selectAll: 'Sélectionner tout'
+        Calendar: {
+            ariaLabels: {
+                calendar: 'Calendrier',
+                monthView: 'Affichage mensuel',
+                yearView: 'Affichage sur une année',
+                prvMo: 'Mois précédent',
+                today: 'Aujourd\'hui',
+                nxtMo: 'Mois suivant',
+                prvYr: 'Année précédente',
+                currMo: 'Mois en cours',
+                nxtYr: 'Année prochaine',
+            }
+        },
+        DropDown: {
+            ariaLabels: {
+                tgl: 'Liste déroulante activer/désactiver'
+            }
         },
         FlexGrid: {
-            groupHeaderFormat: '{name} : <b>{value}</b> ({count:n0} articles)'
+            groupHeaderFormat: '{name} : <b>{value}</b> ({count:n0} articles)',
+            ariaLabels: {
+                toggleDropDown: 'Liste déroulante activer/désactiver',
+                toggleGroup: 'Activer/désactiver groupe'
+            }
+        },
+        FlexGridDetailProvider: {
+            ariaLabels: {
+                toggleDetail: 'Activer/désactiver ligne détail'
+            }
         },
         FlexGridFilter: {
+            // aria labels
+            ariaLabels: {
+                edit: 'Modifier le filtre pour la colonne',
+                dialog: 'Éditeur de filtre pour la colonne',
+                asc: 'Colonne de tri en ordre croissant',
+                dsc: 'Colonne de tri en ordre décroissant',
+                search: 'Liste d’éléments de recherche',
+                op1: 'Opérateur pour la première condition',
+                val1: 'Valeur pour la première condition',
+                and: 'Il faut effectuer les deux Conditions',
+                or: 'Besoin d’une Condition',
+                op2: 'Opérateur pour la deuxième condition',
+                val2: 'Valeur pour la deuxième condition'
+            },
             // filter
-            ariaLabel: 'Éditeur de filtre pour la colonne',
             ascending: '\u2191 Ascendant',
             descending: '\u2193 Descendant',
             apply: 'Appliquer',
@@ -121,6 +157,22 @@ var wijmo;
                 { name: 'Est égal à', op: 0 },
                 { name: 'N\'est pas égal à', op: 1 }
             ]
+        },
+        InputDateTime: {
+            ariaLabels: {
+                tglDate: 'Calendrier de la bascule',
+                tglTime: 'Liste de moment de bascule'
+            }
+        },
+        InputNumber: {
+            ariaLabels: {
+                incVal: 'Augmenter la valeur',
+                decVal: 'Diminution de la valeur'
+            }
+        },
+        MultiSelect: {
+            itemsSelected: '{count:n0} articles sélectionnés',
+            selectAll: 'Sélectionner tout'
         },
         olap: {
             PivotFieldEditor: {
@@ -226,6 +278,10 @@ var wijmo;
                 item: 'élément de {cnt}',
                 row: 'Ligne',
                 col: 'Colonne'
+            },
+            Slicer: {
+                multiSelect: 'Sélection multiple',
+                clearFilter: 'Effacer le filtre'
             }
         },
         Viewer: {
@@ -357,6 +413,17 @@ var wijmo;
             selectParameterValue: '(sélectionnez valeur)',
             apply: 'Appliquer',
             errorOccured: 'Une erreur s\'est produite.'
+        },
+        FlexSheet: {
+            insertRow: 'Insérer une ligne',
+            deleteRow: 'Supprimer la ligne',
+            insertCol: 'Insérer une colonne',
+            deleteCol: 'Delete Column',
+            convertTable: 'Convertir le tableau',
+            copyCells: 'Copier les cellules',
+            fillSeries: 'Incrémenter une série',
+            fillFormat: 'Ne recopier que la mise en forme',
+            fillWithoutFormat: 'Recopier les valeurs sans la mise en forme'
         }
     };
     var updc = window['wijmo']._updateCulture;

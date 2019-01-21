@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////
+// trust theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #fff;
+$wj-txt: #444;
+$wj-bdr-rad: 0;
+
+$wj-hdr-bkg: #49525d;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #70b3af;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #8cc2c0;
+$wj-msel-txt: #fff;
+$wj-cell-grp-bkg: #e9ebed;
+$wj-cell-grp-txt: #3c434b;
+$wj-cell-frz: #ebebeb;
+$wj-cell-frz-alt: #dedede;
+$wj-cell-frz-bdr-clr: #444;
+
+$wj-btn-bkg: #f48027;
+$wj-btn-hvr: #db7323;
+$wj-btn-txt: #fff;
+
+$wj-tooltip: #a9a9a9;
+$wj-tooltip-txt: #fff;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+

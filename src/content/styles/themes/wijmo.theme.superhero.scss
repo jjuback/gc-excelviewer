@@ -1,0 +1,40 @@
+////////////////////////////////////////////////////////////////
+// superhero theme
+//
+
+////////////////////////////////////////////////////////////////
+// set variables
+//
+$wj-bkg: #2b3e50;
+$wj-txt: #fff;
+$wj-bdr: none;
+$wj-bdr-rad: 0px;
+
+$wj-hdr-bkg: #1b2d3d;
+$wj-hdr-txt: #fff;
+
+$wj-sel-bkg: #5cb85c;
+$wj-sel-txt: #fff;
+$wj-msel-bkg: #8bc08b;
+$wj-msel-txt: #fff;
+$wj-cell-bdr: none;
+$wj-cell-grp-bkg: #4e5d6c;
+$wj-cell-grp-txt: #fff;
+$wj-cell-frz: #4e5d6c;
+$wj-cell-frz-alt: #596a7b;
+$wj-cell-frz-bdr-clr: #fff;
+$wj-cell-alt: #344b61;
+
+$wj-btn-bkg: #df691a;
+$wj-btn-hvr: #b15315;
+$wj-btn-txt: #fff;
+$wj-btn-grp-bdr: none;
+
+$wj-tooltip: #4e5d6c;
+$wj-tooltip-txt: #fff;
+
+////////////////////////////////////////////////////////////////
+// apply variables
+//
+@import "../wijmo.scss";
+
