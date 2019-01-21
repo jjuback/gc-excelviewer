@@ -12,8 +12,9 @@ function processFile(storage, callback) {
     var regexQuote = new RegExp(`^${quote}([\\S\\s]*)${quote}$`);
     var regexDoubleQuote = new RegExp(`${quote}${quote}`, 'g');
     var regexComment = new RegExp(String.raw`^\s*${comment}|^\s+$`);
-    var regexMultiline = new RegExp(`(${quote}[^${quote}]+[\n]+.*${quote})[\n]+`, 'm');
-    var regexLines = new RegExp(`\n(?=[${quote}]+[\r]*)`);
+
+    // based on https://softwareengineering.stackexchange.com/a/368124
+    var regexLines = new RegExp(`((${quote}(?:[^${quote}]|${quote}${quote})+${quote}|[^${quote}\n\r]+)+)`, 'g');
 
     // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
     var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
@@ -46,8 +47,7 @@ function processFile(storage, callback) {
 
     var data = [], headers = [], bindings = [];
     var content = Base64.decode(text);
-    var multilineFields = content.split(regexMultiline).length > 1;
-    var lines = multilineFields ? content.split(regexLines) : content.split("\n");
+    var lines = content.match(regexLines);
     var firstLine = hasHeaders;
     var maxLength = 0;
 
@@ -87,7 +87,8 @@ function processFile(storage, callback) {
         bindings.push({
             binding: key,
             header: header,
-            format: format
+            format: format,
+            multiLine: true
         });
     }
 
@@ -126,6 +127,7 @@ function renderFile(data, options, bindings) {
         } else if (resize === "first") {
             flex.autoSizeColumn(0);
         }
+        autoSizeVisibleRows(flex, true);
     });
 
     flex.sortingColumn.addHandler(function(s, e) {
@@ -149,6 +151,7 @@ function renderFile(data, options, bindings) {
                 sorts.setAt(index, desc);
             }
         }
+        autoSizeVisibleRows(flex, true);
     });
 
     flex.formatItem.addHandler(function(s, e) {
@@ -241,19 +244,23 @@ function renderFile(data, options, bindings) {
             flex.columns.push(new wijmo.grid.Column(b));
         });
         flex.itemsSource = data;
+        autoSizeVisibleRows(flex, true);
         flex.endUpdate();
     }
 
     flex.collectionView.collectionChanged.addHandler(() => {
         preserveState();
+        autoSizeVisibleRows(flex, true);
     });
 
     flex.resizedColumn.addHandler(() => {
         preserveState();
+        autoSizeVisibleRows(flex, true);
     });
 
     flex.scrollPositionChanged.addHandler(() => {
         preserveState();
+        autoSizeVisibleRows(flex, true);
     });
 
     flex.rowEditEnded.addHandler((s,e) => {
@@ -271,4 +278,14 @@ function renderFile(data, options, bindings) {
 function resizeGrid() {
     var div = wijmo.getElement("#flex");
     div.style.height = window.innerHeight.toString() + "px";
+}
+
+// http://jsfiddle.net/Wijmo5/2a20kqvr/
+function autoSizeVisibleRows(flex, force) {
+    var rng = flex.viewRange;
+    for (var r = rng.row; r <= rng.row2; r++) {
+        if (force || flex.rows[r].height == null) {
+            flex.autoSizeRow(r, false)
+        }
+    }
 }
