@@ -14,7 +14,7 @@ function processFile(storage, callback) {
     var regexComment = new RegExp(String.raw`^\s*${comment}|^\s+$`);
 
     // based on https://softwareengineering.stackexchange.com/a/368124
-    var regexLines = new RegExp(`((${quote}(?:[^${quote}]|${quote}${quote})+${quote}|[^${quote}\n\r]+)+)`, 'g');
+    var regexLines = new RegExp(`((${quote}(?:[^${quote}]|)+${quote}|[^${quote}\n\r]+)+)`, 'g');
 
     // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
     var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
