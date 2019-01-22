@@ -6,7 +6,8 @@ function processFile(storage, callback) {
     var hasHeaders = options.hasHeaders;
     var comment = options.commentCharacter;
     var skip = options.skipComments;
-    var doFormat = options.formatValues;
+    var formatAlways = options.formatValues === "always";
+    var formatUnquoted = options.formatValues === "unquoted";
     var format = options.numberFormat;
 
     var regexQuote = new RegExp(`^${quote}([\\S\\s]*)${quote}$`);
@@ -19,12 +20,15 @@ function processFile(storage, callback) {
     // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
     var regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
 
-    function unquote(text) {
-        if (text.length > 0) {
-            var match = regexQuote.exec(text);
-            return match ? dblquote(match[1]) : text;
+    function unquote(cell) {
+        if (cell.text.length > 0) {
+            var match = regexQuote.exec(cell.text);
+            if (match) {
+                cell.quoted = true;
+                return dblquote(match[1]);
+            }
         }
-        return text;
+        return cell.text;
     }
 
     function dblquote(text) {
@@ -60,14 +64,16 @@ function processFile(storage, callback) {
             }
             if (firstLine) {
                 for (var j = 0; j < items.length; j++) {
-                    headers.push(unquote(items[j]));
+                    var cell = { text: items[j] };
+                    headers.push(unquote(cell));
                 }
                 firstLine = false;
             } else {
                 var obj = {};
                 for (var j = 0; j < items.length; j++) {
-                    var value = unquote(items[j]);
-                    if (doFormat) {
+                    var cell = { text: items[j], quoted: false };
+                    var value = unquote(cell);
+                    if (formatAlways || (formatUnquoted && !cell.quoted)) {
                         var num = value.length ? Number(value) : NaN;
                         obj[getBinding(j)] = isNaN(num) ? value : num;
                     } else {

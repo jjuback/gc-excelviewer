@@ -153,8 +153,8 @@ export default class CsvPreview extends BasePreview {
         return <boolean>workspace.getConfiguration('csv-preview').get("skipComments");
     }
 
-    get formatValues(): boolean {
-        return <boolean>workspace.getConfiguration('csv-preview').get("formatValues");
+    get formatValues(): string {
+        return <string>workspace.getConfiguration('csv-preview').get("formatValues");
     }
 
     get numberFormat(): string {
