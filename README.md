@@ -3,7 +3,7 @@ Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provid
 
 > This extension requires Visual Studio Code 1.23.0 or greater, as it now uses the new Webview API.
 
-This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version adds settings for controlling the display format of numeric columns in CSV files. It also includes fixes for compatibility with other CSV file extensions. See the changelog for details.
+This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version adds new settings for controlling the display format of numeric columns in CSV files. It also includes improved support for parsing and displaying data values with embedded newlines. See the changelog for details.
 
 ## CSV Usage
 For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
@@ -25,9 +25,15 @@ To discard persistent data for a CSV or Excel file, execute the command `CSV: Cl
 > Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
 
 ## Numeric Formatting
-Version 2.1.22 added new settings for controlling the display format of numeric columns. By default, numeric formatting is enabled for CSV files, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
+Version 2.1.27 added new settings for controlling the display format of numeric columns. By default, numeric formatting is always enabled for CSV files, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
 
-Set `csv-preview.formatValues` to false to turn off numeric formatting and treat all values as strings.
+The setting `csv-preview.formatValues` controls how numeric formatting is applied: 
+
+Value | Description
+----- | -----------
+`always` | All numeric values are formatted according to the `csv-preview.numberFormat` setting. This is the default.
+`never` | All values are treated as strings, and no numeric formattng occurs.
+`unquoted` | Numeric values are formatted, but only if they are not enclosed in quotes. If a column contains a mixture of quoted and unquoted values, the value in the first data row takes precedence.
 
 > Since data types and format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing the `csv-preview.formatValues` and `csv-preview.numberFormat` options.
 
@@ -44,7 +50,7 @@ csv-preview.resizeColumns | string | none | Specifies whether columns are automa
 csv-preview.lineNumbers | boolean | false | Specifies whether to display line numbers for CSV files.
 csv-preview.commentCharacter | string | # | Specifies the character used to mark comment lines in CSV files.
 csv-preview.skipComments | boolean | false | Specifies whether lines that begin with the comment character should be omitted from the CSV preview.
-csv-preview.formatValues | boolean | true | Specifies whether to format numeric values in CSV files, or to treat all values as strings.
+csv-preview.formatValues | string | always | Specifies whether to format numeric values in CSV files, or to treat them as strings.
 csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style the preview grid.
 csv-preview.openStdin | boolean | false | Specifies whether text piped to stdin is automatically opened as a CSV preview.

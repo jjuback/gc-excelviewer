@@ -1,3 +1,22 @@
+## 2.1.27 (January 23, 2019)
+Upgraded to use Wijmo build 5.20183.567. This fixes the issue where the default theme did not have sufficient contrast for disabled filter icons.
+
+Changed the configuration option `csv-preview.formatValues` from a boolean to an enum:
+
+Value | Description
+----- | -----------
+`always` | All numeric values are formatted according to the `csv-preview.numberFormat` setting. This is the default.
+`never` | All values are treated as strings, and no numeric formattng occurs.
+`unquoted` | Numeric values are formatted, but only if they are not enclosed in quotes. If a column contains a mixture of quoted and unquoted values, the value in the first data row takes precedence.
+
+> Since this change affects column properties, any persistent data for CSV files saved with earlier versions will be ignored.
+
+Improved the parsing and display of delimited values with embedded newlines. Visible rows with multiline cells are now automatically resized. (Pull request from @fguchelaar).
+
+The `Open Preview` command is now enabled when the language mode is changed to CSV or TSV. Formerly, the availability of this command was linked to the file extension. (Pull request from @ibraimgm).
+
+Line number columns now auto-size to fit their content for CSV/Excel files, regardless of the `csv-preview.resizeColumns` setting.
+
 ## 2.1.26 (August 21, 2018)
 Added the configuration option `csv-preview.openStdin` that specifies whether text piped to stdin is automatically opened as a CSV preview (default: false). Formerly, there was no way to turn off this feature, which was added in version 2.1.22.
 
