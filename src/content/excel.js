@@ -104,12 +104,17 @@ function renderFile(data, options) {
         sheet.isReadOnly = true;
         applyState();
 
+        setTimeout(() => {
+            sheet.autoSizeColumn(0, true);
+        }, 0);
+
         sheet.filter.filterApplied.addHandler(() => {
             preserveState();
         });
     
         sheet.selectedSheetChanged.addHandler(() => {
             preserveState();
+            sheet.autoSizeColumn(0, true);
         });
 
         sheet.sortManager.sortDescriptions.collectionChanged.addHandler(() => {

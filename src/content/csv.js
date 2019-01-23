@@ -189,7 +189,7 @@ function renderFile(data, options, bindings) {
                 }
             }),
             scrollPosition: flex.scrollPosition,
-            version: "2.1.22"
+            version: "2.1.27"
         };
         return state;
     }
@@ -211,7 +211,7 @@ function renderFile(data, options, bindings) {
     }
 
     function layoutChanged(state, flex) {
-        if (!state.version) {
+        if (!state.version || state.version < "2.1.27") {
             return true;
         }
         var stateCols = JSON.parse(state.columnLayout).columns;
@@ -251,6 +251,7 @@ function renderFile(data, options, bindings) {
         });
         flex.itemsSource = data;
         autoSizeVisibleRows(flex, true);
+        flex.autoSizeColumn(0, true);
         flex.endUpdate();
     }
 
@@ -266,7 +267,7 @@ function renderFile(data, options, bindings) {
 
     flex.scrollPositionChanged.addHandler(() => {
         preserveState();
-        autoSizeVisibleRows(flex, true);
+        autoSizeVisibleRows(flex, false);
     });
 
     flex.rowEditEnded.addHandler((s,e) => {
@@ -278,6 +279,7 @@ function renderFile(data, options, bindings) {
         }, "*");
     });
 
+    flex.autoSizeColumn(0, true);
     applyState();
 }
 
