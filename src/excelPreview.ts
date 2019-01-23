@@ -38,6 +38,9 @@ export default class ExcelPreview extends BasePreview {
             <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
             <link href="${this.serviceUrl}/styles/themes/wijmo.theme.${this.theme}.min.css" rel="stylesheet" type="text/css" />
         </head>
+        <style>
+            .wj-flexsheet { background: transparent; }
+        </style>
         <script src="${this.serviceUrl}/controls/wijmo.min.js" type="text/javascript"></script>
         <script src="${this.serviceUrl}/controls/wijmo.input.min.js" type="text/javascript"></script>
         <script src="${this.serviceUrl}/controls/wijmo.grid.min.js" type="text/javascript"></script>
