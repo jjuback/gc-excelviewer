@@ -17,6 +17,8 @@ The `Open Preview` command is now enabled when the language mode is changed to C
 
 Line number columns now auto-size to fit their content for CSV/Excel files, regardless of the `csv-preview.resizeColumns` setting.
 
+Suppressed context menu in Excel previews.
+
 ## 2.1.26 (August 21, 2018)
 Added the configuration option `csv-preview.openStdin` that specifies whether text piped to stdin is automatically opened as a CSV preview (default: false). Formerly, there was no way to turn off this feature, which was added in version 2.1.22.
 

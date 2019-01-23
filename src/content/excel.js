@@ -88,13 +88,14 @@ function renderFile(data, options) {
         }
     }
 
-    var menu = wijmo.getElement("[wj-part='context-menu']");
-    menu.parentElement.removeChild(menu);
-
     var news = wijmo.getElement("[wj-part='new-sheet']");
     news.parentElement.removeChild(news);
 
-    sheet.loaded.addHandler(() => {
+    sheet.hostElement.addEventListener("contextmenu", e => {
+        e.preventDefault();
+    }, true);
+
+    sheet.loaded.addHandler(() => {        
         var defStyle = sheet.getBuiltInTableStyle("TableStyleMedium8");
         sheet.sheets.forEach(s => {
             s.tables.forEach(t => {
