@@ -92,7 +92,7 @@ function processFile(storage, callback) {
         var header = (headers.length > i) ? headers[i] : hasHeaders ? "" : key;
         bindings.push({
             binding: key,
-            header: header,
+            header: header.length > 0 ? header : " ",
             format: format,
             multiLine: true
         });
@@ -160,15 +160,33 @@ function renderFile(data, options, bindings) {
         autoSizeVisibleRows(flex, true);
     });
 
+    var numbersOrdinal = options.lineNumbers === "ordinal";
+    var numbersSource = options.lineNumbers === "source";
+    var lineNumbers = numbersOrdinal || numbersSource;
+
     flex.formatItem.addHandler(function(s, e) {
-        if (options.lineNumbers) {
-            if (e.panel.cellType == wijmo.grid.CellType.RowHeader) {
-                e.cell.textContent = (e.row + 1).toString();
+        if (lineNumbers) {
+           if (e.panel.cellType == wijmo.grid.CellType.RowHeader) {
+                if (numbersSource) {
+                    var row = flex.rows[e.row];
+                    var source = flex.collectionView.sourceCollection;
+                    var n = source.indexOf(row.dataItem) + 1;
+                    e.cell.textContent = n.toString();
+                } else if (numbersOrdinal) {
+                    e.cell.textContent = (e.row + 1).toString();
+                }
             }
         }
         if (options.capitalizeHeaders) {
             if (e.panel.cellType == wijmo.grid.CellType.ColumnHeader) {
-                e.cell.textContent = wijmo.toHeaderCase(e.cell.textContent);
+                var html = e.cell.innerHTML;
+                var n = html.indexOf("&nbsp;");
+                if (n > 0) {
+                    var text = wijmo.toHeaderCase(html.slice(0, n));
+                    e.cell.innerHTML = text + html.slice(n);
+                } else {
+                    e.cell.innerHTML = wijmo.toHeaderCase(html);
+                }
             }
         }
     });

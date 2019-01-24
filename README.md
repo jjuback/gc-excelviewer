@@ -47,7 +47,7 @@ csv-preview.quoteMark | string | "&nbsp;(double&#8209;quote) | Specifies the opt
 csv-preview.hasHeaders | boolean | true | Specifies whether the first row in a CSV file represents column headers.
 csv-preview.capitalizeHeaders | boolean | true | Specifies whether column headers in CSV files are capitalized.
 csv-preview.resizeColumns | string | none | Specifies whether columns are automatically resized to fit the data for CSV files.
-csv-preview.lineNumbers | boolean | false | Specifies whether to display line numbers for CSV files.
+csv-preview.lineNumbers | string | none | Specifies whether to display line numbers for CSV files.
 csv-preview.commentCharacter | string | # | Specifies the character used to mark comment lines in CSV files.
 csv-preview.skipComments | boolean | false | Specifies whether lines that begin with the comment character should be omitted from the CSV preview.
 csv-preview.formatValues | string | always | Specifies whether to format numeric values in CSV files, or to treat them as strings.

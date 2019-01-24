@@ -1,3 +1,18 @@
+## 2.1.28 (January 24, 2019)
+Changed the configuration option `csv-preview.lineNumbers` from a boolean to an enum:
+
+Value | Description
+----- | -----------
+`none` | No line numbers are displayed. This is the default.
+`ordinal` | Displays consecutive line numbers starting at 1.
+`source` | Displays line numbers representing the original position of each data row.
+
+Fixed bug where sort arrows were not displayed in column headers if `csv-preview.capitalizeHeaders` was set to true.
+
+Empty names in the header row of a CSV file are now respected. Formerly, an auto-generated letter would be displayed.
+
+Added `CSV: Refresh` command.
+
 ## 2.1.27 (January 23, 2019)
 Upgraded to use Wijmo build 5.20183.567. This fixes the issue where the default theme did not have sufficient contrast for disabled filter icons.
 

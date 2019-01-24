@@ -49,10 +49,21 @@ export function activate(context: ExtensionContext) {
         }
     });
 
+    // CSV: Refresh
+    let refreshCommand = commands.registerCommand('csv.refresh', () => {
+        let preview = previewManager.active();
+        if (preview) {
+            preview.webview.postMessage({
+                refresh: true
+            });
+        }
+    });
+    
     // Add disposables to subscriptions array
     context.subscriptions.push(csvCommand);
     context.subscriptions.push(excelCommand);
     context.subscriptions.push(clearCommand);
+    context.subscriptions.push(refreshCommand);
 
     // Refresh associated preview when a CSV file is saved
     workspace.onDidSaveTextDocument(document => {
