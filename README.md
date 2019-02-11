@@ -5,6 +5,8 @@ Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provid
 
 This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version adds new settings for controlling the display format of numeric columns in CSV files. It also includes improved support for parsing and displaying data values with embedded newlines. See the changelog for details.
 
+> Please read [this section](#regex), which describes common customizations to the default configuration for column separators and other settings that affect CSV files.
+
 ## CSV Usage
 For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
 
@@ -56,6 +58,41 @@ csv-preview.theme | string | cleandark | Specifies the Wijmo theme used to style
 csv-preview.openStdin | boolean | false | Specifies whether text piped to stdin is automatically opened as a CSV preview.
 
 > Any open CSV/Excel previews will automatically update to reflect the modified settings, except where noted in the previous section.
+
+### <a id="regex"></a>Regular Expression Settings
+The following configuration settings are used within regular expressions when processing CSV files. Therefore, you need to escape any special regular expression characters with a backslash in order to achieve the desired result.
+
+ * `csv-preview.separator`
+ * `csv-preview.quoteMark`
+ * `csv-preview.commentCharacter`
+
+For example, to override the default separator character (comma) with a dollar sign, you would enter the following in the settings editor:
+
+![image](https://user-images.githubusercontent.com/18399724/51482106-86ad8f80-1d63-11e9-871f-6e76d6be6770.png)
+
+However, if you are editing the `settings.json` file directly, an extra backslash is required:
+
+`"csv-preview.separator": "\\$"`
+
+Likewise, to use a vertical bar as the separator character:
+
+`"csv-preview.separator": "\\|"`
+
+However, if you want to use the tab character as a separator, only one backslash is needed:
+
+`"csv-preview.separator": "\t"`
+
+You can also specify multiple separator characters by using a regular expression character set. For example, to recognize a comma OR a semicolon as a separator, enclose both characters in square brackets:
+
+`"csv-preview.separator": "[,;]"`
+
+Likewise, to use both % and @ as comment symbols (instead of #), do this:
+
+`"csv-preview.commentCharacter": "[%@]"`
+
+Alternatively, to use C# or JavaScript style comments (//), do this:
+
+`"csv-preview.commentCharacter": "/{2}"`
 
 ## References
 * [About Wijmo](http://www.wijmo.com/products/wijmo-5)
