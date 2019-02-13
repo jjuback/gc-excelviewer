@@ -77,7 +77,7 @@ export default class LocalWebService {
     }
 
     start(): void {
-        const port = this.server.listen(0).address().port; // 0 = listen on a random port
+        const port = this.server.listen(0).address()["port"]; // 0 = listen on a random port
         this._servicePort = port.toString();
     }
 }
