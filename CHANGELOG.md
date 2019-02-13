@@ -1,3 +1,12 @@
+## 2.1.29 (February 12, 2019)
+Fixed bug where the `Open Preview` command was not available for non-workspace files.
+
+Added key bindings for the `Open Preview` command (Windows/Linux: `Ctrl+Shift+V`, Mac: `Cmd+Shift+V`).
+
+The `Open Preview` command now reopens an existing preview for a specific file, if available. Formerly, a duplicate preview was created.
+
+Added documentation to the readme file to clarify the use of regular expression strings in configuration settings.
+
 ## 2.1.28 (January 24, 2019)
 Changed the configuration option `csv-preview.lineNumbers` from a boolean to an enum:
 

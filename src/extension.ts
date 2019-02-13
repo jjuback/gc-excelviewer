@@ -21,7 +21,15 @@ export function activate(context: ExtensionContext) {
                 return;
             }
         }
-        let preview = new CsvPreview(context, resource, viewColumn);
+        const csv = resource.with({
+            scheme: 'csv-preview'
+        });
+        let preview = previewManager.find(csv);
+        if (preview) {
+            preview.reveal();
+            return;
+        }
+        preview = new CsvPreview(context, resource, viewColumn);
         return preview.webview;
     });
     
@@ -33,7 +41,15 @@ export function activate(context: ExtensionContext) {
             window.showInformationMessage("Use the explorer context menu or editor title menu to preview Excel files.");
             return;
         }
-        let preview = new ExcelPreview(context, resource, viewColumn);
+        const excel = resource.with({
+            scheme: 'excel-preview'
+        });
+        let preview = previewManager.find(excel);
+        if (preview) {
+            preview.reveal();
+            return;
+        }
+        preview = new ExcelPreview(context, resource, viewColumn);
         return preview.webview;
     });
     

@@ -93,6 +93,10 @@ export default abstract class BasePreview {
         }
     }
 
+    public reveal() {
+        this._panel.reveal();
+    }
+    
     get visible(): boolean {
         return this._panel.visible;
     }

@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.1.28",
+    "version": "2.1.29",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -34,7 +34,10 @@
     "activationEvents": [
         "onCommand:csv.preview",
         "onCommand:excel.preview",
-        "onLanguage:plaintext"
+        "onLanguage:plaintext",
+        "onLanguage:csv",
+        "onLanguage:tsv",
+        "onLanguage:excel"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -117,101 +120,125 @@
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == CSV",
+                    "when": "resourceLangId == 'csv (semicolon)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "resourceLangId == TSV",
-                    "command": "csv.preview",
-                    "group": "navigation"
-                },
-                {
-                    "when": "resourceLangId == 'CSV (semicolon)'",
-                    "command": "csv.preview",
-                    "group": "navigation"
-                },
-                {
-                    "when": "resourceLangId == 'CSV (pipe)'",
+                    "when": "resourceLangId == 'csv (pipe)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
             ],
             "editor/title": [
                 {
-                    "when": "editorLangId == excel && resourceScheme != excel-preview",
+                    "when": "editorLangId == excel",
                     "command": "excel.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == csv && resourceScheme != csv-preview",
+                    "when": "editorLangId == csv",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == tsv && resourceScheme != csv-preview",
+                    "when": "editorLangId == tsv",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == CSV && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'csv (semicolon)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == TSV && resourceScheme != csv-preview",
-                    "command": "csv.preview",
-                    "group": "navigation"
-                },
-                {
-                    "when": "editorLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
-                    "command": "csv.preview",
-                    "group": "navigation"
-                },
-                {
-                    "when": "editorLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
+                    "when": "editorLangId == 'csv (pipe)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 }
             ],
             "editor/title/context": [
                 {
-                    "when": "editorLangId == excel && resourceScheme != excel-preview",
+                    "when": "resourceLangId == excel",
                     "command": "excel.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == csv && resourceScheme != csv-preview",
+                    "when": "resourceLangId == csv",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == tsv && resourceScheme != csv-preview",
+                    "when": "resourceLangId == tsv",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == CSV && resourceScheme != csv-preview",
+                    "when": "resourceLangId == 'csv (semicolon)'",
                     "command": "csv.preview",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == TSV && resourceScheme != csv-preview",
+                    "when": "resourceLangId == 'csv (pipe)'",
                     "command": "csv.preview",
+                    "group": "navigation"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "csv.preview",
+                    "when": "editorLangId == csv",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == 'CSV (semicolon)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
+                    "when": "editorLangId == tsv",
                     "group": "navigation"
                 },
                 {
-                    "when": "editorLangId == 'CSV (pipe)' && resourceScheme != csv-preview",
                     "command": "csv.preview",
+                    "when": "editorLangId == 'csv (semicolon)'",
+                    "group": "navigation"
+                },
+                {
+                    "command": "csv.preview",
+                    "when": "editorLangId == 'csv (pipe)'",
                     "group": "navigation"
                 }
             ]
         },
+        "keybindings": [
+            {
+                "command": "excel.preview",
+                "key": "shift+ctrl+v",
+                "mac": "shift+cmd+v",
+                "when": "editorLangId == excel"
+            },
+            {
+                "command": "csv.preview",
+                "key": "shift+ctrl+v",
+                "mac": "shift+cmd+v",
+                "when": "editorLangId == csv"
+            },
+            {
+                "command": "csv.preview",
+                "key": "shift+ctrl+v",
+                "mac": "shift+cmd+v",
+                "when": "editorLangId == tsv"
+            },
+            {
+                "command": "csv.preview",
+                "key": "shift+ctrl+v",
+                "mac": "shift+cmd+v",
+                "when": "editorLangId == 'csv (semicolon)'"
+            },
+            {
+                "command": "csv.preview",
+                "key": "shift+ctrl+v",
+                "mac": "shift+cmd+v",
+                "when": "editorLangId == 'csv (pipe)'"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Excel Viewer",
