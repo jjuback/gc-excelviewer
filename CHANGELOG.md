@@ -1,3 +1,6 @@
+## 2.1.30 (April 4, 2019)
+Built with webpack bundling to reduce file size and load times.
+
 ## 2.1.29 (February 12, 2019)
 Fixed bug where the `Open Preview` command was not available for non-workspace files.
 

@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.1.29",
+    "version": "2.1.30",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -39,7 +39,7 @@
         "onLanguage:tsv",
         "onLanguage:excel"
     ],
-    "main": "./out/src/extension",
+    "main": "./dist/extension",
     "contributes": {
         "languages": [
             {
@@ -347,17 +347,22 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "rsync -av src/content/ out/src/content/ ; tsc -p ./",
-        "watch": "tsc -watch -p ./",
+        "vscode:prepublish": "webpack --mode production",
+        "compile": "webpack --mode none",
+        "watch": "webpack --mode none --watch",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
         "@types/mocha": "^5.2.5",
         "@types/node": "^11.9.3",
         "mocha": "^5.2.0",
+        "ts-loader": "^5.3.3",
         "typescript": "^3.3.1",
-        "vscode": "^1.1.29"
+        "vscode": "^1.1.29",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.3.0"
     },
     "dependencies": {
         "body-parser": "^1.18.3",

@@ -16,7 +16,7 @@ export default class LocalWebService {
     private _options: any;
 
     private _servicePort: string;
-    private _htmlContentLocation = 'out/src/content';
+    private _htmlContentLocation = 'out';
     private _staticContentPath: string;
 
     constructor(context: ExtensionContext) {

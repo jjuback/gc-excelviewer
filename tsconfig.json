@@ -8,11 +8,14 @@
             "dom"
         ],
         "sourceMap": true,
-        "rootDir": "."
+        "rootDir": "src"
     },
+    "include": [
+        "src/*.ts",
+        "./node_modules/vscode/vscode.d.ts",
+        "./node_modules/vscode/lib/*"
+    ],
     "exclude": [
-        "node_modules",
-        "src/content",
-        "out/src/content"
+        "node_modules"
     ]
 }

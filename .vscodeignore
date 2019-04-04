@@ -1,10 +1,10 @@
 .vscode/**
 typings/**
-out/test/**
-test/**
 src/**
 **/*.map
 .gitignore
 tsconfig.json
-**/*.ts
 data/**
+webpack.config.json
+node_modules
+!node_modules/copy-paste
