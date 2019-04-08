@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.32 (April 8, 2019)
+Removed `copy-paste` package. No longer necessary, and removing it simplifies webpack bundle.
+
 ## 2.1.31 (April 7, 2019)
 Fixed regression that caused error: `command 'csv-preview' not found`. (Pull request from @PKief).
 

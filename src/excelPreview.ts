@@ -1,22 +1,12 @@
 'use strict';
 import { workspace, ExtensionContext, Uri, ViewColumn } from 'vscode';
 import BasePreview from './basePreview';
-var Clipboard = require('copy-paste');
 
 export default class ExcelPreview extends BasePreview {
     
     constructor(context: ExtensionContext, uri: Uri, viewColumn: ViewColumn) {
         super(context, uri, "excel-preview", viewColumn);
-        this.handleEvents();
         this.doUpdate();
-    }
-
-    private handleEvents() {
-        this.webview.onDidReceiveMessage((e) => {
-            if (e.event === "clipboardCopy") {
-                Clipboard.copy(e.text);
-            }
-        }, null, this._disposables);
     }
 
     private doUpdate(): void {

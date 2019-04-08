@@ -8,6 +8,3 @@ data/**
 img/*.gif
 webpack.config.json
 node_modules
-!node_modules/copy-paste
-!node_modules/iconv-lite
-!node_modules/sync-exec

@@ -22,14 +22,6 @@ function renderFile(data, options) {
         }
     });
 
-    sheet.copying.addHandler(function (s, e) {
-        e.cancel = true;
-        vscode.postMessage({
-            event: "clipboardCopy",
-            text: s.getClipString() + "\n"
-        }, "*");
-    });
-
     var busy = false, pending = false;
     
     function getState() {

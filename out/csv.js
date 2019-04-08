@@ -118,14 +118,6 @@ function renderFile(data, options, bindings) {
         }
     });    
 
-    flex.copying.addHandler(function (s, e) {
-        e.cancel = true;
-        vscode.postMessage({
-            event: "clipboardCopy",
-            text: s.getClipString() + "\n"
-        }, "*");
-    });
-
     flex.itemsSourceChanged.addHandler(function(s, e) {
         var resize = options.resizeColumns;
         if (resize === "all") {
