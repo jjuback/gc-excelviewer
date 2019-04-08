@@ -5,6 +5,7 @@ src/**
 .gitignore
 tsconfig.json
 data/**
+img/*.gif
 webpack.config.json
 node_modules
 !node_modules/copy-paste
