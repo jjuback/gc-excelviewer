@@ -122,7 +122,7 @@ export function activate(context: ExtensionContext) {
         }
     });
 
-    // Automaticlly preview content piped from stdin (when VSCode first starts up)
+    // Automatically preview content piped from stdin (when VSCode first starts up)
     if (window.activeTextEditor) {
         let document = window.activeTextEditor.document;
         if (isStdinFile(document)) {
