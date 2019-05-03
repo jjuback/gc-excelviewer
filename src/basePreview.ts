@@ -17,8 +17,8 @@ export default abstract class BasePreview {
     constructor(context: ExtensionContext, uri: Uri, scheme: string, viewColumn: ViewColumn) {
         this._storage = context.workspaceState;
         this._uri = uri;
-        this.initWebview(scheme, viewColumn);
         this.initService(context);
+        this.initWebview(scheme, viewColumn);
     }
 
     private initWebview(scheme: string, viewColumn: ViewColumn) {
@@ -27,10 +27,14 @@ export default abstract class BasePreview {
             scheme: scheme
         });
         this._title = `Preview '${path.basename(this._uri.fsPath)}'`;
-        this._panel = window.createWebviewPanel("gc-excelwebviewer", this._title, viewColumn, {
+        this._panel = window.createWebviewPanel("gc-excelwebviewer", this._title, viewColumn, <any>{
             enableScripts: true,
             enableCommandUris: true,
-            enableFindWidget: true
+            enableFindWidget: true,
+            portMapping: [{
+                webviewPort: this._service.staticPort, 
+                extensionHostPort: this._service.servicePort
+            }]
         });
         this._panel.onDidDispose(() => {
             this.dispose();
