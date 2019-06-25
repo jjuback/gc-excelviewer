@@ -113,10 +113,6 @@ export default abstract class BasePreview {
         return this.storage.get(this.previewUri.toString());
     }
     
-    get theme(): string {
-        return <string>workspace.getConfiguration('csv-preview').get("theme");        
-    }
-    
     get uri(): Uri {
         return this._uri;
     }
