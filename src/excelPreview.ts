@@ -30,6 +30,7 @@ export default class ExcelPreview extends BasePreview {
                 .wj-content {
                     background-color: var(--vscode-editor-background);
                     color: var(--vscode-editor-foreground);
+                    border-radius: 0px;
                 }
                 .wj-header {
                     background-color: var(--vscode-titleBar-activeBackground);
