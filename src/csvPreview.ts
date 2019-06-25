@@ -4,7 +4,7 @@ import BasePreview from './basePreview';
 var Base64 = require('js-base64').Base64;
 
 export default class CsvPreview extends BasePreview {
-    
+
     private _pendingEdits = 0;
     private _langId = null;
 
@@ -62,7 +62,7 @@ export default class CsvPreview extends BasePreview {
             numberFormat: this.numberFormat,
             uri: this.previewUri.toString(),
             state: this.state
-        };        
+        };
     }
 
     private async doUpdate(): Promise<void> {
@@ -77,7 +77,7 @@ export default class CsvPreview extends BasePreview {
             window.showInformationMessage(error.message);
         }
     }
-    
+
     refresh(): void {
         if (this._pendingEdits > 0) return;
         let self = this;
@@ -98,7 +98,36 @@ export default class CsvPreview extends BasePreview {
         <html>
         <head>
             <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
-            <link href="${this.serviceUrl}/styles/themes/wijmo.theme.${this.theme}.min.css" rel="stylesheet" type="text/css" />
+            <style>
+                .wj-content {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                }
+                .wj-header {
+                    background-color: var(--vscode-titleBar-activeBackground);
+                    color: var(--vscode-titleBar-activeForeground);
+                }
+                .wj-state-selected {
+                    background-color: var(--vscode-editor-selectionBackground);
+                    color: var(--vscode-editor-selectionForeground);
+                }
+                .wj-state-multi-selected {
+                    background-color: var(--vscode-editor-inactiveSelectionBackground);
+                    color: var(--vscode-inactiveSelectionForeground);
+                }
+                .wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                }
+                .wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                }
+                .wj-columnfiltereditor .wj-control {
+                    background-color: var(--vscode-input-background);
+                    color: var(--vscode-input-foreground);
+                }
+            </style>
         </head>
         <script src="${this.serviceUrl}/controls/wijmo.min.js" type="text/javascript"></script>
         <script src="${this.serviceUrl}/controls/wijmo.input.min.js" type="text/javascript"></script>
