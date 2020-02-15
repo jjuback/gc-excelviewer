@@ -8,6 +8,8 @@ const cors = require('cors');
 const fs = require('fs');
 import { ExtensionContext } from 'vscode';
 
+const STATIC_PORT = 9000;
+
 export default class LocalWebService {
 
     private app = express();
@@ -15,7 +17,7 @@ export default class LocalWebService {
     private _content = "";
     private _options: any;
 
-    private _servicePort: string;
+    private _servicePort: number;
     private _htmlContentLocation = 'out';
     private _staticContentPath: string;
 
@@ -52,7 +54,15 @@ export default class LocalWebService {
     }
 
     get serviceUrl(): string {
-        return 'http://localhost:' + this._servicePort;
+        return 'http://localhost:' + STATIC_PORT;
+    }
+
+    get servicePort(): number {
+        return this._servicePort;
+    }
+
+    get staticPort(): number {
+        return STATIC_PORT;
     }
 
     get content(): string {
@@ -77,7 +87,6 @@ export default class LocalWebService {
     }
 
     start(): void {
-        const port = this.server.listen(0).address()["port"]; // 0 = listen on a random port
-        this._servicePort = port.toString();
+        this._servicePort = this.server.listen(0).address()["port"]; // 0 = listen on a random port
     }
 }
