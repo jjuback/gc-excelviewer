@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.33 (February 16, 2020)
+Added support for VS Code Remote Development (PR from @chuxel).
+
 ## 2.1.32 (April 8, 2019)
 Removed `copy-paste` package. No longer necessary, and removing it simplifies webpack bundle.
 
