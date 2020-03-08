@@ -34,7 +34,7 @@ The setting `csv-preview.formatValues` controls how numeric formatting is applie
 Value | Description
 ----- | -----------
 `always` | All numeric values are formatted according to the `csv-preview.numberFormat` setting. This is the default.
-`never` | All values are treated as strings, and no numeric formattng occurs.
+`never` | All values are treated as strings, and no numeric formatting occurs.
 `unquoted` | Numeric values are formatted, but only if they are not enclosed in quotes. If a column contains a mixture of quoted and unquoted values, the value in the first data row takes precedence.
 
 > Since data types and format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing the `csv-preview.formatValues` and `csv-preview.numberFormat` options.
