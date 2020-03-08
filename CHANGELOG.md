@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.34 (March 8, 2020)
+Use current VS Code theme for styling preview grids (PR from @idanpa). Removed configuration setting `csv-preview.theme`.
+
 ## 2.1.33 (February 16, 2020)
 Added support for VS Code Remote Development (PR from @chuxel).
 
