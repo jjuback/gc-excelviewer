@@ -3,7 +3,7 @@ import { workspace, ExtensionContext, Uri, ViewColumn } from 'vscode';
 import BasePreview from './basePreview';
 
 export default class ExcelPreview extends BasePreview {
-    
+
     constructor(context: ExtensionContext, uri: Uri, viewColumn: ViewColumn) {
         super(context, uri, "excel-preview", viewColumn);
         this.doUpdate();
@@ -13,7 +13,7 @@ export default class ExcelPreview extends BasePreview {
         let options = this.getOptions();
         this.update(this.uri.fsPath, options);
     }
-    
+
     refresh(): void {
         this.webview.postMessage({
             refresh: true
@@ -26,7 +26,37 @@ export default class ExcelPreview extends BasePreview {
         <html>
         <head>
             <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
-            <link href="${this.serviceUrl}/styles/themes/wijmo.theme.${this.theme}.min.css" rel="stylesheet" type="text/css" />
+            <style>
+                .wj-content {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                    border-radius: 0px;
+                }
+                .wj-header {
+                    background-color: var(--vscode-titleBar-activeBackground);
+                    color: var(--vscode-titleBar-activeForeground);
+                }
+                .wj-state-selected {
+                    background-color: var(--vscode-editor-selectionBackground);
+                    color: var(--vscode-editor-selectionForeground);
+                }
+                .wj-state-multi-selected {
+                    background-color: var(--vscode-editor-inactiveSelectionBackground);
+                    color: var(--vscode-inactiveSelectionForeground);
+                }
+                .wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                }
+                .wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+                    background-color: var(--vscode-editor-background);
+                    color: var(--vscode-editor-foreground);
+                }
+                .wj-columnfiltereditor .wj-control {
+                    background-color: var(--vscode-input-background);
+                    color: var(--vscode-input-foreground);
+                }
+            </style>
         </head>
         <style>
             .wj-flexsheet { background: transparent; }
@@ -43,7 +73,7 @@ export default class ExcelPreview extends BasePreview {
         <script src="${this.serviceUrl}/excel.js"></script>
         <body style="padding:0px; overflow:hidden" onload="resizeSheet()" onresize="resizeSheet()">
             <div id="sheet"></div>
-        </body>                
+        </body>
         <script type="text/javascript">
             const key = "GrapeCity-Internal-Use-Only,wijmo-designer-beta.azurewebsites.net,141832842148448#B0HbhZmOiI7ckJye0ICbuFkI1pjIEJCLi4TP7JGUpp4KqBnb7gGNndFNkhjd6UmUvkjaJBnWBNXOWJ6S9UXZhFlaxJDVUF4ZpRjeiNERXFVUMNlaRFVQItiNUJzdop4dKFTdCNVMaJzd4pXNCRVY8QkQx3Sev26dwE4amNVcvIjSiVle6RDZPRFSsZTNwgFWu9GU6UUM8R5djpEWnVUeJ3yaUplTy9EUQpXcwVDbJd7bIR4N9Q7bm9mY0ZGOa36cLZVaPJFVhhDRUlEUMtkQQdFO7MWOHhHWNFERqdWOVR4KzF7aRRmcjNmWD5kN5EGT6RTbkVUbvU5L4czcE9mN8dmYsRzKRZVatlnR5o6TOVXO8ZWOklERaVDNkRVaIBDcvp4V5g6av2WMRRTMzkWRycVQwUWaWZ6c9gkN9sSauJkc4syModlY4FXOY56a9E5Tt3UML3CMFFlVhBVSsBnb4Mla4Z4ZIZ5LuZUW4E7NBJUWiojITJCLiIkQCFzNBhTMiojIIJCL8QzMzgDMxQTO0IicfJye35XX3JSSwIjUiojIDJCLi86bpNnblRHeFBCI4VWZoNFelxmRg2Wbql6ViojIOJyes4nI5kkTRJiOiMkIsIibvl6cuVGd8VEIgIXZ7VWaWRncvBXZSBybtpWaXJiOi8kI1xSfis4N8gkI0IyQiwiIu3Waz9WZ4hXRgAydvJVa4xWdNBybtpWaXJiOi8kI1xSfiQjR6QkI0IyQiwiIu3Waz9WZ4hXRgACUBx4TgAybtpWaXJiOi8kI1xSfiMzQwIkI0IyQiwiIlJ7bDBybtpWaXJiOi8kI1xSfiUFO7EkI0IyQiwiIu3Waz9WZ4hXRgACdyFGaDxWYpNmbh9WaGBybtpWaXJiOi8kI1tlOiQmcQJCLiITN8ITNwASMwMDM8EDMyIiOiQncDJCLiQXZu9yclRXazJWZ7Vmc5pXYuEGdlJWLyVmbnl6clRWLv5mapdnI0IyctRkIsIyajFmY5pEIuh6bKJiOiEmTDJCLigDN4gDNxIDN8IzM8EDNxIiOiQWSiwSfiEjd8EDMyIiOiIXZ6JLLcN";
             wijmo.setLicenseKey(key);

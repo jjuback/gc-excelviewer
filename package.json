@@ -308,36 +308,6 @@
                     "default": "g2",
                     "description": "Specifies a .NET-style format string used to format numeric columns in CSV files."
                 },
-                "csv-preview.theme": {
-                    "type": "string",
-                    "enum": [
-                        "cerulean",
-                        "cleandark",
-                        "cleanlight",
-                        "cocoa",
-                        "coral",
-                        "cyborg",
-                        "dark",
-                        "darkly",
-                        "flatly",
-                        "grayscale",
-                        "highcontrast",
-                        "light",
-                        "material",
-                        "midnight",
-                        "minimal",
-                        "modern",
-                        "office",
-                        "organic",
-                        "simplex",
-                        "slate",
-                        "superhero",
-                        "trust",
-                        "zen"
-                    ],
-                    "default": "cleandark",
-                    "description": "Specifies the Wijmo theme used to style the preview grid."
-                },
                 "csv-preview.openStdin": {
                     "type": "boolean",
                     "default": false,
