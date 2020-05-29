@@ -1,0 +1,119 @@
+/* grid cells */
+div[role=gridcell] {
+    border-top-color: transparent !important;
+    border-left-color: transparent !important;
+}
+.wj-content {
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    border-radius: 0px;
+    border-color: var(--vscode-focusBorder);
+}
+.wj-cell {
+    border-right-color: var(--vscode-focusBorder);
+    border-bottom-color: var(--vscode-focusBorder);
+}
+
+/* header cells */
+.wj-cell.wj-header {
+    background-color: var(--vscode-titleBar-activeBackground) !important;
+    color: var(--vscode-titleBar-activeForeground) !important;
+}
+.wj-cell.wj-header .wj-state-multi-selected {
+    background-color: var(--vscode-list-inactiveSelectionBackground) !important;
+    color: var(--vscode-list-inactiveSelectionForeground) !important;
+}
+
+/* selection states */
+.wj-state-selected {
+    background-color: var(--vscode-list-activeSelectionBackground) !important;
+    color: var(--vscode-list-activeSelectionForeground) !important;
+}
+.wj-state-multi-selected {
+    background-color: var(--vscode-list-inactiveSelectionBackground) !important;
+    color: var(--vscode-list-inactiveSelectionForeground) !important;
+}
+.wj-cell.wj-state-active {
+    background-color: var(--vscode-list-activeSelectionBackground) !important;
+    color: var(--vscode-list-activeSelectionForeground) !important;
+}
+.wj-flexsheet .wj-cell.wj-state-active {
+    background-color: var(--vscode-list-activeSelectionBackground) !important;
+    color: var(--vscode-list-activeSelectionForeground) !important;
+}
+.wj-flexsheet .wj-cell.wj-state-multi-selected {
+    background-color: var(--vscode-list-inactiveSelectionBackground) !important;
+    color: var(--vscode-list-inactiveSelectionForeground) !important;
+    border-right-color: var(--vscode-focusBorder) !important;
+    border-bottom-color: var(--vscode-focusBorder) !important;
+}
+.wj-flexsheet .wj-cell.wj-header .wj-state-multi-selected {
+    background-color: var(--vscode-list-inactiveSelectionBackground) !important;
+    color: var(--vscode-list-inactiveSelectionForeground) !important;
+}
+
+/* row and column headers */
+.wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+    border-right-color: var(--vscode-list-activeSelectionBackground) !important;
+    border-bottom-color: var(--vscode-focusBorder) !important;
+}
+.wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+    border-bottom-color: var(--vscode-list-activeSelectionBackground) !important;
+    border-right-color: var(--vscode-focusBorder) !important;
+}
+
+/* marquee */
+.wj-flexgrid .wj-marquee {
+    box-shadow: none;
+}
+
+/* alternating rows */
+.wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    background-color: var(--vscode-editor-background) !important;
+    color: var(--vscode-editor-foreground) !important;
+}
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    background-color: var(--vscode-sideBar-background) !important;
+    color: var(--vscode-sideBar-foreground) !important;
+}
+
+/* dropdowns and buttons */
+.wj-columnfiltereditor .wj-control {
+    background-color: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
+}
+.wj-columnfiltereditor .wj-btn {
+    background-color: var(--vscode-button-background) !important;
+    color: var(--vscode-button-foreground) !important;
+    border-radius: 0px !important;
+}
+
+/* FlexSheet */
+.wj-sheet-page {
+    height: 100%;
+}
+.wj-flexsheet .wj-tabholder {
+    background-color: var(--vscode-sideBar-background);
+}
+.wj-flexsheet .wj-tabholder div.wj-sheet-page.wj-btn-group > button {
+    background-color: var(--vscode-sideBar-background);
+    color: var(--vscode-sideBar-foreground);
+}
+.wj-flexsheet .wj-tabholder div.wj-sheet-page.wj-btn-group > button:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    color: var(--vscode-list-hoverForeground);
+}
+.wj-flexsheet .wj-tabholder .wj-sheet-tab ul li {
+    background-color: var(--vscode-list-inactiveSelectionBackground);
+    color: var(--vscode-list-inactiveSelectionForeground);
+    border-left: 1px solid transparent;
+}
+.wj-flexsheet .wj-tabholder .wj-sheet-tab ul li.active {
+    background-color: var(--vscode-list-activeSelectionBackground);
+    color: var(--vscode-list-activeSelectionForeground);
+    border-left: 1px solid transparent;
+}
+.wj-flexsheet .wj-tabholder .wj-sheet-tab ul li:not(.active):hover {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+}
