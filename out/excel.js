@@ -87,14 +87,15 @@ function renderFile(data, options) {
         e.preventDefault();
     }, true);
 
-    sheet.loaded.addHandler(() => {        
-        var defStyle = sheet.getBuiltInTableStyle("TableStyleMedium8");
+    sheet.loaded.addHandler(() => {
+        var style = getSheetStyle(sheet);
         sheet.sheets.forEach(s => {
             s.tables.forEach(t => {
-                t.style = defStyle;
+                t.style = style;
             });
         });
         sheet.isReadOnly = true;
+        sheet.showMarquee = false;
         applyState();
 
         setTimeout(() => {
@@ -125,4 +126,30 @@ function renderFile(data, options) {
 function resizeSheet() {
     var div = wijmo.getElement("#sheet");
     div.style.height = window.innerHeight.toString() + "px";
+}
+
+function cssVar(name, value) {
+    if (name.substr(0, 2) !== "--") {
+        name = "--" + name;
+    }
+    if (value) {
+        document.documentElement.style.setProperty(name, value)
+    }
+    return getComputedStyle(document.documentElement).getPropertyValue(name);
+}
+
+function getSheetStyle(sheet) {
+    var style = sheet.getBuiltInTableStyle("TableStyleLight1");
+    style.wholeTableStyle.borderTopColor = cssVar("vscode-editor-foreground");
+    style.wholeTableStyle.borderBottomColor = cssVar("vscode-editor-foreground");
+    style.wholeTableStyle.color = cssVar("vscode-editor-foreground");
+    style.wholeTableStyle.backgroundColor = cssVar("vscode-editor-background");
+    style.firstBandedRowStyle.color = cssVar("vscode-sideBar-foreground");
+    style.firstBandedRowStyle.backgroundColor = cssVar("vscode-sideBar-background");
+    style.firstBandedColumnStyle.color = cssVar("vscode-sideBar-foreground");
+    style.firstBandedColumnStyle.backgroundColor = cssVar("vscode-sideBar-background");
+    style.headerRowStyle.color = cssVar("vscode-titleBar-activeForeground");
+    style.headerRowStyle.backgroundColor = cssVar("vscode-titleBar-activeBackground");
+    style.headerRowStyle.borderBottomColor = cssVar("vscode-focusBorder");
+    return style;
 }

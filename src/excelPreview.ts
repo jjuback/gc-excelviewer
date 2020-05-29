@@ -25,42 +25,9 @@ export default class ExcelPreview extends BasePreview {
         <!DOCTYPE html>
         <html>
         <head>
-            <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
-            <style>
-                .wj-content {
-                    background-color: var(--vscode-editor-background);
-                    color: var(--vscode-editor-foreground);
-                    border-radius: 0px;
-                }
-                .wj-header {
-                    background-color: var(--vscode-titleBar-activeBackground);
-                    color: var(--vscode-titleBar-activeForeground);
-                }
-                .wj-state-selected {
-                    background-color: var(--vscode-editor-selectionBackground);
-                    color: var(--vscode-editor-selectionForeground);
-                }
-                .wj-state-multi-selected {
-                    background-color: var(--vscode-editor-inactiveSelectionBackground);
-                    color: var(--vscode-inactiveSelectionForeground);
-                }
-                .wj-cell:not(.wj-header):not(.wj-group):not(.wj-alt):not(.wj-state-selected):not(.wj-state-multi-selected) {
-                    background-color: var(--vscode-editor-background);
-                    color: var(--vscode-editor-foreground);
-                }
-                .wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
-                    background-color: var(--vscode-editor-background);
-                    color: var(--vscode-editor-foreground);
-                }
-                .wj-columnfiltereditor .wj-control {
-                    background-color: var(--vscode-input-background);
-                    color: var(--vscode-input-foreground);
-                }
-            </style>
+        <link href="${this.serviceUrl}/styles/wijmo.min.css" rel="stylesheet" type="text/css" />
+        <link href="${this.serviceUrl}/styles/vscode.css" rel="stylesheet" type="text/css" />
         </head>
-        <style>
-            .wj-flexsheet { background: transparent; }
-        </style>
         <script src="${this.serviceUrl}/controls/wijmo.min.js" type="text/javascript"></script>
         <script src="${this.serviceUrl}/controls/wijmo.input.min.js" type="text/javascript"></script>
         <script src="${this.serviceUrl}/controls/wijmo.grid.min.js" type="text/javascript"></script>
@@ -75,7 +42,7 @@ export default class ExcelPreview extends BasePreview {
             <div id="sheet"></div>
         </body>
         <script type="text/javascript">
-            const key = "GrapeCity-Internal-Use-Only,wijmo-designer-beta.azurewebsites.net,141832842148448#B0HbhZmOiI7ckJye0ICbuFkI1pjIEJCLi4TP7JGUpp4KqBnb7gGNndFNkhjd6UmUvkjaJBnWBNXOWJ6S9UXZhFlaxJDVUF4ZpRjeiNERXFVUMNlaRFVQItiNUJzdop4dKFTdCNVMaJzd4pXNCRVY8QkQx3Sev26dwE4amNVcvIjSiVle6RDZPRFSsZTNwgFWu9GU6UUM8R5djpEWnVUeJ3yaUplTy9EUQpXcwVDbJd7bIR4N9Q7bm9mY0ZGOa36cLZVaPJFVhhDRUlEUMtkQQdFO7MWOHhHWNFERqdWOVR4KzF7aRRmcjNmWD5kN5EGT6RTbkVUbvU5L4czcE9mN8dmYsRzKRZVatlnR5o6TOVXO8ZWOklERaVDNkRVaIBDcvp4V5g6av2WMRRTMzkWRycVQwUWaWZ6c9gkN9sSauJkc4syModlY4FXOY56a9E5Tt3UML3CMFFlVhBVSsBnb4Mla4Z4ZIZ5LuZUW4E7NBJUWiojITJCLiIkQCFzNBhTMiojIIJCL8QzMzgDMxQTO0IicfJye35XX3JSSwIjUiojIDJCLi86bpNnblRHeFBCI4VWZoNFelxmRg2Wbql6ViojIOJyes4nI5kkTRJiOiMkIsIibvl6cuVGd8VEIgIXZ7VWaWRncvBXZSBybtpWaXJiOi8kI1xSfis4N8gkI0IyQiwiIu3Waz9WZ4hXRgAydvJVa4xWdNBybtpWaXJiOi8kI1xSfiQjR6QkI0IyQiwiIu3Waz9WZ4hXRgACUBx4TgAybtpWaXJiOi8kI1xSfiMzQwIkI0IyQiwiIlJ7bDBybtpWaXJiOi8kI1xSfiUFO7EkI0IyQiwiIu3Waz9WZ4hXRgACdyFGaDxWYpNmbh9WaGBybtpWaXJiOi8kI1tlOiQmcQJCLiITN8ITNwASMwMDM8EDMyIiOiQncDJCLiQXZu9yclRXazJWZ7Vmc5pXYuEGdlJWLyVmbnl6clRWLv5mapdnI0IyctRkIsIyajFmY5pEIuh6bKJiOiEmTDJCLigDN4gDNxIDN8IzM8EDNxIiOiQWSiwSfiEjd8EDMyIiOiIXZ6JLLcN";
+            const key = "GrapeCity, inc. (US),gc-excelviewer,152329924298793#B0IZhsnOiwmbBJye0ICRiwiI34TQZlmailEO79mWLhmYPtWQ9g7YpF4VxA7UWFzLTZzTVpkU0Vnb5UnY9kVYat6YudHNsFDblpXS8YUU7hGZGV7N8RnW7dEWSVndjRjekBVYOVWRv2CWqtSNoRlVFFDMzc4KwZnTMJDWQV4TRxmW6tGZ8QndjJlMUV7LOx6UJlzcsNkbv5GWihFO6p6ZGRndHRnWSl7ShtiUPt6b8tUaTVFb5dWUrl5R6g4Q8pGc03SNZdUQmNUM6NHT6d4Mq9kV8BXWrEXYr5EaaJFaHRUbGRUT0tmc8YjN4ZWdYpmTOZUZ7dXY0hVRMplbhNXOtpnRzcjN8R6NHx6TzF4TChEVnFXVaBHShp4YV5GcvtSUWFnbzplQDRnWwo5ZyhzQrIjZlVWZwB7SNF6VYxGcwIzRFxkZ4wkW8hWYaFXM0F7atRXTxR6QnF5KqJDStN5VkdVewcHaa36TmdmI0IyUiwiICFTODNURDRjI0ICSiwiM8ETOwMDN5UTM0IicfJye#4Xfd5nIJBjMSJiOiMkIsIibvl6cuVGd8VEIgQXZlh6U8VGbGBybtpWaXJiOi8kI1xSfiUTSOFlI0IyQiwiIu3Waz9WZ4hXRgAicldXZpZFdy3GclJFIv5mapdlI0IiTisHL3JyS7gDSiojIDJCLi86bpNnblRHeFBCI73mUpRHb55EIv5mapdlI0IiTisHL3JCNGZDRiojIDJCLi86bpNnblRHeFBCIQFETPBCIv5mapdlI0IiTisHL3JyMDBjQiojIDJCLiUmcvNEIv5mapdlI0IiTisHL3JSV8cTQiojIDJCLi86bpNnblRHeFBCI4JXYoNEbhl6YuFmbpZEIv5mapdlI0IiTis7W0ICZyBlIsIiMxczM5ADI7ITNwAjMwIjI0ICdyNkIsIicldXZpZHblNGel5yYnJiOiMXbEJCLikyUVhCIuMmbpBCL9RXaDVGchJ7RiojIh94QiwiIzkzN8kjM4ITO9IzMyUTMiojIklkIs4nIzYnMyAjMiojIyVmdiwSZzxWYmpYIJN";
             wijmo.setLicenseKey(key);
             loadFile("${this.serviceUrl}", renderFile);
         </script>
