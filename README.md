@@ -67,7 +67,7 @@ The following configuration settings are used within regular expressions when pr
 
 For example, to override the default separator character (comma) with a dollar sign, you would enter the following in the settings editor:
 
-![image](https://user-images.githubusercontent.com/18399724/51482106-86ad8f80-1d63-11e9-871f-6e76d6be6770.png)
+![image](./img/separator.png)
 
 However, if you are editing the `settings.json` file directly, an extra backslash is required:
 

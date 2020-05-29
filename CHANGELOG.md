@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.35 (Mqy 29, 2020)
+Improved VS Code theme support.
+
+Upgraded to use Wijmo build 5.20201.664.
+
 ## 2.1.34 (March 8, 2020)
 Use current VS Code theme for styling preview grids (PR from @idanpa). Removed configuration setting `csv-preview.theme`.
 
