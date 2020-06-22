@@ -1,9 +1,12 @@
 # Excel Viewer
-Powered by [Wijmo](http://www.wijmo.com/products/wijmo-5), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
+Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
 
-> This extension requires Visual Studio Code 1.34.0 or greater, as it now supports usage of the Webview API for Remote Development.
+> This extension requires Visual Studio Code 1.46.0 or greater.
 
-This extension no longer requires access to an external CDN, which prevented it from being used behind a firewall. This version adds new settings for controlling the display format of numeric columns in CSV files. It also includes improved support for parsing and displaying data values with embedded newlines. See the changelog for details.
+Version 3.0 includes some major improvements:
+* The extension no longer opens a web server on localhost, eliminating Windows firewall alerts once and for all.
+* Previews are now persisted when a webview is hidden, preserving scroll position and selected cells without reinitializing the webview.
+* Previews are now automatically restored when Visual Studio Code restarts, including sort/filter criteria and column layouts.
 
 > Please read [this section](#regex), which describes common customizations to the default configuration for column separators and other settings that affect CSV files.
 
@@ -15,19 +18,20 @@ For files with a .csv, .tsv, or .tab extension, use the explorer context menu or
 For .tsv and .tab files, a tab delimiter is assumed. For plain text files with different extensions, open the file in an editor and execute the `CSV: Open Preview` command from the command palette.
 
 ## Excel Usage
-For files with an .xlsx or .xlsm extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexSheet](http://wijmo.com/products/flexsheet) control. If multiple sheets are present, use the controls at the bottom of the view for navigation.
+For files with an .xlsx or .xlsm extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexSheet](http://demos.wijmo.com/5/Angular/FlexSheetExplorer/FlexSheetExplorer/#/intro) control. If multiple sheets are present, use the controls at the bottom of the view for navigation.
 
 ![Image](./img/excel-preview-2.gif)
 
+## Theme Support
+The extension adapts its display to the current Visual Studio Code theme. For best results, choose a theme with opaque selection background colors.
+
 ## Persistent Data
-The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, data types, format strings, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. As of version 2.0.16, if the column structure of a CSV file changes, any persistent data is ignored for that file. This fixes issues where new columns were not displayed unless the file was moved or renamed.
+The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, data types, format strings, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. If the column structure of a CSV file changes, any persistent data is ignored for that file.
 
-To discard persistent data for a CSV or Excel file, execute the command `CSV: Clear Preview State`. The preview will be refreshed automatically.
-
-> Since version 2.0.21 contains bug fixes that depend upon revised column structure, any persistent data for CSV/Excel files saved with earlier versions will be ignored.
+> To discard persistent data for a CSV or Excel file, execute the command `CSV: Clear Preview State`. The preview will be refreshed automatically.
 
 ## Numeric Formatting
-Version 2.1.27 added new settings for controlling the display format of numeric columns. By default, numeric formatting is always enabled for CSV files, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
+By default, numeric formatting is always enabled for CSV files, and the extension will examine the first row of data to determine which columns are numeric. The setting `csv-preview.numberFormat` specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) that controls the display type and significant digits for all numeric columns. This setting defaults to `g2`, which specifies two significant digits and does not display a thousands separator.
 
 The setting `csv-preview.formatValues` controls how numeric formatting is applied: 
 
@@ -94,6 +98,6 @@ Alternatively, to use C# or JavaScript style comments (//), do this:
 `"csv-preview.commentCharacter": "/{2}"`
 
 ## References
-* [About Wijmo](http://www.wijmo.com/products/wijmo-5)
-* [FlexGrid API](http://wijmo.com/5/docs/topic/wijmo.grid.FlexGrid.Class.html)
-* [FlexSheet API](http://wijmo.com/5/docs/topic/wijmo.grid.sheet.FlexSheet.Class.html)
+* [About Wijmo](http://www.grapecity.com/wijmo)
+* [FlexGrid API](http://www.grapecity.com/wijmo/api/classes/wijmo_grid.flexgrid.html)
+* [FlexSheet API](http://www.grapecity.com/wijmo/api/classes/wijmo_grid_sheet.flexsheet.html)

@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "2.1.35",
+    "version": "3.0.36",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -19,7 +19,7 @@
         "url": "https://github.com/jjuback/gc-excelviewer.git"
     },
     "engines": {
-        "vscode": "^1.34.0"
+        "vscode": "^1.46.0"
     },
     "categories": [
         "Other"
@@ -37,7 +37,9 @@
         "onLanguage:plaintext",
         "onLanguage:csv",
         "onLanguage:tsv",
-        "onLanguage:excel"
+        "onLanguage:excel",
+        "onWebviewPanel:gc-excelviewer-csv",
+        "onWebviewPanel:gc-excelviewer-excel"
     ],
     "main": "./dist/extension",
     "contributes": {
@@ -325,22 +327,13 @@
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
-        "@types/mocha": "^5.2.5",
-        "@types/node": "^11.9.3",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^11.15.16",
+        "@types/vscode": "^1.46.0",
         "mocha": "^5.2.0",
-        "ts-loader": "^5.3.3",
-        "typescript": "^3.3.1",
-        "vscode": "^1.1.33",
-        "webpack": "^4.29.6",
-        "webpack-cli": "^3.3.0"
-    },
-    "dependencies": {
-        "body-parser": "^1.18.3",
-        "cors": "^2.8.5",
-        "escape-string-regexp": ">= 1.0.5",
-        "express": "^4.16.4",
-        "http-proxy-middleware": "^0.19.1",
-        "js-base64": "^2.5.1",
-        "request": "^2.88.0"
+        "ts-loader": "^5.4.5",
+        "typescript": "^3.9.5",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.12"
     }
 }

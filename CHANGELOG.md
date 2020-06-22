@@ -1,6 +1,15 @@
 # Change Log
 
-## 2.1.35 (Mqy 29, 2020)
+## 3.0.36 (June 22, 2020)
+This extension no longer opens an Express (Node.js) web server on localhost. In previous versions, attempting to access localhost could trigger a Windows firewall alert even though all script and stylesheet files were being served from the extension's local directory. All communication between the webview and the extension is now handled by passing messages rather than by posting to localhost.
+
+This extension now supports the WebviewPanelSerializer interface for persisting previews and state data such as sort/filter criteria. In previous versions, CSV/Excel views were not displayed when VS Code was restarted, and it was necessary to reissue the `Open Preview` command.
+
+Switching between tabs now preserves the scroll position and selected cells without reinitializing the preview.
+
+Improved VS Code theme support. Gridlines now use a more subtle color, and the border is highlighted when the extension has focus.
+
+## 2.1.35 (May 29, 2020)
 Improved VS Code theme support.
 
 Upgraded to use Wijmo build 5.20201.664.
