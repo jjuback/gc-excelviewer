@@ -1,29 +1,10 @@
-function processFile(storage, callback) {
-    var xhr = new XMLHttpRequest();    
-    xhr.onload = function(e) {
-        if (xhr.status == 200) {
-            callback(xhr.response, storage.options);
-        }
-    };
-    xhr.open("GET", gcLocalServer + "/proxy?file=" + storage.content);
-    xhr.responseType = "blob";
-    xhr.send();
-}
-
-function renderFile(data, options) {
+function initPage() {
     const vscode = acquireVsCodeApi();
+    const options = getOptions();
+
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
 
-    window.addEventListener("message", event => {
-        if (event.data.refresh) {
-            options.state = null;
-            sheet.load(data);
-        }
-    });
-
-    var busy = false, pending = false;
-    
     function getState() {
         var sorts = [];
         var items = sheet.sortManager.sortDescriptions.items;
@@ -35,33 +16,26 @@ function renderFile(data, options) {
             });
         }
         var state = {
+            uri: options.uri,
+            previewUri: options.previewUri,
             selectedSheetIndex: sheet.selectedSheetIndex,
             filterDefinition: sheet.filter.filterDefinition,
             sortDescriptions: JSON.stringify(sorts),
             scrollPosition: sheet.scrollPosition,
-            version: "2.1.22"
+            version: "3.0.36"
         };
         return state;
     }
 
     function preserveState() {
-        if (!busy) {
-            busy = true;
-            var state = getState();
-            postState(gcLocalServer, state, function() {
-                busy = false;
-                if (pending) {
-                    pending = false;
-                    preserveState();
-                }
-            })
-        } else {
-            pending = true;
-        }
+        var state = getState();
+        vscode.setState(state);
+        vscode.postMessage({ save: true, state: state });
     }
 
     function applyState() {
-        var json = options.state;
+        if (ignoreState()) return;
+        var json = vscode.getState() || options.state;
         if (json && json.version) {
             if (json.selectedSheetIndex >= 0) {
                 sheet.selectedSheetIndex = json.selectedSheetIndex;
@@ -97,6 +71,7 @@ function renderFile(data, options) {
         sheet.isReadOnly = true;
         sheet.showMarquee = false;
         applyState();
+        preserveState();
 
         setTimeout(() => {
             sheet.autoSizeColumn(0, true);
@@ -117,10 +92,10 @@ function renderFile(data, options) {
 
         sheet.scrollPositionChanged.addHandler(() => {
             preserveState();
-        });    
+        });
     });
 
-    sheet.load(data);
+    vscode.postMessage({ refresh: true });
 }
 
 function resizeSheet() {
@@ -150,6 +125,15 @@ function getSheetStyle(sheet) {
     style.firstBandedColumnStyle.backgroundColor = cssVar("vscode-sideBar-background");
     style.headerRowStyle.color = cssVar("vscode-titleBar-activeForeground");
     style.headerRowStyle.backgroundColor = cssVar("vscode-titleBar-activeBackground");
-    style.headerRowStyle.borderBottomColor = cssVar("vscode-focusBorder");
+    style.headerRowStyle.borderBottomColor = cssVar("vscode-tree-indentGuidesStroke");
     return style;
 }
+
+window.addEventListener("message", event => {
+    if (event.data.refresh) {
+        var sheet = wijmo.Control.getControl("#sheet");
+        var data = event.data.content.data;
+        var blob = new Blob([new Uint8Array(data)]);
+        sheet.load(blob);
+    }
+});

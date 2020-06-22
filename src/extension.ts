@@ -1,10 +1,10 @@
 'use strict';
-import { window, workspace, commands, ExtensionContext, Uri, ViewColumn, TextDocument, Webview } from 'vscode';
+import { window, workspace, commands, ExtensionContext, Uri, ViewColumn, TextDocument } from 'vscode';
 import CsvPreview from './csvPreview';
 import ExcelPreview from './excelPreview';
-import { PreviewManager, previewManager } from './previewManager';
+import { previewManager } from './previewManager';
 import * as path from 'path';
-import BasePreview from './basePreview';
+import { CsvSerializer, ExcelSerializer } from './serializer';
 
 export function activate(context: ExtensionContext) {
     
@@ -29,7 +29,7 @@ export function activate(context: ExtensionContext) {
             preview.reveal();
             return;
         }
-        preview = new CsvPreview(context, resource, viewColumn);
+        preview = CsvPreview.create(context, resource, viewColumn);
         return preview.webview;
     });
     
@@ -49,7 +49,7 @@ export function activate(context: ExtensionContext) {
             preview.reveal();
             return;
         }
-        preview = new ExcelPreview(context, resource, viewColumn);
+        preview = ExcelPreview.create(context, resource, viewColumn);
         return preview.webview;
     });
     
@@ -60,6 +60,7 @@ export function activate(context: ExtensionContext) {
             let key = preview.previewUri.toString();
             if (preview.storage.get(key)) {
                 preview.storage.update(key, null);
+                preview.reload();
                 preview.refresh();
             }
         }
@@ -69,9 +70,7 @@ export function activate(context: ExtensionContext) {
     let refreshCommand = commands.registerCommand('csv.refresh', () => {
         let preview = previewManager.active();
         if (preview) {
-            preview.webview.postMessage({
-                refresh: true
-            });
+            preview.refresh();
         }
     });
     
@@ -80,6 +79,10 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(excelCommand);
     context.subscriptions.push(clearCommand);
     context.subscriptions.push(refreshCommand);
+
+    // Register serializers for persistent settings
+    window.registerWebviewPanelSerializer("gc-excelviewer-csv", new CsvSerializer(context));
+    window.registerWebviewPanelSerializer("gc-excelviewer-excel", new ExcelSerializer(context));
 
     // Refresh associated preview when a CSV file is saved
     workspace.onDidSaveTextDocument(document => {
@@ -99,7 +102,6 @@ export function activate(context: ExtensionContext) {
     workspace.onDidChangeTextDocument(args => {
         if (isCsvFile(args.document)) {
             let resource: any = args.document.uri;
-            let scheme = resource.scheme;
             const uri = resource.with({
                 scheme: 'csv-preview'
             });

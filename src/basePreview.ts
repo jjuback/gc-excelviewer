@@ -1,89 +1,60 @@
 'use strict';
-import { workspace, window, ExtensionContext, Disposable, Uri, ViewColumn, Memento, Webview, WebviewPanel, WebviewPanelOnDidChangeViewStateEvent } from 'vscode';
+import { window, ExtensionContext, Disposable, Uri, ViewColumn, Webview, WebviewPanel, Memento } from 'vscode';
 import * as path from 'path';
-import LocalWebService from './localWebService';
-import { PreviewManager, previewManager } from './previewManager';
+import { previewManager } from './previewManager';
 
 export default abstract class BasePreview {
     
     private _storage: Memento;
     private _uri: Uri;
     private _previewUri: Uri;
+    private _extOutUri: Uri;
     private _title: string;
     private _panel: WebviewPanel;
-    private _service: LocalWebService;
     protected _disposables: Disposable[] = [];
 
-    constructor(context: ExtensionContext, uri: Uri, scheme: string, viewColumn: ViewColumn) {
+    protected constructor(context: ExtensionContext, uri: Uri, scheme: string) {
         this._storage = context.workspaceState;
         this._uri = uri;
-        this.initService(context);
-        this.initWebview(scheme, viewColumn);
-    }
-
-    private initWebview(scheme: string, viewColumn: ViewColumn) {
-        let self = this;
         this._previewUri = this._uri.with({
             scheme: scheme
         });
+        this._extOutUri = Uri.file(path.join(context.extensionPath, 'out'));
         this._title = `Preview '${path.basename(this._uri.fsPath)}'`;
-        this._panel = window.createWebviewPanel("gc-excelwebviewer", this._title, viewColumn, <any>{
-            enableScripts: true,
-            enableCommandUris: true,
-            enableFindWidget: true,
-            portMapping: [{
-                webviewPort: this._service.staticPort, 
-                extensionHostPort: this._service.servicePort
-            }]
-        });
-        this._panel.onDidDispose(() => {
-            this.dispose();
-        }, null, this._disposables);
-        this._panel.onDidChangeViewState((e: WebviewPanelOnDidChangeViewStateEvent) => {
-            //self._isActive = e.webviewPanel.visible;
-            let active = e.webviewPanel.visible;
-        }, null, this._disposables);
-        this.webview.onDidReceiveMessage((e) => {
-            if (e.error) {
-                window.showErrorMessage(e.error);
-            }
-        }, null, this._disposables);
         previewManager.add(this);
     }
 
-    private getLocalResourceRoots(): Uri[] {
-        const folder = workspace.getWorkspaceFolder(this.uri);
-        if (folder) {
-            return [folder.uri];
-        }
-        if (!this.uri.scheme || this.uri.scheme === 'file') {
-            return [Uri.file(path.dirname(this.uri.fsPath))];
-        }
-        return [];
-    }
-    
-    private initService(context: ExtensionContext) {
-        this._service = new LocalWebService(context);
-        this._service.start();
+    protected initWebviewPanel(viewColumn: ViewColumn): BasePreview {
+        let panel = window.createWebviewPanel(this.viewType, this._title, viewColumn, {
+            enableScripts: true,
+            enableCommandUris: true,
+            enableFindWidget: true,
+            retainContextWhenHidden: true
+        });
+        return this.attachWebviewPanel(panel);
     }
 
-    public update(content: string, options: any) {
-        this._service.init(content, options);
-        this.webview.html = this.html;
+    protected attachWebviewPanel(webviewPanel: WebviewPanel): BasePreview {
+        this._panel = webviewPanel;
+        this._panel.onDidDispose(() => {
+            this.dispose();
+        }, this, this._disposables);
+        return this;
     }
 
-    public getOptions(): any {
-        return {
-            uri: this.previewUri.toString(),
-            state: this.state
-        };
-    }
-
-    public configure() {
-        let options = this.getOptions();
-        this.service.options = options;
-        this.webview.html = this.html;
-        this.refresh();
+    protected handleEvents() {
+        this.webview.onDidReceiveMessage((e) => {
+            if (e.save) {
+                this.saveState(e.state);
+            }
+            else if (e.refresh) {
+                this.refresh();
+            }
+            else if (e.error) {
+                window.showErrorMessage(e.error);
+            }
+        }, this, this._disposables);
+        this.webview.html = this.getHtml();
     }
 
     public dispose() {
@@ -97,6 +68,14 @@ export default abstract class BasePreview {
         }
     }
 
+    public configure() {
+        this.webview.html = this.getHtml();
+    }
+    
+    public reload() {
+        this.webview.html = this.getHtml(true);
+    }
+    
     public reveal() {
         this._panel.reveal();
     }
@@ -114,7 +93,8 @@ export default abstract class BasePreview {
     }
     
     get state(): any {
-        return this.storage.get(this.previewUri.toString());
+        let key = this.previewUri.toString();
+        return this.storage.get(key, {});
     }
     
     get uri(): Uri {
@@ -125,14 +105,15 @@ export default abstract class BasePreview {
         return this._previewUri;
     }
 
-    get serviceUrl(): string {
-        return this._service.serviceUrl;
+    get extensionUrl(): string {
+        return this._panel.webview.asWebviewUri(this._extOutUri).toString();
     }
 
-    get service(): LocalWebService {
-        return this._service;
+    public saveState(state: any) {
+        this._storage.update(this.previewUri.toString(), state);
     }
-    
-    abstract get html(): string;
+
+    abstract get viewType(): string;
+    abstract getHtml(ignoreState?: boolean): string;
     abstract refresh(): void;
 }

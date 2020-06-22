@@ -7,11 +7,14 @@ div[role=gridcell] {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     border-radius: 0px;
+    border-color: var(--vscode-tree-indentGuidesStroke);
+}
+.wj-flexgrid:focus-within {
     border-color: var(--vscode-focusBorder);
 }
 .wj-cell {
-    border-right-color: var(--vscode-focusBorder);
-    border-bottom-color: var(--vscode-focusBorder);
+    border-right-color: var(--vscode-tree-indentGuidesStroke);
+    border-bottom-color: var(--vscode-tree-indentGuidesStroke);
 }
 
 /* header cells */
@@ -44,8 +47,8 @@ div[role=gridcell] {
 .wj-flexsheet .wj-cell.wj-state-multi-selected {
     background-color: var(--vscode-list-inactiveSelectionBackground) !important;
     color: var(--vscode-list-inactiveSelectionForeground) !important;
-    border-right-color: var(--vscode-focusBorder) !important;
-    border-bottom-color: var(--vscode-focusBorder) !important;
+    border-right-color: var(--vscode-tree-indentGuidesStroke) !important;
+    border-bottom-color: var(--vscode-tree-indentGuidesStroke) !important;
 }
 .wj-flexsheet .wj-cell.wj-header .wj-state-multi-selected {
     background-color: var(--vscode-list-inactiveSelectionBackground) !important;
@@ -55,11 +58,11 @@ div[role=gridcell] {
 /* row and column headers */
 .wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
     border-right-color: var(--vscode-list-activeSelectionBackground) !important;
-    border-bottom-color: var(--vscode-focusBorder) !important;
+    border-bottom-color: var(--vscode-tree-indentGuidesStroke) !important;
 }
 .wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
     border-bottom-color: var(--vscode-list-activeSelectionBackground) !important;
-    border-right-color: var(--vscode-focusBorder) !important;
+    border-right-color: var(--vscode-tree-indentGuidesStroke) !important;
 }
 
 /* marquee */
