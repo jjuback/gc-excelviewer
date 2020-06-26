@@ -80,6 +80,7 @@ function initPage() {
     }
 
     flex.itemsSourceChanged.addHandler(function(s, e) {
+        applyState();
         var resize = options.resizeColumns;
         if (resize === "all") {
             flex.autoSizeColumns();
@@ -87,7 +88,6 @@ function initPage() {
             flex.autoSizeColumn(0);
         }
         autoSizeVisibleRows(flex, true);
-        applyState();
         preserveState();
         if (flex.collectionView) {
             flex.collectionView.collectionChanged.addHandler(() => {

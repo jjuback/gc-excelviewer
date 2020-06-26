@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.37 (June 25, 2020)
+Fixed issue where the `csv-preview.resizeColumns` setting was ignored.
+
 ## 3.0.36 (June 22, 2020)
 This extension no longer opens an Express (Node.js) web server on localhost. In previous versions, attempting to access localhost could trigger a Windows firewall alert even though all script and stylesheet files were being served from the extension's local directory. All communication between the webview and the extension is now handled by passing messages rather than by posting to localhost.
 
