@@ -1,7 +1,7 @@
 # Excel Viewer
 Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
 
-> This extension requires Visual Studio Code 1.46.0 or greater.
+> This extension requires Visual Studio Code 1.47.0 or greater.
 
 Version 3.0 includes some major improvements:
 * The extension no longer opens a web server on localhost, eliminating Windows firewall alerts once and for all.

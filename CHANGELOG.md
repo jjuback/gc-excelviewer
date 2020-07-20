@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.39 (July 20, 2020)
+Added dependency on VS Code version 1.47.
+
 ## 3.0.38 (July 17, 2020)
 Fixed issue where VS Code version 1.47 changed the way webviews are hosted, resulting in a licensing nag screen.
 
