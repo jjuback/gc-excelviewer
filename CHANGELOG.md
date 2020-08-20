@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.40 (August 19, 2020)
+Fixed regression where language ids with implied separator characters (such as TSV) were not supported.
+
 ## 3.0.39 (July 20, 2020)
 Added dependency on VS Code version 1.47.
 

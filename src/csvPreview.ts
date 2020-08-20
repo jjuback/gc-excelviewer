@@ -4,8 +4,6 @@ import BasePreview from './basePreview';
 
 export default class CsvPreview extends BasePreview {
 
-    private _langId = null;
-    
     static create(context: ExtensionContext, uri: Uri, viewColumn: ViewColumn): CsvPreview {
         let preview = new CsvPreview(context, uri, "csv-preview");
         preview.initWebviewPanel(viewColumn);
@@ -22,15 +20,20 @@ export default class CsvPreview extends BasePreview {
 
     public getOptions(): any {
         let sep = this.separator;
-        if (this._langId === 'tsv') {
+        let document = workspace.textDocuments.find(document => {
+            return document.uri.toString() === this.uri.toString();
+        });
+        let lang = document ? document.languageId : this.state.languageId;
+        if (lang === 'tsv') {
             sep = "\t";
-        } else if (this._langId === 'csv (semicolon)') {
+        } else if (lang === 'csv (semicolon)') {
             sep = ";";
-        } else if (this._langId === 'csv (pipe)') {
+        } else if (lang === 'csv (pipe)') {
             sep = "\\|";
         }
         return {
             separator: sep,
+            languageId: lang,
             quoteMark: this.quoteMark,
             hasHeaders: this.hasHeaders,
             capitalizeHeaders: this.capitalizeHeaders,

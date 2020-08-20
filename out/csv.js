@@ -16,6 +16,7 @@ function initPage() {
         var state = {
             uri: options.uri,
             previewUri: options.previewUri,
+            languageId: options.languageId,
             columnLayout: flex.columnLayout,
             filterDefinition: filter.filterDefinition,
             sortDescriptions: flex.collectionView.sortDescriptions.map(function (sd) {
@@ -25,7 +26,7 @@ function initPage() {
                 }
             }),
             scrollPosition: flex.scrollPosition,
-            version: "3.0.36"
+            version: "3.0.40"
         };
         return state;
     }
