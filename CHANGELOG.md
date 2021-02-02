@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.41 (February 2, 2021)
+Updated Wijmo license to remove nag screen.
+
 ## 3.0.40 (August 19, 2020)
 Fixed regression where language ids with implied separator characters (such as TSV) were not supported.
 
