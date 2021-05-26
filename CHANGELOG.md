@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.42 (May 25, 2021)
+Added support for untrusted workspaces.
+
+Added support for virtual workspaces.
+
+Various dependabot pull requests.
+
 ## 3.0.41 (February 2, 2021)
 Updated Wijmo license to remove nag screen.
 
