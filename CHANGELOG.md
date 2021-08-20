@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.0.43 (August 20, 2021)
+Fixed issue where persistent previews ignored changes to column structure in the underlying CSV file. Formerly, it was necessary to execute the `CSV: Clear Preview State` command to view the changes.
+
+Updated Wijmo license to remove nag screen.
+
 ## 3.0.42 (May 25, 2021)
 Added support for untrusted workspaces.
 

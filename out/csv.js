@@ -47,7 +47,7 @@ function initPage() {
             return true;
         }
         for (var i = 0; i < stateCols.length; i++) {
-            if (stateCols[i].name !== flexCols[i].name) {
+            if (stateCols[i].header !== flexCols[i].header) {
                 return true;
             }
         }
