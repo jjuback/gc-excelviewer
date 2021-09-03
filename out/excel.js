@@ -54,6 +54,16 @@ function initPage() {
         }
     }
 
+    // http://jsfiddle.net/Wijmo5/2a20kqvr/
+    function autoSizeVisibleRows(flex, force) {
+        var rng = flex.viewRange;
+        for (var r = rng.row; r <= rng.row2; r++) {
+            if (force || flex.rows[r].height == null) {
+                flex.autoSizeRow(r, false);
+            }
+        }
+    }
+
     var news = wijmo.getElement("[wj-part='new-sheet']");
     news.parentElement.removeChild(news);
 
@@ -62,6 +72,7 @@ function initPage() {
     }, true);
 
     sheet.loaded.addHandler(() => {
+        sheet.columns.forEach(c => c.isContentHtml = c.multiLine = true);
         var style = getSheetStyle(sheet);
         sheet.sheets.forEach(s => {
             s.tables.forEach(t => {
@@ -75,6 +86,7 @@ function initPage() {
 
         setTimeout(() => {
             sheet.autoSizeColumn(0, true);
+            autoSizeVisibleRows(sheet, true);
         }, 0);
 
         sheet.filter.filterApplied.addHandler(() => {

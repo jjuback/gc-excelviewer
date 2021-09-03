@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.0.44 (September 3, 2021)
+Fixed issue where Chinese characters were rendered as HTML entity markup in .xlsx files.
+
+Multiline cells are now displayed properly in .xlsx files.
+
 ## 3.0.43 (August 20, 2021)
 Fixed issue where persistent previews ignored changes to column structure in the underlying CSV file. Formerly, it was necessary to execute the `CSV: Clear Preview State` command to view the changes.
 
