@@ -1,4 +1,5 @@
-﻿Atomic Number;Element;Symbol;Atomic Weight;Period;Group;Phase;Most Stable Crystal;Type;Ionic Radius;Atomic Radius;Electronegativity;First Ionization Potential;Density;Melting Point (K);Boiling Point (K);Isotopes;Discoverer;Year of Discovery;Specific Heat Capacity;Electron Configuration;Display Row;Display Column
+﻿sep=;
+Atomic Number;Element;Symbol;Atomic Weight;Period;Group;Phase;Most Stable Crystal;Type;Ionic Radius;Atomic Radius;Electronegativity;First Ionization Potential;Density;Melting Point (K);Boiling Point (K);Isotopes;Discoverer;Year of Discovery;Specific Heat Capacity;Electron Configuration;Display Row;Display Column
 1;Hydrogen;H;1.00794;1;1;gas;;Nonmetal;0.012;0.79;2.2;13.5984;0.00008988;14.175;20.28;3;Cavendish;1766;14.304;1s1;1;1
 2;Helium;He;4.002602;1;18;gas;;Noble Gas;;0.49;;24.5874;0.0001785;;4.22;5;Janssen;1868;5.193;1s2;1;18
 3;Lithium;Li;6.941;2;1;solid;bcc;Alkali Metal;0.76;2.1;0.98;5.3917;0.534;453.85;1615;5;Arfvedson;1817;3.582;[He] 2s1;2;1
