@@ -22,7 +22,7 @@ function initPage() {
             filterDefinition: sheet.filter.filterDefinition,
             sortDescriptions: JSON.stringify(sorts),
             scrollPosition: sheet.scrollPosition,
-            version: "3.0.36"
+            version: "4.0.45"
         };
         return state;
     }
@@ -36,7 +36,7 @@ function initPage() {
     function applyState() {
         if (ignoreState()) return;
         var json = vscode.getState() || options.state;
-        if (json && json.version) {
+        if (json && json.version && json.version >= "4.0.45") {
             if (json.selectedSheetIndex >= 0) {
                 sheet.selectedSheetIndex = json.selectedSheetIndex;
             }
@@ -141,11 +141,13 @@ function getSheetStyle(sheet) {
     return style;
 }
 
-window.addEventListener("message", event => {
-    if (event.data.refresh) {
-        var sheet = wijmo.Control.getControl("#sheet");
-        var data = event.data.content.data;
-        var blob = new Blob([new Uint8Array(data)]);
-        sheet.load(blob);
-    }
-});
+function handleEvents() {
+    window.addEventListener("message", event => {
+        if (event.data.refresh) {
+            var sheet = wijmo.Control.getControl("#sheet");
+            var data = event.data.content.data ?? event.data.content;
+            var blob = new Blob([new Uint8Array(data)]);
+            sheet.load(blob);
+        }
+    });
+}

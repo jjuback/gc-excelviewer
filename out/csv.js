@@ -26,7 +26,7 @@ function initPage() {
                 }
             }),
             scrollPosition: flex.scrollPosition,
-            version: "3.0.40"
+            version: "4.0.45"
         };
         return state;
     }
@@ -38,7 +38,7 @@ function initPage() {
     }
 
     function layoutChanged(state, flex) {
-        if (!state.version || state.version < "3.0.36") {
+        if (!state.version || state.version < "4.0.45") {
             return true;
         }
         var stateCols = JSON.parse(state.columnLayout).columns;
@@ -99,26 +99,7 @@ function initPage() {
     });
 
     flex.sortingColumn.addHandler(function(s, e) {
-        var shift = s._mouseHdl._eMouse.shiftKey;
-        if (shift) {
-            e.cancel = true;
-            var binding = s.columns[e.col].binding;
-            var sorts = s.collectionView.sortDescriptions;
-            var index = -1;
-            for (var i = 0; i < sorts.length; i++) {
-                if (sorts[i].property === binding) {
-                    index = i;
-                    break;
-                }
-            }
-            var asc = (index === -1) ? true : !sorts[index].ascending;
-            var desc = new wijmo.collections.SortDescription(binding, asc);
-            if (index === -1) {
-                sorts.push(desc);
-            } else {
-                sorts.setAt(index, desc);
-            }
-        }
+        preserveState();
         autoSizeVisibleRows(flex, true);
     });
 
@@ -142,12 +123,13 @@ function initPage() {
         if (options.capitalizeHeaders) {
             if (e.panel.cellType == wijmo.grid.CellType.ColumnHeader) {
                 var html = e.cell.innerHTML;
-                var n = html.indexOf("&nbsp;");
+                var text = e.cell.innerText.trim();
+                var n = html.lastIndexOf(text);
+                text = wijmo.toHeaderCase(text);
                 if (n > 0) {
-                    var text = wijmo.toHeaderCase(html.slice(0, n));
-                    e.cell.innerHTML = text + html.slice(n);
+                    e.cell.innerHTML = html.slice(0, n) + text + html.slice(n + text.length);
                 } else {
-                    e.cell.innerHTML = wijmo.toHeaderCase(html);
+                    e.cell.innerHTML = text;
                 }
             }
         }
@@ -206,6 +188,19 @@ function parseContent(text) {
         return !skip ? false : ((text.length > 0) ? regexComment.exec(text) : true);
     }
 
+    function isSep(text) {
+        var line = text.replace(/ /g, "");
+        var left = line.slice(0, 4).toLowerCase();
+        var result = (left === "sep=");
+        if (result && line.length == 5) {
+            var escapes = `+*?^$\.[]{}()|/`;
+            var char = line.slice(4);
+            sep = (escapes.indexOf(char) >= 0) ? "\\".concat(char) : char;
+            regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
+        }
+        return result;
+    }
+
     function getBinding(n) {
         var h1 = Math.floor(n / 26);
         var h2 = n % 26;
@@ -223,6 +218,9 @@ function parseContent(text) {
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].replace("\r", "");
+        if (i == 0 && isSep(line)) {
+            continue;
+        }
         if (!isComment(line)) {
             var items = line.split(regexItems);
             if (items.length > maxLength) {
@@ -274,17 +272,19 @@ function resizeGrid() {
     var div = wijmo.getElement("#flex");
     div.style.height = window.innerHeight.toString() + "px";
 }
-    
-window.addEventListener("message", event => {
-    if (event.data.refresh) {
-        var flex = wijmo.Control.getControl("#flex");
-        var content = parseContent(event.data.content);
-        flex.beginUpdate();
-        flex.columns.clear();
-        content.bindings.forEach((b) => {
-            flex.columns.push(new wijmo.grid.Column(b));
-        });
-        flex.itemsSource = content.data;
-        flex.endUpdate();
-    }
-});    
+
+function handleEvents() {
+    window.addEventListener("message", event => {
+        if (event.data.refresh) {
+            var flex = wijmo.Control.getControl("#flex");
+            var content = parseContent(event.data.content);
+            flex.beginUpdate();
+            flex.columns.clear();
+            content.bindings.forEach((b) => {
+                flex.columns.push(new wijmo.grid.Column(b));
+            });
+            flex.itemsSource = content.data;
+            flex.endUpdate();
+        }
+    });   
+}

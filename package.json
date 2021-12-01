@@ -1,13 +1,13 @@
 {
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
-    "description": "View Excel spreadsheets and CSV files within Visual Studio Code workspaces.",
-    "version": "3.0.44",
+    "description": "View Excel spreadsheets and CSV files within Visual Studio Code and VS Code for the Web.",
+    "version": "4.0.45",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
     "galleryBanner": {
-        "color": "#00AADC",
+        "color": "#7092BE",
         "theme": "dark"
     },
     "bugs": {
@@ -19,7 +19,7 @@
         "url": "https://github.com/jjuback/gc-excelviewer.git"
     },
     "engines": {
-        "vscode": "^1.47.0"
+        "vscode": "^1.62.0"
     },
     "categories": [
         "Other"
@@ -39,9 +39,14 @@
         "onLanguage:tsv",
         "onLanguage:excel",
         "onWebviewPanel:gc-excelviewer-csv",
-        "onWebviewPanel:gc-excelviewer-excel"
+        "onWebviewPanel:gc-excelviewer-excel",
+        "onWebviewPanel:gc-excelviewer-csv-preview",
+        "onWebviewPanel:gc-excelviewer-excel-preview",
+        "onCustomEditor:gc-excelviewer-csv-editor",
+        "onCustomEditor:gc-excelviewer-excel-editor"
     ],
     "main": "./dist/extension",
+    "browser": "./dist/extension",
     "capabilities": {
         "untrustedWorkspaces": {
             "supported": true
@@ -247,6 +252,37 @@
                 "when": "editorLangId == 'csv (pipe)'"
             }
         ],
+        "customEditors": [
+            {
+                "viewType": "gc-excelviewer-csv-editor",
+                "displayName": "CSV Viewer",
+                "priority": "option",
+                "selector": [
+                    {
+                        "filenamePattern": "*.csv"
+                    },
+                    {
+                        "filenamePattern": "*.tsv"
+                    },
+                    {
+                        "filenamePattern": "*.tab"
+                    }
+                ]
+            },
+            {
+                "viewType": "gc-excelviewer-excel-editor",
+                "displayName": "Excel Viewer",
+                "priority": "default",
+                "selector": [
+                    {
+                        "filenamePattern": "*.xlsx"
+                    },
+                    {
+                        "filenamePattern": "*.xlsm"
+                    }
+                ]
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Excel Viewer",
@@ -330,16 +366,28 @@
         "watch": "webpack --mode none --watch",
         "webpack": "webpack --mode development",
         "webpack-dev": "webpack --mode development --watch",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "compile-web": "webpack --config ./webpack.config.js",
+        "watch-web": "webpack --watch --config ./webpack.config.js",
+        "package-web": "webpack --mode production --devtool hidden-source-map --config ./webpack.config.js",
+        "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ./data"
     },
     "devDependencies": {
-        "@types/mocha": "^5.2.7",
+        "@types/mocha": "^9.0.0",
         "@types/node": "^11.15.54",
-        "@types/vscode": "^1.47.0",
-        "mocha": "^5.2.0",
-        "ts-loader": "^5.4.5",
-        "typescript": "^3.9.9",
-        "webpack": "^4.46.0",
-        "webpack-cli": "^3.3.12"
+        "@types/vscode": "^1.60.0",
+        "@types/webpack-env": "^1.16.2",
+        "@vscode/test-web": "0.0.12",
+        "assert": "^2.0.0",
+        "mocha": "^9.1.1",
+        "process": "^0.11.10",
+        "ts-loader": "^9.2.5",
+        "typescript": "^4.4.3",
+        "webpack": "^5.52.1",
+        "webpack-cli": "^4.8.0"
+    },
+    "dependencies": {
+        "path-browserify": "^1.0.1",
+        "vscode-uri": "^3.0.2"
     }
 }

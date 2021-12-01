@@ -1,5 +1,18 @@
 # Change Log
 
+## 4.0.45 (November 30, 2021)
+Added read-only custom editor support. For Excel files, this is the default, and clicking the name of an Excel file in Explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.
+
+Added web extension support for CSV and Excel files, which allows the extension to be used in [Visual Studio Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web).
+
+> As a result of the changes needed to support Visual Studio Code for the Web, persistent previews saved with earlier versions of Excel Viewer cannot be restored. When one of these webviews is activated, the extension displays a message to that effect and provides additional instructions.
+
+Fixed issue where the `csv-preview.capitalizeHeaders` configuration setting was ignored.
+
+Added support for the `sep` keyword in CSV files, as recognized by Excel. For example, if the first line contains `sep=|`, then the vertical bar character is used as the separator. If present, the `sep` keyword overrides the `csv-preview.separator` configuration setting, as well as any implied separator character associated with the current language identifier.
+
+Added dependency on VS Code version 1.62.
+
 ## 3.0.44 (September 3, 2021)
 Fixed issue where Chinese characters were rendered as HTML entity markup in .xlsx files.
 

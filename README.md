@@ -1,31 +1,36 @@
 # Excel Viewer
-Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides read-only viewers for CSV files and Excel spreadsheets within the current Visual Studio Code workspace.
+Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides read-only viewers for CSV files and Excel spreadsheets in Visual Studio Code and [Visual Studio Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web).
 
-> This extension requires Visual Studio Code 1.47.0 or greater.
+> This extension requires Visual Studio Code 1.62.0 or greater.
 
-Version 3.0 includes some major improvements:
-* The extension no longer opens a web server on localhost, eliminating Windows firewall alerts once and for all.
-* Previews are now persisted when a webview is hidden, preserving scroll position and selected cells without reinitializing the webview.
-* Previews are now automatically restored when Visual Studio Code restarts, including sort/filter criteria and column layouts.
+Version 4.0 now supports read-only **custom editors**. For Excel files, this is the default, and clicking the name of an Excel file in explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.
+
+Version 4.0 also adds support for **Visual Studio Code for the Web**. To get started, visit [https://vscode.dev](https://vscode.dev) in your browser.
+
+> As a result of the changes needed to support Visual Studio Code for the Web, persistent previews saved with earlier versions of Excel Viewer cannot be restored. When one of these webviews is activated, the extension displays a message to that effect and provides additional instructions.
+
+## CSV Usage
+For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers. You can also use the `Open With` command on the explorer context menu to open a read-only custom editor, as shown here:
+
+![Image](./img/csv-preview-4.gif)
+
+For .tsv and .tab files, a tab delimiter is assumed. For plain text files with different extensions, open the file in an editor and execute the `CSV: Open Preview` command from the command palette. For any text file that is open in the built-in editor, regardless of extension, you can right-click its tab and execute the `Reopen Editor With` command, then select the `CSV Viewer` option when prompted.
 
 > Please read [this section](#regex), which describes common customizations to the default configuration for column separators and other settings that affect CSV files.
 
-## CSV Usage
-For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers.
-
-![Image](./img/csv-preview-2.gif)
-
-For .tsv and .tab files, a tab delimiter is assumed. For plain text files with different extensions, open the file in an editor and execute the `CSV: Open Preview` command from the command palette.
-
-> *CSV files only*: To specify a secondary sort column, hold the `Shift` key while clicking its column header. To undo sorting for a column, hold the `Ctrl` key while clicking its column header. Alternatively, you can use the `CSV: Clear Preview State` command to remove all sort/filter criteria for the current file.
+To sort a column in ascending order, click its column header. To reverse the sort order, click its column header again. To specify a secondary sort column, hold the `Shift` key while clicking its column header. To undo sorting for a column, hold the `Ctrl` key while clicking its column header. Alternatively, you can use the `CSV: Clear Preview State` command to remove all sort/filter criteria for the current file.
 
 ## Excel Usage
-For files with an .xlsx or .xlsm extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexSheet](http://demos.wijmo.com/5/Angular/FlexSheetExplorer/FlexSheetExplorer/#/intro) control. If multiple sheets are present, use the controls at the bottom of the view for navigation.
+For files with an .xlsx or .xlsm extension, just click (or double-click) the filename in explorer view. The contents of the file will be displayed in a [FlexSheet](http://demos.wijmo.com/5/Angular/FlexSheetExplorer/FlexSheetExplorer/#/intro) control. If multiple sheets are present, use the controls at the bottom of the view for navigation.
 
-![Image](./img/excel-preview-2.gif)
+![Image](./img/excel-preview-4.gif)
+
+As in earlier versions, you can use the explorer context menu or editor title menu to invoke the `Open Preview` command.
 
 ## Theme Support
 The extension adapts its display to the current Visual Studio Code theme. For best results, choose a theme with opaque selection background colors.
+
+![Image](./img/excel-themes-4.gif)
 
 ## Persistent Data
 The extension automatically stores user customizations on a per-file, per-workspace basis. For CSV files, this includes column widths, sort/filter criteria, data types, format strings, and scroll bar positions. For Excel files, this includes the selected sheet index, sort/filter criteria, and scroll bar positions associated with that sheet only. If the column structure of a CSV file changes, any persistent data is ignored for that file.
@@ -46,7 +51,7 @@ Value | Description
 > Since data types and format strings are persisted along with other column properties, you may need to run the `CSV: Clear Preview State` command to see the effects of changing the `csv-preview.formatValues` and `csv-preview.numberFormat` options.
 
 ## Configuration
-To change the default configuration settings for the Excel Viewer extension, edit the user or workspace settings as described [here](http://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings). The available settings are as follows:
+To change the default configuration settings for the Excel Viewer extension, edit the user or workspace settings as described [here](http://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings). The available settings, which govern CSV files only, are as follows:
 
 Setting | Type | Default Value | Description
 ------- | ---- | ------------- | -----------
@@ -62,7 +67,7 @@ csv-preview.formatValues | string | always | Specifies whether to format numeric
 csv-preview.numberFormat | string | g2 | Specifies a .NET-style format string used to format numeric columns in CSV files.
 csv-preview.openStdin | boolean | false | Specifies whether text piped to stdin is automatically opened as a CSV preview.
 
-> Any open CSV/Excel previews will automatically update to reflect the modified settings, except where noted in the previous section.
+> Any open CSV previews or custom editors will automatically update to reflect the modified settings, except where noted in the previous section.
 
 ### <a id="regex"></a>Regular Expression Settings
 The following configuration settings are used within regular expressions when processing CSV files. Therefore, you need to escape any special regular expression characters with a backslash in order to achieve the desired result.

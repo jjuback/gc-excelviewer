@@ -1,10 +1,12 @@
 'use strict';
 import { window, workspace, commands, ExtensionContext, Uri, ViewColumn, TextDocument } from 'vscode';
-import CsvPreview from './csvPreview';
-import ExcelPreview from './excelPreview';
-import { previewManager } from './previewManager';
-import * as path from 'path';
-import { CsvSerializer, ExcelSerializer } from './serializer';
+import CsvDocumentView from './csvDocumentView';
+import ExcelDocumentView from './excelDocumentView';
+import { documentViewManager } from './documentViewManager';
+import { Utils } from 'vscode-uri';
+import { CsvSerializer, ExcelSerializer, LegacySerializer } from './serializer';
+import { CsvEditorProvider } from './csvEditor';
+import { ExcelEditorProvider } from './excelEditor';
 
 export function activate(context: ExtensionContext) {
     
@@ -24,12 +26,12 @@ export function activate(context: ExtensionContext) {
         const csv = resource.with({
             scheme: 'csv-preview'
         });
-        let preview = previewManager.find(csv);
+        let preview = documentViewManager.find(csv);
         if (preview) {
             preview.reveal();
             return;
         }
-        preview = CsvPreview.create(context, resource, viewColumn);
+        preview = CsvDocumentView.create(context, resource, viewColumn);
         return preview.webview;
     });
     
@@ -44,31 +46,26 @@ export function activate(context: ExtensionContext) {
         const excel = resource.with({
             scheme: 'excel-preview'
         });
-        let preview = previewManager.find(excel);
+        let preview = documentViewManager.find(excel);
         if (preview) {
             preview.reveal();
             return;
         }
-        preview = ExcelPreview.create(context, resource, viewColumn);
+        preview = ExcelDocumentView.create(context, resource, viewColumn);
         return preview.webview;
     });
     
     // CSV: Clear Preview State
     let clearCommand = commands.registerCommand('csv.clearState', () => {
-        let preview = previewManager.active();
+        let preview = documentViewManager.active();
         if (preview) {
-            let key = preview.previewUri.toString();
-            if (preview.storage.get(key)) {
-                preview.storage.update(key, null);
-                preview.reload();
-                preview.refresh();
-            }
+            preview.clearState();
         }
     });
 
     // CSV: Refresh
     let refreshCommand = commands.registerCommand('csv.refresh', () => {
-        let preview = previewManager.active();
+        let preview = documentViewManager.active();
         if (preview) {
             preview.refresh();
         }
@@ -79,42 +76,18 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(excelCommand);
     context.subscriptions.push(clearCommand);
     context.subscriptions.push(refreshCommand);
+    context.subscriptions.push(CsvEditorProvider.register(context));
+    context.subscriptions.push(ExcelEditorProvider.register(context));
 
     // Register serializers for persistent settings
-    window.registerWebviewPanelSerializer("gc-excelviewer-csv", new CsvSerializer(context));
-    window.registerWebviewPanelSerializer("gc-excelviewer-excel", new ExcelSerializer(context));
-
-    // Refresh associated preview when a CSV file is saved
-    workspace.onDidSaveTextDocument(document => {
-        if (isCsvFile(document)) {
-            let resource: any = document.uri;
-            const uri = resource.with({
-                scheme: 'csv-preview'
-            });
-            let preview = previewManager.find(uri);
-            if (preview) {
-                preview.refresh();
-            }
-        }
-    });
-
-    // Refresh associated preview when a CSV file changes
-    workspace.onDidChangeTextDocument(args => {
-        if (isCsvFile(args.document)) {
-            let resource: any = args.document.uri;
-            const uri = resource.with({
-                scheme: 'csv-preview'
-            });
-            let preview = previewManager.find(uri);
-            if (preview && args.contentChanges.length > 0) {
-                preview.refresh();
-            }
-        }
-    });
+    window.registerWebviewPanelSerializer("gc-excelviewer-csv", new LegacySerializer(context));
+    window.registerWebviewPanelSerializer("gc-excelviewer-excel", new LegacySerializer(context));
+    window.registerWebviewPanelSerializer("gc-excelviewer-csv-preview", new CsvSerializer(context));
+    window.registerWebviewPanelSerializer("gc-excelviewer-excel-preview", new ExcelSerializer(context));
 
     // Reset all previews when the configuration changes
     workspace.onDidChangeConfiguration(() => {
-        previewManager.configure();
+        documentViewManager.configure();
     });
 
     // Automatically preview content piped from stdin (when VSCode is already open)
@@ -147,7 +120,7 @@ function isCsvFile(document: TextDocument) {
 
 function isStdinFile(document: TextDocument) {
     let allowed = <boolean>workspace.getConfiguration('csv-preview').get("openStdin");
-    return (allowed && document) ? path.basename(document.fileName).match("code-stdin-[^.]+.txt") : false;
+    return (allowed && document) ? Utils.basename(document.uri).match("code-stdin-[^.]+.txt") : false;
 }
 
 function getViewColumn(): ViewColumn {

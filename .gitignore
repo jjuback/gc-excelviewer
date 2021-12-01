@@ -3,3 +3,4 @@ dist
 .DS_Store
 *.vsix
 team-extension.log
+.vscode-test-web
