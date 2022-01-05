@@ -25,8 +25,12 @@ export class DocumentViewManager {
         }
     }
 
-    public find(uri: Uri): BaseDocumentView {        
-        return this._views.find(p => p.previewUri.toString() === uri.toString());
+    public find(uri: Uri): BaseDocumentView {   
+        return this._views.find(p => p.previewUri.toString() === p.webview.asWebviewUri(uri).toString());
+    }
+
+    public filter(uri: Uri): BaseDocumentView[] {
+        return this._views.filter(p => p.previewUri.toString() === p.webview.asWebviewUri(uri).toString());
     }
 
     public active(): BaseDocumentView {

@@ -28,5 +28,6 @@ export class CsvEditorProvider implements vscode.CustomTextEditorProvider {
         editor.languageId = document.languageId;
         editor.panel = webviewPanel;
         editor.initialize();
+		editor.enableEditing(document);
 	}
 }

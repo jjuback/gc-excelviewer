@@ -9,6 +9,9 @@ Version 4.0 also adds support for **Visual Studio Code for the Web**. To get sta
 
 > As a result of the changes needed to support Visual Studio Code for the Web, persistent previews saved with earlier versions of Excel Viewer cannot be restored. When one of these webviews is activated, the extension displays a message to that effect and provides additional instructions.
 
+## &#128221; *Pre-Release: Editing Support*
+Version 4.0.46 extends the custom editors introduced in the latest stable release to include preliminary support for editing CSV and Excel files.
+
 ## CSV Usage
 For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers. You can also use the `Open With` command on the explorer context menu to open a read-only custom editor, as shown here:
 

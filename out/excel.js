@@ -1,6 +1,9 @@
+var sendMessage;
+
 function initPage() {
     const vscode = acquireVsCodeApi();
     const options = getOptions();
+    sendMessage = vscode.postMessage;
 
     var sheet = new wijmo.grid.sheet.FlexSheet("#sheet");
     wijmo.setCss(sheet.hostElement, { "font-family": "" });
@@ -11,7 +14,7 @@ function initPage() {
         for (var i = 0; i < items.length; i++) {
             var desc = items[i];
             sorts.push({
-                columnIndex: desc.columnIndex,
+                columnIndexvar: desc.columnIndex,
                 ascending: desc.ascending
             });
         }
@@ -68,7 +71,10 @@ function initPage() {
     news.parentElement.removeChild(news);
 
     sheet.hostElement.addEventListener("contextmenu", e => {
-        e.preventDefault();
+        if (!options.customEditor || e.target.tagName.toLowerCase() === "li") {
+            e.preventDefault();
+            e.stopPropagation();
+        }
     }, true);
 
     sheet.loaded.addHandler(() => {
@@ -79,7 +85,7 @@ function initPage() {
                 t.style = style;
             });
         });
-        sheet.isReadOnly = true;
+        sheet.isReadOnly = !options.customEditor;
         sheet.showMarquee = false;
         applyState();
         preserveState();
@@ -105,8 +111,36 @@ function initPage() {
         sheet.scrollPositionChanged.addHandler(() => {
             preserveState();
         });
-    });
+        
+        sheet.sheets.collectionChanged.addHandler((s, e) => {
+            vscode.postMessage({
+                changed: true,
+                reason: "Collection Changed"
+            });
+        });
 
+        sheet.rowChanged.addHandler((s, e) => {
+            vscode.postMessage({
+                changed: true,
+                reason: "Row Changed"
+            });
+        });
+
+        sheet.columnChanged.addHandler((s, e) => {
+            vscode.postMessage({
+                changed: true,
+                reason: "Column Changed"
+            });
+        });
+
+        sheet.cellEditEnded.addHandler(function(s, e) {
+            vscode.postMessage({
+                changed: true,
+                reason: "Cell Edited"
+            });
+        });
+    });
+    
     vscode.postMessage({ refresh: true });
 }
 
@@ -143,11 +177,32 @@ function getSheetStyle(sheet) {
 
 function handleEvents() {
     window.addEventListener("message", event => {
+        var sheet = wijmo.Control.getControl("#sheet");
         if (event.data.refresh) {
-            var sheet = wijmo.Control.getControl("#sheet");
             var data = event.data.content.data ?? event.data.content;
             var blob = new Blob([new Uint8Array(data)]);
             sheet.load(blob);
+        }
+        else if (event.data.type == "getData") {
+            var workbook = sheet.save();
+            var base64 = workbook.save();
+            var binary = window.atob(base64);
+            var len = binary.length;
+            var bytes = new Uint8Array(len);
+            for (var i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            sendMessage({
+                response: true,
+                requestId: event.data.requestId,
+                body: bytes
+            })
+        }
+        else if (event.data.undo) {
+            sheet.undo();
+        }
+        else if (event.data.redo) {
+            sheet.redo();
         }
     });
 }

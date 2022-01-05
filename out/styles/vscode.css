@@ -91,6 +91,13 @@ div[role=gridcell] {
     border-radius: 0px !important;
 }
 
+/* editor */
+.wj-grid-editor {
+    font-family: var(--vscode-font-family);
+    font-weight: var(--vscode-font-weight);
+    font-size: var(--vscode-font-size);
+}
+
 /* FlexSheet */
 .wj-sheet-page {
     height: 100%;
@@ -119,4 +126,13 @@ div[role=gridcell] {
 .wj-flexsheet .wj-tabholder .wj-sheet-tab ul li:not(.active):hover {
     background-color: var(--vscode-button-background);
     color: var(--vscode-button-foreground);
+}
+.wj-flexsheet-context-menu {
+    background-color: var(--vscode-sideBar-background);
+    color: var(--vscode-sideBar-foreground);
+    border: 1px solid var(--vscode-dropdown-border);
+}
+.wj-flexsheet-context-menu .wj-context-menu-item:not(.wj-context-menu-item-selected):hover {
+    background-color: var(--vscode-list-activeSelectionBackground);
+    color: var(--vscode-list-activeSelectionForeground);
 }

@@ -2,6 +2,7 @@
 import { window, workspace, WebviewPanel, ExtensionContext, ViewColumn } from 'vscode';
 import { URI } from 'vscode-uri';
 import BaseDocumentView from './baseDocumentView';
+import { ExcelDocument } from './excelEditor';
 import { getLicenseKey } from './license';
 
 export default class ExcelDocumentView extends BaseDocumentView {
@@ -31,6 +32,17 @@ export default class ExcelDocumentView extends BaseDocumentView {
         };
     }
 
+    private _document: ExcelDocument;
+
+    public enableEditing(document: ExcelDocument) {
+        this._document = document;
+        this.webview.onDidReceiveMessage((e) => {
+            if (e.changed) {
+                this._document.change(e.reason);
+            }
+        }, this, this._disposables);
+    }
+
     refresh(): void {
         let self = this;
         workspace.fs.readFile(this.uri).then(buffer => {
@@ -43,6 +55,18 @@ export default class ExcelDocumentView extends BaseDocumentView {
         });
     }
 
+    undo(): void {
+        this.webview.postMessage({
+            undo: true
+        });
+    }
+
+    redo(): void {
+        this.webview.postMessage({
+            redo: true
+        });
+    }
+    
 	getHtml(ignoreState: boolean = false): string {
 		return `
         <!DOCTYPE html>

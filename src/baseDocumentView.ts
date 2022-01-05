@@ -11,6 +11,7 @@ export default abstract class BaseDocumentView {
     private _storage: Memento;
     private _panel: WebviewPanel;
     private _customEditor: boolean = true;
+    protected _disposed: boolean = false;
     protected _disposables: Disposable[] = [];
 
     constructor(context: ExtensionContext, uri: URI) {
@@ -56,7 +57,7 @@ export default abstract class BaseDocumentView {
         }, this, this._disposables);
 
         workspace.onDidChangeTextDocument((e) => {
-			if (e.document.uri.toString() === this.uri.toString()) {
+			if (!this._disposed && e.document.uri.toString() === this.uri.toString()) {
 				this.refresh();
 			}
 		}, this, this._disposables);
@@ -66,7 +67,7 @@ export default abstract class BaseDocumentView {
 
     public dispose() {
         documentViewManager.remove(this);
-        this._panel.dispose();
+        this._disposed = true;
         while (this._disposables.length) {
             const item = this._disposables.pop();
             if (item) {
@@ -100,6 +101,10 @@ export default abstract class BaseDocumentView {
 
     get webview(): Webview {
         return this._panel.webview;
+    }
+
+    get panel(): WebviewPanel {
+        return this._panel;
     }
 
     set panel(value: WebviewPanel) {

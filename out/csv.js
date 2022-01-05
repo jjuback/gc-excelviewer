@@ -1,10 +1,15 @@
+var sendMessage;
+
 function initPage() {
     const vscode = acquireVsCodeApi();
     const options = getOptions();
+    sendMessage = vscode.postMessage;
 
     var flex = new wijmo.grid.FlexGrid("#flex", {
         autoGenerateColumns: false,
-        isReadOnly: true,
+        isReadOnly: !options.customEditor,
+        allowDelete: options.customEditor,
+        allowAddNew: options.customEditor,
         stickyHeaders: true,
         keyActionTab: wijmo.grid.KeyAction.Cycle,
         allowDragging: wijmo.grid.AllowDragging.None
@@ -145,6 +150,54 @@ function initPage() {
         autoSizeVisibleRows(flex, false);
     });
 
+    flex.cellEditEnded.addHandler(function(s, e) {
+        var oldValue = e.data;
+        var newValue = s.getCellData(e.row, e.col);
+        if (oldValue !== newValue) {
+            var row = s.rows[e.row];
+            var source = s.collectionView.sourceCollection;
+            vscode.postMessage({
+                cellEditEnded: true,
+                row: source.indexOf(row.dataItem),
+                col: e.col,
+                value: newValue
+            });
+        }
+    });
+
+    flex.rowEditEnded.addHandler(function(s, e) {
+        vscode.postMessage({
+            rowEditEnded: true,
+            cancel: e.cancel
+        });
+    });
+
+    flex.deletingRow.addHandler(function(s, e) {
+        e.cancel = true;
+        var sourceRows = [], indexRows = [];
+        var source = s.collectionView.sourceCollection;
+        for (var n = s.selection.topRow; n <= s.selection.bottomRow; n++) {
+            var row = s.rows[n];
+            sourceRows.push(source.indexOf(row.dataItem));
+            indexRows.push(n);
+        }
+        indexRows.reverse();
+        indexRows.forEach((n) => {
+            s.editableCollectionView.removeAt(n);
+        });
+        vscode.postMessage({
+            deleteRows: true,
+            rows: sourceRows
+        });
+    });
+
+    flex.rowAdded.addHandler(function(s, e) {
+        vscode.postMessage({
+            rowAdded: true,
+            count: s.columns.length
+        });
+    });
+
     vscode.postMessage({ refresh: true });
 }
 
@@ -197,6 +250,9 @@ function parseContent(text) {
             var char = line.slice(4);
             sep = (escapes.indexOf(char) >= 0) ? "\\".concat(char) : char;
             regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);
+            sendMessage({
+                separator: sep
+            });    
         }
         return result;
     }
