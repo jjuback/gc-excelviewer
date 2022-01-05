@@ -5,6 +5,8 @@ Added support for editing CSV files: modifying individual cells, deleting rows, 
 
 Added support for editing Excel files: modifying individual cells, inserting rows and columns, and deleting rows and columns.
 
+Upgraded to use Wijmo build 5.20213.824.
+
 ## 4.0.45 (November 30, 2021)
 Added read-only custom editor support. For Excel files, this is the default, and clicking the name of an Excel file in Explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.
 
