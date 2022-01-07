@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.0.47 Pre-Release (January 7, 2022)
+Fixed regression where the `Open Preview` command did not work with TSV files.
+
 ## 4.0.46 Pre-Release (January 4, 2022)
 Added support for editing CSV files: modifying individual cells, deleting rows, and appending new rows.
 

@@ -2,6 +2,7 @@
 import { window, workspace, WebviewPanel, ExtensionContext, ViewColumn, WorkspaceEdit, Range, TextDocument, Position } from 'vscode';
 import { URI } from 'vscode-uri';
 import BaseDocumentView from './baseDocumentView';
+import { documentViewManager } from './documentViewManager';
 import { getLicenseKey } from './license';
 
 export default class CsvDocumentView extends BaseDocumentView {
@@ -26,9 +27,26 @@ export default class CsvDocumentView extends BaseDocumentView {
     private separator: string;
 
 	public getOptions(): any {
+        let self = this;
 		let config = workspace.getConfiguration('csv-preview');
         let sep = <string>config.get("separator");
         let lang = this.languageId;
+        if (!lang) {
+            let editor = window.activeTextEditor;
+            if (editor && editor.document) {
+                lang = editor.document.languageId;
+                this.languageId = lang;
+            }
+        }
+        if (!lang) {
+            let document = workspace.textDocuments.find(document => {
+                return document.uri.toString() === self.uri.toString();
+            });
+            if (document) {
+                lang = document.languageId;
+                this.languageId = lang;
+            }
+        }
         if (lang === 'tsv') {
             sep = "\t";
         } else if (lang === 'csv (semicolon)') {
