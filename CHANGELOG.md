@@ -1,8 +1,11 @@
 # Change Log
 
-## 4.1.49 Pre-Release (January 7, 2022)
-> This version supersedes 4.0.46 and 4.0.47, which were designated as pre-release but were not published correctly.
+## 4.1.52 Pre-Release (January 12, 2022)
+Fixed issue where new rows were not appended correctly if the CSV file did not end with a blank line.
 
+Fixed issue where multilne cells in CSV files were rendered as single lines when a preview or custom editor was first displayed.
+
+## 4.1.51 Pre-Release (January 7, 2022)
 Fixed regression where the `Open Preview` command did not work with TSV files.
 
 Added support for editing CSV files: modifying individual cells, deleting rows, and appending new rows.
@@ -11,14 +14,8 @@ Added support for editing Excel files: modifying individual cells, inserting row
 
 Upgraded to use Wijmo build 5.20213.824.
 
-## 4.0.48 (January 7, 2022)
+## 4.0.50 (January 7, 2022)
 Stable version, equivalent to 4.0.45.
-
-## 4.0.47 Pre-Release (January 7, 2022)
-> Please disregard this version.
-
-## 4.0.46 Pre-Release (January 4, 2022)
-> Please disregard this version.
 
 ## 4.0.45 (November 30, 2021)
 Added read-only custom editor support. For Excel files, this is the default, and clicking the name of an Excel file in Explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.

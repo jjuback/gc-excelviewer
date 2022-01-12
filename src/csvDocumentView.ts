@@ -1,5 +1,5 @@
 'use strict';
-import { window, workspace, WebviewPanel, ExtensionContext, ViewColumn, WorkspaceEdit, Range, TextDocument, Position } from 'vscode';
+import { window, workspace, WebviewPanel, ExtensionContext, ViewColumn, WorkspaceEdit, Range, TextDocument, Position, EndOfLine } from 'vscode';
 import { URI } from 'vscode-uri';
 import BaseDocumentView from './baseDocumentView';
 import { documentViewManager } from './documentViewManager';
@@ -125,6 +125,13 @@ export default class CsvDocumentView extends BaseDocumentView {
         let sep = options.separator;
         let empty = sep.repeat(columns - 1);
         let row = this._document.lineCount - 1;
+        let line = this._document.lineAt(row);
+
+        if (!line.isEmptyOrWhitespace) {
+            this.beginEdit();
+            this._wsEdit.insert(this.uri, line.range.end, this._document.eol === EndOfLine.CRLF ? "\r\n" : "\n");
+            row++;
+        }
 
         this._currentRange = new Range(row, 0, row, 0);
         this._currentRow = empty.split(new RegExp(options.separator));

@@ -75,15 +75,26 @@ function initPage() {
         }    
     }
 
+    var needRowResize = false;
+    var emptyRange = new wijmo.grid.CellRange(0, 0);
+
     // http://jsfiddle.net/Wijmo5/2a20kqvr/
     function autoSizeVisibleRows(flex, force) {
         var rng = flex.viewRange;
+        needRowResize = rng.equals(emptyRange);
         for (var r = rng.row; r <= rng.row2; r++) {
             if (force || flex.rows[r].height == null) {
                 flex.autoSizeRow(r, false);
             }
         }
     }
+
+    flex.updatedView.addHandler(function(s, e) {
+        if (needRowResize) {
+            autoSizeVisibleRows(s, true);
+            needRowResize = false;
+        }
+    });
 
     flex.itemsSourceChanged.addHandler(function(s, e) {
         applyState();
