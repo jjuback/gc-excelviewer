@@ -1,19 +1,14 @@
 # Excel Viewer
-Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides read-only viewers for CSV files and Excel spreadsheets in Visual Studio Code and [Visual Studio Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web).
+Powered by [Wijmo](http://www.grapecity.com/wijmo), this extension provides custom editors and previews for CSV files and Excel spreadsheets in Visual Studio Code and [Visual Studio Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web).
 
-> This extension requires Visual Studio Code 1.62.0 or greater (for pre-release versions, 1.63.0).
+> This extension requires Visual Studio Code 1.63.0 or greater.
 
-Version 4.0 now supports read-only **custom editors**. For Excel files, this is the default, and clicking the name of an Excel file in explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.
+Version 4.2 now supports first-class **custom editors** that implement operations such as save, undo, redo, and hot exit. For Excel files, this is the default, and clicking the name of an Excel file in explorer view opens the custom editor directly. For CSV files, this is optional, and executing the `Open With` command on the context menu prompts for the built-in or custom editor to be opened. The `Open Preview` command is still supported for both file types.
 
-Version 4.0 also adds support for **Visual Studio Code for the Web**. To get started, visit [https://vscode.dev](https://vscode.dev) in your browser.
-
-> As a result of the changes needed to support Visual Studio Code for the Web, persistent previews saved with earlier versions of Excel Viewer cannot be restored. When one of these webviews is activated, the extension displays a message to that effect and provides additional instructions.
-
-## &#128221; *Pre-Release: Editing Support*
-Version 4.1.52 extends the custom editors introduced in the latest stable release to include preliminary support for editing CSV and Excel files.
+Version 4.2 also supports **Visual Studio Code for the Web**. To get started, visit [https://vscode.dev](https://vscode.dev) in your browser.
 
 ## CSV Usage
-For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers. You can also use the `Open With` command on the explorer context menu to open a read-only custom editor, as shown here:
+For files with a .csv, .tsv, or .tab extension, use the explorer context menu or editor title menu to invoke the `Open Preview` command. The contents of the file will be displayed in a [FlexGrid](http://demos.wijmo.com/5/Angular/Explorer/Explorer/#/grid/intro) control, which supports sorting and filtering via its column headers. You can also use the `Open With` command on the explorer context menu to open a custom editor, as shown here:
 
 ![Image](./img/csv-preview-4.gif)
 

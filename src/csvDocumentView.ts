@@ -195,7 +195,7 @@ export default class CsvDocumentView extends BaseDocumentView {
                 });
             }
         }, reason => {
-            window.showInformationMessage(reason);
+            window.showInformationMessage(reason.message);
         });
     }
 

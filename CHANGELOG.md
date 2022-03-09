@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.2.53 (March 9, 2022)
+Updated Wijmo license to remove nag screen.
+
+Editing features for CSV/Excel files are now part of the stable version.
+
 ## 4.1.52 Pre-Release (January 12, 2022)
 Fixed issue where new rows were not appended correctly if the CSV file did not end with a blank line.
 

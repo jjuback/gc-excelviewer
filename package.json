@@ -1,8 +1,8 @@
 {
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
-    "description": "View Excel spreadsheets and CSV files in Visual Studio Code and VS Code for the Web.",
-    "version": "4.1.52",
+    "description": "Edit Excel spreadsheets and CSV files in Visual Studio Code and VS Code for the Web.",
+    "version": "4.2.53",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -47,7 +47,7 @@
     ],
     "main": "./dist/extension",
     "browser": "./dist/extension",
-    "preview": true,
+    "preview": false,
     "capabilities": {
         "untrustedWorkspaces": {
             "supported": true
