@@ -351,7 +351,7 @@
                 "csv-preview.numberFormat": {
                     "type": "string",
                     "default": "g2",
-                    "description": "Specifies a .NET-style format string used to format numeric columns in CSV files."
+                    "markdownDescription": "Specifies a [.NET-style format string](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings) used to format numeric columns in CSV files."
                 },
                 "csv-preview.openStdin": {
                     "type": "boolean",
