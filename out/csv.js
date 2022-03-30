@@ -161,6 +161,13 @@ function initPage() {
         autoSizeVisibleRows(flex, false);
     });
 
+    flex.cellEditEnding.addHandler(function(s, e) {
+        var active = s.activeEditor.value;
+        var dataItem = s.rows[e.row].dataItem;
+        var binding = s.columns[e.col].binding;
+        dataItem[binding] = active;
+    });
+
     flex.cellEditEnded.addHandler(function(s, e) {
         var oldValue = e.data;
         var newValue = s.getCellData(e.row, e.col);

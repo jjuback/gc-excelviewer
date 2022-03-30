@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.2.54 (March 29, 2022)
+Fixed problems with CSV editing when the `csv-preview.separator` configuration setting was set to a regular expression instead of a single character.
+
 ## 4.2.53 (March 9, 2022)
 Updated Wijmo license to remove nag screen.
 

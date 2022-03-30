@@ -120,21 +120,30 @@ export default class CsvDocumentView extends BaseDocumentView {
         }, this);
     }
 
+    private singleSeparator(sep: string) {
+        let skipFirst = sep.startsWith("[") || sep.startsWith(`\\`);
+        return skipFirst ? sep.slice(1, 2) : sep;
+    }
+
+    private endOfLine() {
+        return this._document.eol === EndOfLine.CRLF ? "\r\n" : "\n"
+    }
+
     private appendRow(columns: number) {
         let options = this.getOptions();
         let sep = options.separator;
-        let empty = sep.repeat(columns - 1);
+        let empty = this.singleSeparator(sep).repeat(columns - 1);
         let row = this._document.lineCount - 1;
         let line = this._document.lineAt(row);
 
         if (!line.isEmptyOrWhitespace) {
             this.beginEdit();
-            this._wsEdit.insert(this.uri, line.range.end, this._document.eol === EndOfLine.CRLF ? "\r\n" : "\n");
+            this._wsEdit.insert(this.uri, line.range.end, this.endOfLine());
             row++;
         }
 
         this._currentRange = new Range(row, 0, row, 0);
-        this._currentRow = empty.split(new RegExp(options.separator));
+        this._currentRow = empty.split(new RegExp(sep));
     }
 
     private beginEdit() {
@@ -146,8 +155,8 @@ export default class CsvDocumentView extends BaseDocumentView {
     private async endEdit(refresh?: boolean) {
         if (this._wsEdit) {
             if (this._currentRow) {
-                let sep = this.getOptions().separator;
-                this._wsEdit.replace(this.uri, this._currentRange, this._currentRow.join(sep));
+                let sep = this.singleSeparator(this.getOptions().separator);
+                this._wsEdit.replace(this.uri, this._currentRange, this._currentRow.join(sep) + this.endOfLine());
             }
             await workspace.applyEdit(this._wsEdit);
             this._wsEdit = undefined;
