@@ -125,14 +125,16 @@ function initPage() {
 
     flex.formatItem.addHandler(function(s, e) {
         if (lineNumbers) {
-           if (e.panel.cellType == wijmo.grid.CellType.RowHeader) {
-                if (numbersSource) {
-                    var row = flex.rows[e.row];
-                    var source = flex.collectionView.sourceCollection;
-                    var n = source.indexOf(row.dataItem) + 1;
-                    e.cell.textContent = n.toString();
-                } else if (numbersOrdinal) {
-                    e.cell.textContent = (e.row + 1).toString();
+            if (e.panel.cellType == wijmo.grid.CellType.RowHeader) {
+                var row = flex.rows[e.row];
+                if (!(row instanceof wijmo.grid._NewRowTemplate)) {
+                    if (numbersSource) {
+                        var source = flex.collectionView.sourceCollection;
+                        var n = source.indexOf(row.dataItem) + 1;
+                        e.cell.textContent = n.toString();
+                    } else if (numbersOrdinal) {
+                        e.cell.textContent = (e.row + 1).toString();
+                    }
                 }
             }
         }
@@ -169,6 +171,21 @@ function initPage() {
     });
 
     flex.cellEditEnded.addHandler(function(s, e) {
+        var oldValue = e.data;
+        var newValue = s.getCellData(e.row, e.col);
+        if (oldValue !== newValue) {
+            var row = s.rows[e.row];
+            var source = s.collectionView.sourceCollection;
+            vscode.postMessage({
+                cellEditEnded: true,
+                row: source.indexOf(row.dataItem),
+                col: e.col,
+                value: newValue
+            });
+        }
+    });
+
+    flex.pastedCell.addHandler(function(s, e) {
         var oldValue = e.data;
         var newValue = s.getCellData(e.row, e.col);
         if (oldValue !== newValue) {

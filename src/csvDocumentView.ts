@@ -90,6 +90,11 @@ export default class CsvDocumentView extends BaseDocumentView {
 
         this._currentRange = new Range(row + offset, 0, row + offset + 1, 0);
         let line = this._document.getText(this._currentRange);
+        let eol = this.endOfLine();
+
+        if (line.endsWith(eol)) {
+            line = line.substring(0, line.length - eol.length);
+        }
 
         // http://markmintoff.com/2013/03/regex-split-by-comma-not-surrounded-by-quotes/
         let regexItems = new RegExp(`${sep}(?=(?:[^${quote}]*${quote}[^${quote}]*${quote})*[^${quote}]*$)`);

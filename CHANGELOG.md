@@ -1,5 +1,12 @@
 # Change Log
 
+## 4.2.55 (June 13, 2022)
+Fixed issue with CSV editing where text pasted into a cell was ignored when saving the file.
+
+Fixed issue with CSV editing where changing a value in the rightmost cell could result in extra line breaks and/or misaligned cells when saving the file.
+
+Fixed issue where a line number was displayed instead of the `*` character in the AddNew row.
+
 ## 4.2.54 (March 29, 2022)
 Fixed problems with CSV editing when the `csv-preview.separator` configuration setting was set to a regular expression instead of a single character.
 
