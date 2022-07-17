@@ -374,6 +374,9 @@ function handleEvents() {
             content.bindings.forEach((b) => {
                 flex.columns.push(new wijmo.grid.Column(b));
             });
+            flex.columns.push(new wijmo.grid.Column({
+                width: window.innerWidth
+            }));
             flex.itemsSource = content.data;
             flex.endUpdate();
         }
