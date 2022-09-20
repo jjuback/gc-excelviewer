@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.2.56 (September 20, 2022)
+Updated Wijmo license. No other changes.
+
 ## 4.2.55 (June 13, 2022)
 Fixed issue with CSV editing where text pasted into a cell was ignored when saving the file.
 
