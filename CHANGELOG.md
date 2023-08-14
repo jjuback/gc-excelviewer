@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.2.58 (August 14, 2023)
+Fixed cell editing and row deletion issues for CSV files containing multiline cells.
+
+Updated repository links in package manifest.
+
+## 4.2.57 (March 29, 2023)
+Updated Wijmo license. No other changes.
+
 ## 4.2.56 (September 20, 2022)
 Updated Wijmo license. No other changes.
 

@@ -2,7 +2,7 @@
     "name": "gc-excelviewer",
     "displayName": "Excel Viewer",
     "description": "Edit Excel spreadsheets and CSV files in Visual Studio Code and VS Code for the Web.",
-    "version": "4.2.56",
+    "version": "4.2.58",
     "icon": "img/gc-excelviewer.png",
     "publisher": "GrapeCity",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -11,12 +11,12 @@
         "theme": "dark"
     },
     "bugs": {
-        "url": "https://github.com/jjuback/gc-excelviewer/issues"
+        "url": "https://github.com/wijmo/gc-excelviewer/issues"
     },
-    "homepage": "https://github.com/jjuback/gc-excelviewer/blob/master/README.md",
+    "homepage": "https://github.com/wijmo/gc-excelviewer/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/jjuback/gc-excelviewer.git"
+        "url": "https://github.com/wijmo/gc-excelviewer.git"
     },
     "engines": {
         "vscode": "^1.63.0"

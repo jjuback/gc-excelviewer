@@ -3,6 +3,7 @@ var sendMessage;
 function initPage() {
     const vscode = acquireVsCodeApi();
     const options = getOptions();
+    const NEWLINES = "__newlines";
     sendMessage = vscode.postMessage;
 
     var flex = new wijmo.grid.FlexGrid("#flex", {
@@ -170,34 +171,49 @@ function initPage() {
         dataItem[binding] = active;
     });
 
-    flex.cellEditEnded.addHandler(function(s, e) {
+    function countNewlines(obj) {
+        var count = 0;
+        Object.keys(obj).forEach(key => {
+            var value = obj[key];
+            if (typeof value === 'string') {
+                count += value.split("\n").length - 1;
+            }
+        });
+        return count;
+    }
+
+    function getRowRange(s, index) {
+        var gridRow = s.rows[index];
+        var source = s.collectionView.sourceCollection;
+        var sourceRow = source.indexOf(gridRow.dataItem);
+        var sourceItem = source[sourceRow];
+        var rangeStart = sourceRow, rangeEnd;
+        source.slice(0, sourceRow).forEach(r => rangeStart += r[NEWLINES]);
+        rangeEnd = rangeStart + sourceItem[NEWLINES] + 1;
+        sourceItem[NEWLINES] = countNewlines(sourceItem);
+        return { start: rangeStart, end: rangeEnd };
+    }
+
+    function cellEditEnded(s, e) {
         var oldValue = e.data;
         var newValue = s.getCellData(e.row, e.col);
         if (oldValue !== newValue) {
-            var row = s.rows[e.row];
-            var source = s.collectionView.sourceCollection;
+            var range = getRowRange(s, e.row);
             vscode.postMessage({
                 cellEditEnded: true,
-                row: source.indexOf(row.dataItem),
+                rows: range,
                 col: e.col,
                 value: newValue
             });
         }
+    }
+
+    flex.cellEditEnded.addHandler(function(s, e) {
+        cellEditEnded(s, e);
     });
 
     flex.pastedCell.addHandler(function(s, e) {
-        var oldValue = e.data;
-        var newValue = s.getCellData(e.row, e.col);
-        if (oldValue !== newValue) {
-            var row = s.rows[e.row];
-            var source = s.collectionView.sourceCollection;
-            vscode.postMessage({
-                cellEditEnded: true,
-                row: source.indexOf(row.dataItem),
-                col: e.col,
-                value: newValue
-            });
-        }
+        cellEditEnded(s, e);
     });
 
     flex.rowEditEnded.addHandler(function(s, e) {
@@ -208,12 +224,17 @@ function initPage() {
     });
 
     flex.deletingRow.addHandler(function(s, e) {
+        if (e.cancel) return;
         e.cancel = true;
         var sourceRows = [], indexRows = [];
         var source = s.collectionView.sourceCollection;
         for (var n = s.selection.topRow; n <= s.selection.bottomRow; n++) {
-            var row = s.rows[n];
-            sourceRows.push(source.indexOf(row.dataItem));
+            var gridRow = s.rows[n];
+            var sourceRow = source.indexOf(gridRow.dataItem);
+            var rangeStart = sourceRow, rangeEnd;
+            source.slice(0, sourceRow).forEach(r => rangeStart += r[NEWLINES]);
+            rangeEnd = rangeStart + source[sourceRow][NEWLINES] + 1;
+            sourceRows.push({start: rangeStart, end: rangeEnd});
             indexRows.push(n);
         }
         indexRows.reverse();
@@ -325,6 +346,7 @@ function parseContent(text) {
                 firstLine = false;
             } else {
                 var obj = {};
+                obj["__newlines"] = line.split("\n").length - 1;
                 for (var j = 0; j < items.length; j++) {
                     var cell = { text: items[j], quoted: false };
                     var value = unquote(cell);

@@ -5,6 +5,11 @@ import BaseDocumentView from './baseDocumentView';
 import { documentViewManager } from './documentViewManager';
 import { getLicenseKey } from './license';
 
+class RowRange {
+    public start: number;
+    public end: number;
+}
+
 export default class CsvDocumentView extends BaseDocumentView {
 
     static create(context: ExtensionContext, uri: URI, viewColumn: ViewColumn): CsvDocumentView {
@@ -81,14 +86,14 @@ export default class CsvDocumentView extends BaseDocumentView {
     private _currentRange: Range;
     private _currentRow: string[];
 
-    private editRow(row: number) {
+    private editRow(row: RowRange) {
         let options = this.getOptions();
         let sep = options.separator;
         let quote = options.quoteMark;
         let offset = options.hasHeaders ? 1 : 0;
         if (this.separator) offset++;
 
-        this._currentRange = new Range(row + offset, 0, row + offset + 1, 0);
+        this._currentRange = new Range(row.start + offset, 0, row.end + offset, 0);
         let line = this._document.getText(this._currentRange);
         let eol = this.endOfLine();
 
@@ -101,7 +106,7 @@ export default class CsvDocumentView extends BaseDocumentView {
         this._currentRow = line.split(new RegExp(regexItems));
     }
 
-    private setCellValue(row: number, col: number, value: string) {
+    private setCellValue(row: RowRange, col: number, value: string) {
         let options = this.getOptions();
         let sep = options.separator;
         let quote = options.quoteMark;
@@ -111,16 +116,24 @@ export default class CsvDocumentView extends BaseDocumentView {
         }
 
         let regexSeparator = new RegExp(sep);
-        this._currentRow[col] = regexSeparator.exec(value) ? `${quote}${value}${quote}` : value;
+        let mustQuote = regexSeparator.exec(value) || value.includes("\n");
+
+        if (!mustQuote) {
+            let regexQuote = new RegExp(`^${quote}([\\S\\s]*)${quote}$`);
+            let oldValue = this._currentRow[col];
+            mustQuote = regexQuote.exec(oldValue); 
+        }
+
+        this._currentRow[col] = mustQuote ? `${quote}${value}${quote}` : value;
     }
 
-    private deleteRows(rows: number[]) {
+    private deleteRows(rows: RowRange[]) {
         let options = this.getOptions();
         let offset = options.hasHeaders ? 1 : 0;
         if (this.separator) offset++;
         
-        rows.forEach((row: number) => {
-            let lineRange = new Range(row + offset, 0, row + offset + 1, 0);
+        rows.forEach((row: RowRange) => {
+            let lineRange = new Range(row.start + offset, 0, row.end + offset, 0);
             this._wsEdit.delete(this.uri, lineRange);
         }, this);
     }
@@ -178,7 +191,7 @@ export default class CsvDocumentView extends BaseDocumentView {
         this.webview.onDidReceiveMessage((e) => {
             if (e.cellEditEnded) {
                 this.beginEdit();
-                this.setCellValue(e.row, e.col, e.value);
+                this.setCellValue(e.rows, e.col, e.value);
             }
             else if (e.rowEditEnded) {
                 this.endEdit();
